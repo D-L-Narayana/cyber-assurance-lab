@@ -1,0 +1,15 @@
+     × finds access through nested groups and terminates on cycles 5ms
+     × applies deny-overrides: a group deny on the asset beats any allow path 1ms
+     × evaluates ABAC conditions against identity attributes and reports blocked paths 1ms
+     × filters by action 0ms
+     × computes transitive groups with cycle protection 0ms
+     × explains a path in a sentence a screen reader can speak 0ms
+     × ranks the group/role nodes that carry the most identities to high-sensitivity assets 0ms
+     × detects identities that hold both sides of a toxic rule, respecting denies 0ms
+     × reports who loses access when an edge is removed 1ms
+     × removing a deny edge can grant access (reported as gainedAccess) 0ms
+     × rejects unknown edges 3ms
+     × rejects dangling references, self loops, kind-incompatible edges, duplicates, and oversize graphs 1ms
+     × exports a stable review schema with a screen-reader summary and formula-safe CSV 2ms
+⎯⎯⎯⎯⎯⎯ Failed Tests 13 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  13 failed (13)

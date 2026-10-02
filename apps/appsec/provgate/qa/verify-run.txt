@@ -1,0 +1,9 @@
+$ npm ci
+added 127 packages in 5s
+$ npm run build
+✓ built in 2.22s
+$ npm test
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
+$ npm audit
+found 0 vulnerabilities

@@ -1,0 +1,155 @@
+{
+  "url": "http://127.0.0.1:6102/",
+  "startedAt": "2026-10-01T15:13:33.541Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "status": 200,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "hosts": [
+        "127.0.0.1:6102"
+      ],
+      "layout": {
+        "title": "Tenure — data inventory and retention graph",
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "overflowing": [
+          "TABLE.",
+          "THEAD.",
+          "TR.",
+          "TH.",
+          "TBODY.",
+          "TR.",
+          "TD.",
+          "SPAN.pill pill-current",
+          "TR.",
+          "TD.",
+          "SPAN.pill pill-current",
+          "TR."
+        ],
+        "buttons": 54,
+        "storageApisTouched": false
+      },
+      "horizontalOverflow": false,
+      "axeViolations": [],
+      "axePasses": 32
+    },
+    {
+      "name": "tablet",
+      "status": 200,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "hosts": [
+        "127.0.0.1:6102"
+      ],
+      "layout": {
+        "title": "Tenure — data inventory and retention graph",
+        "viewport": 768,
+        "scrollWidth": 768,
+        "overflowing": [],
+        "buttons": 54,
+        "storageApisTouched": false
+      },
+      "horizontalOverflow": false,
+      "axeViolations": [],
+      "axePasses": 32
+    },
+    {
+      "name": "mobile",
+      "status": 200,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "hosts": [
+        "127.0.0.1:6102"
+      ],
+      "layout": {
+        "title": "Tenure — data inventory and retention graph",
+        "viewport": 375,
+        "scrollWidth": 375,
+        "overflowing": [
+          "svg.[object SVGAnimatedString]",
+          "text.[object SVGAnimatedString]",
+          "text.[object SVGAnimatedString]",
+          "path.[object SVGAnimatedString]",
+          "path.[object SVGAnimatedString]",
+          "path.[object SVGAnimatedString]",
+          "path.[object SVGAnimatedString]",
+          "path.[object SVGAnimatedString]",
+          "path.[object SVGAnimatedString]",
+          "path.[object SVGAnimatedString]",
+          "path.[object SVGAnimatedString]",
+          "g.[object SVGAnimatedString]"
+        ],
+        "buttons": 54,
+        "storageApisTouched": false
+      },
+      "horizontalOverflow": false,
+      "axeViolations": [],
+      "axePasses": 32
+    }
+  ],
+  "flow": {
+    "steps": [
+      {
+        "step": 1,
+        "label": "atlas-default",
+        "file": "flow-01-atlas-default.png"
+      },
+      {
+        "step": 2,
+        "label": "system-selected-inspector",
+        "file": "flow-02-system-selected-inspector.png"
+      },
+      {
+        "step": 3,
+        "label": "exception-dialog",
+        "file": "flow-03-exception-dialog.png"
+      },
+      {
+        "step": 4,
+        "label": "finding-accepted",
+        "file": "flow-04-finding-accepted.png"
+      },
+      {
+        "step": 5,
+        "label": "review-calendar",
+        "file": "flow-05-review-calendar.png"
+      },
+      {
+        "step": 6,
+        "label": "inventory-table",
+        "file": "flow-06-inventory-table.png"
+      },
+      {
+        "step": 7,
+        "label": "normalisation-notes-after-messy-import",
+        "file": "flow-07-normalisation-notes-after-messy-import.png"
+      },
+      {
+        "step": 8,
+        "label": "import-rejected",
+        "file": "flow-08-import-rejected.png"
+      },
+      {
+        "step": 9,
+        "label": "keyboard-focus-on-map-node",
+        "file": "flow-09-keyboard-focus-on-map-node.png"
+      }
+    ],
+    "result": {
+      "openBefore": "Findings (30 open)",
+      "openAfter": "Findings (29 open)",
+      "afterReview": "Retention review calendar (7 overdue)",
+      "importStatus": "Imported 1 systems, 1 elements, 0 flows; 3 normalisation note(s).",
+      "importError": "Import rejected.catalog.systems[0].region \"Mars\" is not a known region or synonym"
+    },
+    "pageErrors": [],
+    "consoleErrors": [],
+    "axeViolationsAfterFlow": []
+  },
+  "finishedAt": "2026-10-01T15:13:44.016Z"
+}

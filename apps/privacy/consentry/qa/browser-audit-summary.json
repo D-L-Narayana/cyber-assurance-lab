@@ -1,0 +1,68 @@
+{
+  "viewports": [
+    {
+      "name": "desktop",
+      "status": 200,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "failedRequests": 0,
+      "hosts": [
+        "127.0.0.1:6101"
+      ],
+      "overflow": false,
+      "overflowing": [],
+      "axeViolations": []
+    },
+    {
+      "name": "tablet",
+      "status": 200,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "failedRequests": 0,
+      "hosts": [
+        "127.0.0.1:6101"
+      ],
+      "overflow": false,
+      "overflowing": [],
+      "axeViolations": []
+    },
+    {
+      "name": "mobile",
+      "status": 200,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "failedRequests": 0,
+      "hosts": [
+        "127.0.0.1:6101"
+      ],
+      "overflow": false,
+      "overflowing": [
+        "BUTTON.tab",
+        "BUTTON.tab",
+        "TABLE.",
+        "THEAD.",
+        "TR.",
+        "TH.",
+        "TH.",
+        "TH.",
+        "TH.",
+        "TBODY.",
+        "TR.",
+        "TD.mono"
+      ],
+      "axeViolations": []
+    }
+  ],
+  "flow": {
+    "steps": 9,
+    "pageErrors": [],
+    "consoleErrors": [],
+    "result": {
+      "afterGpc": "DENYGPC_OPT_OUT",
+      "afterWithdrawal": "DENYCONSENT_WITHDRAWN",
+      "suiteAfterDisable": "2 of 20 expectations fail.ev-02: expected allow (CONSENT_VALID), observed deny (CONSENT_WITHDRAWN)ev-11: expected deny (GPC_OPT_OUT), observed allow (NOTICE_AND_OPT_OUT)",
+      "importErrors": "Import rejected.workspace.policy.childAgeThreshold must be an objectworkspace.policy.id is requiredworkspace.policy.version must be an integer between 1 and 10000workspace.policy.consentMaxAgeDays mus"
+    },
+    "axeAfter": []
+  }
+}

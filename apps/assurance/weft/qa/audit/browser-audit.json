@@ -1,0 +1,2420 @@
+[
+  {
+    "name": "desktop",
+    "status": 200,
+    "url": "http://127.0.0.1:6123/",
+    "errors": [],
+    "failedRequests": [],
+    "layout": {
+      "title": "Weft — control-to-evidence lineage and integrity bundle (educational)",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Weft",
+        "The weave",
+        "AS-02",
+        "Findings ledger"
+      ],
+      "primaryControls": [
+        {
+          "tag": "A",
+          "text": "Skip to weave",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Load demo bundle",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Import bundle",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export bundle",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Generate manifest",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Verify against manifest",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Diff with another bundle",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export analysis",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-01: supported, signed",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-02: supported, sign-off invalid",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-03: unsupported",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-04: supported",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-05: weak",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-06: weak",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-01 backup-jobs-2026-09.log",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-01 from AS-01 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-02 restore-test-Q3.md",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-02 from AS-01 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-03 privileged-review-Q3.csv",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-03 from AS-02 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-04 privileged-review-Q2.csv",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-04 from AS-02 (out-of-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-05 patch-compliance-2026-09.md, hash mismatch",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-05 from AS-03 (tainted)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-06 ids-weekly-W37.log, duplicate content",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-06 from AS-04 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-07 ids-weekly-W37-copy.log, duplicate content",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-07 from AS-04 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-08 training-completion.csv",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-08 from AS-05 (out-of-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-09 firewall-change-CHG-4411.note, orphan",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-10 supplier-review-2025.md",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-10 from AS-06 (out-of-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "TEXTAREA",
+          "text": "Privileged access to production is reviewed quarterly and excess entitlements are removed.",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Sign off",
+          "type": "submit",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Clear stale sign-off",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove assertion",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-07",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-07",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-09",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-08",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-10",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Add assertion",
+          "type": "submit",
+          "id": ""
+        }
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incompleteChecks": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious"
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious"
+      }
+    ]
+  },
+  {
+    "name": "tablet",
+    "status": 200,
+    "url": "http://127.0.0.1:6123/",
+    "errors": [],
+    "failedRequests": [],
+    "layout": {
+      "title": "Weft — control-to-evidence lineage and integrity bundle (educational)",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Weft",
+        "The weave",
+        "AS-02",
+        "Findings ledger"
+      ],
+      "primaryControls": [
+        {
+          "tag": "A",
+          "text": "Skip to weave",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Load demo bundle",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Import bundle",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export bundle",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Generate manifest",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Verify against manifest",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Diff with another bundle",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export analysis",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-01: supported, signed",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-02: supported, sign-off invalid",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-03: unsupported",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-04: supported",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-05: weak",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-06: weak",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-01 backup-jobs-2026-09.log",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-01 from AS-01 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-02 restore-test-Q3.md",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-02 from AS-01 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-03 privileged-review-Q3.csv",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-03 from AS-02 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-04 privileged-review-Q2.csv",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-04 from AS-02 (out-of-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-05 patch-compliance-2026-09.md, hash mismatch",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-05 from AS-03 (tainted)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-06 ids-weekly-W37.log, duplicate content",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-06 from AS-04 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-07 ids-weekly-W37-copy.log, duplicate content",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-07 from AS-04 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-08 training-completion.csv",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-08 from AS-05 (out-of-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-09 firewall-change-CHG-4411.note, orphan",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-10 supplier-review-2025.md",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-10 from AS-06 (out-of-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "TEXTAREA",
+          "text": "Privileged access to production is reviewed quarterly and excess entitlements are removed.",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Sign off",
+          "type": "submit",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Clear stale sign-off",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove assertion",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-07",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-07",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-09",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-08",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-10",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Add assertion",
+          "type": "submit",
+          "id": ""
+        }
+      ],
+      "overflowing": [
+        {
+          "tag": "TABLE",
+          "class": "weave"
+        },
+        {
+          "tag": "THEAD",
+          "class": ""
+        },
+        {
+          "tag": "TR",
+          "class": ""
+        },
+        {
+          "tag": "TH",
+          "class": "colh st--weak "
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hbtn"
+        },
+        {
+          "tag": "SPAN",
+          "class": "mono"
+        },
+        {
+          "tag": "SPAN",
+          "class": "hstat"
+        },
+        {
+          "tag": "TH",
+          "class": "colh st--weak "
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hbtn"
+        },
+        {
+          "tag": "SPAN",
+          "class": "mono"
+        },
+        {
+          "tag": "SPAN",
+          "class": "hstat"
+        },
+        {
+          "tag": "TH",
+          "class": "colh st--ghost "
+        },
+        {
+          "tag": "SPAN",
+          "class": "ghosth mono"
+        },
+        {
+          "tag": "TBODY",
+          "class": ""
+        },
+        {
+          "tag": "TR",
+          "class": " "
+        },
+        {
+          "tag": "TD",
+          "class": "cell "
+        },
+        {
+          "tag": "BUTTON",
+          "class": "knot"
+        },
+        {
+          "tag": "TD",
+          "class": "cell "
+        },
+        {
+          "tag": "BUTTON",
+          "class": "knot"
+        },
+        {
+          "tag": "TD",
+          "class": "cell cell--broken"
+        }
+      ]
+    },
+    "violations": [],
+    "incompleteChecks": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious"
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious"
+      }
+    ]
+  },
+  {
+    "name": "mobile",
+    "status": 200,
+    "url": "http://127.0.0.1:6123/",
+    "errors": [],
+    "failedRequests": [],
+    "layout": {
+      "title": "Weft — control-to-evidence lineage and integrity bundle (educational)",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Weft",
+        "The weave",
+        "AS-02",
+        "Findings ledger"
+      ],
+      "primaryControls": [
+        {
+          "tag": "A",
+          "text": "Skip to weave",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Load demo bundle",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Import bundle",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export bundle",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Generate manifest",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Verify against manifest",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Diff with another bundle",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export analysis",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-01: supported, signed",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-02: supported, sign-off invalid",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-03: unsupported",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-04: supported",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-05: weak",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-06: weak",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-01 backup-jobs-2026-09.log",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-01 from AS-01 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-01 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-02 restore-test-Q3.md",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-02 from AS-01 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-02 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-03 privileged-review-Q3.csv",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-03 from AS-02 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-03 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-04 privileged-review-Q2.csv",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-04 from AS-02 (out-of-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-04 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-05 patch-compliance-2026-09.md, hash mismatch",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-05 from AS-03 (tainted)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-05 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-06 ids-weekly-W37.log, duplicate content",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-06 from AS-04 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-06 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-07 ids-weekly-W37-copy.log, duplicate content",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-07 from AS-04 (in-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-07 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-08 training-completion.csv",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-08 from AS-05 (out-of-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-08 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-09 firewall-change-CHG-4411.note, orphan",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-09 to AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-10 supplier-review-2025.md",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Link AR-10 to AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Unlink AR-10 from AS-06 (out-of-period)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "TEXTAREA",
+          "text": "Privileged access to production is reviewed quarterly and excess entitlements are removed.",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Sign off",
+          "type": "submit",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Clear stale sign-off",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove assertion",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-07",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-01",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-03",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-07",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-09",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-02",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-04",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-08",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AR-10",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-05",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "AS-06",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Add assertion",
+          "type": "submit",
+          "id": ""
+        }
+      ],
+      "overflowing": [
+        {
+          "tag": "TABLE",
+          "class": "weave"
+        },
+        {
+          "tag": "THEAD",
+          "class": ""
+        },
+        {
+          "tag": "TR",
+          "class": ""
+        },
+        {
+          "tag": "TH",
+          "class": "colh st--supported is-selected"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hbtn"
+        },
+        {
+          "tag": "SPAN",
+          "class": "mono"
+        },
+        {
+          "tag": "SPAN",
+          "class": "hstat"
+        },
+        {
+          "tag": "SPAN",
+          "class": "sig bad"
+        },
+        {
+          "tag": "TH",
+          "class": "colh st--unsupported "
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hbtn"
+        },
+        {
+          "tag": "SPAN",
+          "class": "mono"
+        },
+        {
+          "tag": "SPAN",
+          "class": "hstat"
+        },
+        {
+          "tag": "TH",
+          "class": "colh st--supported "
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hbtn"
+        },
+        {
+          "tag": "SPAN",
+          "class": "mono"
+        },
+        {
+          "tag": "SPAN",
+          "class": "hstat"
+        },
+        {
+          "tag": "TH",
+          "class": "colh st--weak "
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hbtn"
+        },
+        {
+          "tag": "SPAN",
+          "class": "mono"
+        },
+        {
+          "tag": "SPAN",
+          "class": "hstat"
+        }
+      ]
+    },
+    "violations": [],
+    "incompleteChecks": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious"
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious"
+      }
+    ]
+  }
+]

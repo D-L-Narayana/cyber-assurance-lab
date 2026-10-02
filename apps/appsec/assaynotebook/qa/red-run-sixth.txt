@@ -1,0 +1,4 @@
+     × logs a history entry when impact, likelihood or rationale changes, and nothing when unchanged 7ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected [ { …(3) } ] to have a length of 2 but got 1
+      Tests  1 failed | 19 passed (20)

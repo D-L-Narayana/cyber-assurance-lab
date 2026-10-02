@@ -1,0 +1,41 @@
+field_id,system,table,name,computed_class,effective_class,confidence,needs_review,matched_rules,exception,review_reasons
+fld-001,crm.example,contacts,first_name,restricted-pii,restricted-pii,0.7,false,name-person,,
+fld-002,crm.example,contacts,last_name,restricted-pii,restricted-pii,0.7,false,name-person,,
+fld-003,crm.example,contacts,email,restricted-pii,confidential,0.93,true,name-email|val-email,exc-003 (active),Declared “internal” is less strict than computed “restricted-pii”.
+fld-004,crm.example,contacts,phone,restricted-pii,restricted-pii,0.83,false,name-phone|val-phone,,
+fld-005,crm.example,contacts,contact_email,restricted-pii,restricted-pii,0.93,false,name-email|val-email,,
+fld-006,crm.example,contacts,created_at,restricted-pii,restricted-pii,0.35,true,val-dob|name-internal,,Confidence 0.35 is below the 0.6 review threshold. Declared “internal” is less strict than computed “restricted-pii”.
+fld-007,crm.example,accounts,account_name,confidential,confidential,0.5,true,,,No rule matched; using the declared class “confidential” provisionally.
+fld-008,crm.example,accounts,annual_revenue,restricted-pii,restricted-pii,0.5,true,val-phone|name-finance-agg,,Confidence 0.5 is below the 0.6 review threshold.
+fld-009,crm.example,accounts,client_ip_last_login,restricted-pii,restricted-pii,0.5,true,val-phone|name-ip|val-ipv4,,Confidence 0.5 is below the 0.6 review threshold.
+fld-010,crm.example,accounts,geo_hq,restricted-pii,restricted-pii,0.6,false,val-geo,,
+fld-011,payments.example,cards,card_number,restricted-financial,confidential,0.97,false,name-card|val-card-luhn,exc-001 (active),
+fld-012,payments.example,cards,cvv,restricted-financial,restricted-financial,0.8,false,name-card,,
+fld-013,payments.example,cards,expiry,restricted-financial,restricted-financial,0.8,false,name-card,,
+fld-014,payments.example,cards,cardholder_reference,unknown,unknown,0,true,,,No rule matched and no declared class; a human must label this field.
+fld-015,payments.example,bank_accounts,iban,restricted-financial,restricted-financial,0.98,false,name-bank|val-iban,,
+fld-016,payments.example,bank_accounts,account_holder,unknown,unknown,0,true,,,No rule matched and no declared class; a human must label this field.
+fld-017,payments.example,ledger,invoice_total,confidential,confidential,0.6,false,name-finance-agg,,
+fld-018,payments.example,ledger,status,internal,confidential,0.5,true,name-internal,,Confidence 0.5 is below the 0.6 review threshold. Declared “confidential” is stricter than computed “internal”; the declared class is kept as the effective class and drives the handling policy until a reviewer confirms the downgrade.
+fld-019,hris.example,employees,employee_id,unknown,unknown,0,true,,,No rule matched and no declared class; a human must label this field.
+fld-020,hris.example,employees,national_id,restricted-pii,restricted-pii,0.98,false,name-national-id|val-national-id|val-phone,exc-002 (expired),
+fld-021,hris.example,employees,date_of_birth,restricted-pii,restricted-pii,0.87,false,name-dob|val-dob,,
+fld-022,hris.example,employees,salary,restricted-financial,restricted-financial,0.7,false,name-pay,,
+fld-023,hris.example,employees,home_address,restricted-pii,restricted-pii,0.55,true,name-address,,Confidence 0.55 is below the 0.6 review threshold.
+fld-024,hris.example,employees,emergency_contact_phone,restricted-pii,restricted-pii,0.83,false,name-phone|val-phone,,
+fld-025,hris.example,benefits,diagnosis_code,restricted-health,restricted-health,0.95,false,name-health|val-icd10,,
+fld-026,hris.example,benefits,allergy_notes,restricted-health,restricted-health,0.8,false,name-health|name-internal,,
+fld-027,hris.example,benefits,plan_tier,confidential,confidential,0.7,false,kw-codename,,
+fld-028,platform.example,users,password_hash,secret-credential,secret-credential,1,false,name-secret|val-apikey|val-password-hash,,
+fld-029,platform.example,users,session_token,secret-credential,secret-credential,1,false,name-secret|val-apikey|val-jwt,,
+fld-030,platform.example,integrations,vendor_api_key,secret-credential,secret-credential,0.97,true,name-secret|val-apikey,,Declared “confidential” is less strict than computed “secret-credential”.
+fld-031,platform.example,integrations,webhook_url,unknown,unknown,0,true,,,No rule matched and no declared class; a human must label this field.
+fld-032,platform.example,audit_log,remote_addr,restricted-pii,restricted-pii,0.5,true,val-phone|name-ip|val-ipv4,,Confidence 0.5 is below the 0.6 review threshold.
+fld-033,platform.example,audit_log,updated_at,restricted-pii,restricted-pii,0.35,true,val-dob|name-internal,,Confidence 0.35 is below the 0.6 review threshold.
+fld-034,platform.example,audit_log,notes,internal,internal,0.5,true,name-internal,,Confidence 0.5 is below the 0.6 review threshold.
+fld-035,catalog.example,products,product_name,public,public,0.6,false,name-public,,
+fld-036,catalog.example,products,sku,public,public,0.6,false,name-public,,
+fld-037,catalog.example,products,public_description,public,public,0.6,false,name-public,,
+fld-038,catalog.example,products,margin_pct,confidential,confidential,0.6,false,name-finance-agg,,
+fld-039,catalog.example,reviews,reviewer_email,restricted-pii,restricted-pii,0.93,false,name-email|val-email,,
+fld-040,catalog.example,reviews,is_verified,unknown,unknown,0,true,,,No rule matched and no declared class; a human must label this field.

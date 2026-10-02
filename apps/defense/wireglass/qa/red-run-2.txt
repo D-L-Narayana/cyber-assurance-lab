@@ -1,0 +1,8 @@
+     × rejects HTTP byte counts above the 13-digit bound instead of parsing them as huge numbers 8ms
+     × cdn-noise reliably raises DNS-001 on CDN content-hash hostnames for every seed, and the suffix allowlist silences it 40ms
+     × mixed-day CDN hostnames sit under an allowlisted suffix and only alert once that suffix is removed 3ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected [ { id: 'e1', line: 1, …(7) } ] to have a length of +0 but got 1
+AssertionError: seed 10: expected 0 to be greater than 0
+AssertionError: expected [ { id: 'DNS-001-9fdec490', …(11) } ] to have a length of +0 but got 1
+      Tests  3 failed | 17 passed (20)

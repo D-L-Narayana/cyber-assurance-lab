@@ -1,0 +1,79 @@
+[
+  {
+    "name": "desktop",
+    "status": 200,
+    "errors": [],
+    "failed": [],
+    "layout": {
+      "scrollWidth": 1440,
+      "viewport": 1440,
+      "headings": [
+        "Outflow RegisterData-sharing agreements · vendor flows · obligations · renewal cockpit — synthetic register, educational prototype, not legal advice",
+        "Where data leaves14 active flows",
+        "Agreements12",
+        "Renewal cockpit9 in queue",
+        "Backup storage"
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "name": "tablet",
+    "status": 200,
+    "errors": [],
+    "failed": [],
+    "layout": {
+      "scrollWidth": 768,
+      "viewport": 768,
+      "headings": [
+        "Outflow RegisterData-sharing agreements · vendor flows · obligations · renewal cockpit — synthetic register, educational prototype, not legal advice",
+        "Where data leaves14 active flows",
+        "Agreements12",
+        "Renewal cockpit9 in queue",
+        "Backup storage"
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "name": "mobile",
+    "status": 200,
+    "errors": [],
+    "failed": [],
+    "layout": {
+      "scrollWidth": 375,
+      "viewport": 375,
+      "headings": [
+        "Outflow RegisterData-sharing agreements · vendor flows · obligations · renewal cockpit — synthetic register, educational prototype, not legal advice",
+        "Where data leaves14 active flows",
+        "Agreements12",
+        "Renewal cockpit9 in queue",
+        "Backup storage"
+      ],
+      "overflowing": [
+        "svg.[object SVGAnimatedString]",
+        "text.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]"
+      ]
+    },
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  }
+]

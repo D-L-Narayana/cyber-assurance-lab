@@ -1,0 +1,8 @@
+     × chooses a valid acceptance regardless of list order and warns about the duplicate 7ms
+     × reports the least-broken acceptance when none is valid 3ms
+     × fails closed when class-required evidence omits scope 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected 'blocked' to be 'release-with-accepted-risk' // Object.is equality
+AssertionError: expected 'ra-bad' to be 'ra-exp' // Object.is equality
+AssertionError: expected 'release-with-accepted-risk' to be 'blocked' // Object.is equality
+      Tests  3 failed | 19 passed (22)

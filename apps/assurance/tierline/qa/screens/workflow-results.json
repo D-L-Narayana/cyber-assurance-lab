@@ -1,0 +1,82 @@
+[
+  {
+    "name": "selected V-08 tier 2",
+    "pass": true
+  },
+  {
+    "name": "downward flip listed",
+    "pass": true
+  },
+  {
+    "name": "ghost dots drawn",
+    "pass": true
+  },
+  {
+    "name": "tier dropped to 3 after answer change",
+    "pass": true
+  },
+  {
+    "name": "requirement rows shrink to tier 3 (1 row)",
+    "pass": true
+  },
+  {
+    "name": "hash deep link",
+    "pass": true
+  },
+  {
+    "name": "hard trigger reason shown",
+    "pass": true
+  },
+  {
+    "name": "all six requirements valid",
+    "pass": true
+  },
+  {
+    "name": "coverage 0% before",
+    "pass": true
+  },
+  {
+    "name": "coverage rises after evidence",
+    "pass": true
+  },
+  {
+    "name": "exception state shown",
+    "pass": true
+  },
+  {
+    "name": "coverage 25% with half-credit exception",
+    "pass": true
+  },
+  {
+    "name": "queue has items",
+    "pass": true
+  },
+  {
+    "name": "tier-drift filter shows rows",
+    "pass": true
+  },
+  {
+    "name": "csv rows = queue items + header",
+    "pass": true
+  },
+  {
+    "name": "asOf shift increases queue",
+    "pass": true
+  },
+  {
+    "name": "import rejected with 4+ issues",
+    "pass": true
+  },
+  {
+    "name": "keyboard selects dot",
+    "pass": true
+  },
+  {
+    "name": "no page/console errors",
+    "pass": true
+  },
+  {
+    "name": "mobile no horizontal overflow",
+    "pass": true
+  }
+]

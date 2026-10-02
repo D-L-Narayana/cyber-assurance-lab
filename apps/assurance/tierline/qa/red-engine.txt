@@ -1,0 +1,44 @@
+ × tests/engine.test.ts > model > has 8 questions whose weights sum to 100 and whose options are unique with 0..4 points 9ms
+ × tests/engine.test.ts > model > defines stricter evidence and cadence for higher tiers 1ms
+ × tests/engine.test.ts > inherent score and tier > is 0 for all-minimum answers and 100 for all-maximum answers 1ms
+ × tests/engine.test.ts > inherent score and tier > weights contributions: a 4-point answer on a 25-weight question contributes 25 0ms
+ × tests/engine.test.ts > inherent score and tier > maps score to tiers at the documented thresholds (inclusive) 0ms
+ × tests/engine.test.ts > inherent score and tier > hard trigger: regulated data with privileged access is tier 1 even at a low score 0ms
+ × tests/engine.test.ts > inherent score and tier > hard trigger: unknown subprocessors with personal data is at least tier 2 0ms
+ × tests/engine.test.ts > inherent score and tier > treats unanswered questions as unknown, reports them and scores them at maximum (conservative) 1ms
+ × tests/engine.test.ts > sensitivity analysis > finds single-answer changes that move the tier up or down 1ms
+ × tests/engine.test.ts > sensitivity analysis > reports a downward flip when a vendor sits just above a boundary 3ms
+ × tests/engine.test.ts > sensitivity analysis > returns no downward flips for hard-triggered tier 1 vendors except those that remove the trigger 0ms
+ × tests/engine.test.ts > evidence requirements and coverage > addMonths handles month-end clamping 0ms
+ × tests/engine.test.ts > evidence requirements and coverage > tier 1 requires six evidence types; tier 3 only a questionnaire 0ms
+ × tests/engine.test.ts > evidence requirements and coverage > marks evidence valid, expiring (≤ 60 days), expired or missing against asOf 0ms
+ × tests/engine.test.ts > evidence requirements and coverage > uses the newest evidence of a type, and the requirement validity caps the item validity 0ms
+ × tests/engine.test.ts > evidence requirements and coverage > an active exception gives half credit; an expired exception gives none 0ms
+ × tests/engine.test.ts > evidence requirements and coverage > residual = inherent × (1 − 0.6 × coverage), rounded to one decimal 0ms
+ × tests/engine.test.ts > evidence requirements and coverage > review cadence: due = lastReview + tier months; overdue when asOf is later; missing review is overdue 0ms
+ × tests/engine.test.ts > review queue > creates items for missing/expired/expiring evidence, exceptions, review cadence, tier drift and incomplete answers 0ms
+ × tests/engine.test.ts > review queue > orders by priority descending: tier-1 overdue items outrank tier-3 items; ties broken by vendor name 0ms
+ × tests/engine.test.ts > review queue > produces no items for a fully covered, recently reviewed vendor with the recorded tier 0ms
+ × tests/engine.test.ts > review queue > is deterministic 0ms
+ × tests/engine.test.ts > review queue > exports a formula-safe CSV of the queue 0ms
+ × tests/engine.test.ts > register validation > accepts a valid register 0ms
+ × tests/engine.test.ts > register validation > rejects oversized input by UTF-8 bytes, malformed JSON and non-objects 0ms
+ × tests/engine.test.ts > register validation > rejects unknown question ids, unknown option ids, bad dates and validMonths out of range with paths 0ms
+ × tests/engine.test.ts > register validation > rejects more than 200 vendors and duplicate vendor ids 1ms
+ × tests/engine.test.ts > register validation > rejects an exception for an evidence type the vendor tier does not even require? no — exceptions are validated only for type 0ms
+ × tests/engine.test.ts > bundled fixture > validates, has 15 vendors, covers all three tiers and contains the planned adversarial cases 6ms
+⎯⎯⎯⎯⎯⎯ Failed Tests 29 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  tests/engine.test.ts > evidence requirements and coverage > residual = inherent × (1 − 0.6 × coverage), rounded to one decimal
+ Test Files  1 failed (1)
+      Tests  29 failed (29)
+ ✓ tests/engine.test.ts > evidence requirements and coverage > residual = inherent × (1 − 0.6 × coverage), rounded to one decimal 4ms
+ × tests/engine.test.ts > sixth-Fable review regressions — future-dated evidence and exception validity cap > evidence issued after the assessment date gets no credit and is reported as future-dated 8ms
+ × tests/engine.test.ts > sixth-Fable review regressions — future-dated evidence and exception validity cap > future-dated evidence does not shadow an older valid item of the same type 1ms
+ × tests/engine.test.ts > sixth-Fable review regressions — future-dated evidence and exception validity cap > an exception that runs longer than the policy cap gets no credit and is reported as out of policy 1ms
+ × tests/engine.test.ts > sixth-Fable review regressions — future-dated evidence and exception validity cap > the exception cap is a labelled heuristic in the scoring note 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected 'valid' to be 'future-dated' // Object.is equality
+AssertionError: expected 'F1' to be 'OK' // Object.is equality
+AssertionError: expected 'exception' to be 'exception-out-of-policy' // Object.is equality
+AssertionError: expected 'Weights, thresholds, hard triggers, e…' to match /exception/i
+      Tests  4 failed | 29 passed (33)

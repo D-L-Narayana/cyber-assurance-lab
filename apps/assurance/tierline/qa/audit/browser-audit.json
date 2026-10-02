@@ -1,0 +1,1556 @@
+[
+  {
+    "name": "desktop",
+    "status": 200,
+    "url": "http://127.0.0.1:6122/",
+    "errors": [],
+    "failedRequests": [],
+    "layout": {
+      "title": "Tierline — third-party risk segmentation and review queue (educational)",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Tierline",
+        "Vendors",
+        "Portfolio: inherent risk vs assurance coverage",
+        "Mooring Line Insurance Brokers",
+        "Review queue"
+      ],
+      "primaryControls": [
+        {
+          "tag": "A",
+          "text": "Skip to vendor detail",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Load demo register",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Add vendor",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Import register",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export register",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export assessment JSON",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export queue CSV",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Deepwater Data Lake Co.78 → 78coverage 0% · 7 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Skylark Telemetry65 → 46coverage 50% · 5 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Harbour Payroll Services70 → 42coverage 67% · 3 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Northwind Freight Analytics81 → 33coverage 100% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Brightwater Recruiting48 → 28coverage 67% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Compass Legal Hold48 → 28coverage 67% · 2 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3Bollard Translation Co.28 → 28coverage 0% · 2 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Keel Managed Security68 → 27coverage 100% · queue clear",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Lantern Marketing Cloud45 → 27coverage 67% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Tidewater Learning41 → 25coverage 67% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Quayside Customer Desk48 → 24coverage 83% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Mooring Line Insurance Brokers35 → 14coverage 100% · queue clear",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3Gull Street Catering29 → 12coverage 100% · queue clear",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3Anchor Print Shop8 → 3coverage 100% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3Pier 9 Office Supplies8 → 3coverage 100% · queue clear",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —No organisational data (0)Internal business data only (1)Personal ",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —No access to our systems (0)Portal or view-only access (1)API read",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —Nothing material (0)Inconvenience only (1)Important, but a manual ",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —Fewer than 1,000 (0)Up to 10,000 (1)Up to 100,000 (2)Up to 1 milli",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —No subprocessors (0)One or two, named and reviewed (1)Several, nam",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —On our premises (vendor does not host) (0)Vendor cloud, single dom",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —Manual file exchange (0)Scheduled batch transfer (2)Real-time API ",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —Small (0)Moderate (2)Large or strategic (4)",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Record review today",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "assurance-reportpen-testbcp-dr-testquestionnaireinsurancedpa",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "number",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Add evidence",
+          "type": "submit",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "assurance-reportpen-testbcp-dr-testquestionnaireinsurancedpa",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Add exception",
+          "type": "submit",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove vendor",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "all kindsmissing-evidence (9)expired-evidence (4)expiring-evidence (1)future-dated-evidence (1)excep",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "checkbox",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Harbour Payroll Services",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Harbour Payroll Services",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Tidewater Learning",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3 Bollard Translation Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Harbour Payroll Services",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Lantern Marketing Cloud",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Brightwater Recruiting",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Northwind Freight Analytics",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Compass Legal Hold",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Compass Legal Hold",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Quayside Customer Desk",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3 Bollard Translation Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3 Anchor Print Shop",
+          "type": "button",
+          "id": ""
+        }
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incompleteChecks": [
+      {
+        "id": "color-contrast",
+        "impact": "serious"
+      }
+    ]
+  },
+  {
+    "name": "tablet",
+    "status": 200,
+    "url": "http://127.0.0.1:6122/",
+    "errors": [],
+    "failedRequests": [],
+    "layout": {
+      "title": "Tierline — third-party risk segmentation and review queue (educational)",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Tierline",
+        "Vendors",
+        "Portfolio: inherent risk vs assurance coverage",
+        "Mooring Line Insurance Brokers",
+        "Review queue"
+      ],
+      "primaryControls": [
+        {
+          "tag": "A",
+          "text": "Skip to vendor detail",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Load demo register",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Add vendor",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Import register",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export register",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export assessment JSON",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export queue CSV",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Deepwater Data Lake Co.78 → 78coverage 0% · 7 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Skylark Telemetry65 → 46coverage 50% · 5 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Harbour Payroll Services70 → 42coverage 67% · 3 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Northwind Freight Analytics81 → 33coverage 100% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Brightwater Recruiting48 → 28coverage 67% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Compass Legal Hold48 → 28coverage 67% · 2 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3Bollard Translation Co.28 → 28coverage 0% · 2 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Keel Managed Security68 → 27coverage 100% · queue clear",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Lantern Marketing Cloud45 → 27coverage 67% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Tidewater Learning41 → 25coverage 67% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Quayside Customer Desk48 → 24coverage 83% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Mooring Line Insurance Brokers35 → 14coverage 100% · queue clear",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3Gull Street Catering29 → 12coverage 100% · queue clear",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3Anchor Print Shop8 → 3coverage 100% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3Pier 9 Office Supplies8 → 3coverage 100% · queue clear",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —No organisational data (0)Internal business data only (1)Personal ",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —No access to our systems (0)Portal or view-only access (1)API read",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —Nothing material (0)Inconvenience only (1)Important, but a manual ",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —Fewer than 1,000 (0)Up to 10,000 (1)Up to 100,000 (2)Up to 1 milli",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —No subprocessors (0)One or two, named and reviewed (1)Several, nam",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —On our premises (vendor does not host) (0)Vendor cloud, single dom",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —Manual file exchange (0)Scheduled batch transfer (2)Real-time API ",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —Small (0)Moderate (2)Large or strategic (4)",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Record review today",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "assurance-reportpen-testbcp-dr-testquestionnaireinsurancedpa",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "number",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Add evidence",
+          "type": "submit",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "assurance-reportpen-testbcp-dr-testquestionnaireinsurancedpa",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Add exception",
+          "type": "submit",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove vendor",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "all kindsmissing-evidence (9)expired-evidence (4)expiring-evidence (1)future-dated-evidence (1)excep",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "checkbox",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Harbour Payroll Services",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Harbour Payroll Services",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Tidewater Learning",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3 Bollard Translation Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Harbour Payroll Services",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Lantern Marketing Cloud",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Brightwater Recruiting",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Northwind Freight Analytics",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Compass Legal Hold",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Compass Legal Hold",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Quayside Customer Desk",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3 Bollard Translation Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3 Anchor Print Shop",
+          "type": "button",
+          "id": ""
+        }
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incompleteChecks": [
+      {
+        "id": "color-contrast",
+        "impact": "serious"
+      }
+    ]
+  },
+  {
+    "name": "mobile",
+    "status": 200,
+    "url": "http://127.0.0.1:6122/",
+    "errors": [],
+    "failedRequests": [],
+    "layout": {
+      "title": "Tierline — third-party risk segmentation and review queue (educational)",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Tierline",
+        "Vendors",
+        "Portfolio: inherent risk vs assurance coverage",
+        "Mooring Line Insurance Brokers",
+        "Review queue"
+      ],
+      "primaryControls": [
+        {
+          "tag": "A",
+          "text": "Skip to vendor detail",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Load demo register",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Add vendor",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Import register",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export register",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export assessment JSON",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export queue CSV",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Deepwater Data Lake Co.78 → 78coverage 0% · 7 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Skylark Telemetry65 → 46coverage 50% · 5 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Harbour Payroll Services70 → 42coverage 67% · 3 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Northwind Freight Analytics81 → 33coverage 100% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Brightwater Recruiting48 → 28coverage 67% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Compass Legal Hold48 → 28coverage 67% · 2 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3Bollard Translation Co.28 → 28coverage 0% · 2 queue items",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1Keel Managed Security68 → 27coverage 100% · queue clear",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Lantern Marketing Cloud45 → 27coverage 67% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Tidewater Learning41 → 25coverage 67% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Quayside Customer Desk48 → 24coverage 83% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2Mooring Line Insurance Brokers35 → 14coverage 100% · queue clear",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3Gull Street Catering29 → 12coverage 100% · queue clear",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3Anchor Print Shop8 → 3coverage 100% · 1 queue item",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3Pier 9 Office Supplies8 → 3coverage 100% · queue clear",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —No organisational data (0)Internal business data only (1)Personal ",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —No access to our systems (0)Portal or view-only access (1)API read",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —Nothing material (0)Inconvenience only (1)Important, but a manual ",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —Fewer than 1,000 (0)Up to 10,000 (1)Up to 100,000 (2)Up to 1 milli",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —No subprocessors (0)One or two, named and reviewed (1)Several, nam",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —On our premises (vendor does not host) (0)Vendor cloud, single dom",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —Manual file exchange (0)Scheduled batch transfer (2)Real-time API ",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "— unanswered (scored at maximum) —Small (0)Moderate (2)Large or strategic (4)",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Record review today",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "assurance-reportpen-testbcp-dr-testquestionnaireinsurancedpa",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "number",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Add evidence",
+          "type": "submit",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "assurance-reportpen-testbcp-dr-testquestionnaireinsurancedpa",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Add exception",
+          "type": "submit",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Remove vendor",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "all kindsmissing-evidence (9)expired-evidence (4)expiring-evidence (1)future-dated-evidence (1)excep",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "checkbox",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Harbour Payroll Services",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Harbour Payroll Services",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Tidewater Learning",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3 Bollard Translation Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Deepwater Data Lake Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Harbour Payroll Services",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Lantern Marketing Cloud",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Brightwater Recruiting",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Northwind Freight Analytics",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1 Skylark Telemetry",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Compass Legal Hold",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Compass Legal Hold",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2 Quayside Customer Desk",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3 Bollard Translation Co.",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3 Anchor Print Shop",
+          "type": "button",
+          "id": ""
+        }
+      ],
+      "overflowing": [
+        {
+          "tag": "TABLE",
+          "class": "reqs"
+        },
+        {
+          "tag": "THEAD",
+          "class": ""
+        },
+        {
+          "tag": "TR",
+          "class": ""
+        },
+        {
+          "tag": "TH",
+          "class": ""
+        },
+        {
+          "tag": "TBODY",
+          "class": ""
+        },
+        {
+          "tag": "TR",
+          "class": "req req--valid"
+        },
+        {
+          "tag": "TD",
+          "class": "mono"
+        },
+        {
+          "tag": "TR",
+          "class": "req req--valid"
+        },
+        {
+          "tag": "TD",
+          "class": "mono"
+        },
+        {
+          "tag": "TR",
+          "class": "req req--valid"
+        },
+        {
+          "tag": "TD",
+          "class": "mono"
+        },
+        {
+          "tag": "TABLE",
+          "class": ""
+        },
+        {
+          "tag": "THEAD",
+          "class": ""
+        },
+        {
+          "tag": "TR",
+          "class": ""
+        },
+        {
+          "tag": "TH",
+          "class": ""
+        },
+        {
+          "tag": "TH",
+          "class": ""
+        },
+        {
+          "tag": "TBODY",
+          "class": ""
+        },
+        {
+          "tag": "TR",
+          "class": ""
+        },
+        {
+          "tag": "TD",
+          "class": ""
+        },
+        {
+          "tag": "TD",
+          "class": "mono"
+        }
+      ]
+    },
+    "violations": [],
+    "incompleteChecks": [
+      {
+        "id": "color-contrast",
+        "impact": "serious"
+      }
+    ]
+  }
+]

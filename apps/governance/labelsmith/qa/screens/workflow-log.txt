@@ -1,0 +1,22 @@
+title=Labelsmith
+initial label=Restricted · PII | Public 3 Internal 1 Confidential 5 Restricted · PII 15 Restricted · Financial 4 Restricted · Health 2 Secret · Credential 3 Unknown 7 18 of 40 need human review · 27 rules · as of 2026-10-01
+card_number: Restricted · Financial / Effective class Confidential via exception exc-001 until 2027-03-31.
+ledger.status (declared confidential, computed internal): Internal / Effective class Confidential — the stricter declared class is kept pending review. / policy: HANDLING POLICY · CONFIDENTIAL
+cardholder_reference: Unknown
+luhn trace: Card number passes Luhn → Restricted · Financial | 0/6 samples (0%) match; need 60% | not-matched
+preferred_locale: Unknown
+after rename live: Restricted · PII confidence 0.70
+after samples live: Restricted · PII confidence 0.93
+saved: Saved changes to contact_email; catalog re-labelled.
+exception invalid: Justification must be at least 20 characters. approvedBy is required. grantedOn and expiresOn must be ISO dates.
+exception ok: Exception exc-003 recorded: restricted-pii → confidential until 2027-03-01.
+email effective: Effective class Confidential via exception exc-003 until 2027-03-01.
+rule regex rejected: Keywords are plain text; regex characters are not allowed.
+rule added: Rule added. 28 rules now evaluate every field.
+plan_tier after rule: Confidential
+csv lines=41 header=field_id,system,table,name,computed_class,effective_class,confidence,needs_review,matched_rules,exception,review_reasons
+json schema=labelsmith.catalog/v1 fields=40 rules=28 needsReview=16
+import error: Fixture rejected: asOf must be a valid ISO date. · fields[0] is not an object.
+mobile scrollWidth=375 viewport=375
+tablet scrollWidth=768 viewport=768
+pageErrors=[]

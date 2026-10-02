@@ -1,0 +1,63 @@
+{
+  "schema": "provgate.policy/1",
+  "name": "Default release policy (synthetic)",
+  "maxEvidenceAgeDays": 30,
+  "requireSameCommit": [
+    "unit-tests",
+    "sast",
+    "secret-scan",
+    "dependency-review",
+    "security-retest"
+  ],
+  "baseline": [
+    "code-review",
+    "unit-tests",
+    "secret-scan"
+  ],
+  "minReviewers": 1,
+  "reviewerRole": "reviewer",
+  "changeClasses": [
+    {
+      "id": "authentication",
+      "label": "Authentication & session code",
+      "match": [
+        "auth/**"
+      ],
+      "requires": [
+        "threat-model",
+        "sast",
+        "security-retest"
+      ],
+      "minReviewers": 2
+    },
+    {
+      "id": "dependencies",
+      "label": "Dependency manifests",
+      "match": [
+        "package.json",
+        "package-lock.json",
+        "**/package-lock.json"
+      ],
+      "requires": [
+        "dependency-review"
+      ]
+    },
+    {
+      "id": "data-layer",
+      "label": "Database migrations",
+      "match": [
+        "db/**/*.sql"
+      ],
+      "requires": [
+        "threat-model"
+      ],
+      "minReviewers": 2
+    }
+  ],
+  "blockOnOpenFindingsAtOrAbove": "high",
+  "acceptance": {
+    "approverRole": "security",
+    "maxDays": 90,
+    "approverMayBeAuthor": false
+  }
+}

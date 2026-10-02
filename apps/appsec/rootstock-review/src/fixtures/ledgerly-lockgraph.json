@@ -1,0 +1,44 @@
+{
+  "schema": "rootstock.lockgraph/1",
+  "name": "ledgerly-web (synthetic lock snapshot)",
+  "root": { "name": "ledgerly-web", "version": "1.4.1" },
+  "direct": { "formatlib": "^2.0.0", "uikit": "~3.2.0", "chrono": "^1.5.0", "left-util": "^0.4.0", "pdfkit-lite": "^5.0.0" },
+  "imports": ["formatlib", "uikit", "chrono", "pdfkit-lite"],
+  "packages": [
+    { "name": "formatlib", "version": "2.1.0", "license": "MIT", "dependencies": { "deepset": "^1.0.0", "colourkit": "^2.0.0" } },
+    { "name": "deepset", "version": "1.0.4", "license": "MIT", "dependencies": {} },
+    { "name": "colourkit", "version": "2.3.1", "license": "MIT OR Apache-2.0", "dependencies": {}, "deprecated": true },
+    { "name": "uikit", "version": "3.2.4", "license": "MIT", "dependencies": { "colourkit": "~0.9.0", "iconset": "^4.0.0" } },
+    { "name": "colourkit", "version": "0.9.2", "license": "MIT", "dependencies": {} },
+    { "name": "iconset", "version": "4.1.0", "license": "LGPL-3.0-only", "dependencies": {} },
+    { "name": "chrono", "version": "1.6.2", "license": "ISC", "dependencies": { "tzdata-mini": "^2024.1.0" } },
+    { "name": "tzdata-mini", "version": "2024.2.0", "license": "", "dependencies": {} },
+    { "name": "left-util", "version": "0.4.1", "license": "MIT", "dependencies": { "deepset": "^1.0.0" }, "hasInstallScript": true },
+    { "name": "pdfkit-lite", "version": "5.2.0", "license": "SSPL-1.0", "dependencies": { "fontparse": "^3.0.0" } },
+    { "name": "fontparse", "version": "3.4.0", "license": "BSD-3-Clause", "dependencies": { "pdfkit-lite": "^5.0.0", "glyphcache": "^1.0.0" } }
+  ],
+  "registry": {
+    "deepset": ["1.0.0", "1.0.4", "1.2.3", "1.3.0", "2.0.0"],
+    "colourkit": ["0.9.0", "0.9.2", "1.0.0", "2.0.0", "2.3.1"],
+    "uikit": ["3.2.0", "3.2.4", "3.3.0"],
+    "formatlib": ["2.0.0", "2.1.0", "2.2.0"],
+    "iconset": ["4.0.0", "4.1.0"],
+    "left-util": ["0.4.0", "0.4.1"],
+    "pdfkit-lite": ["5.0.0", "5.2.0"],
+    "fontparse": ["3.4.0"],
+    "chrono": ["1.5.0", "1.6.2"],
+    "tzdata-mini": ["2024.2.0"]
+  },
+  "advisories": [
+    { "id": "SYN-2026-0001", "package": "deepset", "vulnerable": "<1.2.3", "patched": ">=1.2.3", "severity": "high", "title": "Prototype pollution in merge()", "cwe": "CWE-1321" },
+    { "id": "SYN-2026-0002", "package": "colourkit", "vulnerable": "<1.0.0", "patched": ">=1.0.0", "severity": "medium", "title": "ReDoS in hex parser", "cwe": "CWE-1333" },
+    { "id": "SYN-2026-0003", "package": "fontparse", "vulnerable": "<=3.4.0", "patched": "", "severity": "high", "title": "Out-of-bounds read on crafted glyph table", "cwe": "CWE-125" },
+    { "id": "SYN-2025-0117", "package": "chrono", "vulnerable": "<1.5.0", "patched": ">=1.5.0", "severity": "low", "title": "Timezone cache leak", "cwe": "CWE-401" }
+  ],
+  "policy": {
+    "licenses": { "allow": ["MIT", "Apache-2.0", "BSD-3-Clause", "ISC", "0BSD"], "review": ["LGPL-3.0-only", "MPL-2.0"], "deny": ["GPL-3.0-only", "AGPL-3.0-only", "SSPL-1.0"] },
+    "blockSeverity": "high",
+    "flagInstallScripts": true,
+    "flagDeprecated": true
+  }
+}

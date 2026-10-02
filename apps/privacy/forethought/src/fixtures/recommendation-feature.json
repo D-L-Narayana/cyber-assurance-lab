@@ -1,0 +1,89 @@
+{
+  "schema": "forethought.assessment",
+  "version": 1,
+  "id": "PIA-2026-014",
+  "title": "Recommendation feature for the storefront",
+  "owner": "Tamsin Reyes (Product)",
+  "description": "Synthetic scenario: ranking products for each signed-in shopper using browsing and purchase history, with a vendor-hosted analytics pipeline outside the shoppers' region.",
+  "asOf": "2026-10-01",
+  "answers": {
+    "q-purpose": "personalisation",
+    "q-notice": "planned",
+    "q-basis": "legitimate-interest",
+    "q-categories": "behavioural",
+    "q-volume": "100k-1m",
+    "q-rights-tooling": "manual",
+    "q-profiling": "individual-recommendations",
+    "q-children": "possible",
+    "q-children-age-assurance": "self-declared",
+    "q-sharing": "processors",
+    "q-sharing-contracts": "in-place",
+    "q-transfer": "outside-with-safeguards",
+    "q-retention": "defined-not-enforced",
+    "q-security": "standard-controls"
+  },
+  "mitigations": [
+    {
+      "mitigationId": "m-pentest",
+      "status": "verified",
+      "evidenceRef": "pentest-report-2026-09 (synthetic)",
+      "owner": "Security"
+    },
+    {
+      "mitigationId": "m-human-review",
+      "status": "implemented",
+      "owner": "Merchandising"
+    },
+    {
+      "mitigationId": "m-sccs",
+      "status": "verified",
+      "evidenceRef": "transfer-assessment-TA-07 (synthetic)",
+      "owner": "Legal"
+    },
+    {
+      "mitigationId": "m-age-assurance",
+      "status": "planned",
+      "owner": "Trust & Safety"
+    },
+    {
+      "mitigationId": "m-retention-automation",
+      "status": "planned",
+      "owner": "Data Platform"
+    }
+  ],
+  "flows": [
+    {
+      "id": "f-1",
+      "from": "Storefront app",
+      "to": "Recommendation service",
+      "dataCategories": [
+        "browsing",
+        "purchase-history"
+      ],
+      "outsideOriginRegion": false,
+      "mechanism": "not-applicable"
+    },
+    {
+      "id": "f-2",
+      "from": "Recommendation service",
+      "to": "Analytics vendor (synthetic)",
+      "dataCategories": [
+        "pseudonymous-events"
+      ],
+      "outsideOriginRegion": true,
+      "mechanism": "standard-contractual-clauses"
+    }
+  ],
+  "acceptances": [
+    {
+      "theme": "vulnerable-subjects",
+      "acceptedBy": "data-protection-lead",
+      "acceptedByName": "Ines Okafor",
+      "rationale": "Age assurance is scheduled before general release; until then recommendations are disabled for accounts flagged as under 18.",
+      "acceptedOn": "2026-09-28"
+    }
+  ],
+  "dpoConsulted": true,
+  "signatures": [],
+  "versions": []
+}

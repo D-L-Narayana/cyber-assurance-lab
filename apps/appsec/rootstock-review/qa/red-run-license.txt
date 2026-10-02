@@ -1,0 +1,10 @@
+     × respects parentheses: (MIT OR Apache-2.0) AND GPL-3.0-only is deny, not allow 6ms
+     × fails closed to unknown on malformed or unbalanced expressions 1ms
+     × bounds tokens and nesting 1ms
+     × explains the decision in the detail text 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected 'allow' to be 'deny' // Object.is equality
+AssertionError: (MIT: expected 'allow' to be 'unknown' // Object.is equality
+AssertionError: expected 'allow' to be 'unknown' // Object.is equality
+AssertionError: expected 'At least one option is on the allow l…' to match /GPL-3.0-only/
+      Tests  4 failed | 17 passed (21)

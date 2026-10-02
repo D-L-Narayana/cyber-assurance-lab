@@ -1,0 +1,82 @@
+{
+  "viewports": [
+    {
+      "name": "desktop",
+      "status": 200,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "failedRequests": 0,
+      "hosts": [
+        "127.0.0.1:6102"
+      ],
+      "overflow": false,
+      "overflowing": [
+        "TABLE.",
+        "THEAD.",
+        "TR.",
+        "TH.",
+        "TBODY.",
+        "TR.",
+        "TD.",
+        "SPAN.pill pill-current",
+        "TR.",
+        "TD.",
+        "SPAN.pill pill-current",
+        "TR."
+      ],
+      "axeViolations": []
+    },
+    {
+      "name": "tablet",
+      "status": 200,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "failedRequests": 0,
+      "hosts": [
+        "127.0.0.1:6102"
+      ],
+      "overflow": false,
+      "overflowing": [],
+      "axeViolations": []
+    },
+    {
+      "name": "mobile",
+      "status": 200,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "failedRequests": 0,
+      "hosts": [
+        "127.0.0.1:6102"
+      ],
+      "overflow": false,
+      "overflowing": [
+        "svg.[object SVGAnimatedString]",
+        "text.[object SVGAnimatedString]",
+        "text.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "path.[object SVGAnimatedString]",
+        "g.[object SVGAnimatedString]"
+      ],
+      "axeViolations": []
+    }
+  ],
+  "flow": {
+    "steps": 9,
+    "pageErrors": [],
+    "consoleErrors": [],
+    "result": {
+      "openBefore": "Findings (30 open)",
+      "openAfter": "Findings (29 open)",
+      "afterReview": "Retention review calendar (7 overdue)",
+      "importStatus": "Imported 1 systems, 1 elements, 0 flows; 3 normalisation note(s).",
+      "importError": "Import rejected.catalog.systems[0].region \"Mars\" is not a known region or synonym"
+    },
+    "axeAfter": []
+  }
+}

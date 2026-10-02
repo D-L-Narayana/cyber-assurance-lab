@@ -1,0 +1,141 @@
+{
+  "url": "http://127.0.0.1:6101/",
+  "startedAt": "2026-10-01T15:13:22.804Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "status": 200,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "hosts": [
+        "127.0.0.1:6101"
+      ],
+      "layout": {
+        "title": "Consentry — consent and preference decision engine",
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "overflowing": [],
+        "buttons": 37,
+        "storageApisTouched": false
+      },
+      "horizontalOverflow": false,
+      "axeViolations": [],
+      "axePasses": 27
+    },
+    {
+      "name": "tablet",
+      "status": 200,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "hosts": [
+        "127.0.0.1:6101"
+      ],
+      "layout": {
+        "title": "Consentry — consent and preference decision engine",
+        "viewport": 768,
+        "scrollWidth": 768,
+        "overflowing": [],
+        "buttons": 37,
+        "storageApisTouched": false
+      },
+      "horizontalOverflow": false,
+      "axeViolations": [],
+      "axePasses": 28
+    },
+    {
+      "name": "mobile",
+      "status": 200,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "hosts": [
+        "127.0.0.1:6101"
+      ],
+      "layout": {
+        "title": "Consentry — consent and preference decision engine",
+        "viewport": 375,
+        "scrollWidth": 375,
+        "overflowing": [
+          "BUTTON.tab",
+          "BUTTON.tab",
+          "TABLE.",
+          "THEAD.",
+          "TR.",
+          "TH.",
+          "TH.",
+          "TH.",
+          "TH.",
+          "TBODY.",
+          "TR.",
+          "TD.mono"
+        ],
+        "buttons": 37,
+        "storageApisTouched": false
+      },
+      "horizontalOverflow": false,
+      "axeViolations": [],
+      "axePasses": 28
+    }
+  ],
+  "flow": {
+    "steps": [
+      {
+        "step": 1,
+        "label": "default-allow-trace",
+        "file": "flow-01-default-allow-trace.png"
+      },
+      {
+        "step": 2,
+        "label": "california-notice-opt-out",
+        "file": "flow-02-california-notice-opt-out.png"
+      },
+      {
+        "step": 3,
+        "label": "gpc-deny",
+        "file": "flow-03-gpc-deny.png"
+      },
+      {
+        "step": 4,
+        "label": "compare-child-variant",
+        "file": "flow-04-compare-child-variant.png"
+      },
+      {
+        "step": 5,
+        "label": "ledger-withdrawal-deny",
+        "file": "flow-05-ledger-withdrawal-deny.png"
+      },
+      {
+        "step": 6,
+        "label": "rule-coverage",
+        "file": "flow-06-rule-coverage.png"
+      },
+      {
+        "step": 7,
+        "label": "suite-failure-after-disable",
+        "file": "flow-07-suite-failure-after-disable.png"
+      },
+      {
+        "step": 8,
+        "label": "import-rejected",
+        "file": "flow-08-import-rejected.png"
+      },
+      {
+        "step": 9,
+        "label": "keyboard-focus",
+        "file": "flow-09-keyboard-focus.png"
+      }
+    ],
+    "result": {
+      "afterGpc": "DENYGPC_OPT_OUT",
+      "afterWithdrawal": "DENYCONSENT_WITHDRAWN",
+      "suiteAfterDisable": "2 of 20 expectations fail.ev-02: expected allow (CONSENT_VALID), observed deny (CONSENT_WITHDRAWN)ev-11: expected deny (GPC_OPT_OUT), observed allow (NOTICE_AND_OPT_OUT)",
+      "importErrors": "Import rejected.workspace.policy.childAgeThreshold must be an objectworkspace.policy.id is requiredworkspace.policy.version must be an integer between 1 and 10000workspace.policy.consentMaxAgeDays mus"
+    },
+    "pageErrors": [],
+    "consoleErrors": [],
+    "axeViolationsAfterFlow": []
+  },
+  "finishedAt": "2026-10-01T15:13:32.802Z"
+}

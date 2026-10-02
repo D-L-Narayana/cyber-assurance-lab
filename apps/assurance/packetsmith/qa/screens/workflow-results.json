@@ -1,0 +1,74 @@
+[
+  {
+    "name": "gate shows blockers on demo",
+    "pass": true
+  },
+  {
+    "name": "tamper detected in locker",
+    "pass": true
+  },
+  {
+    "name": "submit refused with reasons",
+    "pass": true
+  },
+  {
+    "name": "hash deep link",
+    "pass": true
+  },
+  {
+    "name": "artifact hashed",
+    "pass": true
+  },
+  {
+    "name": "evidence attached",
+    "pass": true
+  },
+  {
+    "name": "stamp satisfied",
+    "pass": true
+  },
+  {
+    "name": "gate clear",
+    "pass": true
+  },
+  {
+    "name": "state ready-for-review",
+    "pass": true
+  },
+  {
+    "name": "SoD refusal",
+    "pass": true
+  },
+  {
+    "name": "approved",
+    "pass": true
+  },
+  {
+    "name": "editing locked after approval",
+    "pass": true
+  },
+  {
+    "name": "memo dialog open",
+    "pass": true
+  },
+  {
+    "name": "memo markdown has digest + disclaimer",
+    "pass": true
+  },
+  {
+    "name": "exported packet approved with history",
+    "pass": true
+  },
+  {
+    "name": "import rejected",
+    "pass": true
+  },
+  {
+    "name": "no page/console errors",
+    "pass": true
+  },
+  {
+    "name": "mobile no horizontal overflow",
+    "pass": true
+  }
+]

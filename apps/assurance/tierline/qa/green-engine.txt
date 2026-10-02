@@ -1,0 +1,2 @@
+ ✓ tests/engine.test.ts > evidence requirements and coverage > residual = inherent × (1 − 0.6 × coverage), rounded to one decimal 4ms
+      Tests  33 passed (33)

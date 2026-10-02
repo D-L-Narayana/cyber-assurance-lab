@@ -1,0 +1,12 @@
+     × does not treat an already-shadowed earlier rule as operative coverage (first-match precedence) 10ms
+     × classifies full shadowing by mixed-action earlier rules as a conflict with a per-range trace 1ms
+     × reports a missing explicit final deny 1ms
+     × rejects calendar-invalid dates such as 2026-02-30 and 2026-99-99 2ms
+     × neutralises CSV formula injection and quotes fields 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  5 failed | 17 passed (22)
+AssertionError: expected 'redundant' to be 'conflict' // Object.is equality
+AssertionError: expected undefined to be 'conflict' // Object.is equality
+AssertionError: zone-scoped deny is not a global final deny: expected false to be true // Object.is equality
+AssertionError: expected [ 'a', 'b', 'c' ] to deeply equal [ 'c' ]
+AssertionError: expected '"  =1+1","\'\t+5","\u0001-3","\'\r\n@…' to be '"\'  =1+1","\'\t+5","\'\u0001-3","\'\…' // Object.is equality

@@ -1,0 +1,8 @@
+     × requires manual review for VPN narrowing when no jump host is supplied, and for overbroad allows (no automatic address scoping) 7ms
+     × derives the stale-rule expiry from the review date instead of a hard-coded day 1ms
+     × builds a stable report schema 4ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected 'narrow' to be 'review' // Object.is equality
+AssertionError: expected '2026-10-31' to be '2026-03-31' // Object.is equality
+AssertionError: expected undefined to be +0 // Object.is equality
+      Tests  3 failed | 21 passed (24)

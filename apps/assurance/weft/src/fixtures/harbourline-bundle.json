@@ -1,0 +1,194 @@
+{
+  "schema": "weft.bundle/1",
+  "name": "Harbourline Q3 2026 control evidence (synthetic)",
+  "asOf": "2026-10-01",
+  "assertions": [
+    {
+      "id": "AS-01",
+      "controlRef": "CSF 2.0 PR.DS-11",
+      "statement": "Backups of the dispatch database are created nightly and a restore is tested each quarter.",
+      "owner": "platform.lead",
+      "periodStart": "2026-07-01",
+      "periodEnd": "2026-09-30"
+    },
+    {
+      "id": "AS-02",
+      "controlRef": "CSF 2.0 PR.AA-05",
+      "statement": "Privileged access to production is reviewed quarterly and excess entitlements are removed.",
+      "owner": "identity.lead",
+      "periodStart": "2026-07-01",
+      "periodEnd": "2026-09-30"
+    },
+    {
+      "id": "AS-03",
+      "controlRef": "SP 800-53 Rev. 5 SI-2",
+      "statement": "Critical security patches are applied to in-scope servers within 14 days of release.",
+      "owner": "infra.lead",
+      "periodStart": "2026-07-01",
+      "periodEnd": "2026-09-30"
+    },
+    {
+      "id": "AS-04",
+      "controlRef": "CSF 2.0 DE.CM-01",
+      "statement": "Network IDS alerts are reviewed weekly and escalations are recorded.",
+      "owner": "secops.lead",
+      "periodStart": "2026-07-01",
+      "periodEnd": "2026-09-30"
+    },
+    {
+      "id": "AS-05",
+      "controlRef": "CSF 2.0 PR.AT-01",
+      "statement": "All staff completed security awareness training in the period.",
+      "owner": "hr.systems",
+      "periodStart": "2026-07-01",
+      "periodEnd": "2026-09-30"
+    },
+    {
+      "id": "AS-06",
+      "controlRef": "CSF 2.0 GV.SC-07",
+      "statement": "Tier-1 suppliers were risk-reviewed in the period.",
+      "owner": "procurement",
+      "periodStart": "2026-07-01",
+      "periodEnd": "2026-09-30"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "AR-01",
+      "name": "backup-jobs-2026-09.log",
+      "kind": "log",
+      "capturedOn": "2026-09-28",
+      "content": "2026-09-27 02:00 full OK 412GB\n2026-09-28 02:00 full OK 413GB\n2026-09-29 02:00 full OK 413GB",
+      "declaredSha256": "df652d159d59e6c070cd8eeb6ccb86ea896e6763db33b754b18aad6331e20072"
+    },
+    {
+      "id": "AR-02",
+      "name": "restore-test-Q3.md",
+      "kind": "markdown",
+      "capturedOn": "2026-09-12",
+      "content": "# Restore test Q3\nRST-77 restored 5 sampled objects; checksum PASSED 5/5.",
+      "declaredSha256": "d8c759c3823e164aad215b5eb08e1522487bc9c4a0f0b2f60c24e3cd777f0522"
+    },
+    {
+      "id": "AR-03",
+      "name": "privileged-review-Q3.csv",
+      "kind": "csv",
+      "capturedOn": "2026-09-20",
+      "content": "account,role,decision\nadm.r.kaur,dispatch-admin,keep\nadm.t.ng,dispatch-admin,revoke",
+      "declaredSha256": "b68802feac58082ccaad4dac1f376e3976db61fdbd4f71e6609f546be69cc190"
+    },
+    {
+      "id": "AR-04",
+      "name": "privileged-review-Q2.csv",
+      "kind": "csv",
+      "capturedOn": "2026-06-18",
+      "content": "account,role,decision\nadm.r.kaur,dispatch-admin,keep\nadm.j.alvarez,dispatch-admin,keep",
+      "declaredSha256": "d1d93197c77273708bca03aa5f4bf010115399b995f4932eee257fd40ca39618"
+    },
+    {
+      "id": "AR-05",
+      "name": "patch-compliance-2026-09.md",
+      "kind": "markdown",
+      "capturedOn": "2026-09-30",
+      "content": "# Patch compliance September\nIn scope 42. Within 14 days 38. Overdue 4.",
+      "declaredSha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "id": "AR-06",
+      "name": "ids-weekly-W37.log",
+      "kind": "log",
+      "capturedOn": "2026-09-19",
+      "content": "W37: 4 alerts reviewed; 1 escalated EXP-2291; closed authorised.",
+      "declaredSha256": "d957a37ee207f69ed91252db683128160d4bfa79b725a5e876bdb03c645d7bd3"
+    },
+    {
+      "id": "AR-07",
+      "name": "ids-weekly-W37-copy.log",
+      "kind": "log",
+      "capturedOn": "2026-09-19",
+      "content": "W37: 4 alerts reviewed; 1 escalated EXP-2291; closed authorised.",
+      "declaredSha256": "d957a37ee207f69ed91252db683128160d4bfa79b725a5e876bdb03c645d7bd3"
+    },
+    {
+      "id": "AR-08",
+      "name": "training-completion.csv",
+      "kind": "csv",
+      "capturedOn": "2026-10-01",
+      "content": "staff,completed\n214,214",
+      "declaredSha256": "f34e84f57eb2d50075fcf17d42dcc9ce68a6be3cac941dedf68ee9720df2bee8"
+    },
+    {
+      "id": "AR-09",
+      "name": "firewall-change-CHG-4411.note",
+      "kind": "note",
+      "capturedOn": "2026-08-30",
+      "content": "Firewall rule review ticket closed; no exceptions."
+    },
+    {
+      "id": "AR-10",
+      "name": "supplier-review-2025.md",
+      "kind": "markdown",
+      "capturedOn": "2025-11-20",
+      "content": "# Supplier review 2025\nTier-1 suppliers reviewed: 7/7.",
+      "declaredSha256": "fc030386ee00e79183528b813a087f54bd89a7449f70be93b23de6391f8e54f4"
+    }
+  ],
+  "links": [
+    {
+      "assertionId": "AS-01",
+      "artifactId": "AR-01"
+    },
+    {
+      "assertionId": "AS-01",
+      "artifactId": "AR-02"
+    },
+    {
+      "assertionId": "AS-02",
+      "artifactId": "AR-03"
+    },
+    {
+      "assertionId": "AS-02",
+      "artifactId": "AR-04",
+      "note": "Previous quarter attached by mistake"
+    },
+    {
+      "assertionId": "AS-03",
+      "artifactId": "AR-05"
+    },
+    {
+      "assertionId": "AS-04",
+      "artifactId": "AR-06"
+    },
+    {
+      "assertionId": "AS-04",
+      "artifactId": "AR-07"
+    },
+    {
+      "assertionId": "AS-05",
+      "artifactId": "AR-08",
+      "note": "Captured one day after the period"
+    },
+    {
+      "assertionId": "AS-06",
+      "artifactId": "AR-10"
+    },
+    {
+      "assertionId": "AS-07",
+      "artifactId": "AR-01"
+    }
+  ],
+  "signoffs": [
+    {
+      "assertionId": "AS-01",
+      "reviewer": "m.okafor",
+      "signedOn": "2026-09-29",
+      "bindingHash": "1ee75e8dbdb8d79d14ed6691117376bb3efd1d8b529c9fa93f05a6374b94b914"
+    },
+    {
+      "assertionId": "AS-02",
+      "reviewer": "m.okafor",
+      "signedOn": "2026-09-21",
+      "bindingHash": "b0a1217f1a790c2a03f179de64f206419c0c1a6980f803f452af2e3214c9a260"
+    }
+  ]
+}

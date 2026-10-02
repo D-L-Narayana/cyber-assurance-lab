@@ -1,0 +1,52 @@
+{
+  "schema": "firstlight.incident",
+  "version": 1,
+  "id": "INC-2026-0093",
+  "title": "Customer export attached to the wrong vendor ticket",
+  "incidentType": "misdirected-email",
+  "jurisdictions": ["EU-GDPR", "UK-GDPR"],
+  "controllerRole": "controller",
+  "events": [
+    { "id": "ev-01", "at": "2026-09-18T16:42:00Z", "kind": "occurred", "source": "helpdesk-export-job", "summary": "Monthly customer export (CSV, 41,200 rows) attached to vendor ticket VT-5521 instead of internal ticket IT-5521." },
+    { "id": "ev-02", "at": "2026-09-20T09:10:00Z", "kind": "detected", "source": "vendor-support@deskwright.example", "summary": "Vendor agent reports an unexpected attachment on VT-5521 and asks what to do with it." },
+    { "id": "ev-03", "at": "2026-09-20T09:10:00Z", "kind": "detected", "source": "vendor-support@deskwright.example", "summary": "Vendor agent reports an unexpected attachment on VT-5521 and asks what to do with it." },
+    { "id": "ev-04", "at": "2026-09-20T11:30:00Z", "kind": "aware", "source": "privacy-office", "summary": "Privacy office confirms the attachment contains personal data of customers; incident opened.", "personal": false },
+    { "id": "ev-05", "at": "2026-09-20T12:05:00Z", "kind": "escalated", "source": "privacy-office", "summary": "Escalated to the incident lead Priya Oduya and legal." , "personal": true },
+    { "id": "ev-06", "at": "2026-09-20T13:20:00Z", "kind": "contained", "source": "vendor-support@deskwright.example", "summary": "Vendor confirms attachment deleted from VT-5521 and from their mail archive; two agents had opened it." },
+    { "id": "ev-07", "at": "2026-09-20T15:00:00Z", "kind": "evidence", "source": "helpdesk-export-job", "summary": "Export job log retrieved: 41,200 rows, columns email, name, last invoice amount, loyalty tier." },
+    { "id": "ev-08", "at": "2026-09-21T10:00:00Z", "kind": "note", "source": "incident-lead", "summary": "Vendor attestation of deletion requested from Tomas Ferreira at Deskwright; awaiting signed copy.", "personal": true },
+    { "id": "ev-09", "at": "2026-09-19T08:00:00Z", "kind": "note", "source": "helpdesk-export-job", "summary": "Export job completed successfully (routine)." }
+  ],
+  "dataScope": [
+    { "id": "ds-1", "category": "Email address", "dataClass": "simple", "subjects": 41200, "records": 41200, "encrypted": false, "exposure": ["confidentiality"], "estimate": false },
+    { "id": "ds-2", "category": "Full name", "dataClass": "simple", "subjects": 41200, "records": 41200, "encrypted": false, "exposure": ["confidentiality"], "estimate": false },
+    { "id": "ds-3", "category": "Last invoice amount", "dataClass": "financial", "subjects": 38900, "records": 38900, "encrypted": false, "exposure": ["confidentiality"], "estimate": true },
+    { "id": "ds-4", "category": "Loyalty tier", "dataClass": "behavioural", "subjects": 41200, "records": 41200, "encrypted": false, "exposure": ["confidentiality"], "estimate": false }
+  ],
+  "circumstances": {
+    "confidentialityLoss": "known-recipients",
+    "integrityLoss": "none",
+    "availabilityLoss": "none",
+    "maliciousIntent": false,
+    "dpcAdjustment": -1,
+    "dpcJustification": "Invoice amount alone gives limited insight into financial status (ENISA financial-data decreasing factor).",
+    "easeOfIdentification": "maximum"
+  },
+  "containment": [
+    { "id": "ct-1", "title": "Confirm deletion of the attachment at the recipient", "status": "done", "evidenceRef": "ev-06 vendor confirmation", "owner": "incident-lead" },
+    { "id": "ct-2", "title": "Obtain signed deletion attestation from the vendor", "status": "in-progress", "owner": "legal" },
+    { "id": "ct-3", "title": "Disable the export job until the ticket-routing fix ships", "status": "done", "evidenceRef": "change CHG-2210 (synthetic)", "owner": "platform" },
+    { "id": "ct-4", "title": "Review vendor mail-archive retention for residual copies", "status": "open", "owner": "security" },
+    { "id": "ct-5", "title": "Reset credentials", "status": "not-applicable", "owner": "security" }
+  ],
+  "facts": {
+    "nature": "A customer export file was attached to a vendor support ticket by mistake and opened by two vendor agents before deletion.",
+    "categoriesOfSubjects": "Retail customers with at least one purchase in the last 24 months.",
+    "approxSubjects": "41,200",
+    "categoriesOfRecords": "Email address, full name, last invoice amount, loyalty tier.",
+    "approxRecords": "41,200 rows",
+    "contactPoint": "privacy-office@northwind.example (synthetic)",
+    "measuresTaken": "Attachment deleted at the recipient; export job disabled."
+  },
+  "personalTokens": ["Priya Oduya", "Tomas Ferreira"]
+}

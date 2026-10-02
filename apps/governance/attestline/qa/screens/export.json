@@ -1,0 +1,2184 @@
+{
+  "schema": "attestline.certification/v1",
+  "generatedFrom": "Synthetic demo campaign (Q4 2026 quarterly review)",
+  "asOf": "2026-10-01",
+  "config": {
+    "dormantAfterDays": 90,
+    "asOf": "2026-10-01"
+  },
+  "summary": {
+    "total": 146,
+    "decided": 5,
+    "percent": 3,
+    "approved": 2,
+    "revoked": 3,
+    "sodOverrides": 1,
+    "unrouted": 11,
+    "byReviewer": [
+      {
+        "reviewerId": "id-mgr-eng",
+        "name": "Caius Fixture",
+        "pending": 30,
+        "done": 3
+      },
+      {
+        "reviewerId": "id-mgr-finance",
+        "name": "Ada Example",
+        "pending": 28,
+        "done": 2
+      },
+      {
+        "reviewerId": "id-mgr-legal",
+        "name": "Farah Synthetic",
+        "pending": 15,
+        "done": 0
+      },
+      {
+        "reviewerId": "id-mgr-people",
+        "name": "Bhavna Sample",
+        "pending": 24,
+        "done": 0
+      },
+      {
+        "reviewerId": "id-mgr-sales",
+        "name": "Dalia Placeholder",
+        "pending": 15,
+        "done": 0
+      },
+      {
+        "reviewerId": "id-mgr-support",
+        "name": "Emeka Demo",
+        "pending": 18,
+        "done": 0
+      }
+    ]
+  },
+  "items": [
+    {
+      "itemId": "ri-ent-138",
+      "entitlementId": "ent-138",
+      "identity": "Dalia Example",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.approve",
+      "reviewer": "id-mgr-finance",
+      "state": "approved",
+      "riskScore": 65,
+      "hints": [
+        "sod_conflict",
+        "privileged"
+      ],
+      "lastDecision": {
+        "seq": 2,
+        "itemId": "ri-ent-138",
+        "actor": "id-mgr-finance",
+        "decision": "approve",
+        "reason": "Needed for payroll preparation",
+        "at": "2026-10-01"
+      }
+    },
+    {
+      "itemId": "ri-ent-140",
+      "entitlementId": "ent-140",
+      "identity": "Juno Demo",
+      "identityStatus": "active",
+      "resource": "Accounts payable",
+      "privilege": "payment.release",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 65,
+      "hints": [
+        "sod_conflict",
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-141",
+      "entitlementId": "ent-141",
+      "identity": "Ada Placeholder",
+      "identityStatus": "leaver",
+      "resource": "Production cloud account",
+      "privilege": "prod.admin",
+      "reviewer": "id-mgr-eng",
+      "state": "revoked",
+      "riskScore": 65,
+      "hints": [
+        "orphan",
+        "dormant",
+        "privileged"
+      ],
+      "lastDecision": {
+        "seq": 1,
+        "itemId": "ri-ent-141",
+        "actor": "id-mgr-eng",
+        "decision": "revoke",
+        "reason": "Quarterly review: access no longer required",
+        "at": "2026-10-01"
+      }
+    },
+    {
+      "itemId": "ri-ent-142",
+      "entitlementId": "ent-142",
+      "identity": "Gus Mock",
+      "identityStatus": "leaver",
+      "resource": "HR records",
+      "privilege": "hr.edit",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 65,
+      "hints": [
+        "orphan",
+        "dormant",
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-018",
+      "entitlementId": "ent-018",
+      "identity": "Dalia Example",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.create",
+      "reviewer": "id-mgr-finance",
+      "state": "approved",
+      "riskScore": 50,
+      "hints": [
+        "sod_conflict"
+      ],
+      "lastDecision": {
+        "seq": 3,
+        "itemId": "ri-ent-018",
+        "actor": "id-mgr-finance",
+        "decision": "approve",
+        "reason": "Also needed",
+        "at": "2026-10-01",
+        "sodOverride": {
+          "ruleId": "sod-payroll",
+          "rationale": "Compensating control: CFO reviews every approved payroll run before release"
+        }
+      }
+    },
+    {
+      "itemId": "ri-ent-039",
+      "entitlementId": "ent-039",
+      "identity": "Ada Placeholder",
+      "identityStatus": "leaver",
+      "resource": "HR records",
+      "privilege": "hr.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 50,
+      "hints": [
+        "orphan",
+        "dormant"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-054",
+      "entitlementId": "ent-054",
+      "identity": "Juno Demo",
+      "identityStatus": "active",
+      "resource": "Accounts payable",
+      "privilege": "vendor.create",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 50,
+      "hints": [
+        "sod_conflict"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-074",
+      "entitlementId": "ent-074",
+      "identity": "Gus Mock",
+      "identityStatus": "leaver",
+      "resource": "HR records",
+      "privilege": "hr.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 50,
+      "hints": [
+        "orphan",
+        "dormant"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-101",
+      "entitlementId": "ent-101",
+      "identity": "Farah Testcase",
+      "identityStatus": "suspended",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.view",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 50,
+      "hints": [
+        "orphan",
+        "dormant"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-102",
+      "entitlementId": "ent-102",
+      "identity": "Farah Testcase",
+      "identityStatus": "suspended",
+      "resource": "Accounts payable",
+      "privilege": "vendor.create",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 50,
+      "hints": [
+        "orphan",
+        "dormant"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-137",
+      "entitlementId": "ent-137",
+      "identity": "Dalia Example",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.create",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 50,
+      "hints": [
+        "sod_conflict"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-139",
+      "entitlementId": "ent-139",
+      "identity": "Juno Demo",
+      "identityStatus": "active",
+      "resource": "Accounts payable",
+      "privilege": "vendor.create",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 50,
+      "hints": [
+        "sod_conflict"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-002",
+      "entitlementId": "ent-002",
+      "identity": "Ada Example",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.view",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 30,
+      "hints": [
+        "self_review"
+      ],
+      "lastDecision": {
+        "seq": 6,
+        "itemId": "ri-ent-002",
+        "actor": "campaign-owner",
+        "decision": "delegate",
+        "reason": "IT manager owns service accounts",
+        "at": "2026-10-01",
+        "delegateTo": "id-mgr-eng"
+      }
+    },
+    {
+      "itemId": "ri-ent-003",
+      "entitlementId": "ent-003",
+      "identity": "Ada Example",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.create",
+      "reviewer": null,
+      "state": "pending",
+      "riskScore": 38,
+      "hints": [
+        "self_review",
+        "no_reviewer"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-004",
+      "entitlementId": "ent-004",
+      "identity": "Ada Example",
+      "identityStatus": "active",
+      "resource": "Accounts payable",
+      "privilege": "vendor.create",
+      "reviewer": null,
+      "state": "pending",
+      "riskScore": 38,
+      "hints": [
+        "self_review",
+        "no_reviewer"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-006",
+      "entitlementId": "ent-006",
+      "identity": "Bhavna Sample",
+      "identityStatus": "active",
+      "resource": "HR records",
+      "privilege": "hr.read",
+      "reviewer": null,
+      "state": "pending",
+      "riskScore": 38,
+      "hints": [
+        "self_review",
+        "no_reviewer"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-009",
+      "entitlementId": "ent-009",
+      "identity": "Caius Fixture",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.readonly",
+      "reviewer": null,
+      "state": "pending",
+      "riskScore": 38,
+      "hints": [
+        "self_review",
+        "no_reviewer"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-015",
+      "entitlementId": "ent-015",
+      "identity": "Farah Synthetic",
+      "identityStatus": "active",
+      "resource": "Contract vault",
+      "privilege": "contracts.read",
+      "reviewer": null,
+      "state": "pending",
+      "riskScore": 38,
+      "hints": [
+        "self_review",
+        "no_reviewer"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-145",
+      "entitlementId": "ent-145",
+      "identity": "Ada Synthetic",
+      "identityStatus": "active",
+      "resource": "Legacy file share",
+      "privilege": "share.admin",
+      "reviewer": null,
+      "state": "pending",
+      "riskScore": 38,
+      "hints": [
+        "dormant",
+        "privileged",
+        "no_reviewer"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-133",
+      "entitlementId": "ent-133",
+      "identity": "svc-etl.example",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.admin",
+      "reviewer": "id-mgr-eng",
+      "state": "revoked",
+      "riskScore": 37,
+      "hints": [
+        "never_used",
+        "privileged"
+      ],
+      "lastDecision": {
+        "seq": 4,
+        "itemId": "ri-ent-133",
+        "actor": "id-mgr-eng",
+        "decision": "revoke",
+        "reason": "Bulk: access reviewed, not needed for current role",
+        "at": "2026-10-01"
+      }
+    },
+    {
+      "itemId": "ri-ent-053",
+      "entitlementId": "ent-053",
+      "identity": "Juno Demo",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.approve",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 35,
+      "hints": [
+        "dormant",
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-105",
+      "entitlementId": "ent-105",
+      "identity": "Mateo Placeholder",
+      "identityStatus": "active",
+      "resource": "HR records",
+      "privilege": "hr.edit",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 35,
+      "hints": [
+        "dormant",
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-124",
+      "entitlementId": "ent-124",
+      "identity": "Juno Testcase",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.admin",
+      "reviewer": "id-mgr-eng",
+      "state": "revoked",
+      "riskScore": 35,
+      "hints": [
+        "dormant",
+        "privileged"
+      ],
+      "lastDecision": {
+        "seq": 5,
+        "itemId": "ri-ent-124",
+        "actor": "id-mgr-eng",
+        "decision": "revoke",
+        "reason": "Bulk: access reviewed, not needed for current role",
+        "at": "2026-10-01"
+      }
+    },
+    {
+      "itemId": "ri-ent-144",
+      "entitlementId": "ent-144",
+      "identity": "Ada Synthetic",
+      "identityStatus": "active",
+      "resource": "Contract vault",
+      "privilege": "contracts.sign",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 35,
+      "hints": [
+        "dormant",
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-008",
+      "entitlementId": "ent-008",
+      "identity": "Caius Fixture",
+      "identityStatus": "active",
+      "resource": "Source repositories",
+      "privilege": "repo.read",
+      "reviewer": null,
+      "state": "pending",
+      "riskScore": 33,
+      "hints": [
+        "self_review",
+        "no_reviewer"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-011",
+      "entitlementId": "ent-011",
+      "identity": "Dalia Placeholder",
+      "identityStatus": "active",
+      "resource": "Customer CRM",
+      "privilege": "crm.read",
+      "reviewer": null,
+      "state": "pending",
+      "riskScore": 33,
+      "hints": [
+        "self_review",
+        "no_reviewer"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-013",
+      "entitlementId": "ent-013",
+      "identity": "Emeka Demo",
+      "identityStatus": "active",
+      "resource": "Support ticketing",
+      "privilege": "tickets.agent",
+      "reviewer": null,
+      "state": "pending",
+      "riskScore": 33,
+      "hints": [
+        "self_review",
+        "no_reviewer"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-143",
+      "entitlementId": "ent-143",
+      "identity": "Yusuf Mock",
+      "identityStatus": "active",
+      "resource": "Customer CRM",
+      "privilege": "crm.export",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 32,
+      "hints": [
+        "never_used",
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-038",
+      "entitlementId": "ent-038",
+      "identity": "Ada Placeholder",
+      "identityStatus": "leaver",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 30,
+      "hints": [
+        "orphan"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-066",
+      "entitlementId": "ent-066",
+      "identity": "Lena Example",
+      "identityStatus": "active",
+      "resource": "Support ticketing",
+      "privilege": "tickets.admin",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 30,
+      "hints": [
+        "dormant",
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-073",
+      "entitlementId": "ent-073",
+      "identity": "Gus Mock",
+      "identityStatus": "leaver",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 30,
+      "hints": [
+        "orphan"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-100",
+      "entitlementId": "ent-100",
+      "identity": "Farah Testcase",
+      "identityStatus": "suspended",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 30,
+      "hints": [
+        "orphan"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-127",
+      "entitlementId": "ent-127",
+      "identity": "Quill Placeholder",
+      "identityStatus": "active",
+      "resource": "Customer CRM",
+      "privilege": "crm.export",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 30,
+      "hints": [
+        "dormant",
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-005",
+      "entitlementId": "ent-005",
+      "identity": "Bhavna Sample",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": null,
+      "state": "pending",
+      "riskScore": 28,
+      "hints": [
+        "self_review",
+        "no_reviewer"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-050",
+      "entitlementId": "ent-050",
+      "identity": "Caius Mock",
+      "identityStatus": "active",
+      "resource": "Contract vault",
+      "privilege": "contracts.sign",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 25,
+      "hints": [
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-057",
+      "entitlementId": "ent-057",
+      "identity": "Quill Sample",
+      "identityStatus": "active",
+      "resource": "HR records",
+      "privilege": "hr.edit",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 25,
+      "hints": [
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-061",
+      "entitlementId": "ent-061",
+      "identity": "Ximena Testcase",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.admin",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 25,
+      "hints": [
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-086",
+      "entitlementId": "ent-086",
+      "identity": "Priya Example",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.approve",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 25,
+      "hints": [
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-093",
+      "entitlementId": "ent-093",
+      "identity": "Dalia Fixture",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.admin",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 25,
+      "hints": [
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-115",
+      "entitlementId": "ent-115",
+      "identity": "Oren Mock",
+      "identityStatus": "active",
+      "resource": "Contract vault",
+      "privilege": "contracts.sign",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 25,
+      "hints": [
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-131",
+      "entitlementId": "ent-131",
+      "identity": "svc-billing.example",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.admin",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 25,
+      "hints": [
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-135",
+      "entitlementId": "ent-135",
+      "identity": "svc-backup.example",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.admin",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 25,
+      "hints": [
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-025",
+      "entitlementId": "ent-025",
+      "identity": "Rosa Fixture",
+      "identityStatus": "active",
+      "resource": "Source repositories",
+      "privilege": "repo.admin",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 20,
+      "hints": [
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-031",
+      "entitlementId": "ent-031",
+      "identity": "Farah Demo",
+      "identityStatus": "active",
+      "resource": "Support ticketing",
+      "privilege": "tickets.admin",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 20,
+      "hints": [
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-047",
+      "entitlementId": "ent-047",
+      "identity": "Viggo Fixture",
+      "identityStatus": "active",
+      "resource": "Support ticketing",
+      "privilege": "tickets.admin",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 20,
+      "hints": [
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-130",
+      "entitlementId": "ent-130",
+      "identity": "Ximena Example",
+      "identityStatus": "active",
+      "resource": "Support ticketing",
+      "privilege": "tickets.admin",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 20,
+      "hints": [
+        "privileged"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-136",
+      "entitlementId": "ent-136",
+      "identity": "svc-backup.example",
+      "identityStatus": "active",
+      "resource": "Analytics warehouse",
+      "privilege": "analytics.query",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 15,
+      "hints": [
+        "dormant"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-146",
+      "entitlementId": "ent-146",
+      "identity": "svc-backup.example",
+      "identityStatus": "active",
+      "resource": "Legacy file share",
+      "privilege": "share.read",
+      "reviewer": null,
+      "state": "pending",
+      "riskScore": 13,
+      "hints": [
+        "no_reviewer"
+      ],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-001",
+      "entitlementId": "ent-001",
+      "identity": "Ada Example",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-007",
+      "entitlementId": "ent-007",
+      "identity": "Caius Fixture",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-010",
+      "entitlementId": "ent-010",
+      "identity": "Dalia Placeholder",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-012",
+      "entitlementId": "ent-012",
+      "identity": "Emeka Demo",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-014",
+      "entitlementId": "ent-014",
+      "identity": "Farah Synthetic",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-016",
+      "entitlementId": "ent-016",
+      "identity": "Dalia Example",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-017",
+      "entitlementId": "ent-017",
+      "identity": "Dalia Example",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.view",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-019",
+      "entitlementId": "ent-019",
+      "identity": "Dalia Example",
+      "identityStatus": "active",
+      "resource": "Accounts payable",
+      "privilege": "vendor.create",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-020",
+      "entitlementId": "ent-020",
+      "identity": "Dalia Example",
+      "identityStatus": "active",
+      "resource": "Accounts payable",
+      "privilege": "invoice.enter",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-021",
+      "entitlementId": "ent-021",
+      "identity": "Kofi Synthetic",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-022",
+      "entitlementId": "ent-022",
+      "identity": "Kofi Synthetic",
+      "identityStatus": "active",
+      "resource": "HR records",
+      "privilege": "hr.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-023",
+      "entitlementId": "ent-023",
+      "identity": "Rosa Fixture",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-024",
+      "entitlementId": "ent-024",
+      "identity": "Rosa Fixture",
+      "identityStatus": "active",
+      "resource": "Source repositories",
+      "privilege": "repo.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-026",
+      "entitlementId": "ent-026",
+      "identity": "Rosa Fixture",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.readonly",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-027",
+      "entitlementId": "ent-027",
+      "identity": "Yusuf Mock",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-028",
+      "entitlementId": "ent-028",
+      "identity": "Yusuf Mock",
+      "identityStatus": "active",
+      "resource": "Customer CRM",
+      "privilege": "crm.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-029",
+      "entitlementId": "ent-029",
+      "identity": "Farah Demo",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-030",
+      "entitlementId": "ent-030",
+      "identity": "Farah Demo",
+      "identityStatus": "active",
+      "resource": "Support ticketing",
+      "privilege": "tickets.agent",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-032",
+      "entitlementId": "ent-032",
+      "identity": "Mateo Sample",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-033",
+      "entitlementId": "ent-033",
+      "identity": "Mateo Sample",
+      "identityStatus": "active",
+      "resource": "Contract vault",
+      "privilege": "contracts.read",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-034",
+      "entitlementId": "ent-034",
+      "identity": "Tala Testcase",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-035",
+      "entitlementId": "ent-035",
+      "identity": "Tala Testcase",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.view",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-036",
+      "entitlementId": "ent-036",
+      "identity": "Tala Testcase",
+      "identityStatus": "active",
+      "resource": "Accounts payable",
+      "privilege": "vendor.create",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-037",
+      "entitlementId": "ent-037",
+      "identity": "Tala Testcase",
+      "identityStatus": "active",
+      "resource": "Accounts payable",
+      "privilege": "invoice.enter",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-040",
+      "entitlementId": "ent-040",
+      "identity": "Hana Example",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-041",
+      "entitlementId": "ent-041",
+      "identity": "Hana Example",
+      "identityStatus": "active",
+      "resource": "Source repositories",
+      "privilege": "repo.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-042",
+      "entitlementId": "ent-042",
+      "identity": "Hana Example",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.readonly",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-043",
+      "entitlementId": "ent-043",
+      "identity": "Oren Synthetic",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-044",
+      "entitlementId": "ent-044",
+      "identity": "Oren Synthetic",
+      "identityStatus": "active",
+      "resource": "Customer CRM",
+      "privilege": "crm.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-045",
+      "entitlementId": "ent-045",
+      "identity": "Viggo Fixture",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-046",
+      "entitlementId": "ent-046",
+      "identity": "Viggo Fixture",
+      "identityStatus": "active",
+      "resource": "Support ticketing",
+      "privilege": "tickets.agent",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-048",
+      "entitlementId": "ent-048",
+      "identity": "Caius Mock",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-049",
+      "entitlementId": "ent-049",
+      "identity": "Caius Mock",
+      "identityStatus": "active",
+      "resource": "Contract vault",
+      "privilege": "contracts.read",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-051",
+      "entitlementId": "ent-051",
+      "identity": "Juno Demo",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-052",
+      "entitlementId": "ent-052",
+      "identity": "Juno Demo",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.view",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-055",
+      "entitlementId": "ent-055",
+      "identity": "Quill Sample",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-056",
+      "entitlementId": "ent-056",
+      "identity": "Quill Sample",
+      "identityStatus": "active",
+      "resource": "HR records",
+      "privilege": "hr.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-058",
+      "entitlementId": "ent-058",
+      "identity": "Ximena Testcase",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-059",
+      "entitlementId": "ent-059",
+      "identity": "Ximena Testcase",
+      "identityStatus": "active",
+      "resource": "Source repositories",
+      "privilege": "repo.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-060",
+      "entitlementId": "ent-060",
+      "identity": "Ximena Testcase",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.readonly",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-062",
+      "entitlementId": "ent-062",
+      "identity": "Emeka Placeholder",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-063",
+      "entitlementId": "ent-063",
+      "identity": "Emeka Placeholder",
+      "identityStatus": "active",
+      "resource": "Customer CRM",
+      "privilege": "crm.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-064",
+      "entitlementId": "ent-064",
+      "identity": "Lena Example",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-065",
+      "entitlementId": "ent-065",
+      "identity": "Lena Example",
+      "identityStatus": "active",
+      "resource": "Support ticketing",
+      "privilege": "tickets.agent",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-067",
+      "entitlementId": "ent-067",
+      "identity": "Sven Synthetic",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-068",
+      "entitlementId": "ent-068",
+      "identity": "Sven Synthetic",
+      "identityStatus": "active",
+      "resource": "Contract vault",
+      "privilege": "contracts.read",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-069",
+      "entitlementId": "ent-069",
+      "identity": "Zara Fixture",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-070",
+      "entitlementId": "ent-070",
+      "identity": "Zara Fixture",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.view",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-071",
+      "entitlementId": "ent-071",
+      "identity": "Zara Fixture",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.create",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-072",
+      "entitlementId": "ent-072",
+      "identity": "Zara Fixture",
+      "identityStatus": "active",
+      "resource": "Accounts payable",
+      "privilege": "vendor.create",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-075",
+      "entitlementId": "ent-075",
+      "identity": "Nadia Demo",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-076",
+      "entitlementId": "ent-076",
+      "identity": "Nadia Demo",
+      "identityStatus": "active",
+      "resource": "Source repositories",
+      "privilege": "repo.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-077",
+      "entitlementId": "ent-077",
+      "identity": "Nadia Demo",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.readonly",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-078",
+      "entitlementId": "ent-078",
+      "identity": "Uma Sample",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-079",
+      "entitlementId": "ent-079",
+      "identity": "Uma Sample",
+      "identityStatus": "active",
+      "resource": "Customer CRM",
+      "privilege": "crm.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-080",
+      "entitlementId": "ent-080",
+      "identity": "Bhavna Testcase",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-081",
+      "entitlementId": "ent-081",
+      "identity": "Bhavna Testcase",
+      "identityStatus": "active",
+      "resource": "Support ticketing",
+      "privilege": "tickets.agent",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-082",
+      "entitlementId": "ent-082",
+      "identity": "Idris Placeholder",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-083",
+      "entitlementId": "ent-083",
+      "identity": "Idris Placeholder",
+      "identityStatus": "active",
+      "resource": "Contract vault",
+      "privilege": "contracts.read",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-084",
+      "entitlementId": "ent-084",
+      "identity": "Priya Example",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-085",
+      "entitlementId": "ent-085",
+      "identity": "Priya Example",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.view",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-087",
+      "entitlementId": "ent-087",
+      "identity": "Priya Example",
+      "identityStatus": "active",
+      "resource": "Accounts payable",
+      "privilege": "vendor.create",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-088",
+      "entitlementId": "ent-088",
+      "identity": "Wren Synthetic",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-089",
+      "entitlementId": "ent-089",
+      "identity": "Wren Synthetic",
+      "identityStatus": "active",
+      "resource": "HR records",
+      "privilege": "hr.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-090",
+      "entitlementId": "ent-090",
+      "identity": "Dalia Fixture",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-091",
+      "entitlementId": "ent-091",
+      "identity": "Dalia Fixture",
+      "identityStatus": "active",
+      "resource": "Source repositories",
+      "privilege": "repo.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-092",
+      "entitlementId": "ent-092",
+      "identity": "Dalia Fixture",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.readonly",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-094",
+      "entitlementId": "ent-094",
+      "identity": "Kofi Mock",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-095",
+      "entitlementId": "ent-095",
+      "identity": "Kofi Mock",
+      "identityStatus": "active",
+      "resource": "Customer CRM",
+      "privilege": "crm.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-096",
+      "entitlementId": "ent-096",
+      "identity": "Rosa Demo",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-097",
+      "entitlementId": "ent-097",
+      "identity": "Rosa Demo",
+      "identityStatus": "active",
+      "resource": "Support ticketing",
+      "privilege": "tickets.agent",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-098",
+      "entitlementId": "ent-098",
+      "identity": "Yusuf Sample",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-099",
+      "entitlementId": "ent-099",
+      "identity": "Yusuf Sample",
+      "identityStatus": "active",
+      "resource": "Contract vault",
+      "privilege": "contracts.read",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-103",
+      "entitlementId": "ent-103",
+      "identity": "Mateo Placeholder",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-104",
+      "entitlementId": "ent-104",
+      "identity": "Mateo Placeholder",
+      "identityStatus": "active",
+      "resource": "HR records",
+      "privilege": "hr.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-106",
+      "entitlementId": "ent-106",
+      "identity": "Tala Example",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-107",
+      "entitlementId": "ent-107",
+      "identity": "Tala Example",
+      "identityStatus": "active",
+      "resource": "Source repositories",
+      "privilege": "repo.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-108",
+      "entitlementId": "ent-108",
+      "identity": "Tala Example",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.readonly",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-109",
+      "entitlementId": "ent-109",
+      "identity": "Ada Synthetic",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-110",
+      "entitlementId": "ent-110",
+      "identity": "Ada Synthetic",
+      "identityStatus": "active",
+      "resource": "Customer CRM",
+      "privilege": "crm.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-111",
+      "entitlementId": "ent-111",
+      "identity": "Hana Fixture",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-112",
+      "entitlementId": "ent-112",
+      "identity": "Hana Fixture",
+      "identityStatus": "active",
+      "resource": "Support ticketing",
+      "privilege": "tickets.agent",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-113",
+      "entitlementId": "ent-113",
+      "identity": "Oren Mock",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-114",
+      "entitlementId": "ent-114",
+      "identity": "Oren Mock",
+      "identityStatus": "active",
+      "resource": "Contract vault",
+      "privilege": "contracts.read",
+      "reviewer": "id-mgr-legal",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-116",
+      "entitlementId": "ent-116",
+      "identity": "Viggo Demo",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-117",
+      "entitlementId": "ent-117",
+      "identity": "Viggo Demo",
+      "identityStatus": "active",
+      "resource": "Payroll (synthetic ERP)",
+      "privilege": "payroll.view",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-118",
+      "entitlementId": "ent-118",
+      "identity": "Viggo Demo",
+      "identityStatus": "active",
+      "resource": "Accounts payable",
+      "privilege": "vendor.create",
+      "reviewer": "id-mgr-finance",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-119",
+      "entitlementId": "ent-119",
+      "identity": "Caius Sample",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-120",
+      "entitlementId": "ent-120",
+      "identity": "Caius Sample",
+      "identityStatus": "active",
+      "resource": "HR records",
+      "privilege": "hr.read",
+      "reviewer": "id-mgr-people",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-121",
+      "entitlementId": "ent-121",
+      "identity": "Juno Testcase",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-122",
+      "entitlementId": "ent-122",
+      "identity": "Juno Testcase",
+      "identityStatus": "active",
+      "resource": "Source repositories",
+      "privilege": "repo.read",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-123",
+      "entitlementId": "ent-123",
+      "identity": "Juno Testcase",
+      "identityStatus": "active",
+      "resource": "Production cloud account",
+      "privilege": "prod.readonly",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-125",
+      "entitlementId": "ent-125",
+      "identity": "Quill Placeholder",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-126",
+      "entitlementId": "ent-126",
+      "identity": "Quill Placeholder",
+      "identityStatus": "active",
+      "resource": "Customer CRM",
+      "privilege": "crm.read",
+      "reviewer": "id-mgr-sales",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-128",
+      "entitlementId": "ent-128",
+      "identity": "Ximena Example",
+      "identityStatus": "active",
+      "resource": "Internal wiki",
+      "privilege": "wiki.read",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-129",
+      "entitlementId": "ent-129",
+      "identity": "Ximena Example",
+      "identityStatus": "active",
+      "resource": "Support ticketing",
+      "privilege": "tickets.agent",
+      "reviewer": "id-mgr-support",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-132",
+      "entitlementId": "ent-132",
+      "identity": "svc-billing.example",
+      "identityStatus": "active",
+      "resource": "Analytics warehouse",
+      "privilege": "analytics.query",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    },
+    {
+      "itemId": "ri-ent-134",
+      "entitlementId": "ent-134",
+      "identity": "svc-etl.example",
+      "identityStatus": "active",
+      "resource": "Analytics warehouse",
+      "privilege": "analytics.query",
+      "reviewer": "id-mgr-eng",
+      "state": "pending",
+      "riskScore": 0,
+      "hints": [],
+      "lastDecision": null
+    }
+  ],
+  "decisions": [
+    {
+      "seq": 1,
+      "itemId": "ri-ent-141",
+      "actor": "id-mgr-eng",
+      "decision": "revoke",
+      "reason": "Quarterly review: access no longer required",
+      "at": "2026-10-01"
+    },
+    {
+      "seq": 2,
+      "itemId": "ri-ent-138",
+      "actor": "id-mgr-finance",
+      "decision": "approve",
+      "reason": "Needed for payroll preparation",
+      "at": "2026-10-01"
+    },
+    {
+      "seq": 3,
+      "itemId": "ri-ent-018",
+      "actor": "id-mgr-finance",
+      "decision": "approve",
+      "reason": "Also needed",
+      "at": "2026-10-01",
+      "sodOverride": {
+        "ruleId": "sod-payroll",
+        "rationale": "Compensating control: CFO reviews every approved payroll run before release"
+      }
+    },
+    {
+      "seq": 4,
+      "itemId": "ri-ent-133",
+      "actor": "id-mgr-eng",
+      "decision": "revoke",
+      "reason": "Bulk: access reviewed, not needed for current role",
+      "at": "2026-10-01"
+    },
+    {
+      "seq": 5,
+      "itemId": "ri-ent-124",
+      "actor": "id-mgr-eng",
+      "decision": "revoke",
+      "reason": "Bulk: access reviewed, not needed for current role",
+      "at": "2026-10-01"
+    },
+    {
+      "seq": 6,
+      "itemId": "ri-ent-002",
+      "actor": "campaign-owner",
+      "decision": "delegate",
+      "reason": "IT manager owns service accounts",
+      "at": "2026-10-01",
+      "delegateTo": "id-mgr-eng"
+    }
+  ],
+  "disclaimer": "Educational prototype output from synthetic data. Not an attestation of any real system."
+}

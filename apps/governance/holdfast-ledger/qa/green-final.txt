@@ -1,0 +1,4 @@
+ ✓ src/engine/ledger.test.ts (13 tests) 36ms
+ ✓ src/engine/safe.test.ts (10 tests) 20ms
+ ✓ src/fixtures/validate-demo.test.ts (1 test) 15ms
+      Tests  24 passed (24)

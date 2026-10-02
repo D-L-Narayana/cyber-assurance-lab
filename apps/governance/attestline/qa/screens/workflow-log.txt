@@ -1,0 +1,20 @@
+title=Attestline
+focused=Ada Placeholder | id-008 · employee · leaver
+expected error: A reason is required because this entitlement carries risk hints.
+after revoke: Revoked prod.admin for Ada Placeholder.
+sod rows visible for this reviewer=6
+sod first side: Approved payroll.approve for Dalia Example.
+counterpart rows for Dalia Example=2
+sod second side without override: Approving this would leave both sides of "sod-payroll" approved. Record an SoD override rationale (10+ characters) or revoke one side.
+sod second side with override: Approved payroll.create for Dalia Example.
+selected count text: 2 selected
+bulk: 2 items revoked with one shared reason.
+delegate dropdown offers reviewed identity id-015? false
+unrouted control visible=1
+route: Routed ri-ent-002 to id-mgr-eng as campaign-owner; the audit log records it as a delegation.
+csv lines=147 header=item,entitlement,identity,status,resource,privilege,reviewer,state,risk,hints,decision_reason,sod_override
+json schema=attestline.certification/v1 decisions=6 decided=5
+import error: Fixture rejected: asOf must be a valid ISO date (YYYY-MM-DD). · label must be a string. · identities[0] is not an object. · resources must be an array. · entitlements must be an array.
+mobile scrollWidth=375 viewport=375
+tablet scrollWidth=768 viewport=768
+pageErrors=[]

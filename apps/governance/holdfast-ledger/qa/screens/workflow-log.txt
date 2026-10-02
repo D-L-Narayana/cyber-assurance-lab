@@ -1,0 +1,20 @@
+title=Holdfast Ledger
+states: Retained 29 Due today 2 Overdue 21 On hold 8 Disposed 2 No schedule 6 Synthetic retention ledger — four systems, three schedules · 68 records · 4 holds
+plan1: Plan c2aa62869075… : 23 to dispose, 8 blocked by holds.
+plan1 again: Plan c2aa62869075… : 23 to dispose, 8 blocked by holds. sameId=true
+execute: Simulated 23 disposals; 23 receipts in the chain.
+after re-plan: Plan 7a99f743de0e… : 0 to dispose, 8 blocked by holds.
+execute button after hold change disabled=true (plan invalidated in UI; engine also re-derives the plan id)
+release: Hold hold-audit-hris toggled as of 2026-10-01; due states recomputed and the next plan id will differ.
+plan2 differs=true Plan 8d90429d110b… : 5 to dispose, 3 blocked by holds.
+execute2: Simulated 5 disposals; 28 receipts in the chain.
+verify: Chain intact: 28 receipts verified on the ledger.
+verify tampered: Chain broken at receipt #15 on the tampered copy: Receipt 15 content does not match its hash (tampered).
+verify restored: Chain intact: 28 receipts verified on the ledger.
+clock 2027: Retained 13 Due today 0 Overdue 15 On hold 4 Disposed 30 No schedule 6 Synthetic retention ledger — four systems, three schedules · 68 records · 4 holds
+json schema=holdfast.audit/v1 plans=2 receipts=28 chain.ok=true reconciled=true
+receipts csv lines=29
+import error: Fixture rejected: records[0] is not an object. · schedule s: category required · schedule s: bad trigger · schedule s: retainDays must be an integer 0–36500 · schedule s: bad action
+mobile scrollWidth=375 viewport=375
+tablet scrollWidth=768 viewport=768
+pageErrors=[]

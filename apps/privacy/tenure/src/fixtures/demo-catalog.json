@@ -1,0 +1,888 @@
+{
+  "schema": "tenure.catalog",
+  "version": 1,
+  "asOf": "2026-10-01",
+  "owners": [
+    {
+      "id": "own-priya",
+      "name": "Priya Vellore",
+      "team": "Customer Platforms",
+      "active": true
+    },
+    {
+      "id": "own-marcus",
+      "name": "Marcus Odhiambo",
+      "team": "Finance Systems",
+      "active": true
+    },
+    {
+      "id": "own-lena",
+      "name": "Lena Strandquist",
+      "team": "Growth",
+      "active": true
+    },
+    {
+      "id": "own-dev",
+      "name": "Devika Raman",
+      "team": "People Operations",
+      "active": true
+    },
+    {
+      "id": "own-ravi",
+      "name": "Ravi Thandeka",
+      "team": "Data Science",
+      "active": false,
+      "leftOn": "2026-05-31"
+    },
+    {
+      "id": "own-sofia",
+      "name": "Sofia Ekwueme",
+      "team": "Privacy Office",
+      "active": true
+    }
+  ],
+  "systems": [
+    {
+      "id": "crm",
+      "name": "Northwind CRM",
+      "ownerId": "own-priya",
+      "region": "EU",
+      "hosting": "internal",
+      "purposes": [
+        "service",
+        "marketing"
+      ]
+    },
+    {
+      "id": "billing",
+      "name": "Ledgerly Billing",
+      "ownerId": "own-marcus",
+      "region": "EU",
+      "hosting": "vendor",
+      "vendor": "Ledgerly (synthetic)",
+      "purposes": [
+        "billing",
+        "tax"
+      ]
+    },
+    {
+      "id": "support",
+      "name": "Helpdesk",
+      "ownerId": "own-priya",
+      "region": "EU",
+      "hosting": "vendor",
+      "vendor": "Deskwright (synthetic)",
+      "purposes": [
+        "service"
+      ]
+    },
+    {
+      "id": "warehouse",
+      "name": "Analytics Warehouse",
+      "ownerId": "own-marcus",
+      "region": "EU",
+      "hosting": "internal",
+      "purposes": [
+        "analytics",
+        "reporting"
+      ]
+    },
+    {
+      "id": "marketing-platform",
+      "name": "Campaign Platform",
+      "ownerId": "own-lena",
+      "region": "US",
+      "hosting": "vendor",
+      "vendor": "Mailvane (synthetic)",
+      "purposes": [
+        "marketing"
+      ]
+    },
+    {
+      "id": "web-analytics",
+      "name": "Web Analytics",
+      "ownerId": "own-lena",
+      "region": "US",
+      "hosting": "vendor",
+      "vendor": "Pageglass (synthetic)",
+      "purposes": [
+        "analytics"
+      ]
+    },
+    {
+      "id": "hr-core",
+      "name": "HR Core",
+      "ownerId": "own-dev",
+      "region": "IN",
+      "hosting": "internal",
+      "purposes": [
+        "employment",
+        "payroll"
+      ]
+    },
+    {
+      "id": "payroll-vendor",
+      "name": "Payroll Processor",
+      "ownerId": "own-dev",
+      "region": "IN",
+      "hosting": "vendor",
+      "vendor": "Salarix (synthetic)",
+      "purposes": [
+        "payroll"
+      ]
+    },
+    {
+      "id": "identity-provider",
+      "name": "Identity Provider",
+      "ownerId": "own-marcus",
+      "region": "EU",
+      "hosting": "internal",
+      "purposes": [
+        "authentication",
+        "security"
+      ]
+    },
+    {
+      "id": "data-science-sandbox",
+      "name": "Data Science Sandbox",
+      "ownerId": "own-ravi",
+      "region": "US",
+      "hosting": "internal",
+      "purposes": [
+        "research"
+      ]
+    },
+    {
+      "id": "backup-archive",
+      "name": "Cold Backup Archive",
+      "region": "UK",
+      "hosting": "vendor",
+      "vendor": "Vaultline (synthetic)",
+      "purposes": [
+        "backup"
+      ]
+    },
+    {
+      "id": "ticket-archive",
+      "name": "Ticket Archive",
+      "ownerId": "own-priya",
+      "region": "SG",
+      "hosting": "vendor",
+      "vendor": "Deskwright (synthetic)",
+      "purposes": [
+        "service"
+      ]
+    }
+  ],
+  "schedules": [
+    {
+      "id": "sch-active-2y",
+      "name": "Active customer data \u2014 2 years after last activity",
+      "days": 730,
+      "trigger": "last-activity",
+      "reviewEveryDays": 365
+    },
+    {
+      "id": "sch-tax-7y",
+      "name": "Financial records \u2014 7 years after contract end",
+      "days": 2555,
+      "trigger": "contract-end",
+      "reviewEveryDays": 365,
+      "reference": "Synthetic fiscal retention rule (placeholder)"
+    },
+    {
+      "id": "sch-support-18m",
+      "name": "Support conversations \u2014 18 months",
+      "days": 548,
+      "trigger": "last-activity",
+      "reviewEveryDays": 180
+    },
+    {
+      "id": "sch-hr-6y",
+      "name": "Employment records \u2014 6 years after employment end",
+      "days": 2190,
+      "trigger": "employment-end",
+      "reviewEveryDays": 365
+    },
+    {
+      "id": "sch-logs-90d",
+      "name": "Technical logs \u2014 90 days",
+      "days": 90,
+      "trigger": "collection",
+      "reviewEveryDays": 180
+    },
+    {
+      "id": "sch-marketing-3y",
+      "name": "Marketing data \u2014 3 years after last activity",
+      "days": 1095,
+      "trigger": "last-activity",
+      "reviewEveryDays": 365
+    }
+  ],
+  "elements": [
+    {
+      "id": "crm.customer-id",
+      "name": "Customer id",
+      "category": "identifier",
+      "systemId": "crm",
+      "purposes": [
+        "service",
+        "marketing"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-02-14",
+      "subjectCount": 182000
+    },
+    {
+      "id": "crm.email",
+      "name": "Email address",
+      "category": "contact",
+      "systemId": "crm",
+      "purposes": [
+        "service",
+        "marketing"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-02-14",
+      "subjectCount": 182000
+    },
+    {
+      "id": "crm.phone",
+      "name": "Phone number",
+      "category": "contact",
+      "systemId": "crm",
+      "purposes": [
+        "service"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2025-03-01"
+    },
+    {
+      "id": "crm.postal-address",
+      "name": "Postal address",
+      "category": "contact",
+      "systemId": "crm",
+      "purposes": [
+        "service"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-02-14"
+    },
+    {
+      "id": "crm.marketing-preferences",
+      "name": "Marketing preferences",
+      "category": "behavioural",
+      "systemId": "crm",
+      "purposes": [
+        "marketing"
+      ],
+      "scheduleId": "sch-marketing-3y",
+      "sensitivity": 1,
+      "lastReviewedOn": "2026-02-14"
+    },
+    {
+      "id": "crm.agent-notes",
+      "name": "Agent notes",
+      "category": "behavioural",
+      "systemId": "crm",
+      "purposes": [
+        "service"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 3,
+      "lastReviewedOn": "2024-11-20"
+    },
+    {
+      "id": "billing.customer-id",
+      "name": "Customer id",
+      "category": "identifier",
+      "systemId": "billing",
+      "purposes": [
+        "billing"
+      ],
+      "scheduleId": "sch-tax-7y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-01-05"
+    },
+    {
+      "id": "billing.invoices",
+      "name": "Invoices",
+      "category": "financial",
+      "systemId": "billing",
+      "purposes": [
+        "billing",
+        "tax"
+      ],
+      "scheduleId": "sch-tax-7y",
+      "sensitivity": 3,
+      "lastReviewedOn": "2026-01-05",
+      "subjectCount": 140000
+    },
+    {
+      "id": "billing.payment-token",
+      "name": "Payment token (last 4)",
+      "category": "financial",
+      "systemId": "billing",
+      "purposes": [
+        "billing"
+      ],
+      "scheduleId": "sch-tax-7y",
+      "sensitivity": 3,
+      "lastReviewedOn": "2026-01-05"
+    },
+    {
+      "id": "billing.purchase-history",
+      "name": "Purchase history",
+      "category": "financial",
+      "systemId": "billing",
+      "purposes": [
+        "billing",
+        "tax"
+      ],
+      "scheduleId": "sch-tax-7y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-01-05"
+    },
+    {
+      "id": "billing.tax-id",
+      "name": "Tax identification number",
+      "category": "identifier",
+      "systemId": "billing",
+      "purposes": [
+        "tax"
+      ],
+      "scheduleId": "sch-tax-7y",
+      "sensitivity": 4,
+      "lastReviewedOn": "2026-01-05"
+    },
+    {
+      "id": "support.ticket-id",
+      "name": "Ticket id",
+      "category": "identifier",
+      "systemId": "support",
+      "purposes": [
+        "service"
+      ],
+      "scheduleId": "sch-support-18m",
+      "sensitivity": 1,
+      "lastReviewedOn": "2026-06-01"
+    },
+    {
+      "id": "support.customer-email",
+      "name": "Customer email",
+      "category": "contact",
+      "systemId": "support",
+      "purposes": [
+        "service"
+      ],
+      "scheduleId": "sch-support-18m",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-06-01"
+    },
+    {
+      "id": "support.chat-transcripts",
+      "name": "Chat transcripts",
+      "category": "behavioural",
+      "systemId": "support",
+      "purposes": [
+        "service"
+      ],
+      "sensitivity": 3,
+      "lastReviewedOn": "2026-06-01"
+    },
+    {
+      "id": "support.attachments",
+      "name": "Attachments",
+      "category": "behavioural",
+      "systemId": "support",
+      "purposes": [
+        "service"
+      ],
+      "scheduleId": "sch-support-18m",
+      "sensitivity": 3,
+      "lastReviewedOn": "2025-01-15"
+    },
+    {
+      "id": "warehouse.customer-id",
+      "name": "Customer id (hashed)",
+      "category": "identifier",
+      "systemId": "warehouse",
+      "purposes": [
+        "analytics",
+        "reporting"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 1,
+      "lastReviewedOn": "2026-04-01"
+    },
+    {
+      "id": "warehouse.purchase-history",
+      "name": "Purchase history",
+      "category": "financial",
+      "systemId": "warehouse",
+      "purposes": [
+        "analytics",
+        "reporting"
+      ],
+      "scheduleId": "sch-tax-7y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-04-01",
+      "retentionDaysOverride": 3650
+    },
+    {
+      "id": "warehouse.email",
+      "name": "Email address",
+      "category": "contact",
+      "systemId": "warehouse",
+      "purposes": [
+        "analytics"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-04-01"
+    },
+    {
+      "id": "warehouse.web-sessions",
+      "name": "Web sessions",
+      "category": "behavioural",
+      "systemId": "warehouse",
+      "purposes": [
+        "analytics"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 1,
+      "lastReviewedOn": "2026-04-01"
+    },
+    {
+      "id": "marketing-platform.email",
+      "name": "Email address",
+      "category": "contact",
+      "systemId": "marketing-platform",
+      "purposes": [
+        "marketing"
+      ],
+      "scheduleId": "sch-marketing-3y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2025-06-30",
+      "retentionDaysOverride": 3650
+    },
+    {
+      "id": "marketing-platform.campaign-engagement",
+      "name": "Campaign engagement",
+      "category": "behavioural",
+      "systemId": "marketing-platform",
+      "purposes": [
+        "marketing"
+      ],
+      "scheduleId": "sch-marketing-3y",
+      "sensitivity": 1,
+      "lastReviewedOn": "2025-06-30"
+    },
+    {
+      "id": "web-analytics.client-id",
+      "name": "Client id (cookie)",
+      "category": "identifier",
+      "systemId": "web-analytics",
+      "purposes": [
+        "analytics"
+      ],
+      "scheduleId": "sch-marketing-3y",
+      "sensitivity": 1,
+      "lastReviewedOn": "2026-07-01"
+    },
+    {
+      "id": "web-analytics.page-views",
+      "name": "Page views",
+      "category": "behavioural",
+      "systemId": "web-analytics",
+      "purposes": [
+        "analytics"
+      ],
+      "scheduleId": "sch-marketing-3y",
+      "sensitivity": 1,
+      "lastReviewedOn": "2026-07-01"
+    },
+    {
+      "id": "web-analytics.ip-address",
+      "name": "IP address",
+      "category": "technical",
+      "systemId": "web-analytics",
+      "purposes": [
+        "analytics"
+      ],
+      "scheduleId": "sch-logs-90d",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-07-01"
+    },
+    {
+      "id": "hr-core.employee-id",
+      "name": "Employee id",
+      "category": "identifier",
+      "systemId": "hr-core",
+      "purposes": [
+        "employment",
+        "payroll"
+      ],
+      "scheduleId": "sch-hr-6y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-03-10"
+    },
+    {
+      "id": "hr-core.salary",
+      "name": "Salary",
+      "category": "financial",
+      "systemId": "hr-core",
+      "purposes": [
+        "payroll"
+      ],
+      "scheduleId": "sch-hr-6y",
+      "sensitivity": 3,
+      "lastReviewedOn": "2026-03-10"
+    },
+    {
+      "id": "hr-core.bank-details",
+      "name": "Bank details",
+      "category": "financial",
+      "systemId": "hr-core",
+      "purposes": [
+        "payroll"
+      ],
+      "scheduleId": "sch-hr-6y",
+      "sensitivity": 4,
+      "lastReviewedOn": "2026-03-10"
+    },
+    {
+      "id": "hr-core.health-declaration",
+      "name": "Health declaration",
+      "category": "special-category",
+      "systemId": "hr-core",
+      "purposes": [
+        "employment"
+      ],
+      "sensitivity": 4,
+      "lastReviewedOn": "2026-03-10"
+    },
+    {
+      "id": "hr-core.emergency-contact",
+      "name": "Emergency contact",
+      "category": "contact",
+      "systemId": "hr-core",
+      "purposes": [
+        "employment"
+      ],
+      "scheduleId": "sch-hr-6y",
+      "sensitivity": 2
+    },
+    {
+      "id": "payroll-vendor.employee-id",
+      "name": "Employee id",
+      "category": "identifier",
+      "systemId": "payroll-vendor",
+      "purposes": [
+        "payroll"
+      ],
+      "scheduleId": "sch-hr-6y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-03-10"
+    },
+    {
+      "id": "payroll-vendor.salary",
+      "name": "Salary",
+      "category": "financial",
+      "systemId": "payroll-vendor",
+      "purposes": [
+        "payroll"
+      ],
+      "scheduleId": "sch-hr-6y",
+      "sensitivity": 3,
+      "lastReviewedOn": "2026-03-10"
+    },
+    {
+      "id": "payroll-vendor.bank-details",
+      "name": "Bank details",
+      "category": "financial",
+      "systemId": "payroll-vendor",
+      "purposes": [
+        "payroll"
+      ],
+      "scheduleId": "sch-hr-6y",
+      "sensitivity": 4,
+      "lastReviewedOn": "2026-03-10"
+    },
+    {
+      "id": "identity-provider.username",
+      "name": "Username",
+      "category": "identifier",
+      "systemId": "identity-provider",
+      "purposes": [
+        "authentication"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-08-01"
+    },
+    {
+      "id": "identity-provider.password-hash",
+      "name": "Password hash",
+      "category": "credentials",
+      "systemId": "identity-provider",
+      "purposes": [
+        "authentication"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 4,
+      "lastReviewedOn": "2026-08-01"
+    },
+    {
+      "id": "identity-provider.auth-logs",
+      "name": "Authentication logs",
+      "category": "technical",
+      "systemId": "identity-provider",
+      "purposes": [
+        "security"
+      ],
+      "scheduleId": "sch-logs-90d",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-08-01"
+    },
+    {
+      "id": "data-science-sandbox.email",
+      "name": "Email address",
+      "category": "contact",
+      "systemId": "data-science-sandbox",
+      "purposes": [
+        "research"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2025-02-01"
+    },
+    {
+      "id": "data-science-sandbox.purchase-history",
+      "name": "Purchase history",
+      "category": "financial",
+      "systemId": "data-science-sandbox",
+      "purposes": [
+        "research"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2025-02-01"
+    },
+    {
+      "id": "backup-archive.full-snapshot",
+      "name": "Full database snapshots",
+      "category": "identifier",
+      "systemId": "backup-archive",
+      "purposes": [
+        "backup"
+      ],
+      "scheduleId": "sch-tax-7y",
+      "sensitivity": 3,
+      "lastReviewedOn": "2025-09-01"
+    },
+    {
+      "id": "ticket-archive.customer-email",
+      "name": "Customer email",
+      "category": "contact",
+      "systemId": "ticket-archive",
+      "purposes": [
+        "service"
+      ],
+      "scheduleId": "sch-support-18m",
+      "sensitivity": 2,
+      "lastReviewedOn": "2026-06-01"
+    },
+    {
+      "id": "ticket-archive.chat-transcripts",
+      "name": "Chat transcripts",
+      "category": "behavioural",
+      "systemId": "ticket-archive",
+      "purposes": [
+        "service"
+      ],
+      "scheduleId": "sch-support-18m",
+      "sensitivity": 3,
+      "lastReviewedOn": "2026-06-01"
+    },
+    {
+      "id": "legacy-crm.phone",
+      "name": "Phone number",
+      "category": "contact",
+      "systemId": "legacy-crm",
+      "purposes": [
+        "service"
+      ],
+      "scheduleId": "sch-active-2y",
+      "sensitivity": 2,
+      "lastReviewedOn": "2023-05-01"
+    }
+  ],
+  "flows": [
+    {
+      "id": "flow-crm-billing",
+      "fromSystemId": "crm",
+      "toSystemId": "billing",
+      "elementIds": [
+        "crm.customer-id",
+        "crm.email"
+      ],
+      "mechanism": "not-applicable",
+      "description": "Customer master sync"
+    },
+    {
+      "id": "flow-crm-support",
+      "fromSystemId": "crm",
+      "toSystemId": "support",
+      "elementIds": [
+        "crm.customer-id",
+        "crm.email"
+      ],
+      "mechanism": "not-applicable"
+    },
+    {
+      "id": "flow-crm-warehouse",
+      "fromSystemId": "crm",
+      "toSystemId": "warehouse",
+      "elementIds": [
+        "crm.customer-id",
+        "crm.email"
+      ],
+      "mechanism": "not-applicable",
+      "description": "Nightly load"
+    },
+    {
+      "id": "flow-billing-warehouse",
+      "fromSystemId": "billing",
+      "toSystemId": "warehouse",
+      "elementIds": [
+        "billing.invoices",
+        "billing.purchase-history"
+      ],
+      "mechanism": "not-applicable"
+    },
+    {
+      "id": "flow-warehouse-crm",
+      "fromSystemId": "warehouse",
+      "toSystemId": "crm",
+      "elementIds": [
+        "warehouse.purchase-history"
+      ],
+      "mechanism": "not-applicable",
+      "description": "Segment enrichment written back to CRM"
+    },
+    {
+      "id": "flow-crm-marketing",
+      "fromSystemId": "crm",
+      "toSystemId": "marketing-platform",
+      "elementIds": [
+        "crm.email",
+        "crm.marketing-preferences"
+      ],
+      "mechanism": "none",
+      "description": "Audience sync"
+    },
+    {
+      "id": "flow-web-warehouse",
+      "fromSystemId": "web-analytics",
+      "toSystemId": "warehouse",
+      "elementIds": [
+        "web-analytics.client-id",
+        "web-analytics.page-views"
+      ],
+      "mechanism": "standard-contractual-clauses"
+    },
+    {
+      "id": "flow-crm-sandbox",
+      "fromSystemId": "crm",
+      "toSystemId": "data-science-sandbox",
+      "elementIds": [
+        "crm.email"
+      ],
+      "mechanism": "standard-contractual-clauses",
+      "description": "Ad-hoc extract for churn research"
+    },
+    {
+      "id": "flow-warehouse-sandbox",
+      "fromSystemId": "warehouse",
+      "toSystemId": "data-science-sandbox",
+      "elementIds": [
+        "warehouse.purchase-history"
+      ],
+      "mechanism": "standard-contractual-clauses"
+    },
+    {
+      "id": "flow-hr-payroll",
+      "fromSystemId": "hr-core",
+      "toSystemId": "payroll-vendor",
+      "elementIds": [
+        "hr-core.employee-id",
+        "hr-core.salary",
+        "hr-core.bank-details"
+      ],
+      "mechanism": "not-applicable"
+    },
+    {
+      "id": "flow-billing-backup",
+      "fromSystemId": "billing",
+      "toSystemId": "backup-archive",
+      "elementIds": [
+        "billing.invoices"
+      ],
+      "mechanism": "adequacy"
+    },
+    {
+      "id": "flow-support-archive",
+      "fromSystemId": "support",
+      "toSystemId": "ticket-archive",
+      "elementIds": [
+        "support.customer-email",
+        "support.chat-transcripts"
+      ],
+      "mechanism": "standard-contractual-clauses"
+    },
+    {
+      "id": "flow-idp-warehouse",
+      "fromSystemId": "identity-provider",
+      "toSystemId": "warehouse",
+      "elementIds": [
+        "identity-provider.auth-logs"
+      ],
+      "mechanism": "not-applicable"
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "ex-001",
+      "elementId": "warehouse.purchase-history",
+      "acceptsFinding": "RETENTION_INFLATION",
+      "rationale": "Ten-year aggregate reporting requirement (synthetic); row-level data pseudonymised after 7 years.",
+      "approvedBy": "own-sofia",
+      "approvedOn": "2026-04-15",
+      "expiresOn": "2027-04-15",
+      "status": "approved"
+    },
+    {
+      "id": "ex-002",
+      "elementId": "marketing-platform.email",
+      "acceptsFinding": "RETENTION_INFLATION",
+      "rationale": "Vendor default retention; renegotiation pending.",
+      "approvedBy": "own-sofia",
+      "approvedOn": "2025-06-30",
+      "expiresOn": "2026-06-30",
+      "status": "approved"
+    },
+    {
+      "id": "ex-003",
+      "elementId": "support.chat-transcripts",
+      "acceptsFinding": "MISSING_SCHEDULE",
+      "rationale": "Schedule proposal drafted, awaiting owner sign-off.",
+      "expiresOn": "2026-12-31",
+      "status": "proposed"
+    }
+  ]
+}

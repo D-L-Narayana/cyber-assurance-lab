@@ -1,0 +1,684 @@
+{
+  "schema": "holdfast.audit/v1",
+  "label": "Synthetic retention ledger — four systems, three schedules",
+  "asOf": "2027-10-01",
+  "summary": {
+    "retained": 13,
+    "due": 0,
+    "overdue": 15,
+    "held": 4,
+    "disposed": 30,
+    "unscheduled": 6,
+    "receipts": 28
+  },
+  "plans": [
+    {
+      "id": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "asOf": "2026-10-01",
+      "items": [
+        {
+          "recordId": "rec-0004",
+          "systemId": "hris",
+          "action": "delete",
+          "decision": "skip",
+          "reason": "Blocked by active hold hold-audit-hris; retention due 2026-05-03."
+        },
+        {
+          "recordId": "rec-0008",
+          "systemId": "hris",
+          "action": "delete",
+          "decision": "skip",
+          "reason": "Blocked by active hold hold-audit-hris; retention due 2026-09-12."
+        },
+        {
+          "recordId": "rec-0009",
+          "systemId": "hris",
+          "action": "delete",
+          "decision": "skip",
+          "reason": "Blocked by active hold hold-audit-hris; retention due 2024-12-25."
+        },
+        {
+          "recordId": "rec-0011",
+          "systemId": "hris",
+          "action": "delete",
+          "decision": "skip",
+          "reason": "Blocked by active hold hold-audit-hris; retention due 2025-05-01."
+        },
+        {
+          "recordId": "rec-0012",
+          "systemId": "hris",
+          "action": "delete",
+          "decision": "skip",
+          "reason": "Blocked by active hold hold-audit-hris; retention due 2025-09-27."
+        },
+        {
+          "recordId": "rec-0015",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "skip",
+          "reason": "Blocked by active hold hold-tickets-sample; retention due 2025-03-23."
+        },
+        {
+          "recordId": "rec-0016",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "skip",
+          "reason": "Blocked by active hold hold-tickets-sample; retention due 2026-08-26."
+        },
+        {
+          "recordId": "rec-0017",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "skip",
+          "reason": "Blocked by active hold hold-tickets-sample; retention due 2025-01-14."
+        },
+        {
+          "recordId": "rec-0018",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-06-10, 478 days ago."
+        },
+        {
+          "recordId": "rec-0020",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-11-01, 334 days ago."
+        },
+        {
+          "recordId": "rec-0021",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention ended 2026-06-28, 95 days ago."
+        },
+        {
+          "recordId": "rec-0022",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-10-10, 356 days ago."
+        },
+        {
+          "recordId": "rec-0024",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-01-18, 621 days ago."
+        },
+        {
+          "recordId": "rec-0026",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-12-04, 301 days ago."
+        },
+        {
+          "recordId": "rec-0027",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-07-23, 435 days ago."
+        },
+        {
+          "recordId": "rec-0031",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-04-08, 541 days ago."
+        },
+        {
+          "recordId": "rec-0034",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention ended 2024-12-18, 652 days ago."
+        },
+        {
+          "recordId": "rec-0035",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention ended 2026-09-02, 29 days ago."
+        },
+        {
+          "recordId": "rec-0039",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-05-12, 507 days ago."
+        },
+        {
+          "recordId": "rec-0040",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention ended 2026-03-21, 194 days ago."
+        },
+        {
+          "recordId": "rec-0044",
+          "systemId": "mkt",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2026-07-01, 92 days ago."
+        },
+        {
+          "recordId": "rec-0045",
+          "systemId": "mkt",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-09-20, 376 days ago."
+        },
+        {
+          "recordId": "rec-0046",
+          "systemId": "mkt",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-08-23, 404 days ago."
+        },
+        {
+          "recordId": "rec-0050",
+          "systemId": "mkt",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2026-06-05, 118 days ago."
+        },
+        {
+          "recordId": "rec-0051",
+          "systemId": "mkt",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2026-05-29, 125 days ago."
+        },
+        {
+          "recordId": "rec-0055",
+          "systemId": "mkt",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2026-02-01, 242 days ago."
+        },
+        {
+          "recordId": "rec-0056",
+          "systemId": "mkt",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-10-08, 358 days ago."
+        },
+        {
+          "recordId": "rec-0057",
+          "systemId": "mkt",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2026-05-29, 125 days ago."
+        },
+        {
+          "recordId": "rec-0058",
+          "systemId": "mkt",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-10-18, 348 days ago."
+        },
+        {
+          "recordId": "rec-0067",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "dispose",
+          "reason": "Retention period ends today (2026-10-01)."
+        },
+        {
+          "recordId": "rec-0068",
+          "systemId": "mkt",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention period ends today (2026-10-01)."
+        }
+      ],
+      "counts": {
+        "dispose": 23,
+        "skip": 8
+      },
+      "reconciliation": {
+        "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+        "ok": true,
+        "missing": [],
+        "unexpected": [],
+        "skipped": 8
+      }
+    },
+    {
+      "id": "8d90429d110b8c571a88b2e3f661e5362452b35658aa72894e625c73fb34d644",
+      "asOf": "2026-10-01",
+      "items": [
+        {
+          "recordId": "rec-0004",
+          "systemId": "hris",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2026-05-03, 151 days ago."
+        },
+        {
+          "recordId": "rec-0008",
+          "systemId": "hris",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2026-09-12, 19 days ago."
+        },
+        {
+          "recordId": "rec-0009",
+          "systemId": "hris",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2024-12-25, 645 days ago."
+        },
+        {
+          "recordId": "rec-0011",
+          "systemId": "hris",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-05-01, 518 days ago."
+        },
+        {
+          "recordId": "rec-0012",
+          "systemId": "hris",
+          "action": "delete",
+          "decision": "dispose",
+          "reason": "Retention ended 2025-09-27, 369 days ago."
+        },
+        {
+          "recordId": "rec-0015",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "skip",
+          "reason": "Blocked by active hold hold-tickets-sample; retention due 2025-03-23."
+        },
+        {
+          "recordId": "rec-0016",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "skip",
+          "reason": "Blocked by active hold hold-tickets-sample; retention due 2026-08-26."
+        },
+        {
+          "recordId": "rec-0017",
+          "systemId": "desk",
+          "action": "anonymise",
+          "decision": "skip",
+          "reason": "Blocked by active hold hold-tickets-sample; retention due 2025-01-14."
+        }
+      ],
+      "counts": {
+        "dispose": 5,
+        "skip": 3
+      },
+      "reconciliation": {
+        "planId": "8d90429d110b8c571a88b2e3f661e5362452b35658aa72894e625c73fb34d644",
+        "ok": true,
+        "missing": [],
+        "unexpected": [],
+        "skipped": 3
+      }
+    }
+  ],
+  "receipts": [
+    {
+      "seq": 1,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0018",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "9de603d4f01b9bd50c52977ab12b8eb9cf91e18d26dd914cb633caf1fdff429d",
+      "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hash": "cf7f4a8d1c2fccb1ae5eae14c7b0ff36646267534b081f4514099f488bc31bec"
+    },
+    {
+      "seq": 2,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0020",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "433b61ba47dfd40898b91fe7c1ec97e4a64f51f6b946c283c274a3877a3efc71",
+      "prevHash": "cf7f4a8d1c2fccb1ae5eae14c7b0ff36646267534b081f4514099f488bc31bec",
+      "hash": "ced3f461f868f831fe66934255eaf197eb98a7448167c8b1b135b8ed96f73632"
+    },
+    {
+      "seq": 3,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0021",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "cee948d51ee6dd1e483cc151d5ed77c818c5cfdfb5b57b8f00f3665c1766c282",
+      "prevHash": "ced3f461f868f831fe66934255eaf197eb98a7448167c8b1b135b8ed96f73632",
+      "hash": "d9d2e653c0008761df3f337c429aa9c2282dc4a09c97cdeb2b68bdf4d5afc184"
+    },
+    {
+      "seq": 4,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0022",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "4688488e5c9abd8f764390887b2f8ed0db12e1718cf8738827e811ab14f42cf5",
+      "prevHash": "d9d2e653c0008761df3f337c429aa9c2282dc4a09c97cdeb2b68bdf4d5afc184",
+      "hash": "c747575fb8c4ef87c070ca06101a0bb75a303329d910867ed79d062be3a70e98"
+    },
+    {
+      "seq": 5,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0024",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "83c24477a2af500cf7d921c698c85b02a17611cd9d6383c3b119c09287f1dc39",
+      "prevHash": "c747575fb8c4ef87c070ca06101a0bb75a303329d910867ed79d062be3a70e98",
+      "hash": "2bef4752de0c45251cbe2b07d6615aa63d16d8a2e049667d9881f91a657d0f2b"
+    },
+    {
+      "seq": 6,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0026",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "5397c3710a71f1ed51ee4f2d26d003524d9788dd386e26880ebd43fcfea6aeb9",
+      "prevHash": "2bef4752de0c45251cbe2b07d6615aa63d16d8a2e049667d9881f91a657d0f2b",
+      "hash": "e50ee040185a4c3c38b4b2f4e3e3b27613524147266ad4e46e37d54bf684b67d"
+    },
+    {
+      "seq": 7,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0027",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "32aa479e94e3100c1e1749c08d0b221651b10fc60e00402baae1cec6beb3a806",
+      "prevHash": "e50ee040185a4c3c38b4b2f4e3e3b27613524147266ad4e46e37d54bf684b67d",
+      "hash": "e2a1ae268b41a9e2317b05c8633913e289fd7d1fe2b443bbdc6d688d515ec572"
+    },
+    {
+      "seq": 8,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0031",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "169f182a72a4402d601aa7bb2ff2e76c9913fea4e63b4cca8f585d476fb832f3",
+      "prevHash": "e2a1ae268b41a9e2317b05c8633913e289fd7d1fe2b443bbdc6d688d515ec572",
+      "hash": "8113e0364f9a0016538fc09f04263bd3ca9d59c1f922fc84b0f38005d15edb2f"
+    },
+    {
+      "seq": 9,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0034",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "a45395a98eb0ab153466ed80bc2af2d58b1faaa8f33bad22e852c99a24e0267a",
+      "prevHash": "8113e0364f9a0016538fc09f04263bd3ca9d59c1f922fc84b0f38005d15edb2f",
+      "hash": "0572f27792495f16fe5a3be4abf6e930742579ce299679d863371bea744c328e"
+    },
+    {
+      "seq": 10,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0035",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "ff3bc2fd2bf629fe49dd8f92380318fe4f6a9a0af43a51464cb1b6a4ab1ca95e",
+      "prevHash": "0572f27792495f16fe5a3be4abf6e930742579ce299679d863371bea744c328e",
+      "hash": "964d7002d6f7fab26c90f013533a1a3802cca2bafc0cb40878be7b064802de54"
+    },
+    {
+      "seq": 11,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0039",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "2d21508d6e5586c1fe5e555c5fd38fa4c2ed84087dbf4902eeb309cbc5861df2",
+      "prevHash": "964d7002d6f7fab26c90f013533a1a3802cca2bafc0cb40878be7b064802de54",
+      "hash": "c2880df9a81d422b601427a8ed43267172906b5b083063ad931e82b8acdd2ef6"
+    },
+    {
+      "seq": 12,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0040",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "d4d33223c2f1865e0b63d7987a2d56bf23764ca5fe179de1119852ea7c144660",
+      "prevHash": "c2880df9a81d422b601427a8ed43267172906b5b083063ad931e82b8acdd2ef6",
+      "hash": "3844db9689330f8903db373998bb858aa25258464f43816baee40f35f4764134"
+    },
+    {
+      "seq": 13,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0044",
+      "systemId": "mkt",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "b6fde5b483ca284da6e56d89dd6aaf52d31d269d08d91bae64df8e8beb0b3a08",
+      "prevHash": "3844db9689330f8903db373998bb858aa25258464f43816baee40f35f4764134",
+      "hash": "6d6dfec8341e3ac30d7aad2524a378633cccedf07e1ca22a5bbdfbc04adac721"
+    },
+    {
+      "seq": 14,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0045",
+      "systemId": "mkt",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "6b35619ed1a1ccd47a27c375ad6c587fcca85089bbe7fd6859f1937d8194a949",
+      "prevHash": "6d6dfec8341e3ac30d7aad2524a378633cccedf07e1ca22a5bbdfbc04adac721",
+      "hash": "d17ae8db9b7d89d376f4f7fb2aabfe21e17594745e09f8ac350fa0dc900690bc"
+    },
+    {
+      "seq": 15,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0046",
+      "systemId": "mkt",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "18567e1e805b730852f7cede58712a49245023b27d072a7adfb2c47b4c1fcfa8",
+      "prevHash": "d17ae8db9b7d89d376f4f7fb2aabfe21e17594745e09f8ac350fa0dc900690bc",
+      "hash": "4be702b8e3100cebe26af89217753b386db151abede968e17076ac9ae12508dc"
+    },
+    {
+      "seq": 16,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0050",
+      "systemId": "mkt",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "f6cf11e34a7e43fb2578f4ac1f71e603a0b0f58e7874cd0a0be2875e0111daf1",
+      "prevHash": "4be702b8e3100cebe26af89217753b386db151abede968e17076ac9ae12508dc",
+      "hash": "47b9e3cbccb2d3f2a929847d949166745528b9bfc4f9cc9410fe8316b25ae876"
+    },
+    {
+      "seq": 17,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0051",
+      "systemId": "mkt",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "caa312d3f1508b6881183d0472cf9d8394f40399d4a9c9468ab697f5643dc694",
+      "prevHash": "47b9e3cbccb2d3f2a929847d949166745528b9bfc4f9cc9410fe8316b25ae876",
+      "hash": "0abff66b810030041dfe385903dac0866de449e89d6293ff2670e82b6e78ac09"
+    },
+    {
+      "seq": 18,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0055",
+      "systemId": "mkt",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "deb0b4d4d15de4f84c761d3ff1b019f9873d6361ac83c760bb04bce909f1ff1b",
+      "prevHash": "0abff66b810030041dfe385903dac0866de449e89d6293ff2670e82b6e78ac09",
+      "hash": "f9b18f94b30f83f1bf0aba4dca0b34f61abb85b6bef8c203c05a320109090ecc"
+    },
+    {
+      "seq": 19,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0056",
+      "systemId": "mkt",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "0a75cf045b9d7665327e3f310d38ce7d335bb066f96d3f7def7c40a1f056e38f",
+      "prevHash": "f9b18f94b30f83f1bf0aba4dca0b34f61abb85b6bef8c203c05a320109090ecc",
+      "hash": "5912648b43eae84ba153f16e03d36ebea1dd8393cd1c8159b84b88731c3e849a"
+    },
+    {
+      "seq": 20,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0057",
+      "systemId": "mkt",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "899fefd7191719d512e533185b038f2620354f1a605a1ee2243be4754a25af8c",
+      "prevHash": "5912648b43eae84ba153f16e03d36ebea1dd8393cd1c8159b84b88731c3e849a",
+      "hash": "b066d7db7e53ec54f16022dc14ceaa78f64d098986b78bb346761a5959daef76"
+    },
+    {
+      "seq": 21,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0058",
+      "systemId": "mkt",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "c7d8bf9c1568e6386885da9340fbd12446a0968f6670b5e7bb53761b3ddc6262",
+      "prevHash": "b066d7db7e53ec54f16022dc14ceaa78f64d098986b78bb346761a5959daef76",
+      "hash": "529f64332d068c4fa2c7fdd5081446c6ba9219ee8746bc719531607aa90d807f"
+    },
+    {
+      "seq": 22,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0067",
+      "systemId": "desk",
+      "action": "anonymise",
+      "executedOn": "2026-10-01",
+      "recordHash": "779a85f808a5e4b0c53484aacf64cb89971eba7355296b22c22e0d8afe27fbc5",
+      "prevHash": "529f64332d068c4fa2c7fdd5081446c6ba9219ee8746bc719531607aa90d807f",
+      "hash": "84ca688cf5709ab48b36910cde646dec52771a843f408c8cb8f07f729b44bb3f"
+    },
+    {
+      "seq": 23,
+      "planId": "c2aa6286907596911389663de101806e0ee517aec66541706a439ad7b98c2a6f",
+      "recordId": "rec-0068",
+      "systemId": "mkt",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "76ad4c958e117eb1c7c81346fdd8ca229d7b65da065291c2e57dd0a7cbac19a6",
+      "prevHash": "84ca688cf5709ab48b36910cde646dec52771a843f408c8cb8f07f729b44bb3f",
+      "hash": "cca503236c5c9add45aaf6a29a8e6e3929067a5adf2c28c8a13fd03d630ecf03"
+    },
+    {
+      "seq": 24,
+      "planId": "8d90429d110b8c571a88b2e3f661e5362452b35658aa72894e625c73fb34d644",
+      "recordId": "rec-0004",
+      "systemId": "hris",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "a0cc4fcff819d1b6c15a4d253113223cd90ec1577852a07b16059bd4c305011b",
+      "prevHash": "cca503236c5c9add45aaf6a29a8e6e3929067a5adf2c28c8a13fd03d630ecf03",
+      "hash": "1cf54e8322a6de94808a084c0dae7272af218dcba22728e1c382449268edf74b"
+    },
+    {
+      "seq": 25,
+      "planId": "8d90429d110b8c571a88b2e3f661e5362452b35658aa72894e625c73fb34d644",
+      "recordId": "rec-0008",
+      "systemId": "hris",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "e76a1f39c526a999ade305afa40971afa3cc9c30e2a61ff73b1ef47ee3970c80",
+      "prevHash": "1cf54e8322a6de94808a084c0dae7272af218dcba22728e1c382449268edf74b",
+      "hash": "ab652e59f2d409c6329840ff5a31b94c4e7e0a81507d35204587ec293d71dd12"
+    },
+    {
+      "seq": 26,
+      "planId": "8d90429d110b8c571a88b2e3f661e5362452b35658aa72894e625c73fb34d644",
+      "recordId": "rec-0009",
+      "systemId": "hris",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "6b1881d396b248d009ed5aff0c53629c66c50c42dd5a57fb35b17e70be4f710d",
+      "prevHash": "ab652e59f2d409c6329840ff5a31b94c4e7e0a81507d35204587ec293d71dd12",
+      "hash": "c71ea27636b2f2bfaaa60a24cbce72fbaf04d922651062fdabfc7a2916b04b4f"
+    },
+    {
+      "seq": 27,
+      "planId": "8d90429d110b8c571a88b2e3f661e5362452b35658aa72894e625c73fb34d644",
+      "recordId": "rec-0011",
+      "systemId": "hris",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "81fbe485f255591e7fb7bd204ed20057a0b8f069be1c7faa8828eea4c63c3b4f",
+      "prevHash": "c71ea27636b2f2bfaaa60a24cbce72fbaf04d922651062fdabfc7a2916b04b4f",
+      "hash": "43628863df87b3aa3c55084f050d18f44b2088fe2b747ef0071e03fdc4f0e826"
+    },
+    {
+      "seq": 28,
+      "planId": "8d90429d110b8c571a88b2e3f661e5362452b35658aa72894e625c73fb34d644",
+      "recordId": "rec-0012",
+      "systemId": "hris",
+      "action": "delete",
+      "executedOn": "2026-10-01",
+      "recordHash": "9624acb4d67c30452b65f3855e26664a2c7ea79f1615ae6e00d296926cd1f8be",
+      "prevHash": "43628863df87b3aa3c55084f050d18f44b2088fe2b747ef0071e03fdc4f0e826",
+      "hash": "dd48ccaa91e353c3478db6bd4dd44b45e62982b3b5e21ad8aae5465817decefe"
+    }
+  ],
+  "chain": {
+    "ok": true,
+    "note": "28 receipts verified at export time"
+  },
+  "holds": [
+    {
+      "id": "hold-lit-0104",
+      "name": "Litigation hold — subject 0104",
+      "authority": "legal@example.test",
+      "placedOn": "2026-03-14",
+      "releasedOn": null,
+      "scope": {
+        "subjectRef": "subj-0104"
+      }
+    },
+    {
+      "id": "hold-audit-hris",
+      "name": "Regulator inquiry — all HR files",
+      "authority": "compliance@example.test",
+      "placedOn": "2026-08-01",
+      "releasedOn": "2026-10-01",
+      "scope": {
+        "systemId": "hris"
+      }
+    },
+    {
+      "id": "hold-mkt-2025",
+      "name": "Released: 2025 campaign review",
+      "authority": "legal@example.test",
+      "placedOn": "2025-02-01",
+      "releasedOn": "2025-11-30",
+      "scope": {
+        "category": "lead"
+      }
+    },
+    {
+      "id": "hold-tickets-sample",
+      "name": "QA sample of three tickets",
+      "authority": "quality@example.test",
+      "placedOn": "2026-09-20",
+      "releasedOn": null,
+      "scope": {
+        "recordIds": [
+          "rec-0015",
+          "rec-0016",
+          "rec-0017"
+        ]
+      }
+    }
+  ],
+  "disclaimer": "Simulated disposal of synthetic records. No system was modified. Not legal advice."
+}

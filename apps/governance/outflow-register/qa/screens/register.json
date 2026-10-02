@@ -1,0 +1,588 @@
+{
+  "schema": "outflow.register/v1",
+  "label": "Synthetic data-sharing register — six vendors, twelve agreements",
+  "asOf": "2026-10-01",
+  "summary": {
+    "agreements": 12,
+    "vendors": 6,
+    "activeFlows": 14,
+    "issues": {
+      "high": 13,
+      "medium": 12,
+      "low": 3
+    }
+  },
+  "queue": [
+    {
+      "agreementId": "ag-06",
+      "score": 65,
+      "breakdown": [
+        {
+          "factor": "expiry",
+          "points": 15,
+          "note": "91 days to 2026-12-31"
+        },
+        {
+          "factor": "restricted categories",
+          "points": 20,
+          "note": "payroll, health"
+        },
+        {
+          "factor": "active flows",
+          "points": 10,
+          "note": "2 active flows"
+        },
+        {
+          "factor": "open obligations",
+          "points": 10,
+          "note": "2 without evidence"
+        },
+        {
+          "factor": "owner",
+          "points": 10,
+          "note": "no active owner"
+        }
+      ],
+      "daysToEnd": 91
+    },
+    {
+      "agreementId": "ag-01",
+      "score": 60,
+      "breakdown": [
+        {
+          "factor": "expiry",
+          "points": 25,
+          "note": "50 days to 2026-11-20"
+        },
+        {
+          "factor": "restricted categories",
+          "points": 20,
+          "note": "payroll, bank_details"
+        },
+        {
+          "factor": "active flows",
+          "points": 5,
+          "note": "1 active flow"
+        },
+        {
+          "factor": "open obligations",
+          "points": 10,
+          "note": "2 without evidence"
+        },
+        {
+          "factor": "owner",
+          "points": 0,
+          "note": "accountable owner in place"
+        }
+      ],
+      "daysToEnd": 50
+    },
+    {
+      "agreementId": "ag-03",
+      "score": 50,
+      "breakdown": [
+        {
+          "factor": "expiry",
+          "points": 40,
+          "note": "ended 2026-07-31"
+        },
+        {
+          "factor": "restricted categories",
+          "points": 0,
+          "note": "none"
+        },
+        {
+          "factor": "active flows",
+          "points": 5,
+          "note": "1 active flow"
+        },
+        {
+          "factor": "open obligations",
+          "points": 5,
+          "note": "1 without evidence"
+        },
+        {
+          "factor": "owner",
+          "points": 0,
+          "note": "accountable owner in place"
+        }
+      ],
+      "daysToEnd": null
+    },
+    {
+      "agreementId": "ag-04",
+      "score": 45,
+      "breakdown": [
+        {
+          "factor": "expiry",
+          "points": 35,
+          "note": "24 days to 2026-10-25"
+        },
+        {
+          "factor": "restricted categories",
+          "points": 0,
+          "note": "none"
+        },
+        {
+          "factor": "active flows",
+          "points": 5,
+          "note": "1 active flow"
+        },
+        {
+          "factor": "open obligations",
+          "points": 5,
+          "note": "1 without evidence"
+        },
+        {
+          "factor": "owner",
+          "points": 0,
+          "note": "accountable owner in place"
+        }
+      ],
+      "daysToEnd": 24
+    },
+    {
+      "agreementId": "ag-08",
+      "score": 32,
+      "breakdown": [
+        {
+          "factor": "expiry",
+          "points": 2,
+          "note": "1095 days to 2029-09-30"
+        },
+        {
+          "factor": "restricted categories",
+          "points": 20,
+          "note": "payroll, bank_details"
+        },
+        {
+          "factor": "active flows",
+          "points": 0,
+          "note": "0 active flows"
+        },
+        {
+          "factor": "open obligations",
+          "points": 10,
+          "note": "2 without evidence"
+        },
+        {
+          "factor": "owner",
+          "points": 0,
+          "note": "accountable owner in place"
+        }
+      ],
+      "daysToEnd": 1095
+    },
+    {
+      "agreementId": "ag-05",
+      "score": 25,
+      "breakdown": [
+        {
+          "factor": "expiry",
+          "points": 15,
+          "note": "150 days to 2027-02-28"
+        },
+        {
+          "factor": "restricted categories",
+          "points": 0,
+          "note": "none"
+        },
+        {
+          "factor": "active flows",
+          "points": 5,
+          "note": "1 active flow"
+        },
+        {
+          "factor": "open obligations",
+          "points": 5,
+          "note": "1 without evidence"
+        },
+        {
+          "factor": "owner",
+          "points": 0,
+          "note": "accountable owner in place"
+        }
+      ],
+      "daysToEnd": 150
+    },
+    {
+      "agreementId": "ag-02",
+      "score": 20,
+      "breakdown": [
+        {
+          "factor": "expiry",
+          "points": 15,
+          "note": "122 days to 2027-01-31"
+        },
+        {
+          "factor": "restricted categories",
+          "points": 0,
+          "note": "none"
+        },
+        {
+          "factor": "active flows",
+          "points": 5,
+          "note": "1 active flow"
+        },
+        {
+          "factor": "open obligations",
+          "points": 0,
+          "note": "0 without evidence"
+        },
+        {
+          "factor": "owner",
+          "points": 0,
+          "note": "accountable owner in place"
+        }
+      ],
+      "daysToEnd": 122
+    },
+    {
+      "agreementId": "ag-12",
+      "score": 18,
+      "breakdown": [
+        {
+          "factor": "expiry",
+          "points": 8,
+          "note": "242 days to 2027-05-31"
+        },
+        {
+          "factor": "restricted categories",
+          "points": 0,
+          "note": "none"
+        },
+        {
+          "factor": "active flows",
+          "points": 5,
+          "note": "1 active flow"
+        },
+        {
+          "factor": "open obligations",
+          "points": 5,
+          "note": "1 without evidence"
+        },
+        {
+          "factor": "owner",
+          "points": 0,
+          "note": "accountable owner in place"
+        }
+      ],
+      "daysToEnd": 242
+    },
+    {
+      "agreementId": "ag-09",
+      "score": 12,
+      "breakdown": [
+        {
+          "factor": "expiry",
+          "points": 2,
+          "note": "378 days to 2027-10-14"
+        },
+        {
+          "factor": "restricted categories",
+          "points": 0,
+          "note": "none"
+        },
+        {
+          "factor": "active flows",
+          "points": 10,
+          "note": "2 active flows"
+        },
+        {
+          "factor": "open obligations",
+          "points": 0,
+          "note": "0 without evidence"
+        },
+        {
+          "factor": "owner",
+          "points": 0,
+          "note": "accountable owner in place"
+        }
+      ],
+      "daysToEnd": 378
+    }
+  ],
+  "issues": [
+    {
+      "id": "deletion_obligation_unmet:ag-03:-:ob-03b",
+      "kind": "deletion_obligation_unmet",
+      "severity": "high",
+      "agreementId": "ag-03",
+      "flowId": null,
+      "vendorId": "v-mailwave",
+      "detail": "\"Newsletter delivery\" has ended but deletion (14 days after end) is not evidenced."
+    },
+    {
+      "id": "deletion_obligation_unmet:ag-07:-:ob-07b",
+      "kind": "deletion_obligation_unmet",
+      "severity": "high",
+      "agreementId": "ag-07",
+      "flowId": null,
+      "vendorId": "v-cloudstash",
+      "detail": "\"Backup storage\" has ended but deletion (90 days after end) is not evidenced."
+    },
+    {
+      "id": "deletion_obligation_unmet:ag-10:-:ob-10a",
+      "kind": "deletion_obligation_unmet",
+      "severity": "high",
+      "agreementId": "ag-10",
+      "flowId": null,
+      "vendorId": "v-insightly",
+      "detail": "\"Legacy survey tool\" has ended but deletion (30 days after end) is not evidenced."
+    },
+    {
+      "id": "expired_but_active:ag-03:-",
+      "kind": "expired_but_active",
+      "severity": "high",
+      "agreementId": "ag-03",
+      "flowId": null,
+      "vendorId": "v-mailwave",
+      "detail": "\"Newsletter delivery\" ended 2026-07-31 but is still recorded as active."
+    },
+    {
+      "id": "flow_after_end:ag-03:fl-03",
+      "kind": "flow_after_end",
+      "severity": "high",
+      "agreementId": "ag-03",
+      "flowId": "fl-03",
+      "vendorId": "v-mailwave",
+      "detail": "Flow fl-03 is still active although \"Newsletter delivery\" is expired (2026-07-31)."
+    },
+    {
+      "id": "flow_after_end:ag-07:fl-09",
+      "kind": "flow_after_end",
+      "severity": "high",
+      "agreementId": "ag-07",
+      "flowId": "fl-09",
+      "vendorId": "v-cloudstash",
+      "detail": "Flow fl-09 is still active although \"Backup storage\" is terminated (2026-09-30)."
+    },
+    {
+      "id": "flow_after_end:ag-10:fl-11",
+      "kind": "flow_after_end",
+      "severity": "high",
+      "agreementId": "ag-10",
+      "flowId": "fl-11",
+      "vendorId": "v-insightly",
+      "detail": "Flow fl-11 is still active although \"Legacy survey tool\" is terminated (2025-12-31)."
+    },
+    {
+      "id": "flow_category_not_covered:ag-06:fl-08",
+      "kind": "flow_category_not_covered",
+      "severity": "high",
+      "agreementId": "ag-06",
+      "flowId": "fl-08",
+      "vendorId": "v-benefits",
+      "detail": "Flow fl-08 shares identity_documents but \"Employee benefits enrolment\" only covers contact, payroll, health."
+    },
+    {
+      "id": "flow_category_not_covered:ag-09:fl-13",
+      "kind": "flow_category_not_covered",
+      "severity": "high",
+      "agreementId": "ag-09",
+      "flowId": "fl-13",
+      "vendorId": "v-insightly",
+      "detail": "Flow fl-13 shares contact but \"Product analytics\" only covers usage_events."
+    },
+    {
+      "id": "flow_category_not_covered:ag-11:fl-15",
+      "kind": "flow_category_not_covered",
+      "severity": "high",
+      "agreementId": "ag-11",
+      "flowId": "fl-15",
+      "vendorId": "v-payco",
+      "detail": "Flow fl-15 shares payroll but \"Payslip e-delivery pilot\" only covers nothing."
+    },
+    {
+      "id": "flow_category_not_covered:ag-12:fl-06",
+      "kind": "flow_category_not_covered",
+      "severity": "high",
+      "agreementId": "ag-12",
+      "flowId": "fl-06",
+      "vendorId": "v-helpdeskr",
+      "detail": "Flow fl-06 shares contact but \"Helpdeskr AI summaries addendum\" only covers support_history."
+    },
+    {
+      "id": "flow_under_draft:ag-11:fl-15",
+      "kind": "flow_under_draft",
+      "severity": "high",
+      "agreementId": "ag-11",
+      "flowId": "fl-15",
+      "vendorId": "v-payco",
+      "detail": "Flow fl-15 is active but \"Payslip e-delivery pilot\" is still a draft (unsigned); data is moving without an executed agreement."
+    },
+    {
+      "id": "flow_without_agreement:-:fl-12",
+      "kind": "flow_without_agreement",
+      "severity": "high",
+      "agreementId": null,
+      "flowId": "fl-12",
+      "vendorId": "v-cloudstash",
+      "detail": "Active flow fl-12 to CloudStash Placeholder (bank_details) has no agreement."
+    },
+    {
+      "id": "contradictory_breach_window:ag-01:-",
+      "kind": "contradictory_breach_window",
+      "severity": "medium",
+      "agreementId": "ag-01",
+      "flowId": null,
+      "vendorId": "v-payco",
+      "detail": "PayCo Example Ltd has conflicting breach-notification windows: 24h in \"Payroll processing DPA\" vs 72h in \"PayCo reporting addendum\"."
+    },
+    {
+      "id": "contradictory_breach_window:ag-05:-",
+      "kind": "contradictory_breach_window",
+      "severity": "medium",
+      "agreementId": "ag-05",
+      "flowId": null,
+      "vendorId": "v-helpdeskr",
+      "detail": "Helpdeskr Fixture GmbH has conflicting breach-notification windows: 72h in \"Support ticketing platform\" vs 24h in \"Helpdeskr AI summaries addendum\"."
+    },
+    {
+      "id": "missing_owner:ag-06:-",
+      "kind": "missing_owner",
+      "severity": "medium",
+      "agreementId": "ag-06",
+      "flowId": null,
+      "vendorId": "v-benefits",
+      "detail": "Owner Former owner (left 2026-04) has left; nobody is accountable for \"Employee benefits enrolment\"."
+    },
+    {
+      "id": "obligation_no_evidence:ag-01:-:ob-01b",
+      "kind": "obligation_no_evidence",
+      "severity": "medium",
+      "agreementId": "ag-01",
+      "flowId": null,
+      "vendorId": "v-payco",
+      "detail": "breach notification (24h) has no evidence on file for \"Payroll processing DPA\"."
+    },
+    {
+      "id": "obligation_no_evidence:ag-01:-:ob-01c",
+      "kind": "obligation_no_evidence",
+      "severity": "medium",
+      "agreementId": "ag-01",
+      "flowId": null,
+      "vendorId": "v-payco",
+      "detail": "deletion on termination (30 days after end) has no evidence on file for \"Payroll processing DPA\"."
+    },
+    {
+      "id": "obligation_no_evidence:ag-04:-:ob-04b",
+      "kind": "obligation_no_evidence",
+      "severity": "medium",
+      "agreementId": "ag-04",
+      "flowId": null,
+      "vendorId": "v-mailwave",
+      "detail": "breach notification (48h) has no evidence on file for \"Transactional email\"."
+    },
+    {
+      "id": "obligation_no_evidence:ag-05:-:ob-05c",
+      "kind": "obligation_no_evidence",
+      "severity": "medium",
+      "agreementId": "ag-05",
+      "flowId": null,
+      "vendorId": "v-helpdeskr",
+      "detail": "access review (semi-annual) has no evidence on file for \"Support ticketing platform\"."
+    },
+    {
+      "id": "obligation_no_evidence:ag-06:-:ob-06b",
+      "kind": "obligation_no_evidence",
+      "severity": "medium",
+      "agreementId": "ag-06",
+      "flowId": null,
+      "vendorId": "v-benefits",
+      "detail": "encryption (AES-256 at rest) has no evidence on file for \"Employee benefits enrolment\"."
+    },
+    {
+      "id": "obligation_no_evidence:ag-06:-:ob-06c",
+      "kind": "obligation_no_evidence",
+      "severity": "medium",
+      "agreementId": "ag-06",
+      "flowId": null,
+      "vendorId": "v-benefits",
+      "detail": "deletion on termination (60 days after end) has no evidence on file for \"Employee benefits enrolment\"."
+    },
+    {
+      "id": "obligation_no_evidence:ag-08:-:ob-08a",
+      "kind": "obligation_no_evidence",
+      "severity": "medium",
+      "agreementId": "ag-08",
+      "flowId": null,
+      "vendorId": "v-cloudstash",
+      "detail": "encryption (customer-managed keys) has no evidence on file for \"Backup storage — renewal 2026\"."
+    },
+    {
+      "id": "obligation_no_evidence:ag-08:-:ob-08b",
+      "kind": "obligation_no_evidence",
+      "severity": "medium",
+      "agreementId": "ag-08",
+      "flowId": null,
+      "vendorId": "v-cloudstash",
+      "detail": "deletion on termination (90 days after end) has no evidence on file for \"Backup storage — renewal 2026\"."
+    },
+    {
+      "id": "obligation_no_evidence:ag-12:-:ob-12b",
+      "kind": "obligation_no_evidence",
+      "severity": "medium",
+      "agreementId": "ag-12",
+      "flowId": null,
+      "vendorId": "v-helpdeskr",
+      "detail": "subprocessor notice (14 days prior) has no evidence on file for \"Helpdeskr AI summaries addendum\"."
+    },
+    {
+      "id": "renewal_window_open:ag-01:-",
+      "kind": "renewal_window_open",
+      "severity": "low",
+      "agreementId": "ag-01",
+      "flowId": null,
+      "vendorId": "v-payco",
+      "detail": "\"Payroll processing DPA\" ends in 50 days; the 60-day notice window is open."
+    },
+    {
+      "id": "renewal_window_open:ag-04:-",
+      "kind": "renewal_window_open",
+      "severity": "low",
+      "agreementId": "ag-04",
+      "flowId": null,
+      "vendorId": "v-mailwave",
+      "detail": "\"Transactional email\" ends in 24 days; the 45-day notice window is open."
+    },
+    {
+      "id": "stale_flow:ag-10:fl-11",
+      "kind": "stale_flow",
+      "severity": "low",
+      "agreementId": "ag-10",
+      "flowId": "fl-11",
+      "vendorId": "v-insightly",
+      "detail": "Flow fl-11 is marked active but last transferred 2025-02-10."
+    }
+  ],
+  "history": [
+    {
+      "seq": 1,
+      "agreementId": "ag-07",
+      "from": "active",
+      "to": "terminated",
+      "on": "2026-10-01",
+      "reason": "Superseded by the 2026 renewal agreement",
+      "note": "acknowledged 1 active flow(s): fl-09"
+    },
+    {
+      "seq": 2,
+      "agreementId": "ag-08",
+      "from": "draft",
+      "to": "active",
+      "on": "2026-10-01",
+      "reason": "Signed by both parties"
+    },
+    {
+      "seq": 3,
+      "agreementId": "ag-09",
+      "from": "renewing",
+      "to": "active",
+      "on": "2026-10-01",
+      "reason": "Renewal signed",
+      "note": "renewed to 2027-10-14"
+    }
+  ],
+  "disclaimer": "Synthetic register; educational prototype; not legal advice."
+}

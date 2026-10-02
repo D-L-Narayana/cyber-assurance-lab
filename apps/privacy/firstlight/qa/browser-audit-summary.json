@@ -1,0 +1,75 @@
+{
+  "viewports": [
+    {
+      "name": "desktop",
+      "status": 200,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "failedRequests": 0,
+      "hosts": [
+        "127.0.0.1:6104"
+      ],
+      "overflow": false,
+      "overflowing": [],
+      "axeViolations": []
+    },
+    {
+      "name": "tablet",
+      "status": 200,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "failedRequests": 0,
+      "hosts": [
+        "127.0.0.1:6104"
+      ],
+      "overflow": false,
+      "overflowing": [
+        "SPAN.pin-time",
+        "SPAN.pin-time"
+      ],
+      "axeViolations": []
+    },
+    {
+      "name": "mobile",
+      "status": 200,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "failedRequests": 0,
+      "hosts": [
+        "127.0.0.1:6104"
+      ],
+      "overflow": false,
+      "overflowing": [
+        "TABLE.",
+        "THEAD.",
+        "TR.",
+        "TH.",
+        "TBODY.",
+        "TR.",
+        "TD.mono",
+        "TR.",
+        "TD.mono",
+        "TR.",
+        "TD.mono",
+        "TR."
+      ],
+      "axeViolations": []
+    }
+  ],
+  "flow": {
+    "steps": 8,
+    "pageErrors": [],
+    "consoleErrors": [],
+    "result": {
+      "clockChips": "EU-GDPR: 23.5 h left of 72 hoursUK-GDPR: 23.5 h left of 72 hours",
+      "clockExceeded": "EU-GDPR: 72 hours exceeded by 48.5 hUK-GDPR: 72 hours exceeded by 48.5 h",
+      "severityAfter": "SE 3 high",
+      "readiness": "Notification-readiness packet 12/12 required facts",
+      "fullStreamHasName": true,
+      "fullPreviewLabel": "Packet preview, full",
+      "taskStatus": "done",
+      "importError": "Import rejected. bundle.incidentType \"alien\" is not an allowed value · bundle.circumstances.confidentialityLoss is required · bundle.circumstances.integrityLoss is required · bundle.circumstances.availabilityLoss is required · bundle.circumstances.maliciousIntent must be true or false · bundle.circumstances.dpcAdjustment must be a number between -3 and 3 · bundle.circumstances.dpcJustification is required · bundle.circumstances.easeOfIdentification is required"
+    },
+    "axeAfter": []
+  }
+}

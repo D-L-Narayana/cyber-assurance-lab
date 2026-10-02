@@ -1,0 +1,33 @@
+{
+  "name": "ruleshadow",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Ruleshadow — firewall and VPN rule-review simulator (educational prototype, synthetic data only)",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --port 6134 --strictPort",
+    "build": "tsc -p tsconfig.json && vite build",
+    "preview": "vite preview --port 6134 --strictPort",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@fontsource-variable/figtree": "^5.2.0",
+    "@fontsource-variable/red-hat-mono": "^5.2.0",
+    "@fontsource/instrument-serif": "^5.2.0",
+    "@radix-ui/react-switch": "^1.3.7",
+    "@radix-ui/react-tabs": "^1.1.21",
+    "@radix-ui/react-tooltip": "^1.2.16",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.1.0",
+    "vitest": "^4.1.11"
+  }
+}

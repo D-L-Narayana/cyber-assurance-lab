@@ -1,0 +1,648 @@
+{
+  "schemaVersion": 1,
+  "label": "Synthetic retention ledger — four systems, three schedules",
+  "asOf": "2026-10-01",
+  "systems": [
+    {
+      "id": "hris",
+      "name": "HR records (synthetic)",
+      "steward": "people-ops@example.test"
+    },
+    {
+      "id": "desk",
+      "name": "Support desk",
+      "steward": "support-lead@example.test"
+    },
+    {
+      "id": "mkt",
+      "name": "Marketing CRM",
+      "steward": "growth@example.test"
+    },
+    {
+      "id": "fin",
+      "name": "Finance ledger",
+      "steward": "controller@example.test"
+    }
+  ],
+  "schedules": [
+    {
+      "id": "sch-employee",
+      "name": "Employee file",
+      "category": "employee_file",
+      "trigger": "terminated",
+      "retainDays": 2555,
+      "action": "delete",
+      "basis": "Synthetic policy text: keep seven years after termination for employment-claim defence, then delete."
+    },
+    {
+      "id": "sch-ticket",
+      "name": "Support ticket",
+      "category": "ticket",
+      "trigger": "closed",
+      "retainDays": 730,
+      "action": "anonymise",
+      "basis": "Synthetic policy text: keep two years after closure for service quality analysis, then strip identifiers."
+    },
+    {
+      "id": "sch-lead",
+      "name": "Marketing lead",
+      "category": "lead",
+      "trigger": "last_contact",
+      "retainDays": 548,
+      "action": "delete",
+      "basis": "Synthetic policy text: eighteen months after last contact without consent renewal, delete."
+    }
+  ],
+  "records": [
+    {
+      "id": "rec-0001",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0100",
+      "triggerDate": "2020-03-22",
+      "status": "active"
+    },
+    {
+      "id": "rec-0002",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0101",
+      "triggerDate": "2024-03-24",
+      "status": "active"
+    },
+    {
+      "id": "rec-0003",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0102",
+      "triggerDate": "2021-02-18",
+      "status": "active"
+    },
+    {
+      "id": "rec-0004",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0103",
+      "triggerDate": "2019-05-05",
+      "status": "active"
+    },
+    {
+      "id": "rec-0005",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0104",
+      "triggerDate": "2021-03-06",
+      "status": "active"
+    },
+    {
+      "id": "rec-0006",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0105",
+      "triggerDate": "2025-12-05",
+      "status": "active"
+    },
+    {
+      "id": "rec-0007",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0106",
+      "triggerDate": "2024-04-12",
+      "status": "active"
+    },
+    {
+      "id": "rec-0008",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0107",
+      "triggerDate": "2019-09-14",
+      "status": "active"
+    },
+    {
+      "id": "rec-0009",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0108",
+      "triggerDate": "2017-12-27",
+      "status": "active"
+    },
+    {
+      "id": "rec-0010",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0109",
+      "triggerDate": "2023-07-02",
+      "status": "active"
+    },
+    {
+      "id": "rec-0011",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0110",
+      "triggerDate": "2018-05-03",
+      "status": "active"
+    },
+    {
+      "id": "rec-0012",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0111",
+      "triggerDate": "2018-09-29",
+      "status": "active"
+    },
+    {
+      "id": "rec-0013",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0112",
+      "triggerDate": "2025-02-03",
+      "status": "active"
+    },
+    {
+      "id": "rec-0014",
+      "systemId": "hris",
+      "category": "employee_file",
+      "subjectRef": "subj-0113",
+      "triggerDate": "2020-04-06",
+      "status": "active"
+    },
+    {
+      "id": "rec-0015",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0111",
+      "triggerDate": "2023-03-24",
+      "status": "active"
+    },
+    {
+      "id": "rec-0016",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0121",
+      "triggerDate": "2024-08-26",
+      "status": "active"
+    },
+    {
+      "id": "rec-0017",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0129",
+      "triggerDate": "2023-01-15",
+      "status": "active"
+    },
+    {
+      "id": "rec-0018",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0134",
+      "triggerDate": "2023-06-11",
+      "status": "active"
+    },
+    {
+      "id": "rec-0019",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0134",
+      "triggerDate": "2026-08-05",
+      "status": "active"
+    },
+    {
+      "id": "rec-0020",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0123",
+      "triggerDate": "2023-11-02",
+      "status": "active"
+    },
+    {
+      "id": "rec-0021",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0139",
+      "triggerDate": "2024-06-28",
+      "status": "active"
+    },
+    {
+      "id": "rec-0022",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0134",
+      "triggerDate": "2023-10-11",
+      "status": "active"
+    },
+    {
+      "id": "rec-0023",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0133",
+      "triggerDate": "2025-10-15",
+      "status": "active"
+    },
+    {
+      "id": "rec-0024",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0112",
+      "triggerDate": "2023-01-19",
+      "status": "active"
+    },
+    {
+      "id": "rec-0025",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0121",
+      "triggerDate": "2026-05-16",
+      "status": "active"
+    },
+    {
+      "id": "rec-0026",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0109",
+      "triggerDate": "2023-12-05",
+      "status": "active"
+    },
+    {
+      "id": "rec-0027",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0135",
+      "triggerDate": "2023-07-24",
+      "status": "active"
+    },
+    {
+      "id": "rec-0028",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0113",
+      "triggerDate": "2025-07-15",
+      "status": "active"
+    },
+    {
+      "id": "rec-0029",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0109",
+      "triggerDate": "2025-03-09",
+      "status": "active"
+    },
+    {
+      "id": "rec-0030",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0104",
+      "triggerDate": "2025-09-04",
+      "status": "active"
+    },
+    {
+      "id": "rec-0031",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0108",
+      "triggerDate": "2023-04-09",
+      "status": "active"
+    },
+    {
+      "id": "rec-0032",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0104",
+      "triggerDate": "2026-09-23",
+      "status": "active"
+    },
+    {
+      "id": "rec-0033",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0139",
+      "triggerDate": "2024-11-12",
+      "status": "active"
+    },
+    {
+      "id": "rec-0034",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0106",
+      "triggerDate": "2022-12-19",
+      "status": "active"
+    },
+    {
+      "id": "rec-0035",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0134",
+      "triggerDate": "2024-09-02",
+      "status": "active"
+    },
+    {
+      "id": "rec-0036",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0116",
+      "triggerDate": "2025-09-04",
+      "status": "active"
+    },
+    {
+      "id": "rec-0037",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0113",
+      "triggerDate": "2024-10-12",
+      "status": "active"
+    },
+    {
+      "id": "rec-0038",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0113",
+      "triggerDate": "2025-07-29",
+      "status": "active"
+    },
+    {
+      "id": "rec-0039",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0126",
+      "triggerDate": "2023-05-13",
+      "status": "active"
+    },
+    {
+      "id": "rec-0040",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0124",
+      "triggerDate": "2024-03-21",
+      "status": "active"
+    },
+    {
+      "id": "rec-0041",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0200",
+      "triggerDate": "2025-04-03",
+      "status": "active"
+    },
+    {
+      "id": "rec-0042",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0201",
+      "triggerDate": "2025-04-24",
+      "status": "active"
+    },
+    {
+      "id": "rec-0043",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0202",
+      "triggerDate": "2025-11-16",
+      "status": "active"
+    },
+    {
+      "id": "rec-0044",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0203",
+      "triggerDate": "2024-12-30",
+      "status": "active"
+    },
+    {
+      "id": "rec-0045",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0204",
+      "triggerDate": "2024-03-21",
+      "status": "active"
+    },
+    {
+      "id": "rec-0046",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0205",
+      "triggerDate": "2024-02-22",
+      "status": "active"
+    },
+    {
+      "id": "rec-0047",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0206",
+      "triggerDate": "2025-12-02",
+      "status": "active"
+    },
+    {
+      "id": "rec-0048",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0207",
+      "triggerDate": "2026-05-30",
+      "status": "active"
+    },
+    {
+      "id": "rec-0049",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0208",
+      "triggerDate": "2025-10-11",
+      "status": "active"
+    },
+    {
+      "id": "rec-0050",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0209",
+      "triggerDate": "2024-12-04",
+      "status": "active"
+    },
+    {
+      "id": "rec-0051",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0210",
+      "triggerDate": "2024-11-27",
+      "status": "active"
+    },
+    {
+      "id": "rec-0052",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0211",
+      "triggerDate": "2025-10-31",
+      "status": "active"
+    },
+    {
+      "id": "rec-0053",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0212",
+      "triggerDate": "2025-06-01",
+      "status": "active"
+    },
+    {
+      "id": "rec-0054",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0213",
+      "triggerDate": "2026-06-14",
+      "status": "active"
+    },
+    {
+      "id": "rec-0055",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0214",
+      "triggerDate": "2024-08-02",
+      "status": "active"
+    },
+    {
+      "id": "rec-0056",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0215",
+      "triggerDate": "2024-04-08",
+      "status": "active"
+    },
+    {
+      "id": "rec-0057",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0216",
+      "triggerDate": "2024-11-27",
+      "status": "active"
+    },
+    {
+      "id": "rec-0058",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0217",
+      "triggerDate": "2024-04-18",
+      "status": "active"
+    },
+    {
+      "id": "rec-0059",
+      "systemId": "fin",
+      "category": "invoice",
+      "subjectRef": "subj-0300",
+      "triggerDate": "2024-02-15",
+      "status": "active"
+    },
+    {
+      "id": "rec-0060",
+      "systemId": "fin",
+      "category": "invoice",
+      "subjectRef": "subj-0301",
+      "triggerDate": "2026-03-13",
+      "status": "active"
+    },
+    {
+      "id": "rec-0061",
+      "systemId": "fin",
+      "category": "invoice",
+      "subjectRef": "subj-0302",
+      "triggerDate": "2025-03-07",
+      "status": "active"
+    },
+    {
+      "id": "rec-0062",
+      "systemId": "fin",
+      "category": "invoice",
+      "subjectRef": "subj-0303",
+      "triggerDate": "2023-09-02",
+      "status": "active"
+    },
+    {
+      "id": "rec-0063",
+      "systemId": "fin",
+      "category": "invoice",
+      "subjectRef": "subj-0304",
+      "triggerDate": "2022-12-08",
+      "status": "active"
+    },
+    {
+      "id": "rec-0064",
+      "systemId": "fin",
+      "category": "invoice",
+      "subjectRef": "subj-0305",
+      "triggerDate": "2023-04-30",
+      "status": "active"
+    },
+    {
+      "id": "rec-0065",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0105",
+      "triggerDate": "2023-06-19",
+      "status": "anonymised"
+    },
+    {
+      "id": "rec-0066",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0250",
+      "triggerDate": "2024-04-14",
+      "status": "deleted"
+    },
+    {
+      "id": "rec-0067",
+      "systemId": "desk",
+      "category": "ticket",
+      "subjectRef": "subj-0133",
+      "triggerDate": "2024-10-01",
+      "status": "active"
+    },
+    {
+      "id": "rec-0068",
+      "systemId": "mkt",
+      "category": "lead",
+      "subjectRef": "subj-0251",
+      "triggerDate": "2025-04-01",
+      "status": "active"
+    }
+  ],
+  "holds": [
+    {
+      "id": "hold-lit-0104",
+      "name": "Litigation hold — subject 0104",
+      "authority": "legal@example.test",
+      "placedOn": "2026-03-14",
+      "releasedOn": null,
+      "scope": {
+        "subjectRef": "subj-0104"
+      }
+    },
+    {
+      "id": "hold-audit-hris",
+      "name": "Regulator inquiry — all HR files",
+      "authority": "compliance@example.test",
+      "placedOn": "2026-08-01",
+      "releasedOn": null,
+      "scope": {
+        "systemId": "hris"
+      }
+    },
+    {
+      "id": "hold-mkt-2025",
+      "name": "Released: 2025 campaign review",
+      "authority": "legal@example.test",
+      "placedOn": "2025-02-01",
+      "releasedOn": "2025-11-30",
+      "scope": {
+        "category": "lead"
+      }
+    },
+    {
+      "id": "hold-tickets-sample",
+      "name": "QA sample of three tickets",
+      "authority": "quality@example.test",
+      "placedOn": "2026-09-20",
+      "releasedOn": null,
+      "scope": {
+        "recordIds": [
+          "rec-0015",
+          "rec-0016",
+          "rec-0017"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+ RUN  v4.1.11 /home/user/workspace/cyber-portfolio/candidates/governance/attestline
+ ❯ src/engine/campaign.test.ts (0 test)
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  src/engine/campaign.test.ts [ src/engine/campaign.test.ts ]
+Error: not implemented
+ ❯ buildCampaign src/engine/campaign.ts:2:46
+      1| // RED stub: declares the API surface without behaviour so tests fail …
+      2| export function buildCampaign(): any { throw new Error('not implemente…
+       |                                              ^
+      3| export function applyDecision(): any { throw new Error('not implemente…
+      4| export function bulkDecision(): any { throw new Error('not implemented…
+ ❯ src/engine/campaign.test.ts:39:13
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  13:00:37
+   Duration  230ms (transform 53ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)

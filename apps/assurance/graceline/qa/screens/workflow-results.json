@@ -1,0 +1,94 @@
+[
+  {
+    "name": "EX-107 escalated",
+    "pass": true
+  },
+  {
+    "name": "history has tick events",
+    "pass": true
+  },
+  {
+    "name": "escalated cannot renew (no renew button)",
+    "pass": true
+  },
+  {
+    "name": "short closure refused",
+    "pass": true
+  },
+  {
+    "name": "closed",
+    "pass": true
+  },
+  {
+    "name": "hash deep link",
+    "pass": true
+  },
+  {
+    "name": "SoD refusal",
+    "pass": true
+  },
+  {
+    "name": "quorum met → active",
+    "pass": true
+  },
+  {
+    "name": "two approvals listed",
+    "pass": true
+  },
+  {
+    "name": "renewal by non-requester refused",
+    "pass": true
+  },
+  {
+    "name": "over-long renewal refused",
+    "pass": true
+  },
+  {
+    "name": "renewal pending, still active with old expiry",
+    "pass": true
+  },
+  {
+    "name": "approvals reset",
+    "pass": true
+  },
+  {
+    "name": "renewal quorum applies new expiry",
+    "pass": true
+  },
+  {
+    "name": "renew disabled at cap",
+    "pass": true
+  },
+  {
+    "name": "draft submit lists compensating + justification guardrails",
+    "pass": true
+  },
+  {
+    "name": "draft submitted after fixes",
+    "pass": true
+  },
+  {
+    "name": "time moves EX-105 to expired",
+    "pass": true
+  },
+  {
+    "name": "time moves EX-105 to escalated",
+    "pass": true
+  },
+  {
+    "name": "register export has ranked list + policy",
+    "pass": true
+  },
+  {
+    "name": "import rejected with paths",
+    "pass": true
+  },
+  {
+    "name": "no page/console errors",
+    "pass": true
+  },
+  {
+    "name": "mobile no horizontal overflow",
+    "pass": true
+  }
+]

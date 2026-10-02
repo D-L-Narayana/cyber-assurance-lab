@@ -1,0 +1,41 @@
+
+> labelsmith@0.1.0 test
+> vitest run --reporter=dot
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/home/user/workspace/cyber-portfolio/candidates/governance/labelsmith[39m
+
+[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m[33m[39m[32m·[39m
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m34 passed[39m[22m[90m (34)[39m
+[2m   Start at [22m 04:19:05
+[2m   Duration [22m 740ms[2m (transform 143ms, setup 0ms, import 182ms, tests 54ms, environment 0ms)[22m
+
+
+> labelsmith@0.1.0 build
+> tsc --noEmit -p tsconfig.json && vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 37 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                          0.62 kB │ gzip:  0.35 kB
+dist/assets/bricolage-grotesque-vietnamese-wght-normal-BUzh504Q.woff2    8.61 kB
+dist/assets/literata-cyrillic-ext-wght-normal-CGKlZYBf.woff2             9.73 kB
+dist/assets/martian-mono-cyrillic-wght-normal-B84CD5C_.woff2            10.56 kB
+dist/assets/literata-vietnamese-wght-normal-LcSrhZ7T.woff2              11.41 kB
+dist/assets/literata-greek-ext-wght-normal-e3e57Shi.woff2               12.19 kB
+dist/assets/martian-mono-latin-ext-wght-normal-DlL6xMw5.woff2           15.91 kB
+dist/assets/bricolage-grotesque-latin-ext-wght-normal-CcLUaPy7.woff2    18.67 kB
+dist/assets/literata-greek-wght-normal-CO1l-giJ.woff2                   19.25 kB
+dist/assets/martian-mono-latin-wght-normal-5W32yIyr.woff2               23.56 kB
+dist/assets/literata-cyrillic-wght-normal-DLqwHbi6.woff2                28.07 kB
+dist/assets/bricolage-grotesque-latin-wght-normal-DLoelf7F.woff2        41.34 kB
+dist/assets/literata-latin-ext-wght-normal-BnEbWgdZ.woff2               42.66 kB
+dist/assets/literata-latin-wght-normal-DLxlUchJ.woff2                   52.50 kB
+dist/assets/index-v9GKIbh3.css                                          16.30 kB │ gzip:  6.41 kB
+dist/assets/index-CyGsBz3r.js                                          265.19 kB │ gzip: 83.40 kB
+✓ built in 1.25s
+found 0 vulnerabilities

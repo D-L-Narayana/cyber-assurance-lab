@@ -1,0 +1,53 @@
+ ✓ tests/engine.test.ts > sha256 and canonical JSON > matches node:crypto for several inputs 6ms
+ × tests/engine.test.ts > sha256 and canonical JSON > canonical JSON is key-order independent 6ms
+ × tests/engine.test.ts > artifact analysis > computes hashes and compares with declared hashes (null when none declared) 1ms
+ × tests/engine.test.ts > artifact analysis > detects duplicate content across different ids and names 0ms
+ × tests/engine.test.ts > artifact analysis > flags orphan artifacts and unsupported assertions 0ms
+ × tests/engine.test.ts > artifact analysis > flags broken and duplicate links 0ms
+ × tests/engine.test.ts > period and status > artifacts captured outside the assertion period are out-of-period; an assertion with only such evidence is weak 0ms
+ × tests/engine.test.ts > period and status > period boundaries are inclusive 3ms
+ × tests/engine.test.ts > period and status > a hash-mismatched artifact cannot support an assertion (tainted) 1ms
+ × tests/engine.test.ts > binding hash and sign-off > binding hash depends on assertion text and the set of evidence hashes, not link order 1ms
+ × tests/engine.test.ts > binding hash and sign-off > signOff records a valid binding; later evidence edits invalidate it 0ms
+ × tests/engine.test.ts > binding hash and sign-off > adding or removing a linked artifact after sign-off also invalidates it 0ms
+ × tests/engine.test.ts > binding hash and sign-off > refuses to sign weak or unsupported assertions and refuses double signing 2ms
+ × tests/engine.test.ts > binding hash and sign-off > does not mutate the input bundle 0ms
+ × tests/engine.test.ts > manifest and verification > manifest entries are sorted by id with hash and byte length; root is a 64-hex digest independent of input order 0ms
+ × tests/engine.test.ts > manifest and verification > verify reports intact for an unchanged bundle 0ms
+ × tests/engine.test.ts > manifest and verification > verify detects modified, missing and added artifacts and changed bindings 0ms
+ × tests/engine.test.ts > manifest and verification > verify flags a manifest whose root does not match its own entries (tampered manifest) 0ms
+ × tests/engine.test.ts > diff > reports added, removed and changed artifacts, assertions and links 0ms
+ × tests/engine.test.ts > validation > accepts a valid bundle and a valid manifest 0ms
+ × tests/engine.test.ts > validation > rejects oversized (UTF-8), malformed, non-object and wrong-schema input 0ms
+ × tests/engine.test.ts > validation > rejects a period that ends before it starts, bad dates, bad declared hashes, unknown kinds and duplicate ids with paths 0ms
+ × tests/engine.test.ts > validation > rejects more than 300 artifacts or content over 50,000 characters 1ms
+ × tests/engine.test.ts > bundled fixture > validates and contains every planned defect kind 7ms
+⎯⎯⎯⎯⎯⎯ Failed Tests 23 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  1 failed (1)
+      Tests  23 failed | 1 passed (24)
+ × tests/engine.test.ts > parent review regressions — binding scope and added assertions > verify reports an assertion appended after the manifest was built (not intact) 7ms
+   → expected true to be false // Object.is equality
+ × tests/engine.test.ts > parent review regressions — binding scope and added assertions > verify reports an assertion removed after the manifest was built 1ms
+   → expected undefined to deeply equal [ 'S1' ]
+ × tests/engine.test.ts > parent review regressions — binding scope and added assertions > changing an artifact capturedOn after sign-off invalidates the sign-off (evidence metadata is bound) 1ms
+   → expected true to be false // Object.is equality
+ × tests/engine.test.ts > parent review regressions — binding scope and added assertions > renaming an artifact id (same content) after sign-off invalidates the sign-off 1ms
+   → expected true to be false // Object.is equality
+ × tests/engine.test.ts > parent review regressions — binding scope and added assertions > a manifest binding also changes when an artifact capturedOn changes 1ms
+   → expected [] to deeply equal [ 'S1' ]
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected true to be false // Object.is equality
+AssertionError: expected undefined to deeply equal [ 'S1' ]
+AssertionError: expected true to be false // Object.is equality
+AssertionError: expected true to be false // Object.is equality
+AssertionError: expected [] to deeply equal [ 'S1' ]
+      Tests  5 failed | 24 passed (29)
+ × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > manifest v2 carries the bundle name and a sorted sign-off list under the root 6ms
+ × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > deleting a sign-off after the manifest was built is reported (repro wf-adverse A) 0ms
+ × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > swapping the reviewer or back-dating a sign-off is reported (repro wf-adverse B) 0ms
+ × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > a sign-off added after the manifest was built is reported 0ms
+ × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > renaming an artifact display name after the manifest was built is reported (repro wf-adverse C) 0ms
+ × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > changing the bundle name is reported; an untouched signed bundle stays intact 1ms
+ × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > the validator accepts manifest v2 and refuses v1 with a clear path message 0ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  7 failed | 29 passed (36)

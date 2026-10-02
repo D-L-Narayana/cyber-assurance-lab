@@ -1,0 +1,108 @@
+{
+  "schema": "weft.manifest/2",
+  "bundleName": "Harbourline Q3 2026 control evidence (synthetic)",
+  "generatedOn": "2026-10-01",
+  "entries": [
+    {
+      "id": "AR-01",
+      "name": "backup-jobs-2026-09.log",
+      "sha256": "df652d159d59e6c070cd8eeb6ccb86ea896e6763db33b754b18aad6331e20072",
+      "bytes": 92
+    },
+    {
+      "id": "AR-02",
+      "name": "restore-test-Q3.md",
+      "sha256": "d8c759c3823e164aad215b5eb08e1522487bc9c4a0f0b2f60c24e3cd777f0522",
+      "bytes": 73
+    },
+    {
+      "id": "AR-03",
+      "name": "privileged-review-Q3.csv",
+      "sha256": "aff436a8583fe448a96e3e852ac332a3bcbd245d60d4ba5e2f7eb051179e41bd",
+      "bytes": 52
+    },
+    {
+      "id": "AR-04",
+      "name": "privileged-review-Q2.csv",
+      "sha256": "d1d93197c77273708bca03aa5f4bf010115399b995f4932eee257fd40ca39618",
+      "bytes": 86
+    },
+    {
+      "id": "AR-05",
+      "name": "patch-compliance-2026-09.md",
+      "sha256": "5b6ca2023652f5f7b6745c8d791705e1c997c2f4534d8ec486d914e937ae61e2",
+      "bytes": 71
+    },
+    {
+      "id": "AR-06",
+      "name": "ids-weekly-W37.log",
+      "sha256": "d957a37ee207f69ed91252db683128160d4bfa79b725a5e876bdb03c645d7bd3",
+      "bytes": 64
+    },
+    {
+      "id": "AR-07",
+      "name": "ids-weekly-W37-copy.log",
+      "sha256": "d957a37ee207f69ed91252db683128160d4bfa79b725a5e876bdb03c645d7bd3",
+      "bytes": 64
+    },
+    {
+      "id": "AR-08",
+      "name": "training-completion.csv",
+      "sha256": "f34e84f57eb2d50075fcf17d42dcc9ce68a6be3cac941dedf68ee9720df2bee8",
+      "bytes": 23
+    },
+    {
+      "id": "AR-09",
+      "name": "firewall-change-CHG-4411.note",
+      "sha256": "3513a0d683f8d377521faa9dd1bc4af6944900a483e9e335fb4e8e20feb4940c",
+      "bytes": 50
+    },
+    {
+      "id": "AR-10",
+      "name": "supplier-review-2025.md",
+      "sha256": "fc030386ee00e79183528b813a087f54bd89a7449f70be93b23de6391f8e54f4",
+      "bytes": 54
+    }
+  ],
+  "bindings": [
+    {
+      "assertionId": "AS-01",
+      "bindingHash": "1ee75e8dbdb8d79d14ed6691117376bb3efd1d8b529c9fa93f05a6374b94b914"
+    },
+    {
+      "assertionId": "AS-02",
+      "bindingHash": "b87fa9f13c627aebd631d26933aff0507a076714a769a9c60014b9ca51c62b78"
+    },
+    {
+      "assertionId": "AS-03",
+      "bindingHash": "0583fd5806f32b471508b276a18444cd15252f363c5e818c171600de64bd6cf1"
+    },
+    {
+      "assertionId": "AS-04",
+      "bindingHash": "edc766919d3136e156e084a5fc93301004d2638e3ed467f6d9740758137fabf9"
+    },
+    {
+      "assertionId": "AS-05",
+      "bindingHash": "47d4d3abeed6ffb619972d32e590d47e8f5e5cce9c259b0acb43ee9551b6de50"
+    },
+    {
+      "assertionId": "AS-06",
+      "bindingHash": "0731f72f441608b4f18cab9fdc49338cbfb2e61faaf4e7d88e3a2ec269d45d0a"
+    }
+  ],
+  "signoffs": [
+    {
+      "assertionId": "AS-01",
+      "reviewer": "m.okafor",
+      "signedOn": "2026-09-29",
+      "bindingHash": "1ee75e8dbdb8d79d14ed6691117376bb3efd1d8b529c9fa93f05a6374b94b914"
+    },
+    {
+      "assertionId": "AS-02",
+      "reviewer": "qa.reviewer",
+      "signedOn": "2026-10-01",
+      "bindingHash": "b0a1217f1a790c2a03f179de64f206419c0c1a6980f803f452af2e3214c9a260"
+    }
+  ],
+  "root": "956e487eebbf60762f6e05ad4510602fd0b6c146bab5b43b3e18b1641c190f5b"
+}

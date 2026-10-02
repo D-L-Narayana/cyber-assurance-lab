@@ -1,0 +1,84 @@
+[
+  {
+    "name": "desktop",
+    "status": 200,
+    "errors": [],
+    "failed": [],
+    "layout": {
+      "scrollWidth": 1440,
+      "viewport": 1440,
+      "headings": [
+        "AttestlineAccess-review decision engine · educational prototype on synthetic data",
+        "Review queue",
+        "Evidence & decision"
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "name": "tablet",
+    "status": 200,
+    "errors": [],
+    "failed": [],
+    "layout": {
+      "scrollWidth": 768,
+      "viewport": 768,
+      "headings": [
+        "AttestlineAccess-review decision engine · educational prototype on synthetic data",
+        "Review queue",
+        "Evidence & decision"
+      ],
+      "overflowing": [
+        "TABLE.review",
+        "THEAD.",
+        "TR.",
+        "TH.",
+        "TBODY.",
+        "TR.focused",
+        "TD.",
+        "SPAN.stamp pending",
+        "TR.",
+        "TD."
+      ]
+    },
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "name": "mobile",
+    "status": 200,
+    "errors": [],
+    "failed": [],
+    "layout": {
+      "scrollWidth": 375,
+      "viewport": 375,
+      "headings": [
+        "AttestlineAccess-review decision engine · educational prototype on synthetic data",
+        "Review queue",
+        "Evidence & decision"
+      ],
+      "overflowing": [
+        "TABLE.review",
+        "THEAD.",
+        "TR.",
+        "TH.",
+        "TH.",
+        "TH.",
+        "TH.",
+        "TBODY.",
+        "TR.focused",
+        "TD.mono"
+      ]
+    },
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  }
+]

@@ -1,0 +1,8 @@
+     × rejects delegation to the identity under review 8ms
+     × rejects delegation to a leaver or suspended identity 1ms
+     × rejects any decision where the actor is the identity under review even if routed that way 1ms
+     × routeItem refuses to route an item to the identity under review 7ms
+     × validateFixture rejects an identity that is its own manager 1ms
+     × never routes an entitlement to its own holder: resource owner holding access on own resource becomes unrouted with a self_review hint 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  6 failed | 22 passed (28)

@@ -1,0 +1,21 @@
+     × luhn accepts valid card-like numbers and rejects invalid ones 6ms
+     × email, ipv4, jwt, iban, apikey, dob, icd10, password-hash shapes 1ms
+     × labels a credential column secret-credential even when it also looks like PII 0ms
+     × does not label as card data when the Luhn check fails for most samples 0ms
+     × puts unmatched fields in the unknown bucket and asks for review 1ms
+     × falls back to the declared class when nothing matches, but flags it for review 0ms
+     × flags a declared class that is lower than the computed one 0ms
+     × produces a trace entry for every rule in precedence order 0ms
+     × combines evidence: name and value agreement gives higher confidence than name alone 1ms
+     × is deterministic 0ms
+     × adds a safe substring rule that participates in classification 0ms
+     × rejects empty tokens, regex metacharacters, duplicate ids and bad weights 0ms
+     × every class has a policy and stricter classes have stricter handling 0ms
+     × applies an active exception to the effective class and keeps the computed class visible 2ms
+     × reverts an expired exception 0ms
+     × validates new exceptions: downgrade only, justification length, expiry window, matching fromClass 0ms
+     × rejects malformed fields and oversize fixtures without throwing 3ms
+     × exports a stable catalog schema with formula-safe CSV 0ms
+     × has at least 20 rules with unique ids covering all eight classes except unknown 0ms
+⎯⎯⎯⎯⎯⎯ Failed Tests 19 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  19 failed (19)

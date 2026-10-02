@@ -1,0 +1,17 @@
+## npm ci
+added 129 packages in 5s
+## npm run build
+dist/index.html                                                     0.62 kB │ gzip:  0.38 kB
+✓ built in 1.93s
+## npm test
+ Test Files  1 passed (1)
+      Tests  20 passed (20)
+   Duration  544ms (transform 173ms, setup 0ms, import 194ms, tests 117ms, environment 0ms)
+## npm audit
+found 0 vulnerabilities
+## storage-api grep (expect no matches in src)
+none
+## fetch/XHR grep (expect none)
+none
+## dist size
+476K

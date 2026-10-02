@@ -1,0 +1,110 @@
+[
+  {
+    "name": "AS-02 selected",
+    "pass": true
+  },
+  {
+    "name": "stale sign-off shown invalid",
+    "pass": true
+  },
+  {
+    "name": "ledger lists hash-mismatch",
+    "pass": true
+  },
+  {
+    "name": "ledger lists duplicate-content",
+    "pass": true
+  },
+  {
+    "name": "ledger lists orphan-artifact",
+    "pass": true
+  },
+  {
+    "name": "ledger lists broken-link",
+    "pass": true
+  },
+  {
+    "name": "ledger lists out-of-period",
+    "pass": true
+  },
+  {
+    "name": "ledger lists invalid-signoff",
+    "pass": true
+  },
+  {
+    "name": "ledger lists unsupported-assertion",
+    "pass": true
+  },
+  {
+    "name": "ledger lists weak-assertion",
+    "pass": true
+  },
+  {
+    "name": "AS-02 now supported",
+    "pass": true
+  },
+  {
+    "name": "sign-off valid",
+    "pass": true
+  },
+  {
+    "name": "hash changes on edit",
+    "pass": true
+  },
+  {
+    "name": "declared mismatch shown",
+    "pass": true
+  },
+  {
+    "name": "sign-off invalidated by tamper",
+    "pass": true
+  },
+  {
+    "name": "weak sign-off refused",
+    "pass": true
+  },
+  {
+    "name": "manifest has root + 10 entries",
+    "pass": true
+  },
+  {
+    "name": "manifest v2 binds sign-offs",
+    "pass": true
+  },
+  {
+    "name": "verify intact",
+    "pass": true
+  },
+  {
+    "name": "verify detects modified AR-01",
+    "pass": true
+  },
+  {
+    "name": "verify detects appended assertion",
+    "pass": true
+  },
+  {
+    "name": "verify detects removed sign-off",
+    "pass": true
+  },
+  {
+    "name": "diff shows changed artifacts",
+    "pass": true
+  },
+  {
+    "name": "orphan resolved by linking",
+    "pass": true
+  },
+  {
+    "name": "import rejected with paths",
+    "pass": true
+  },
+  {
+    "name": "no page/console errors",
+    "pass": true
+  },
+  {
+    "name": "mobile no horizontal overflow",
+    "pass": true
+  }
+]

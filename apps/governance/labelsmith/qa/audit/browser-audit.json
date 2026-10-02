@@ -1,0 +1,71 @@
+[
+  {
+    "name": "desktop",
+    "status": 200,
+    "errors": [],
+    "failed": [],
+    "layout": {
+      "scrollWidth": 1440,
+      "viewport": 1440,
+      "headings": [
+        "Labelsmith",
+        "Catalog · Synthetic catalog — five example systems",
+        "Specimen under test",
+        "Proposed label",
+        "Why this label · 27 rules in precedence order",
+        "Handling policy · Restricted · PII"
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "name": "tablet",
+    "status": 200,
+    "errors": [],
+    "failed": [],
+    "layout": {
+      "scrollWidth": 768,
+      "viewport": 768,
+      "headings": [
+        "Labelsmith",
+        "Catalog · Synthetic catalog — five example systems",
+        "Specimen under test",
+        "Proposed label",
+        "Why this label · 27 rules in precedence order",
+        "Handling policy · Restricted · PII"
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "name": "mobile",
+    "status": 200,
+    "errors": [],
+    "failed": [],
+    "layout": {
+      "scrollWidth": 375,
+      "viewport": 375,
+      "headings": [
+        "Labelsmith",
+        "Catalog · Synthetic catalog — five example systems",
+        "Specimen under test",
+        "Proposed label",
+        "Why this label · 27 rules in precedence order",
+        "Handling policy · Restricted · PII"
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  }
+]

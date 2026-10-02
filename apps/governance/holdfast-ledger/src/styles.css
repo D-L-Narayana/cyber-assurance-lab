@@ -1,0 +1,70 @@
+/* Holdfast Ledger — art direction: a records vault. Deep green-black, brass rules, parchment type; holds are rust-red hatching,
+   verified receipts are teal. Display: Instrument Serif. Body: Public Sans. Hashes/dates: Geist Mono. */
+:root {
+  --vault: #0f1f1a; --vault-2: #152a23; --vault-3: #1c352d; --brass: #c59a3b; --brass-dim: #8f7331; --parch: #ede7d6; --parch-dim: #b9b2a1;
+  --hold: #c4573f; --teal: #3fae98; --amber: #d9a441; --line: #2a4a3f;
+  --display: 'Instrument Serif', Georgia, serif; --body: 'Public Sans Variable', system-ui, sans-serif; --mono: 'Geist Mono Variable', ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--vault); color: var(--parch); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.mono { font-family: var(--mono); font-size: 12px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; letter-spacing: 0.005em; }
+
+.mast { padding: 26px 32px 18px; border-bottom: 1px solid var(--brass-dim); display: grid; gap: 14px; }
+.mast-row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 28px; }
+.mast h1 { font-size: 46px; line-height: 1; }
+.mast h1 small { display: block; font-family: var(--body); font-size: 13px; color: var(--parch-dim); margin-top: 8px; letter-spacing: 0.02em; }
+.mast .ctl { margin-left: auto; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.field { display: grid; gap: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--parch-dim); }
+.field input, .field select { padding: 7px 9px; background: var(--vault-2); border: 1px solid var(--line); border-radius: 3px; color: var(--parch); font-family: var(--mono); font-size: 13px; text-transform: none; letter-spacing: 0; }
+.btn { padding: 8px 13px; border-radius: 3px; border: 1px solid var(--brass); background: var(--brass); color: var(--vault); font-weight: 600; font-size: 13px; cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--brass); }
+.btn.teal { background: var(--teal); border-color: var(--teal); }
+.btn.hold { background: transparent; border-color: var(--hold); color: #f1b7a8; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.states { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--parch-dim); }
+.states b { color: var(--parch); font-family: var(--mono); font-weight: 500; }
+.states i { display: inline-block; width: 12px; height: 8px; border-radius: 1px; margin-right: 6px; vertical-align: 0; }
+.st-retained { background: #4f6f63; } .st-due { background: var(--amber); } .st-overdue { background: #e07b3a; } .st-held { background: repeating-linear-gradient(135deg, var(--hold) 0 3px, #5b2a21 3px 6px); } .st-disposed { background: var(--teal); } .st-unscheduled { background: #6c6c7a; }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(360px, 1fr); gap: 0; }
+.col { padding: 22px 32px 40px; min-width: 0; display: grid; gap: 26px; align-content: start; }
+.col.right { border-left: 1px solid var(--line); }
+.col > section { min-width: 0; }
+section h2 { font-size: 26px; margin-bottom: 8px; }
+section h2 .mono { color: var(--parch-dim); margin-left: 8px; }
+.note { font-size: 13px; color: var(--parch-dim); margin: 0 0 10px; max-width: 70ch; }
+.calendar { background: var(--vault-2); border: 1px solid var(--line); border-radius: 4px; padding: 8px 4px 4px; overflow-x: auto; }
+.calendar svg { display: block; min-width: 640px; }
+.calendar text { font-family: var(--mono); font-size: 10px; fill: var(--parch-dim); }
+.calendar .sys { font-family: var(--body); font-size: 11px; fill: var(--parch); letter-spacing: 0.04em; }
+.calendar .today { stroke: var(--brass); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.calendar rect.bar { rx: 1.5; }
+.calendar rect.bar:hover, .calendar rect.bar:focus { stroke: var(--parch); stroke-width: 1; outline: none; }
+.calendar .legend-note { font-size: 11px; color: var(--parch-dim); padding: 6px 10px 4px; }
+table.plain { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.plain th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--parch-dim); padding: 6px 8px; border-bottom: 1px solid var(--brass-dim); }
+table.plain td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+details.fallback summary { cursor: pointer; font-size: 13px; color: var(--brass); margin-top: 8px; }
+.plan-id { font-family: var(--mono); font-size: 12px; word-break: break-all; color: var(--brass); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 11px; padding: 1px 7px; border-radius: 2px; border: 1px solid var(--line); }
+.tag.dispose { border-color: var(--teal); color: var(--teal); } .tag.skip { border-color: var(--hold); color: #f1b7a8; }
+.chain { list-style: none; margin: 0; padding: 0; display: grid; }
+.chain li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 8px 0; position: relative; }
+.chain li::before { content: ''; position: absolute; left: 12px; top: 0; bottom: 0; width: 2px; background: var(--line); }
+.chain li .dot { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--teal); background: var(--vault); display: grid; place-items: center; font-family: var(--mono); font-size: 10px; z-index: 1; }
+.chain li.broken .dot, .chain li.broken ~ li .dot { border-color: var(--hold); }
+.chain .hash { font-family: var(--mono); font-size: 11px; color: var(--parch-dim); word-break: break-all; }
+.verdict { padding: 10px 12px; border-radius: 3px; font-size: 13px; border: 1px solid var(--line); background: var(--vault-2); }
+.verdict.ok { border-color: var(--teal); color: #bfe9de; } .verdict.bad { border-color: var(--hold); color: #f6c9bd; } .verdict.warn { border-color: var(--amber); color: #f3dcae; }
+.holds { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.holds li { border: 1px solid var(--line); border-left: 4px solid var(--hold); border-radius: 3px; padding: 8px 12px; display: grid; gap: 4px; font-size: 13px; background: var(--vault-2); }
+.holds li.released { border-left-color: var(--line); opacity: 0.7; }
+.holds li .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.foot { padding: 14px 32px 26px; border-top: 1px solid var(--line); font-size: 12px; color: var(--parch-dim); }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+@media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } .col.right { border-left: 0; border-top: 1px solid var(--line); } }
+@media (max-width: 640px) { .mast { padding: 18px 16px 14px; } .mast h1 { font-size: 36px; } .col { padding: 16px 16px 32px; } }

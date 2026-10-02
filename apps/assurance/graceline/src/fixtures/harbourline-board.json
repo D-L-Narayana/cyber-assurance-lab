@@ -1,0 +1,746 @@
+{
+  "schema": "graceline.board/1",
+  "asOf": "2026-10-01",
+  "exceptions": [
+    {
+      "renewals": 0,
+      "state": "draft",
+      "approvals": [],
+      "history": [],
+      "policyRef": "SEC-POL-03 §2.1 Unique accounts",
+      "requester": "warehouse.lead",
+      "owner": "ops.director",
+      "compensatingControls": [],
+      "justification": "No per-user login.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Remediate.",
+        "dueOn": "2026-12-20",
+        "status": "planned"
+      },
+      "id": "EX-101",
+      "title": "Shared admin account on warehouse scanners",
+      "riskLevel": "high",
+      "startOn": "2026-10-05",
+      "expiresOn": "2026-12-20"
+    },
+    {
+      "renewals": 0,
+      "state": "submitted",
+      "approvals": [],
+      "history": [
+        {
+          "at": "2026-09-28",
+          "event": "submit",
+          "actor": "edi.owner",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        }
+      ],
+      "policyRef": "SEC-POL-11 §5 Encryption in transit",
+      "requester": "edi.owner",
+      "owner": "integration.lead",
+      "compensatingControls": [
+        "Network isolation"
+      ],
+      "justification": "Partner cannot upgrade before Q1; link carries order numbers only, no personal data.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Partner upgrade to TLS 1.2+ scheduled Feb.",
+        "dueOn": "2027-02-15",
+        "status": "planned"
+      },
+      "id": "EX-102",
+      "title": "TLS 1.1 on legacy EDI partner link",
+      "riskLevel": "moderate",
+      "startOn": "2026-10-01",
+      "expiresOn": "2027-02-28"
+    },
+    {
+      "renewals": 0,
+      "state": "under-review",
+      "approvals": [
+        {
+          "approver": "line.manager",
+          "role": "manager",
+          "decidedOn": "2026-09-26",
+          "note": "Fine from a delivery standpoint."
+        }
+      ],
+      "history": [
+        {
+          "at": "2026-09-25",
+          "event": "submit",
+          "actor": "app.owner",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        },
+        {
+          "at": "2026-09-25",
+          "event": "start-review",
+          "actor": "grc.analyst",
+          "from": "submitted",
+          "to": "under-review",
+          "note": ""
+        },
+        {
+          "at": "2026-09-26",
+          "event": "approve",
+          "actor": "line.manager",
+          "from": "under-review",
+          "to": "under-review",
+          "note": "Fine from a delivery standpoint. (1/2, still needs risk-owner)"
+        }
+      ],
+      "policyRef": "SEC-POL-07 §4.2 Patch timelines",
+      "requester": "app.owner",
+      "owner": "infra.lead",
+      "compensatingControls": [
+        "Reporting VLAN isolation",
+        "Weekly authenticated scan"
+      ],
+      "justification": "Vendor patch breaks the reporting module; replacement platform go-live in December.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Migrate reports to the new platform and decommission the server.",
+        "dueOn": "2026-12-10",
+        "status": "planned"
+      },
+      "id": "EX-103",
+      "title": "Legacy report server cannot receive October patches",
+      "riskLevel": "high",
+      "startOn": "2026-10-01",
+      "expiresOn": "2026-12-15"
+    },
+    {
+      "renewals": 0,
+      "state": "active",
+      "approvals": [
+        {
+          "approver": "risk.owner",
+          "role": "risk-owner",
+          "decidedOn": "2026-07-22",
+          "note": "Approved."
+        }
+      ],
+      "history": [
+        {
+          "at": "2026-07-20",
+          "event": "submit",
+          "actor": "print.admin",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        },
+        {
+          "at": "2026-07-20",
+          "event": "start-review",
+          "actor": "grc.analyst",
+          "from": "submitted",
+          "to": "under-review",
+          "note": ""
+        },
+        {
+          "at": "2026-07-22",
+          "event": "approve",
+          "actor": "risk.owner",
+          "from": "under-review",
+          "to": "active",
+          "note": "Approved. Quorum met (1/1, roles risk-owner)."
+        }
+      ],
+      "policyRef": "SEC-POL-03 §4 MFA",
+      "requester": "print.admin",
+      "owner": "workplace.lead",
+      "compensatingControls": [
+        "Network isolation"
+      ],
+      "justification": "Service account cannot complete interactive MFA; restricted to print spooler host by firewall rule.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Replace with managed identity when spooler is migrated.",
+        "dueOn": "2027-01-10",
+        "status": "in-progress"
+      },
+      "id": "EX-104",
+      "title": "MFA exemption for printer service account",
+      "riskLevel": "moderate",
+      "startOn": "2026-08-01",
+      "expiresOn": "2027-01-15"
+    },
+    {
+      "renewals": 0,
+      "state": "active",
+      "approvals": [
+        {
+          "approver": "risk.owner",
+          "role": "risk-owner",
+          "decidedOn": "2026-07-12",
+          "note": "Approved."
+        },
+        {
+          "approver": "line.manager",
+          "role": "manager",
+          "decidedOn": "2026-07-12",
+          "note": "Approved."
+        }
+      ],
+      "history": [
+        {
+          "at": "2026-07-10",
+          "event": "submit",
+          "actor": "facilities",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        },
+        {
+          "at": "2026-07-10",
+          "event": "start-review",
+          "actor": "grc.analyst",
+          "from": "submitted",
+          "to": "under-review",
+          "note": ""
+        },
+        {
+          "at": "2026-07-12",
+          "event": "approve",
+          "actor": "risk.owner",
+          "from": "under-review",
+          "to": "under-review",
+          "note": "Approved. (1/2)"
+        },
+        {
+          "at": "2026-07-12",
+          "event": "approve",
+          "actor": "line.manager",
+          "from": "under-review",
+          "to": "active",
+          "note": "Approved. Quorum met (2/2, roles risk-owner, manager)."
+        }
+      ],
+      "policyRef": "SEC-POL-07 §3 Supported platforms",
+      "requester": "facilities",
+      "owner": "ops.director",
+      "compensatingControls": [
+        "Terminals on isolated VLAN, no internet egress"
+      ],
+      "justification": "Hardware refresh delayed by supplier; terminals cannot run a supported OS.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Replace 14 terminals.",
+        "dueOn": "2026-10-10",
+        "status": "in-progress"
+      },
+      "id": "EX-105",
+      "title": "Unsupported OS on time-clock terminals",
+      "riskLevel": "high",
+      "startOn": "2026-07-15",
+      "expiresOn": "2026-10-12"
+    },
+    {
+      "renewals": 0,
+      "state": "active",
+      "approvals": [],
+      "history": [
+        {
+          "at": "2026-03-25",
+          "event": "submit",
+          "actor": "eng.lead",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        },
+        {
+          "at": "2026-03-25",
+          "event": "start-review",
+          "actor": "grc.analyst",
+          "from": "submitted",
+          "to": "under-review",
+          "note": ""
+        },
+        {
+          "at": "2026-03-28",
+          "event": "approve",
+          "actor": "risk.owner",
+          "from": "under-review",
+          "to": "active",
+          "note": "Approved. Quorum met (1/1, roles risk-owner)."
+        },
+        {
+          "at": "2026-09-20",
+          "event": "renew",
+          "actor": "eng.lead",
+          "from": "active",
+          "to": "active",
+          "note": "Vendor says fix ships in Q4. Renewal requested: 2026-09-25 → 2026-11-20; approvals reset, current expiry stands until the quorum approves (would be renewal 1/2)."
+        }
+      ],
+      "policyRef": "SEC-POL-05 §2 Least privilege",
+      "requester": "eng.lead",
+      "owner": "it.director",
+      "compensatingControls": [
+        "Network isolation"
+      ],
+      "justification": "CAD plugin installer requires local admin; vendor fix promised but not delivered.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Deploy packaged installer via endpoint management.",
+        "dueOn": "2026-09-20",
+        "status": "in-progress"
+      },
+      "id": "EX-106",
+      "title": "Local admin rights for CAD workstation group",
+      "riskLevel": "moderate",
+      "startOn": "2026-04-01",
+      "expiresOn": "2026-09-25",
+      "pendingRenewal": {
+        "newExpiresOn": "2026-11-20",
+        "requestedBy": "eng.lead",
+        "requestedOn": "2026-09-20",
+        "note": "Vendor says fix ships in Q4."
+      }
+    },
+    {
+      "renewals": 0,
+      "state": "active",
+      "approvals": [
+        {
+          "approver": "risk.owner",
+          "role": "risk-owner",
+          "decidedOn": "2026-07-29",
+          "note": "Approved."
+        },
+        {
+          "approver": "ciso",
+          "role": "ciso",
+          "decidedOn": "2026-07-30",
+          "note": "Accepted for one month only."
+        }
+      ],
+      "history": [
+        {
+          "at": "2026-07-28",
+          "event": "submit",
+          "actor": "backup.admin",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        },
+        {
+          "at": "2026-07-28",
+          "event": "start-review",
+          "actor": "grc.analyst",
+          "from": "submitted",
+          "to": "under-review",
+          "note": ""
+        },
+        {
+          "at": "2026-07-29",
+          "event": "approve",
+          "actor": "risk.owner",
+          "from": "under-review",
+          "to": "under-review",
+          "note": "Approved. (1/2, still needs ciso)"
+        },
+        {
+          "at": "2026-07-30",
+          "event": "approve",
+          "actor": "ciso",
+          "from": "under-review",
+          "to": "active",
+          "note": "Accepted for one month only. Quorum met (2/2, roles risk-owner, ciso)."
+        }
+      ],
+      "policyRef": "SEC-POL-11 §6 Encryption at rest",
+      "requester": "backup.admin",
+      "owner": "infra.lead",
+      "compensatingControls": [
+        "Locked cage with access log"
+      ],
+      "justification": "Tape drive encryption module failed; replacement on order; tapes rotate monthly.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Install replacement encryption module and re-encrypt retained tapes.",
+        "dueOn": "2026-08-28",
+        "status": "in-progress"
+      },
+      "id": "EX-107",
+      "title": "Unencrypted backup tapes in offsite store",
+      "riskLevel": "critical",
+      "startOn": "2026-08-01",
+      "expiresOn": "2026-08-30"
+    },
+    {
+      "renewals": 0,
+      "state": "closed",
+      "approvals": [
+        {
+          "approver": "line.manager",
+          "role": "manager",
+          "decidedOn": "2026-04-21",
+          "note": "Approved."
+        }
+      ],
+      "history": [
+        {
+          "at": "2026-04-20",
+          "event": "submit",
+          "actor": "network.admin",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        },
+        {
+          "at": "2026-04-20",
+          "event": "start-review",
+          "actor": "grc.analyst",
+          "from": "submitted",
+          "to": "under-review",
+          "note": ""
+        },
+        {
+          "at": "2026-04-21",
+          "event": "approve",
+          "actor": "line.manager",
+          "from": "under-review",
+          "to": "active",
+          "note": "Approved. Quorum met (1/1, roles manager)."
+        },
+        {
+          "at": "2026-08-01",
+          "event": "update-remediation",
+          "actor": "network.lead",
+          "from": "active",
+          "to": "active",
+          "note": "planned → in-progress. Portal in test."
+        },
+        {
+          "at": "2026-09-14",
+          "event": "close",
+          "actor": "network.lead",
+          "from": "active",
+          "to": "closed",
+          "note": "Captive portal live 2026-09-12; PSK retired; change CHG-4388 and controller screenshot in evidence locker."
+        }
+      ],
+      "policyRef": "SEC-POL-09 §1 Wireless access",
+      "requester": "network.admin",
+      "owner": "network.lead",
+      "compensatingControls": [],
+      "justification": "Captive portal rollout pending; guest network is internet-only and rate-limited.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Deploy captive portal with daily codes.",
+        "dueOn": "2026-09-15",
+        "status": "done"
+      },
+      "id": "EX-108",
+      "title": "Guest Wi-Fi shared PSK",
+      "riskLevel": "low",
+      "startOn": "2026-05-01",
+      "expiresOn": "2026-09-30",
+      "closure": {
+        "evidence": "Captive portal live 2026-09-12; PSK retired; change CHG-4388 and controller screenshot in evidence locker.",
+        "closedBy": "network.lead",
+        "closedOn": "2026-09-14"
+      }
+    },
+    {
+      "renewals": 0,
+      "state": "rejected",
+      "approvals": [],
+      "history": [
+        {
+          "at": "2026-09-10",
+          "event": "submit",
+          "actor": "devops.lead",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        },
+        {
+          "at": "2026-09-10",
+          "event": "start-review",
+          "actor": "grc.analyst",
+          "from": "submitted",
+          "to": "under-review",
+          "note": ""
+        },
+        {
+          "at": "2026-09-12",
+          "event": "reject",
+          "actor": "ciso",
+          "from": "under-review",
+          "to": "rejected",
+          "note": "Tune exclusions instead of disabling; ephemeral agents still process source code."
+        }
+      ],
+      "policyRef": "SEC-POL-08 §2 Endpoint protection",
+      "requester": "devops.lead",
+      "owner": "platform.lead",
+      "compensatingControls": [
+        "Build agents are ephemeral"
+      ],
+      "justification": "EDR adds 40% to build times; agents are rebuilt nightly from a golden image.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Tune EDR exclusions with vendor.",
+        "dueOn": "2026-10-05",
+        "status": "planned"
+      },
+      "id": "EX-109",
+      "title": "Disable endpoint EDR on build agents",
+      "riskLevel": "critical",
+      "startOn": "2026-09-15",
+      "expiresOn": "2026-10-10"
+    },
+    {
+      "renewals": 2,
+      "state": "active",
+      "approvals": [
+        {
+          "approver": "risk.owner",
+          "role": "risk-owner",
+          "decidedOn": "2026-07-02",
+          "note": "Approved."
+        },
+        {
+          "approver": "line.manager",
+          "role": "manager",
+          "decidedOn": "2026-07-02",
+          "note": "Approved."
+        }
+      ],
+      "history": [
+        {
+          "at": "2026-01-05",
+          "event": "submit",
+          "actor": "erp.owner",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        },
+        {
+          "at": "2026-01-05",
+          "event": "start-review",
+          "actor": "grc.analyst",
+          "from": "submitted",
+          "to": "under-review",
+          "note": ""
+        },
+        {
+          "at": "2026-01-06",
+          "event": "approve",
+          "actor": "risk.owner",
+          "from": "under-review",
+          "to": "under-review",
+          "note": "Approved. (1/2)"
+        },
+        {
+          "at": "2026-01-06",
+          "event": "approve",
+          "actor": "line.manager",
+          "from": "under-review",
+          "to": "active",
+          "note": "Approved. Quorum met (2/2, roles risk-owner, manager)."
+        },
+        {
+          "at": "2026-04-05",
+          "event": "renew",
+          "actor": "erp.owner",
+          "from": "active",
+          "to": "active",
+          "note": "Contract not yet signed. Renewal requested: 2026-04-10 → 2026-07-09; approvals reset, current expiry stands until the quorum approves (would be renewal 1/2)."
+        },
+        {
+          "at": "2026-04-06",
+          "event": "approve",
+          "actor": "risk.owner",
+          "from": "active",
+          "to": "active",
+          "note": "Approved. Renewal to 2026-07-09: 1/2."
+        },
+        {
+          "at": "2026-04-06",
+          "event": "approve",
+          "actor": "line.manager",
+          "from": "active",
+          "to": "active",
+          "note": "Approved. Renewal quorum met (2/2); expiry 2026-04-10 → 2026-07-09 (renewal 1/2)."
+        },
+        {
+          "at": "2026-07-01",
+          "event": "renew",
+          "actor": "erp.owner",
+          "from": "active",
+          "to": "active",
+          "note": "Signed; migration under way. Renewal requested: 2026-07-09 → 2026-10-07; approvals reset, current expiry stands until the quorum approves (would be renewal 2/2)."
+        },
+        {
+          "at": "2026-07-02",
+          "event": "approve",
+          "actor": "risk.owner",
+          "from": "active",
+          "to": "active",
+          "note": "Approved. Renewal to 2026-10-07: 1/2."
+        },
+        {
+          "at": "2026-07-02",
+          "event": "approve",
+          "actor": "line.manager",
+          "from": "active",
+          "to": "active",
+          "note": "Approved. Renewal quorum met (2/2); expiry 2026-07-09 → 2026-10-07 (renewal 2/2)."
+        }
+      ],
+      "policyRef": "SEC-POL-03 §2.1 Unique accounts",
+      "requester": "erp.owner",
+      "owner": "it.director",
+      "compensatingControls": [
+        "Session recording",
+        "Time-boxed VPN enablement"
+      ],
+      "justification": "Vendor portal does not support named accounts; contract renegotiation in progress.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Move vendor to named accounts under new contract.",
+        "dueOn": "2026-04-01",
+        "status": "in-progress"
+      },
+      "id": "EX-110",
+      "title": "Vendor remote support via shared VPN account",
+      "riskLevel": "high",
+      "startOn": "2026-01-10",
+      "expiresOn": "2026-10-07"
+    },
+    {
+      "renewals": 0,
+      "state": "active",
+      "approvals": [
+        {
+          "approver": "risk.owner",
+          "role": "risk-owner",
+          "decidedOn": "2026-08-26",
+          "note": "Approved."
+        },
+        {
+          "approver": "line.manager",
+          "role": "manager",
+          "decidedOn": "2026-08-26",
+          "note": "Approved."
+        }
+      ],
+      "history": [
+        {
+          "at": "2026-08-25",
+          "event": "submit",
+          "actor": "retail.ops",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        },
+        {
+          "at": "2026-08-25",
+          "event": "start-review",
+          "actor": "grc.analyst",
+          "from": "submitted",
+          "to": "under-review",
+          "note": ""
+        },
+        {
+          "at": "2026-08-26",
+          "event": "approve",
+          "actor": "risk.owner",
+          "from": "under-review",
+          "to": "under-review",
+          "note": "Approved. (1/2)"
+        },
+        {
+          "at": "2026-08-26",
+          "event": "approve",
+          "actor": "line.manager",
+          "from": "under-review",
+          "to": "active",
+          "note": "Approved. Quorum met (2/2, roles risk-owner, manager)."
+        }
+      ],
+      "policyRef": "SEC-POL-07 §4.2 Patch timelines",
+      "requester": "retail.ops",
+      "owner": "payments.lead",
+      "compensatingControls": [
+        "Terminals segmented; P2PE in use"
+      ],
+      "justification": "Acquirer certification for new firmware not complete; P2PE limits exposure.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Deploy certified firmware.",
+        "dueOn": "2026-11-20",
+        "status": "planned"
+      },
+      "id": "EX-111",
+      "title": "Payment terminal firmware pinned to vulnerable version",
+      "riskLevel": "critical",
+      "startOn": "2026-09-01",
+      "expiresOn": "2026-11-25"
+    },
+    {
+      "renewals": 0,
+      "state": "under-review",
+      "approvals": [
+        {
+          "approver": "ciso",
+          "role": "ciso",
+          "decidedOn": "2026-09-30",
+          "note": "Only for the cut-over window."
+        }
+      ],
+      "history": [
+        {
+          "at": "2026-09-29",
+          "event": "submit",
+          "actor": "dba.lead",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        },
+        {
+          "at": "2026-09-29",
+          "event": "start-review",
+          "actor": "grc.analyst",
+          "from": "submitted",
+          "to": "under-review",
+          "note": ""
+        },
+        {
+          "at": "2026-09-30",
+          "event": "approve",
+          "actor": "ciso",
+          "from": "under-review",
+          "to": "under-review",
+          "note": "Only for the cut-over window. (1/2, still needs risk-owner)"
+        }
+      ],
+      "policyRef": "SEC-POL-10 §3 Network segmentation",
+      "requester": "dba.lead",
+      "owner": "data.platform",
+      "compensatingControls": [
+        "Database firewall allow-list by host"
+      ],
+      "justification": "Migration tooling requires direct access during cut-over window; allow-list limits to two hosts.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Remove allow-list entries after cut-over.",
+        "dueOn": "2026-10-27",
+        "status": "planned"
+      },
+      "id": "EX-112",
+      "title": "Production database reachable from developer VLAN",
+      "riskLevel": "critical",
+      "startOn": "2026-10-01",
+      "expiresOn": "2026-10-28"
+    }
+  ]
+}

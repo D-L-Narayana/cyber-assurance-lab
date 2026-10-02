@@ -1,0 +1,880 @@
+{
+  "schema": "labelsmith.catalog/v1",
+  "label": "Synthetic catalog — five example systems",
+  "asOf": "2026-10-01",
+  "ruleSet": [
+    {
+      "id": "name-secret",
+      "class": "secret-credential",
+      "weight": 0.85,
+      "builtIn": true
+    },
+    {
+      "id": "val-apikey",
+      "class": "secret-credential",
+      "weight": 0.8,
+      "builtIn": true
+    },
+    {
+      "id": "val-jwt",
+      "class": "secret-credential",
+      "weight": 0.9,
+      "builtIn": true
+    },
+    {
+      "id": "val-password-hash",
+      "class": "secret-credential",
+      "weight": 0.9,
+      "builtIn": true
+    },
+    {
+      "id": "name-health",
+      "class": "restricted-health",
+      "weight": 0.8,
+      "builtIn": true
+    },
+    {
+      "id": "val-icd10",
+      "class": "restricted-health",
+      "weight": 0.75,
+      "builtIn": true
+    },
+    {
+      "id": "name-card",
+      "class": "restricted-financial",
+      "weight": 0.8,
+      "builtIn": true
+    },
+    {
+      "id": "val-card-luhn",
+      "class": "restricted-financial",
+      "weight": 0.85,
+      "builtIn": true
+    },
+    {
+      "id": "name-bank",
+      "class": "restricted-financial",
+      "weight": 0.75,
+      "builtIn": true
+    },
+    {
+      "id": "val-iban",
+      "class": "restricted-financial",
+      "weight": 0.9,
+      "builtIn": true
+    },
+    {
+      "id": "name-pay",
+      "class": "restricted-financial",
+      "weight": 0.7,
+      "builtIn": true
+    },
+    {
+      "id": "name-national-id",
+      "class": "restricted-pii",
+      "weight": 0.85,
+      "builtIn": true
+    },
+    {
+      "id": "val-national-id",
+      "class": "restricted-pii",
+      "weight": 0.7,
+      "builtIn": true
+    },
+    {
+      "id": "name-dob",
+      "class": "restricted-pii",
+      "weight": 0.8,
+      "builtIn": true
+    },
+    {
+      "id": "val-dob",
+      "class": "restricted-pii",
+      "weight": 0.35,
+      "builtIn": true
+    },
+    {
+      "id": "name-email",
+      "class": "restricted-pii",
+      "weight": 0.7,
+      "builtIn": true
+    },
+    {
+      "id": "val-email",
+      "class": "restricted-pii",
+      "weight": 0.75,
+      "builtIn": true
+    },
+    {
+      "id": "name-person",
+      "class": "restricted-pii",
+      "weight": 0.7,
+      "builtIn": true
+    },
+    {
+      "id": "name-phone",
+      "class": "restricted-pii",
+      "weight": 0.65,
+      "builtIn": true
+    },
+    {
+      "id": "val-phone",
+      "class": "restricted-pii",
+      "weight": 0.5,
+      "builtIn": true
+    },
+    {
+      "id": "name-address",
+      "class": "restricted-pii",
+      "weight": 0.55,
+      "builtIn": true
+    },
+    {
+      "id": "val-geo",
+      "class": "restricted-pii",
+      "weight": 0.6,
+      "builtIn": true
+    },
+    {
+      "id": "name-ip",
+      "class": "confidential",
+      "weight": 0.6,
+      "builtIn": true
+    },
+    {
+      "id": "val-ipv4",
+      "class": "confidential",
+      "weight": 0.6,
+      "builtIn": true
+    },
+    {
+      "id": "name-finance-agg",
+      "class": "confidential",
+      "weight": 0.6,
+      "builtIn": true
+    },
+    {
+      "id": "name-internal",
+      "class": "internal",
+      "weight": 0.5,
+      "builtIn": true
+    },
+    {
+      "id": "name-public",
+      "class": "public",
+      "weight": 0.6,
+      "builtIn": true
+    },
+    {
+      "id": "kw-codename",
+      "class": "confidential",
+      "weight": 0.7,
+      "builtIn": false
+    }
+  ],
+  "summary": {
+    "total": 40,
+    "needsReview": 16,
+    "activeExceptions": 2,
+    "expiredExceptions": 1,
+    "byClass": {
+      "public": 3,
+      "internal": 1,
+      "confidential": 7,
+      "restricted-pii": 15,
+      "restricted-financial": 4,
+      "restricted-health": 2,
+      "secret-credential": 3,
+      "unknown": 5
+    }
+  },
+  "fields": [
+    {
+      "fieldId": "fld-001",
+      "system": "crm.example",
+      "table": "contacts",
+      "name": "first_name",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.7,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-person"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-002",
+      "system": "crm.example",
+      "table": "contacts",
+      "name": "last_name",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.7,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-person"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-003",
+      "system": "crm.example",
+      "table": "contacts",
+      "name": "email",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "confidential",
+      "confidence": 0.93,
+      "needsReview": true,
+      "reviewReasons": [
+        "Declared “internal” is less strict than computed “restricted-pii”."
+      ],
+      "matchedRules": [
+        "name-email",
+        "val-email"
+      ],
+      "exception": "exc-003 (active)",
+      "policySummary": "Need-to-know business data. Share outside only under an agreement."
+    },
+    {
+      "fieldId": "fld-004",
+      "system": "crm.example",
+      "table": "contacts",
+      "name": "phone",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.83,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-phone",
+        "val-phone"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-005",
+      "system": "crm.example",
+      "table": "contacts",
+      "name": "contact_email",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.93,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-email",
+        "val-email"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-006",
+      "system": "crm.example",
+      "table": "contacts",
+      "name": "created_at",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.35,
+      "needsReview": true,
+      "reviewReasons": [
+        "Confidence 0.35 is below the 0.6 review threshold.",
+        "Declared “internal” is less strict than computed “restricted-pii”."
+      ],
+      "matchedRules": [
+        "val-dob",
+        "name-internal"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-007",
+      "system": "crm.example",
+      "table": "accounts",
+      "name": "account_name",
+      "computedClass": "confidential",
+      "effectiveClass": "confidential",
+      "confidence": 0.5,
+      "needsReview": true,
+      "reviewReasons": [
+        "No rule matched; using the declared class “confidential” provisionally."
+      ],
+      "matchedRules": [],
+      "exception": null,
+      "policySummary": "Need-to-know business data. Share outside only under an agreement."
+    },
+    {
+      "fieldId": "fld-008",
+      "system": "crm.example",
+      "table": "accounts",
+      "name": "annual_revenue",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.5,
+      "needsReview": true,
+      "reviewReasons": [
+        "Confidence 0.5 is below the 0.6 review threshold."
+      ],
+      "matchedRules": [
+        "val-phone",
+        "name-finance-agg"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-009",
+      "system": "crm.example",
+      "table": "accounts",
+      "name": "client_ip_last_login",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.5,
+      "needsReview": true,
+      "reviewReasons": [
+        "Confidence 0.5 is below the 0.6 review threshold."
+      ],
+      "matchedRules": [
+        "val-phone",
+        "name-ip",
+        "val-ipv4"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-010",
+      "system": "crm.example",
+      "table": "accounts",
+      "name": "geo_hq",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.6,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "val-geo"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-011",
+      "system": "payments.example",
+      "table": "cards",
+      "name": "card_number",
+      "computedClass": "restricted-financial",
+      "effectiveClass": "confidential",
+      "confidence": 0.97,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-card",
+        "val-card-luhn"
+      ],
+      "exception": "exc-001 (active)",
+      "policySummary": "Need-to-know business data. Share outside only under an agreement."
+    },
+    {
+      "fieldId": "fld-012",
+      "system": "payments.example",
+      "table": "cards",
+      "name": "cvv",
+      "computedClass": "restricted-financial",
+      "effectiveClass": "restricted-financial",
+      "confidence": 0.8,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-card"
+      ],
+      "exception": null,
+      "policySummary": "Payment and account data. Tokenise where possible; never in logs."
+    },
+    {
+      "fieldId": "fld-013",
+      "system": "payments.example",
+      "table": "cards",
+      "name": "expiry",
+      "computedClass": "restricted-financial",
+      "effectiveClass": "restricted-financial",
+      "confidence": 0.8,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-card"
+      ],
+      "exception": null,
+      "policySummary": "Payment and account data. Tokenise where possible; never in logs."
+    },
+    {
+      "fieldId": "fld-014",
+      "system": "payments.example",
+      "table": "cards",
+      "name": "cardholder_reference",
+      "computedClass": "unknown",
+      "effectiveClass": "unknown",
+      "confidence": 0,
+      "needsReview": true,
+      "reviewReasons": [
+        "No rule matched and no declared class; a human must label this field."
+      ],
+      "matchedRules": [],
+      "exception": null,
+      "policySummary": "Unclassified: treat as confidential until a human review assigns a class."
+    },
+    {
+      "fieldId": "fld-015",
+      "system": "payments.example",
+      "table": "bank_accounts",
+      "name": "iban",
+      "computedClass": "restricted-financial",
+      "effectiveClass": "restricted-financial",
+      "confidence": 0.98,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-bank",
+        "val-iban"
+      ],
+      "exception": null,
+      "policySummary": "Payment and account data. Tokenise where possible; never in logs."
+    },
+    {
+      "fieldId": "fld-016",
+      "system": "payments.example",
+      "table": "bank_accounts",
+      "name": "account_holder",
+      "computedClass": "unknown",
+      "effectiveClass": "unknown",
+      "confidence": 0,
+      "needsReview": true,
+      "reviewReasons": [
+        "No rule matched and no declared class; a human must label this field."
+      ],
+      "matchedRules": [],
+      "exception": null,
+      "policySummary": "Unclassified: treat as confidential until a human review assigns a class."
+    },
+    {
+      "fieldId": "fld-017",
+      "system": "payments.example",
+      "table": "ledger",
+      "name": "invoice_total",
+      "computedClass": "confidential",
+      "effectiveClass": "confidential",
+      "confidence": 0.6,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-finance-agg"
+      ],
+      "exception": null,
+      "policySummary": "Need-to-know business data. Share outside only under an agreement."
+    },
+    {
+      "fieldId": "fld-018",
+      "system": "payments.example",
+      "table": "ledger",
+      "name": "status",
+      "computedClass": "internal",
+      "effectiveClass": "confidential",
+      "confidence": 0.5,
+      "needsReview": true,
+      "reviewReasons": [
+        "Confidence 0.5 is below the 0.6 review threshold.",
+        "Declared “confidential” is stricter than computed “internal”; the declared class is kept as the effective class and drives the handling policy until a reviewer confirms the downgrade."
+      ],
+      "matchedRules": [
+        "name-internal"
+      ],
+      "exception": null,
+      "policySummary": "Need-to-know business data. Share outside only under an agreement."
+    },
+    {
+      "fieldId": "fld-019",
+      "system": "hris.example",
+      "table": "employees",
+      "name": "employee_id",
+      "computedClass": "unknown",
+      "effectiveClass": "unknown",
+      "confidence": 0,
+      "needsReview": true,
+      "reviewReasons": [
+        "No rule matched and no declared class; a human must label this field."
+      ],
+      "matchedRules": [],
+      "exception": null,
+      "policySummary": "Unclassified: treat as confidential until a human review assigns a class."
+    },
+    {
+      "fieldId": "fld-020",
+      "system": "hris.example",
+      "table": "employees",
+      "name": "national_id",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.98,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-national-id",
+        "val-national-id",
+        "val-phone"
+      ],
+      "exception": "exc-002 (expired)",
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-021",
+      "system": "hris.example",
+      "table": "employees",
+      "name": "date_of_birth",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.87,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-dob",
+        "val-dob"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-022",
+      "system": "hris.example",
+      "table": "employees",
+      "name": "salary",
+      "computedClass": "restricted-financial",
+      "effectiveClass": "restricted-financial",
+      "confidence": 0.7,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-pay"
+      ],
+      "exception": null,
+      "policySummary": "Payment and account data. Tokenise where possible; never in logs."
+    },
+    {
+      "fieldId": "fld-023",
+      "system": "hris.example",
+      "table": "employees",
+      "name": "home_address",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.55,
+      "needsReview": true,
+      "reviewReasons": [
+        "Confidence 0.55 is below the 0.6 review threshold."
+      ],
+      "matchedRules": [
+        "name-address"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-024",
+      "system": "hris.example",
+      "table": "employees",
+      "name": "emergency_contact_phone",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.83,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-phone",
+        "val-phone"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-025",
+      "system": "hris.example",
+      "table": "benefits",
+      "name": "diagnosis_code",
+      "computedClass": "restricted-health",
+      "effectiveClass": "restricted-health",
+      "confidence": 0.95,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-health",
+        "val-icd10"
+      ],
+      "exception": null,
+      "policySummary": "Health data. Strictest access; explicit purpose required."
+    },
+    {
+      "fieldId": "fld-026",
+      "system": "hris.example",
+      "table": "benefits",
+      "name": "allergy_notes",
+      "computedClass": "restricted-health",
+      "effectiveClass": "restricted-health",
+      "confidence": 0.8,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-health",
+        "name-internal"
+      ],
+      "exception": null,
+      "policySummary": "Health data. Strictest access; explicit purpose required."
+    },
+    {
+      "fieldId": "fld-027",
+      "system": "hris.example",
+      "table": "benefits",
+      "name": "plan_tier",
+      "computedClass": "confidential",
+      "effectiveClass": "confidential",
+      "confidence": 0.7,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "kw-codename"
+      ],
+      "exception": null,
+      "policySummary": "Need-to-know business data. Share outside only under an agreement."
+    },
+    {
+      "fieldId": "fld-028",
+      "system": "platform.example",
+      "table": "users",
+      "name": "password_hash",
+      "computedClass": "secret-credential",
+      "effectiveClass": "secret-credential",
+      "confidence": 1,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-secret",
+        "val-apikey",
+        "val-password-hash"
+      ],
+      "exception": null,
+      "policySummary": "Authentication material. Belongs in a secrets manager, never in a data table."
+    },
+    {
+      "fieldId": "fld-029",
+      "system": "platform.example",
+      "table": "users",
+      "name": "session_token",
+      "computedClass": "secret-credential",
+      "effectiveClass": "secret-credential",
+      "confidence": 1,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-secret",
+        "val-apikey",
+        "val-jwt"
+      ],
+      "exception": null,
+      "policySummary": "Authentication material. Belongs in a secrets manager, never in a data table."
+    },
+    {
+      "fieldId": "fld-030",
+      "system": "platform.example",
+      "table": "integrations",
+      "name": "vendor_api_key",
+      "computedClass": "secret-credential",
+      "effectiveClass": "secret-credential",
+      "confidence": 0.97,
+      "needsReview": true,
+      "reviewReasons": [
+        "Declared “confidential” is less strict than computed “secret-credential”."
+      ],
+      "matchedRules": [
+        "name-secret",
+        "val-apikey"
+      ],
+      "exception": null,
+      "policySummary": "Authentication material. Belongs in a secrets manager, never in a data table."
+    },
+    {
+      "fieldId": "fld-031",
+      "system": "platform.example",
+      "table": "integrations",
+      "name": "webhook_url",
+      "computedClass": "unknown",
+      "effectiveClass": "unknown",
+      "confidence": 0,
+      "needsReview": true,
+      "reviewReasons": [
+        "No rule matched and no declared class; a human must label this field."
+      ],
+      "matchedRules": [],
+      "exception": null,
+      "policySummary": "Unclassified: treat as confidential until a human review assigns a class."
+    },
+    {
+      "fieldId": "fld-032",
+      "system": "platform.example",
+      "table": "audit_log",
+      "name": "remote_addr",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.5,
+      "needsReview": true,
+      "reviewReasons": [
+        "Confidence 0.5 is below the 0.6 review threshold."
+      ],
+      "matchedRules": [
+        "val-phone",
+        "name-ip",
+        "val-ipv4"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-033",
+      "system": "platform.example",
+      "table": "audit_log",
+      "name": "updated_at",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.35,
+      "needsReview": true,
+      "reviewReasons": [
+        "Confidence 0.35 is below the 0.6 review threshold."
+      ],
+      "matchedRules": [
+        "val-dob",
+        "name-internal"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-034",
+      "system": "platform.example",
+      "table": "audit_log",
+      "name": "notes",
+      "computedClass": "internal",
+      "effectiveClass": "internal",
+      "confidence": 0.5,
+      "needsReview": true,
+      "reviewReasons": [
+        "Confidence 0.5 is below the 0.6 review threshold."
+      ],
+      "matchedRules": [
+        "name-internal"
+      ],
+      "exception": null,
+      "policySummary": "For staff and contractors. Do not post publicly."
+    },
+    {
+      "fieldId": "fld-035",
+      "system": "catalog.example",
+      "table": "products",
+      "name": "product_name",
+      "computedClass": "public",
+      "effectiveClass": "public",
+      "confidence": 0.6,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-public"
+      ],
+      "exception": null,
+      "policySummary": "May be published. Integrity matters more than confidentiality."
+    },
+    {
+      "fieldId": "fld-036",
+      "system": "catalog.example",
+      "table": "products",
+      "name": "sku",
+      "computedClass": "public",
+      "effectiveClass": "public",
+      "confidence": 0.6,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-public"
+      ],
+      "exception": null,
+      "policySummary": "May be published. Integrity matters more than confidentiality."
+    },
+    {
+      "fieldId": "fld-037",
+      "system": "catalog.example",
+      "table": "products",
+      "name": "public_description",
+      "computedClass": "public",
+      "effectiveClass": "public",
+      "confidence": 0.6,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-public"
+      ],
+      "exception": null,
+      "policySummary": "May be published. Integrity matters more than confidentiality."
+    },
+    {
+      "fieldId": "fld-038",
+      "system": "catalog.example",
+      "table": "products",
+      "name": "margin_pct",
+      "computedClass": "confidential",
+      "effectiveClass": "confidential",
+      "confidence": 0.6,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-finance-agg"
+      ],
+      "exception": null,
+      "policySummary": "Need-to-know business data. Share outside only under an agreement."
+    },
+    {
+      "fieldId": "fld-039",
+      "system": "catalog.example",
+      "table": "reviews",
+      "name": "reviewer_email",
+      "computedClass": "restricted-pii",
+      "effectiveClass": "restricted-pii",
+      "confidence": 0.93,
+      "needsReview": false,
+      "reviewReasons": [],
+      "matchedRules": [
+        "name-email",
+        "val-email"
+      ],
+      "exception": null,
+      "policySummary": "Identifies a person. Minimise, mask, encrypt, review access quarterly."
+    },
+    {
+      "fieldId": "fld-040",
+      "system": "catalog.example",
+      "table": "reviews",
+      "name": "is_verified",
+      "computedClass": "unknown",
+      "effectiveClass": "unknown",
+      "confidence": 0,
+      "needsReview": true,
+      "reviewReasons": [
+        "No rule matched and no declared class; a human must label this field."
+      ],
+      "matchedRules": [],
+      "exception": null,
+      "policySummary": "Unclassified: treat as confidential until a human review assigns a class."
+    }
+  ],
+  "disclaimer": "Rule-based proposal from synthetic metadata. Not a legal or regulatory classification."
+}

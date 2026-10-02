@@ -1,0 +1,31 @@
+{
+  "name": "labelsmith",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Labelsmith - educational data-governance prototype with synthetic fixtures",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --port 6141 --strictPort",
+    "build": "tsc --noEmit -p tsconfig.json && vite build",
+    "preview": "vite preview --port 6141 --strictPort",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/literata": "^5.3.0",
+    "@fontsource-variable/martian-mono": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.6",
+    "vitest": "^4.1.0"
+  }
+}

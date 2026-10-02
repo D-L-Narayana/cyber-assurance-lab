@@ -1,0 +1,182 @@
+{
+  "schema": "provgate.release/1",
+  "release": {
+    "id": "rel-141",
+    "name": "Ledgerly web 1.4.1",
+    "version": "1.4.1",
+    "commit": "b2c3d4e",
+    "author": "dev-priya",
+    "createdAt": "2026-09-30T09:00:00Z"
+  },
+  "identities": [
+    {
+      "id": "dev-priya",
+      "label": "Priya (developer)",
+      "roles": [
+        "developer"
+      ]
+    },
+    {
+      "id": "rev-ken",
+      "label": "Ken (reviewer, developer)",
+      "roles": [
+        "reviewer",
+        "developer"
+      ]
+    },
+    {
+      "id": "rev-ana",
+      "label": "Ana (reviewer)",
+      "roles": [
+        "reviewer"
+      ]
+    },
+    {
+      "id": "sec-dilip",
+      "label": "Dilip (security)",
+      "roles": [
+        "security"
+      ]
+    },
+    {
+      "id": "rm-joe",
+      "label": "Joe (release manager)",
+      "roles": [
+        "release-manager"
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "path": "auth/session.ts",
+      "kind": "modified"
+    },
+    {
+      "path": "auth/password-reset.ts",
+      "kind": "added"
+    },
+    {
+      "path": "package-lock.json",
+      "kind": "modified"
+    },
+    {
+      "path": "web/invoice-list.tsx",
+      "kind": "modified"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-tm-4",
+      "type": "threat-model",
+      "producedAt": "2026-09-25T10:00:00Z",
+      "commit": "b2c3d4e",
+      "producedBy": "sec-dilip",
+      "scope": [
+        "auth/**",
+        "web/**"
+      ],
+      "artifact": "Threat model v4 \u2014 authentication and password reset. Assets: session token, reset token. Abuse cases: token reuse, enumeration, brute force. Mitigations: single-use reset tokens (15 min), constant-time compare, rate limit 5/min. Covers auth/** and web/**.",
+      "artifactHash": "a0fbc7f065089ca4d71e9251dfd4ecf1be8788693d8b48fcdd891aba2ec8fc95"
+    },
+    {
+      "id": "ev-cr-91",
+      "type": "code-review",
+      "producedAt": "2026-09-29T16:00:00Z",
+      "commit": "b2c3d4e",
+      "producedBy": "rev-ken",
+      "reviewers": [
+        "rev-ken",
+        "rev-ana"
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "ev-ut-141",
+      "type": "unit-tests",
+      "producedAt": "2026-09-30T08:30:00Z",
+      "commit": "b2c3d4e",
+      "producedBy": "ci-runner",
+      "result": "pass",
+      "artifact": "vitest run \u2014 231 passed, 0 failed, 0 skipped (commit b2c3d4e)",
+      "artifactHash": "0b57a6b8c92429645968ee4274aa588f3718d4ebb8fe685e817ee895e14653ed"
+    },
+    {
+      "id": "ev-sast-64",
+      "type": "sast",
+      "producedAt": "2026-09-30T08:32:00Z",
+      "commit": "b2c3d4e",
+      "producedBy": "ci-runner",
+      "result": "pass",
+      "findings": [
+        {
+          "id": "SAST-17",
+          "title": "Reset token compared with non-constant-time equality",
+          "severity": "high",
+          "status": "fixed"
+        }
+      ],
+      "scope": [
+        "**"
+      ]
+    },
+    {
+      "id": "ev-dep-21",
+      "type": "dependency-review",
+      "producedAt": "2026-09-30T08:40:00Z",
+      "commit": "b2c3d4e",
+      "producedBy": "ci-runner",
+      "result": "warn",
+      "findings": [
+        {
+          "id": "DEP-4",
+          "title": "formatlib 2.1.0 prototype pollution (synthetic advisory)",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "id": "DEP-5",
+          "title": "colourkit deprecated upstream",
+          "severity": "low",
+          "status": "open"
+        }
+      ],
+      "scope": [
+        "package.json",
+        "package-lock.json"
+      ]
+    },
+    {
+      "id": "ev-ss-141",
+      "type": "secret-scan",
+      "producedAt": "2026-09-30T08:35:00Z",
+      "commit": "b2c3d4e",
+      "producedBy": "ci-runner",
+      "result": "pass",
+      "artifact": "gitleaks-style synthetic scan: 0 leaks across 431 files",
+      "artifactHash": "24dbc17598aed64774aa7d0b88084526999c68796ce8958544cbd2a8be11a796"
+    },
+    {
+      "id": "ev-rt-7",
+      "type": "security-retest",
+      "producedAt": "2026-09-30T07:00:00Z",
+      "commit": "b2c3d4e",
+      "producedBy": "sec-dilip",
+      "result": "pass",
+      "artifact": "Security retest of password-reset flow against build b2c3d4e: token reuse rejected, enumeration responses uniform, rate limit observed. Result: pass.",
+      "artifactHash": "db286e0ed512d4178a0e644872b6dbcc2894cdf0f403d1fcd4dfb69681d90160",
+      "scope": [
+        "auth/**"
+      ]
+    }
+  ],
+  "acceptances": [
+    {
+      "id": "ra-2",
+      "findingRef": "DEP-4",
+      "approvedBy": "sec-dilip",
+      "approvedAt": "2026-09-20T00:00:00Z",
+      "expiresAt": "2026-11-15T00:00:00Z",
+      "rationale": "Prototype-pollution sink not reachable from invoice formatting (reviewed call graph); upgrade to formatlib 3.0 tracked for 1.5.0."
+    }
+  ]
+}

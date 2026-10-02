@@ -1,0 +1,4 @@
+ ✓ src/engine/safe.test.ts (10 tests) 33ms
+ ✓ src/engine/register.test.ts (16 tests) 16ms
+ ✓ src/fixtures/validate-demo.test.ts (1 test) 12ms
+      Tests  27 passed (27)

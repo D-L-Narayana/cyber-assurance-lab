@@ -1,0 +1,278 @@
+{
+  "schema": "seamline.scenario/1",
+  "name": "Brewline mobile ordering (synthetic)",
+  "baseTime": "2026-10-01T08:00:00Z",
+  "users": [
+    {
+      "id": "u-maya",
+      "label": "Maya (customer)",
+      "role": "customer",
+      "token": "tok-maya-7f21"
+    },
+    {
+      "id": "u-omar",
+      "label": "Omar (customer)",
+      "role": "customer",
+      "token": "tok-omar-3c9e"
+    },
+    {
+      "id": "u-staff",
+      "label": "Jo (staff)",
+      "role": "staff",
+      "token": "tok-staff-0a44"
+    }
+  ],
+  "catalog": [
+    {
+      "sku": "flat-white",
+      "name": "Flat white",
+      "price": 4.5
+    },
+    {
+      "sku": "croissant",
+      "name": "Butter croissant",
+      "price": 3.25
+    },
+    {
+      "sku": "beans-1kg",
+      "name": "House beans 1 kg",
+      "price": 28.0
+    }
+  ],
+  "coupons": [
+    {
+      "code": "WELCOME10",
+      "percent": 10
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-5001",
+      "user": "u-omar",
+      "total": 28.0
+    },
+    {
+      "id": "ord-5002",
+      "user": "u-maya",
+      "total": 7.75
+    }
+  ],
+  "rewards": [
+    {
+      "id": "rw-free-coffee",
+      "points": 120
+    }
+  ],
+  "balances": {
+    "u-maya": 150,
+    "u-omar": 40
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "label": "Maya orders a flat white and a croissant",
+      "client": {
+        "user": "u-maya",
+        "event": "place-order",
+        "nonce": "n-1001",
+        "tOffset": 0,
+        "payload": {
+          "items": [
+            {
+              "sku": "flat-white",
+              "qty": 1,
+              "unitPrice": 4.5
+            },
+            {
+              "sku": "croissant",
+              "qty": 1,
+              "unitPrice": 3.25
+            }
+          ],
+          "total": 7.75
+        }
+      }
+    },
+    {
+      "id": "s2",
+      "label": "Same order, prices rewritten in transit",
+      "client": {
+        "user": "u-maya",
+        "event": "place-order",
+        "nonce": "n-1002",
+        "tOffset": 15,
+        "payload": {
+          "items": [
+            {
+              "sku": "flat-white",
+              "qty": 1,
+              "unitPrice": 4.5
+            },
+            {
+              "sku": "croissant",
+              "qty": 1,
+              "unitPrice": 3.25
+            }
+          ],
+          "total": 7.75
+        }
+      },
+      "tamper": {
+        "kind": "price-rewrite"
+      }
+    },
+    {
+      "id": "s3",
+      "label": "Maya applies WELCOME10",
+      "client": {
+        "user": "u-maya",
+        "event": "apply-coupon",
+        "nonce": "n-1003",
+        "tOffset": 30,
+        "payload": {
+          "code": "WELCOME10",
+          "discountPercent": 10,
+          "orderTotal": 7.75
+        }
+      }
+    },
+    {
+      "id": "s4",
+      "label": "Coupon percent inflated in transit",
+      "client": {
+        "user": "u-maya",
+        "event": "apply-coupon",
+        "nonce": "n-1004",
+        "tOffset": 45,
+        "payload": {
+          "code": "WELCOME10",
+          "discountPercent": 10,
+          "orderTotal": 7.75
+        }
+      },
+      "tamper": {
+        "kind": "coupon-inflate"
+      }
+    },
+    {
+      "id": "s5",
+      "label": "Maya redeems a free coffee",
+      "client": {
+        "user": "u-maya",
+        "event": "redeem-reward",
+        "nonce": "n-1005",
+        "tOffset": 60,
+        "payload": {
+          "rewardId": "rw-free-coffee",
+          "points": 120
+        }
+      }
+    },
+    {
+      "id": "s6",
+      "label": "Reward redemption replayed with the old nonce",
+      "client": {
+        "user": "u-maya",
+        "event": "redeem-reward",
+        "nonce": "n-1005",
+        "tOffset": 75,
+        "payload": {
+          "rewardId": "rw-free-coffee",
+          "points": 120
+        }
+      },
+      "tamper": {
+        "kind": "replay",
+        "of": "s5"
+      }
+    },
+    {
+      "id": "s7",
+      "label": "Maya updates her display name",
+      "client": {
+        "user": "u-maya",
+        "event": "update-profile",
+        "nonce": "n-1007",
+        "tOffset": 90,
+        "payload": {
+          "displayName": "Maya K."
+        }
+      }
+    },
+    {
+      "id": "s8",
+      "label": "Profile update with role added by the client",
+      "client": {
+        "user": "u-maya",
+        "event": "update-profile",
+        "nonce": "n-1008",
+        "tOffset": 105,
+        "payload": {
+          "displayName": "Maya K."
+        }
+      },
+      "tamper": {
+        "kind": "role-escalate"
+      }
+    },
+    {
+      "id": "s9",
+      "label": "Order view redirected to Omar\u2019s order id",
+      "client": {
+        "user": "u-maya",
+        "event": "view-order",
+        "nonce": "n-1009",
+        "tOffset": 120,
+        "payload": {
+          "orderId": "ord-5002"
+        }
+      },
+      "tamper": {
+        "kind": "other-user-object"
+      }
+    },
+    {
+      "id": "s10",
+      "label": "Order placed with a timestamp ten minutes in the past",
+      "client": {
+        "user": "u-omar",
+        "event": "place-order",
+        "nonce": "n-1010",
+        "tOffset": 135,
+        "payload": {
+          "items": [
+            {
+              "sku": "beans-1kg",
+              "qty": 1,
+              "unitPrice": 28.0
+            }
+          ],
+          "total": 28.0
+        }
+      },
+      "tamper": {
+        "kind": "backdate"
+      }
+    },
+    {
+      "id": "s11",
+      "label": "Omar orders beans normally",
+      "client": {
+        "user": "u-omar",
+        "event": "place-order",
+        "nonce": "n-1011",
+        "tOffset": 150,
+        "payload": {
+          "items": [
+            {
+              "sku": "beans-1kg",
+              "qty": 1,
+              "unitPrice": 28.0
+            }
+          ],
+          "total": 28.0
+        }
+      }
+    }
+  ]
+}

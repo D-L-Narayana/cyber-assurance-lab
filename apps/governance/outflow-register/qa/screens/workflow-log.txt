@@ -1,0 +1,22 @@
+title=Outflow Register
+counts: Synthetic data-sharing register — six vendors, twelve agreements 12 agreements · 6 vendors · 14 active flows 14 high 10 medium 3 low open issues as of 2026-10-01
+queue top: Backup storage | 70 | CloudStash Placeholder · ended · breakdown
+filtered agreements: 1
+detail issues: deletion_obligation_unmet — "Backup storage" has ended but deletion (90 days after end) is not evidenced. || expired_but_active — "Backup storage" ended 2026-09-30 but is still recorded as active. || flow_after_end — Flow fl-09 is still active although "Backup storage" is expired (2026-09-30).
+terminate no reason: A reason is required for every status change.
+terminate no ack: 1 active flow still reference this agreement (fl-09). Acknowledge that they must be stopped or re-papered.
+terminate ok: "Backup storage" is now terminated. History entry #1 recorded.
+activate draft: "Backup storage — renewal 2026" is now active. History entry #2 recorded.
+activate without categories: List at least one permitted data category before activation.
+renew bad date: New end date must be after the current end date 2026-10-14.
+renew ok: "Product analytics" is now active. History entry #3 recorded.
+history: #3 2026-10-01 renewing → active — Renewal signed (renewed to 2027-10-14)
+counts after: Synthetic data-sharing register — six vendors, twelve agreements 12 agreements · 6 vendors · 14 active flows 13 high 12 medium 3 low open issues as of 2026-10-01
+packet md first line: # Evidence packet — Product analytics | lines=31
+register json schema=outflow.register/v1 issues=28 queue=9 history=3
+issues csv lines=29
+counts 2027: Synthetic data-sharing register — six vendors, twelve agreements 12 agreements · 6 vendors · 14 active flows 26 high 3 medium 1 low open issues as of 2027-03-01
+import error: Register rejected: agreements[0] is not an object. · flow f: system undefined is missing · flow f: vendor ghost is missing · flow f: agreement undefined is missing · flow f: categories must be a list
+mobile scrollWidth=375 viewport=375
+tablet scrollWidth=768 viewport=768
+pageErrors=[]

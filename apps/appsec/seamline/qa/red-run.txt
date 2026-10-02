@@ -1,0 +1,3 @@
+[41m[1m FAIL [22m[49m src/engine/__tests__/seamline.test.ts[2m [ src/engine/__tests__/seamline.test.ts ][22m
+[31m[1mError[22m: Cannot find module '../scenario' imported from /home/user/workspace/cyber-portfolio/candidates/appsec/seamline/src/engine/__tests__/seamline.test.ts[39m
+[2m      Tests [22m [2mno tests[22m

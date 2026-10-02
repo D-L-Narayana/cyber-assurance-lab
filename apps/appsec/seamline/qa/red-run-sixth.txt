@@ -1,0 +1,6 @@
+     × flags an untampered step whose client total disagrees with the catalog when the trusting server bills it 5ms
+     × records divergences for every tampered step on the trusting server and none for consistent steps 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected undefined to be 'CWE-602' // Object.is equality
+TypeError: Cannot read properties of undefined (reading 'length')
+      Tests  2 failed | 15 passed (17)

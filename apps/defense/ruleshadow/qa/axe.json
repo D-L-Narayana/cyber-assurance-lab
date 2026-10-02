@@ -1,0 +1,14 @@
+[
+  {
+    "viewport": "desktop",
+    "violations": [],
+    "passes": 31,
+    "incomplete": 2
+  },
+  {
+    "viewport": "mobile",
+    "violations": [],
+    "passes": 32,
+    "incomplete": 2
+  }
+]

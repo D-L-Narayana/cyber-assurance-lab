@@ -1,0 +1,32 @@
+{
+  "name": "injectboard",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Injectboard — incident-response tabletop commander (educational prototype, synthetic data only)",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --port 6133 --strictPort",
+    "build": "tsc -p tsconfig.json && vite build",
+    "preview": "vite preview --port 6133 --strictPort",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@fontsource-variable/archivo": "^5.2.0",
+    "@fontsource-variable/public-sans": "^5.2.0",
+    "@radix-ui/react-dialog": "^1.1.23",
+    "@radix-ui/react-radio-group": "^1.4.7",
+    "@radix-ui/react-toggle-group": "^1.1.19",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.1.0",
+    "vitest": "^4.1.11"
+  }
+}

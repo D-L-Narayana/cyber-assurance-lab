@@ -1,0 +1,56 @@
+name: Verify applications
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.apps.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - id: apps
+        name: Inventory standalone projects
+        run: |
+          node <<'JS'
+          const fs = require('node:fs');
+          const projects = [];
+          for (const track of fs.readdirSync('apps')) {
+            for (const slug of fs.readdirSync(`apps/${track}`)) {
+              const dir = `apps/${track}/${slug}`;
+              if (fs.existsSync(`${dir}/package-lock.json`)) projects.push(dir);
+            }
+          }
+          if (!projects.length || projects.length > 30) throw new Error('Unexpected app inventory');
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `matrix=${JSON.stringify({project: projects})}\n`);
+          JS
+  verify:
+    needs: inventory
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.inventory.outputs.matrix) }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: ${{ matrix.project }}/package-lock.json
+      - run: npm ci --no-fund
+      - run: npm test
+      - run: npm run build
+      - run: npm audit --audit-level=high

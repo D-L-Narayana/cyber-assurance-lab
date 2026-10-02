@@ -1,0 +1,160 @@
+{
+  "url": "http://127.0.0.1:6103/",
+  "startedAt": "2026-10-01T14:43:50.239Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "status": 200,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "hosts": [
+        "127.0.0.1:6103"
+      ],
+      "layout": {
+        "title": "Forethought — privacy impact assessment workbench",
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "overflowing": [],
+        "buttons": 13,
+        "storageApisTouched": false
+      },
+      "horizontalOverflow": false,
+      "axeViolations": [],
+      "axePasses": 25
+    },
+    {
+      "name": "tablet",
+      "status": 200,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "hosts": [
+        "127.0.0.1:6103"
+      ],
+      "layout": {
+        "title": "Forethought — privacy impact assessment workbench",
+        "viewport": 768,
+        "scrollWidth": 768,
+        "overflowing": [
+          "TABLE.flows",
+          "THEAD.",
+          "TR.",
+          "TH.",
+          "TBODY.",
+          "TR.",
+          "TD.",
+          "BUTTON.btn btn-sm",
+          "TR.",
+          "TD.",
+          "BUTTON.btn btn-sm"
+        ],
+        "buttons": 13,
+        "storageApisTouched": false
+      },
+      "horizontalOverflow": false,
+      "axeViolations": [],
+      "axePasses": 25
+    },
+    {
+      "name": "mobile",
+      "status": 200,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "hosts": [
+        "127.0.0.1:6103"
+      ],
+      "layout": {
+        "title": "Forethought — privacy impact assessment workbench",
+        "viewport": 375,
+        "scrollWidth": 375,
+        "overflowing": [
+          "TABLE.flows",
+          "THEAD.",
+          "TR.",
+          "TH.",
+          "TH.",
+          "TH.",
+          "TH.",
+          "TBODY.",
+          "TR.",
+          "TD.",
+          "TD.",
+          "LABEL.check"
+        ],
+        "buttons": 13,
+        "storageApisTouched": false
+      },
+      "horizontalOverflow": false,
+      "axeViolations": [],
+      "axePasses": 25
+    }
+  ],
+  "flow": {
+    "steps": [
+      {
+        "step": 1,
+        "label": "worksheet-default",
+        "file": "flow-01-worksheet-default.png"
+      },
+      {
+        "step": 2,
+        "label": "manager-view",
+        "file": "flow-02-manager-view.png"
+      },
+      {
+        "step": 3,
+        "label": "executive-view",
+        "file": "flow-03-executive-view.png"
+      },
+      {
+        "step": 4,
+        "label": "signed-current",
+        "file": "flow-04-signed-current.png"
+      },
+      {
+        "step": 5,
+        "label": "signature-stale-after-edit",
+        "file": "flow-05-signature-stale-after-edit.png"
+      },
+      {
+        "step": 6,
+        "label": "blockers-after-risky-answer",
+        "file": "flow-06-blockers-after-risky-answer.png"
+      },
+      {
+        "step": 7,
+        "label": "sign-refused",
+        "file": "flow-07-sign-refused.png"
+      },
+      {
+        "step": 8,
+        "label": "very-high-fixture-constellation",
+        "file": "flow-08-very-high-fixture-constellation.png"
+      },
+      {
+        "step": 9,
+        "label": "import-rejected",
+        "file": "flow-09-import-rejected.png"
+      },
+      {
+        "step": 10,
+        "label": "keyboard-focus",
+        "file": "flow-10-keyboard-focus.png"
+      }
+    ],
+    "result": {
+      "exec": "Recommendation feature for the storefront (PIA-2026-014) is assessed at high inherent privacy risk, reduced to high after the controls currently in place. 1 theme(s) remain high or very high: children",
+      "stale": "Stale — content changed since signing: product-owner Tamsin Reyes at 2026-10-01T14:44:03Z · fef9a07b0873",
+      "blockers": "HIGH_RESIDUAL_WITHOUT_ACCEPTANCE Automated decisions and profiling is very-high after mitigations and has no recorded risk acceptance (rationale of 30+ characters).",
+      "refusal": "Sign-off blocked by 1 issue(s): HIGH_RESIDUAL_WITHOUT_ACCEPTANCE",
+      "versionSummary": "v1 · 2026-10-01T14:44:04Z · 948d3db8db99Initial version.",
+      "importError": "Import rejected. assessment.answers.q-purpose \"nope\" is not an option of that question"
+    },
+    "pageErrors": [],
+    "consoleErrors": [],
+    "axeViolationsAfterFlow": []
+  },
+  "finishedAt": "2026-10-01T14:44:06.053Z"
+}

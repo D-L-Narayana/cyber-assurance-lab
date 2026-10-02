@@ -1,0 +1,168 @@
+{
+  "schema": "provgate.release/1",
+  "release": {
+    "id": "rel-140",
+    "name": "Ledgerly web 1.4.0",
+    "version": "1.4.0",
+    "commit": "a1b2c3d",
+    "author": "dev-priya",
+    "createdAt": "2026-09-28T09:00:00Z"
+  },
+  "identities": [
+    {
+      "id": "dev-priya",
+      "label": "Priya (developer)",
+      "roles": [
+        "developer"
+      ]
+    },
+    {
+      "id": "rev-ken",
+      "label": "Ken (reviewer, developer)",
+      "roles": [
+        "reviewer",
+        "developer"
+      ]
+    },
+    {
+      "id": "rev-ana",
+      "label": "Ana (reviewer)",
+      "roles": [
+        "reviewer"
+      ]
+    },
+    {
+      "id": "sec-dilip",
+      "label": "Dilip (security)",
+      "roles": [
+        "security"
+      ]
+    },
+    {
+      "id": "rm-joe",
+      "label": "Joe (release manager)",
+      "roles": [
+        "release-manager"
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "path": "auth/session.ts",
+      "kind": "modified"
+    },
+    {
+      "path": "auth/password-reset.ts",
+      "kind": "added"
+    },
+    {
+      "path": "package-lock.json",
+      "kind": "modified"
+    },
+    {
+      "path": "web/invoice-list.tsx",
+      "kind": "modified"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-tm-3",
+      "type": "threat-model",
+      "producedAt": "2026-07-01T10:00:00Z",
+      "commit": "9f8e7d6",
+      "producedBy": "sec-dilip",
+      "scope": [
+        "web/**"
+      ],
+      "artifact": "Threat model v3 \u2014 invoice web views. Assets: invoice PDF, tenant id. STRIDE table attached. Covers web/**.",
+      "artifactHash": "654c7a660258869a0a9d30a072bbedae358d07451692846c73559b493e483e80"
+    },
+    {
+      "id": "ev-cr-88",
+      "type": "code-review",
+      "producedAt": "2026-09-27T16:00:00Z",
+      "commit": "a1b2c3d",
+      "producedBy": "dev-priya",
+      "reviewers": [
+        "dev-priya",
+        "dev-priya"
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "ev-ut-140",
+      "type": "unit-tests",
+      "producedAt": "2026-09-28T08:30:00Z",
+      "commit": "a1b2c3d",
+      "producedBy": "ci-runner",
+      "result": "pass",
+      "artifact": "vitest run \u2014 212 passed, 0 failed, 0 skipped (commit a1b2c3d)",
+      "artifactHash": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "id": "ev-sast-61",
+      "type": "sast",
+      "producedAt": "2026-09-20T12:00:00Z",
+      "commit": "9f8e7d6",
+      "producedBy": "ci-runner",
+      "result": "warn",
+      "findings": [
+        {
+          "id": "SAST-17",
+          "title": "Reset token compared with non-constant-time equality",
+          "severity": "high",
+          "status": "open"
+        }
+      ],
+      "scope": [
+        "**"
+      ]
+    },
+    {
+      "id": "ev-dep-19",
+      "type": "dependency-review",
+      "producedAt": "2026-09-28T08:40:00Z",
+      "commit": "a1b2c3d",
+      "producedBy": "ci-runner",
+      "result": "warn",
+      "findings": [
+        {
+          "id": "DEP-4",
+          "title": "formatlib 2.1.0 prototype pollution (synthetic advisory)",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "id": "DEP-5",
+          "title": "colourkit deprecated upstream",
+          "severity": "low",
+          "status": "open"
+        }
+      ],
+      "scope": [
+        "package.json",
+        "package-lock.json"
+      ]
+    },
+    {
+      "id": "ev-ss-140",
+      "type": "secret-scan",
+      "producedAt": "2026-09-28T08:35:00Z",
+      "commit": "a1b2c3d",
+      "producedBy": "ci-runner",
+      "result": "pass",
+      "artifact": "gitleaks-style synthetic scan: 0 leaks across 418 files",
+      "artifactHash": "cebade82b45fc5a57d315394d0b68223b0e97ddd795ff0ac31fee7af42ef6232"
+    }
+  ],
+  "acceptances": [
+    {
+      "id": "ra-1",
+      "findingRef": "DEP-4",
+      "approvedBy": "sec-dilip",
+      "approvedAt": "2026-05-01T00:00:00Z",
+      "expiresAt": "2026-07-30T00:00:00Z",
+      "rationale": "Vulnerable code path not reachable from invoice formatting; upgrade scheduled."
+    }
+  ]
+}

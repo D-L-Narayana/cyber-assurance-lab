@@ -1,0 +1,6 @@
+     × binds takenAt and id into the chain so forged metadata fails verification 6ms
+     × rejects "." path segments as well as ".." 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected true to be false // Object.is equality
+AssertionError: expected true to be false // Object.is equality
+      Tests  2 failed | 15 passed (17)

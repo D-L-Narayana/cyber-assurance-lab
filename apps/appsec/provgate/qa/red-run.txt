@@ -1,0 +1,4 @@
+[41m[1m FAIL [22m[49m src/engine/__tests__/gate.test.ts[2m [ src/engine/__tests__/gate.test.ts ][22m
+[31m[1mError[22m: Cannot find module '../schema' imported from /home/user/workspace/cyber-portfolio/candidates/appsec/provgate/src/engine/__tests__/gate.test.ts[39m
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [2mno tests[22m

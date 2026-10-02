@@ -1,0 +1,631 @@
+{
+  "schema": "tierline.register/1",
+  "asOf": "2026-10-01",
+  "vendors": [
+    {
+      "id": "V-01",
+      "name": "Northwind Freight Analytics",
+      "service": "Route optimisation SaaS with warehouse agent",
+      "owner": "ops.lead",
+      "recordedTier": 1,
+      "lastReviewOn": "2026-02-10",
+      "answers": {
+        "q1": "confidential",
+        "q2": "privileged",
+        "q3": "immediate",
+        "q4": "lt1m",
+        "q5": "few",
+        "q6": "multi",
+        "q7": "embedded",
+        "q8": "large"
+      },
+      "evidence": [
+        {
+          "id": "E-01",
+          "type": "assurance-report",
+          "title": "SOC 2 Type II report (synthetic)",
+          "issuedOn": "2026-03-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-02",
+          "type": "pen-test",
+          "title": "Annual pen test summary",
+          "issuedOn": "2025-10-20",
+          "validMonths": 12,
+          "note": "Expires in 19 days"
+        },
+        {
+          "id": "E-03",
+          "type": "bcp-dr-test",
+          "title": "DR failover test",
+          "issuedOn": "2026-05-12",
+          "validMonths": 12
+        },
+        {
+          "id": "E-04",
+          "type": "questionnaire",
+          "title": "Security questionnaire v3",
+          "issuedOn": "2026-01-15",
+          "validMonths": 12
+        },
+        {
+          "id": "E-05",
+          "type": "insurance",
+          "title": "Cyber insurance certificate",
+          "issuedOn": "2026-04-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-06",
+          "type": "dpa",
+          "title": "DPA v2",
+          "issuedOn": "2024-06-01",
+          "validMonths": 36
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "V-02",
+      "name": "Harbour Payroll Services",
+      "service": "Payroll processing",
+      "owner": "hr.systems",
+      "recordedTier": 1,
+      "lastReviewOn": "2025-06-30",
+      "answers": {
+        "q1": "regulated",
+        "q2": "api-write",
+        "q3": "degraded",
+        "q4": "lt10k",
+        "q5": "several",
+        "q6": "domestic",
+        "q7": "realtime",
+        "q8": "moderate"
+      },
+      "evidence": [
+        {
+          "id": "E-07",
+          "type": "assurance-report",
+          "title": "ISO/IEC 27001 certificate (synthetic)",
+          "issuedOn": "2025-01-10",
+          "validMonths": 12
+        },
+        {
+          "id": "E-08",
+          "type": "pen-test",
+          "title": "Pen test summary",
+          "issuedOn": "2026-06-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-09",
+          "type": "bcp-dr-test",
+          "title": "BCP test",
+          "issuedOn": "2026-02-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-10",
+          "type": "questionnaire",
+          "title": "Questionnaire",
+          "issuedOn": "2026-06-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-11",
+          "type": "insurance",
+          "title": "Insurance cert",
+          "issuedOn": "2026-06-01",
+          "validMonths": 12
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "V-03",
+      "name": "Quayside Customer Desk",
+      "service": "Helpdesk ticketing",
+      "owner": "support.mgr",
+      "recordedTier": 3,
+      "lastReviewOn": "2025-11-05",
+      "answers": {
+        "q1": "personal",
+        "q2": "api-read",
+        "q3": "workaround",
+        "q4": "lt100k",
+        "q5": "few",
+        "q6": "domestic",
+        "q7": "realtime",
+        "q8": "moderate"
+      },
+      "evidence": [
+        {
+          "id": "E-12",
+          "type": "questionnaire",
+          "title": "Questionnaire",
+          "issuedOn": "2026-04-02",
+          "validMonths": 12
+        },
+        {
+          "id": "E-13",
+          "type": "dpa",
+          "title": "DPA",
+          "issuedOn": "2025-04-02",
+          "validMonths": 36
+        }
+      ],
+      "exceptions": [
+        {
+          "id": "X-01",
+          "evidenceType": "assurance-report",
+          "approvedBy": "ciso",
+          "rationale": "Vendor SOC 2 audit in progress; bridge letter received. Re-check 2026-12-15.",
+          "expiresOn": "2026-12-15"
+        }
+      ]
+    },
+    {
+      "id": "V-04",
+      "name": "Lantern Marketing Cloud",
+      "service": "Email campaign platform",
+      "owner": "marketing.ops",
+      "recordedTier": 2,
+      "lastReviewOn": "2026-01-20",
+      "answers": {
+        "q1": "personal",
+        "q2": "portal",
+        "q3": "convenience",
+        "q4": "lt1m",
+        "q5": "unknown",
+        "q6": "multi",
+        "q7": "batch",
+        "q8": "small"
+      },
+      "evidence": [
+        {
+          "id": "E-14",
+          "type": "questionnaire",
+          "title": "Questionnaire",
+          "issuedOn": "2026-01-10",
+          "validMonths": 12
+        },
+        {
+          "id": "E-15",
+          "type": "dpa",
+          "title": "DPA",
+          "issuedOn": "2026-01-10",
+          "validMonths": 36
+        }
+      ],
+      "exceptions": [
+        {
+          "id": "X-02",
+          "evidenceType": "assurance-report",
+          "approvedBy": "ciso",
+          "rationale": "Report requested from vendor.",
+          "expiresOn": "2026-08-31"
+        }
+      ]
+    },
+    {
+      "id": "V-05",
+      "name": "Pier 9 Office Supplies",
+      "service": "Stationery procurement portal",
+      "owner": "facilities",
+      "recordedTier": 3,
+      "lastReviewOn": "2026-07-01",
+      "answers": {
+        "q1": "internal",
+        "q2": "none",
+        "q3": "none",
+        "q4": "lt1k",
+        "q5": "none",
+        "q6": "domestic",
+        "q7": "manual",
+        "q8": "small"
+      },
+      "evidence": [
+        {
+          "id": "E-16",
+          "type": "questionnaire",
+          "title": "Lite questionnaire",
+          "issuedOn": "2026-07-01",
+          "validMonths": 24
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "V-06",
+      "name": "Bollard Translation Co.",
+      "service": "Document translation",
+      "owner": "legal.ops",
+      "recordedTier": 3,
+      "answers": {
+        "q1": "confidential",
+        "q2": "none",
+        "q3": "convenience",
+        "q4": "lt1k",
+        "q5": "few",
+        "q6": "domestic",
+        "q7": "manual",
+        "q8": "small"
+      },
+      "evidence": [
+        {
+          "id": "E-17",
+          "type": "questionnaire",
+          "title": "Questionnaire",
+          "issuedOn": "2024-03-01",
+          "validMonths": 24
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "V-07",
+      "name": "Skylark Telemetry",
+      "service": "Fleet telematics",
+      "owner": "fleet.mgr",
+      "recordedTier": 2,
+      "lastReviewOn": "2026-03-15",
+      "answers": {
+        "q1": "personal",
+        "q2": "api-read",
+        "q4": "lt1m",
+        "q5": "several",
+        "q6": "multi",
+        "q8": "moderate"
+      },
+      "evidence": [
+        {
+          "id": "E-18",
+          "type": "questionnaire",
+          "title": "Questionnaire",
+          "issuedOn": "2026-03-15",
+          "validMonths": 12
+        },
+        {
+          "id": "E-19",
+          "type": "assurance-report",
+          "title": "SOC 2 Type II (synthetic)",
+          "issuedOn": "2026-02-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-20",
+          "type": "dpa",
+          "title": "DPA",
+          "issuedOn": "2026-03-15",
+          "validMonths": 36
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "V-08",
+      "name": "Mooring Line Insurance Brokers",
+      "service": "Insurance brokerage portal",
+      "owner": "finance.ctrl",
+      "recordedTier": 2,
+      "lastReviewOn": "2025-12-01",
+      "answers": {
+        "q1": "regulated",
+        "q2": "none",
+        "q3": "workaround",
+        "q4": "lt1k",
+        "q5": "none",
+        "q6": "onprem",
+        "q7": "manual",
+        "q8": "small"
+      },
+      "evidence": [
+        {
+          "id": "E-21",
+          "type": "questionnaire",
+          "title": "Questionnaire",
+          "issuedOn": "2025-12-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-22",
+          "type": "assurance-report",
+          "title": "ISO/IEC 27001 certificate (synthetic)",
+          "issuedOn": "2025-06-01",
+          "validMonths": 24
+        },
+        {
+          "id": "E-23",
+          "type": "dpa",
+          "title": "DPA",
+          "issuedOn": "2025-12-01",
+          "validMonths": 36
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "V-09",
+      "name": "Deepwater Data Lake Co.",
+      "service": "Managed analytics warehouse",
+      "owner": "data.platform",
+      "recordedTier": 1,
+      "answers": {
+        "q1": "confidential",
+        "q2": "api-write",
+        "q3": "degraded",
+        "q4": "ge1m",
+        "q5": "several",
+        "q6": "restricted",
+        "q7": "realtime",
+        "q8": "large"
+      },
+      "evidence": [
+        {
+          "id": "E-40",
+          "type": "pen-test",
+          "title": "Pen test summary (date typo)",
+          "issuedOn": "2027-03-15",
+          "validMonths": 12,
+          "note": "Adversarial fixture: issued after the assessment date — earns no credit"
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "V-10",
+      "name": "Gull Street Catering",
+      "service": "Canteen services with staff dietary data",
+      "owner": "facilities",
+      "recordedTier": 3,
+      "lastReviewOn": "2026-08-20",
+      "answers": {
+        "q1": "personal",
+        "q2": "portal",
+        "q3": "convenience",
+        "q4": "lt10k",
+        "q5": "few",
+        "q6": "domestic",
+        "q7": "manual",
+        "q8": "small"
+      },
+      "evidence": [
+        {
+          "id": "E-24",
+          "type": "questionnaire",
+          "title": "Lite questionnaire",
+          "issuedOn": "2026-08-20",
+          "validMonths": 24
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "V-11",
+      "name": "Tidewater Learning",
+      "service": "LMS for staff training",
+      "owner": "hr.systems",
+      "recordedTier": 2,
+      "lastReviewOn": "2025-05-05",
+      "answers": {
+        "q1": "personal",
+        "q2": "api-read",
+        "q3": "convenience",
+        "q4": "lt10k",
+        "q5": "few",
+        "q6": "multi",
+        "q7": "realtime",
+        "q8": "moderate"
+      },
+      "evidence": [
+        {
+          "id": "E-25",
+          "type": "questionnaire",
+          "title": "Questionnaire",
+          "issuedOn": "2025-05-05",
+          "validMonths": 60,
+          "note": "validMonths 60 but tier 2 caps at 12"
+        },
+        {
+          "id": "E-26",
+          "type": "assurance-report",
+          "title": "SOC 2 Type II (synthetic)",
+          "issuedOn": "2025-05-05",
+          "validMonths": 24
+        },
+        {
+          "id": "E-27",
+          "type": "dpa",
+          "title": "DPA",
+          "issuedOn": "2025-05-05",
+          "validMonths": 36
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "V-12",
+      "name": "Keel Managed Security",
+      "service": "MDR with privileged agent",
+      "owner": "secops.lead",
+      "recordedTier": 1,
+      "lastReviewOn": "2026-08-01",
+      "answers": {
+        "q1": "confidential",
+        "q2": "privileged",
+        "q3": "workaround",
+        "q4": "lt100k",
+        "q5": "few",
+        "q6": "domestic",
+        "q7": "embedded",
+        "q8": "large"
+      },
+      "evidence": [
+        {
+          "id": "E-28",
+          "type": "assurance-report",
+          "title": "SOC 2 Type II (synthetic)",
+          "issuedOn": "2026-07-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-29",
+          "type": "pen-test",
+          "title": "Pen test summary",
+          "issuedOn": "2026-07-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-30",
+          "type": "bcp-dr-test",
+          "title": "DR test",
+          "issuedOn": "2026-07-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-31",
+          "type": "questionnaire",
+          "title": "Questionnaire",
+          "issuedOn": "2026-07-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-32",
+          "type": "insurance",
+          "title": "Insurance cert",
+          "issuedOn": "2026-07-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-33",
+          "type": "dpa",
+          "title": "DPA",
+          "issuedOn": "2026-07-01",
+          "validMonths": 36
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "V-13",
+      "name": "Anchor Print Shop",
+      "service": "Printed collateral",
+      "owner": "marketing.ops",
+      "recordedTier": 3,
+      "lastReviewOn": "2023-11-10",
+      "answers": {
+        "q1": "internal",
+        "q2": "none",
+        "q3": "none",
+        "q4": "lt1k",
+        "q5": "none",
+        "q6": "domestic",
+        "q7": "manual",
+        "q8": "small"
+      },
+      "evidence": [
+        {
+          "id": "E-34",
+          "type": "questionnaire",
+          "title": "Lite questionnaire",
+          "issuedOn": "2025-11-10",
+          "validMonths": 24
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "V-14",
+      "name": "Brightwater Recruiting",
+      "service": "Applicant tracking",
+      "owner": "hr.systems",
+      "recordedTier": 2,
+      "lastReviewOn": "2025-09-15",
+      "answers": {
+        "q1": "personal",
+        "q2": "api-write",
+        "q3": "convenience",
+        "q4": "lt100k",
+        "q5": "few",
+        "q6": "domestic",
+        "q7": "realtime",
+        "q8": "moderate"
+      },
+      "evidence": [
+        {
+          "id": "E-35",
+          "type": "questionnaire",
+          "title": "Questionnaire 2024",
+          "issuedOn": "2024-09-01",
+          "validMonths": 12
+        },
+        {
+          "id": "E-36",
+          "type": "questionnaire",
+          "title": "Questionnaire 2025",
+          "issuedOn": "2025-09-15",
+          "validMonths": 12
+        },
+        {
+          "id": "E-37",
+          "type": "assurance-report",
+          "title": "SOC 2 Type II (synthetic)",
+          "issuedOn": "2025-09-15",
+          "validMonths": 24
+        },
+        {
+          "id": "E-38",
+          "type": "dpa",
+          "title": "DPA",
+          "issuedOn": "2025-09-15",
+          "validMonths": 36
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "V-15",
+      "name": "Compass Legal Hold",
+      "service": "eDiscovery hosting",
+      "owner": "legal.ops",
+      "recordedTier": 2,
+      "lastReviewOn": "2026-04-01",
+      "answers": {
+        "q1": "confidential",
+        "q2": "portal",
+        "q3": "workaround",
+        "q4": "lt100k",
+        "q5": "few",
+        "q6": "domestic",
+        "q7": "batch",
+        "q8": "moderate"
+      },
+      "evidence": [
+        {
+          "id": "E-39",
+          "type": "questionnaire",
+          "title": "Questionnaire",
+          "issuedOn": "2026-04-01",
+          "validMonths": 12
+        }
+      ],
+      "exceptions": [
+        {
+          "id": "X-03",
+          "evidenceType": "assurance-report",
+          "approvedBy": "ciso",
+          "rationale": "Vendor provides bridge letter; full report due Nov.",
+          "expiresOn": "2026-11-15"
+        },
+        {
+          "id": "X-04",
+          "evidenceType": "dpa",
+          "approvedBy": "legal.counsel",
+          "rationale": "DPA under negotiation; interim confidentiality clause in MSA.",
+          "expiresOn": "2026-10-25"
+        }
+      ]
+    }
+  ]
+}

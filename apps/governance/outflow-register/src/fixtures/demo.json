@@ -1,0 +1,678 @@
+{
+  "schemaVersion": 1,
+  "label": "Synthetic data-sharing register — six vendors, twelve agreements",
+  "asOf": "2026-10-01",
+  "restrictedCategories": [
+    "payroll",
+    "health",
+    "bank_details",
+    "identity_documents"
+  ],
+  "systems": [
+    {
+      "id": "s-hris",
+      "name": "HRIS"
+    },
+    {
+      "id": "s-crm",
+      "name": "Customer CRM"
+    },
+    {
+      "id": "s-billing",
+      "name": "Billing"
+    },
+    {
+      "id": "s-support",
+      "name": "Support desk"
+    },
+    {
+      "id": "s-warehouse",
+      "name": "Analytics warehouse"
+    }
+  ],
+  "vendors": [
+    {
+      "id": "v-payco",
+      "name": "PayCo Example Ltd",
+      "country": "IE",
+      "role": "processor"
+    },
+    {
+      "id": "v-mailwave",
+      "name": "MailWave Sample Inc",
+      "country": "US",
+      "role": "processor"
+    },
+    {
+      "id": "v-helpdeskr",
+      "name": "Helpdeskr Fixture GmbH",
+      "country": "DE",
+      "role": "processor"
+    },
+    {
+      "id": "v-benefits",
+      "name": "BenefitBridge Demo",
+      "country": "IN",
+      "role": "controller"
+    },
+    {
+      "id": "v-cloudstash",
+      "name": "CloudStash Placeholder",
+      "country": "US",
+      "role": "processor"
+    },
+    {
+      "id": "v-insightly",
+      "name": "Insightly Example Analytics",
+      "country": "GB",
+      "role": "joint"
+    }
+  ],
+  "owners": [
+    {
+      "id": "o-ada",
+      "name": "Ada Example (People Ops)",
+      "status": "active"
+    },
+    {
+      "id": "o-bo",
+      "name": "Bo Sample (Marketing)",
+      "status": "active"
+    },
+    {
+      "id": "o-cy",
+      "name": "Cy Fixture (Support)",
+      "status": "active"
+    },
+    {
+      "id": "o-dee",
+      "name": "Dee Demo (Finance)",
+      "status": "active"
+    },
+    {
+      "id": "o-left",
+      "name": "Former owner (left 2026-04)",
+      "status": "left"
+    }
+  ],
+  "agreements": [
+    {
+      "id": "ag-01",
+      "title": "Payroll processing DPA",
+      "vendorId": "v-payco",
+      "ownerId": "o-ada",
+      "status": "active",
+      "startOn": "2024-11-01",
+      "endOn": "2026-11-20",
+      "noticeDays": 60,
+      "categories": [
+        "payroll",
+        "contact",
+        "bank_details"
+      ],
+      "purpose": "Run monthly payroll",
+      "transferMechanism": "intra-EEA (synthetic label)",
+      "obligations": [
+        {
+          "id": "ob-01a",
+          "kind": "encryption",
+          "requirement": "AES-256 at rest",
+          "evidence": {
+            "ref": "SOC report excerpt (synthetic)",
+            "on": "2025-02-01"
+          }
+        },
+        {
+          "id": "ob-01b",
+          "kind": "breach_notification",
+          "requirement": "24h",
+          "evidence": null
+        },
+        {
+          "id": "ob-01c",
+          "kind": "deletion_on_termination",
+          "requirement": "30 days after end",
+          "evidence": null
+        },
+        {
+          "id": "ob-01d",
+          "kind": "access_review",
+          "requirement": "quarterly",
+          "evidence": {
+            "ref": "Q2 review memo",
+            "on": "2026-07-01"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ag-02",
+      "title": "PayCo reporting addendum",
+      "vendorId": "v-payco",
+      "ownerId": "o-dee",
+      "status": "active",
+      "startOn": "2026-02-01",
+      "endOn": "2027-01-31",
+      "noticeDays": 90,
+      "categories": [
+        "contact"
+      ],
+      "purpose": "Headcount cost reporting",
+      "transferMechanism": "intra-EEA (synthetic label)",
+      "obligations": [
+        {
+          "id": "ob-02a",
+          "kind": "breach_notification",
+          "requirement": "72h",
+          "evidence": {
+            "ref": "Addendum §3",
+            "on": "2026-02-01"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ag-03",
+      "title": "Newsletter delivery",
+      "vendorId": "v-mailwave",
+      "ownerId": "o-bo",
+      "status": "active",
+      "startOn": "2024-07-01",
+      "endOn": "2026-07-31",
+      "noticeDays": 30,
+      "categories": [
+        "contact",
+        "marketing_preferences"
+      ],
+      "purpose": "Send marketing email",
+      "transferMechanism": "SCC-style clauses (synthetic label)",
+      "obligations": [
+        {
+          "id": "ob-03a",
+          "kind": "subprocessor_notice",
+          "requirement": "30 days prior",
+          "evidence": {
+            "ref": "Vendor notice list",
+            "on": "2025-01-10"
+          }
+        },
+        {
+          "id": "ob-03b",
+          "kind": "deletion_on_termination",
+          "requirement": "14 days after end",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "ag-04",
+      "title": "Transactional email",
+      "vendorId": "v-mailwave",
+      "ownerId": "o-bo",
+      "status": "active",
+      "startOn": "2025-09-01",
+      "endOn": "2026-10-25",
+      "noticeDays": 45,
+      "categories": [
+        "contact"
+      ],
+      "purpose": "Receipts and password resets",
+      "transferMechanism": "SCC-style clauses (synthetic label)",
+      "obligations": [
+        {
+          "id": "ob-04a",
+          "kind": "encryption",
+          "requirement": "TLS 1.2+ in transit",
+          "evidence": {
+            "ref": "Config screenshot (synthetic)",
+            "on": "2025-09-01"
+          }
+        },
+        {
+          "id": "ob-04b",
+          "kind": "breach_notification",
+          "requirement": "48h",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "ag-05",
+      "title": "Support ticketing platform",
+      "vendorId": "v-helpdeskr",
+      "ownerId": "o-cy",
+      "status": "active",
+      "startOn": "2025-03-01",
+      "endOn": "2027-02-28",
+      "noticeDays": 90,
+      "categories": [
+        "contact",
+        "support_history"
+      ],
+      "purpose": "Customer support",
+      "transferMechanism": "intra-EEA (synthetic label)",
+      "obligations": [
+        {
+          "id": "ob-05a",
+          "kind": "audit_right",
+          "requirement": "annual",
+          "evidence": {
+            "ref": "Audit letter",
+            "on": "2026-03-15"
+          }
+        },
+        {
+          "id": "ob-05b",
+          "kind": "breach_notification",
+          "requirement": "72h",
+          "evidence": {
+            "ref": "MSA §11",
+            "on": "2025-03-01"
+          }
+        },
+        {
+          "id": "ob-05c",
+          "kind": "access_review",
+          "requirement": "semi-annual",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "ag-06",
+      "title": "Employee benefits enrolment",
+      "vendorId": "v-benefits",
+      "ownerId": "o-left",
+      "status": "active",
+      "startOn": "2024-01-01",
+      "endOn": "2026-12-31",
+      "noticeDays": 90,
+      "categories": [
+        "contact",
+        "payroll",
+        "health"
+      ],
+      "purpose": "Enrol staff in benefits",
+      "transferMechanism": "controller-to-controller terms (synthetic label)",
+      "obligations": [
+        {
+          "id": "ob-06a",
+          "kind": "breach_notification",
+          "requirement": "72h",
+          "evidence": {
+            "ref": "Terms §7",
+            "on": "2024-01-01"
+          }
+        },
+        {
+          "id": "ob-06b",
+          "kind": "encryption",
+          "requirement": "AES-256 at rest",
+          "evidence": null
+        },
+        {
+          "id": "ob-06c",
+          "kind": "deletion_on_termination",
+          "requirement": "60 days after end",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "ag-07",
+      "title": "Backup storage",
+      "vendorId": "v-cloudstash",
+      "ownerId": "o-dee",
+      "status": "active",
+      "startOn": "2023-10-01",
+      "endOn": "2026-09-30",
+      "noticeDays": 60,
+      "categories": [
+        "contact",
+        "payroll",
+        "support_history",
+        "bank_details"
+      ],
+      "purpose": "Encrypted off-site backups",
+      "transferMechanism": "SCC-style clauses (synthetic label)",
+      "obligations": [
+        {
+          "id": "ob-07a",
+          "kind": "encryption",
+          "requirement": "customer-managed keys",
+          "evidence": {
+            "ref": "KMS policy export (synthetic)",
+            "on": "2024-01-05"
+          }
+        },
+        {
+          "id": "ob-07b",
+          "kind": "deletion_on_termination",
+          "requirement": "90 days after end",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "ag-08",
+      "title": "Backup storage — renewal 2026",
+      "vendorId": "v-cloudstash",
+      "ownerId": "o-dee",
+      "status": "draft",
+      "startOn": "2026-10-01",
+      "endOn": "2029-09-30",
+      "noticeDays": 60,
+      "categories": [
+        "contact",
+        "payroll",
+        "support_history",
+        "bank_details"
+      ],
+      "purpose": "Encrypted off-site backups",
+      "transferMechanism": "SCC-style clauses (synthetic label)",
+      "obligations": [
+        {
+          "id": "ob-08a",
+          "kind": "encryption",
+          "requirement": "customer-managed keys",
+          "evidence": null
+        },
+        {
+          "id": "ob-08b",
+          "kind": "deletion_on_termination",
+          "requirement": "90 days after end",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "ag-09",
+      "title": "Product analytics",
+      "vendorId": "v-insightly",
+      "ownerId": "o-bo",
+      "status": "renewing",
+      "startOn": "2025-10-15",
+      "endOn": "2026-10-14",
+      "noticeDays": 60,
+      "categories": [
+        "usage_events"
+      ],
+      "purpose": "Product usage analytics",
+      "transferMechanism": "UK addendum (synthetic label)",
+      "obligations": [
+        {
+          "id": "ob-09a",
+          "kind": "subprocessor_notice",
+          "requirement": "30 days prior",
+          "evidence": {
+            "ref": "Subprocessor page snapshot",
+            "on": "2026-01-20"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ag-10",
+      "title": "Legacy survey tool",
+      "vendorId": "v-insightly",
+      "ownerId": null,
+      "status": "terminated",
+      "startOn": "2022-01-01",
+      "endOn": "2025-12-31",
+      "noticeDays": 30,
+      "categories": [
+        "contact"
+      ],
+      "purpose": "Customer surveys",
+      "transferMechanism": "UK addendum (synthetic label)",
+      "obligations": [
+        {
+          "id": "ob-10a",
+          "kind": "deletion_on_termination",
+          "requirement": "30 days after end",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "ag-11",
+      "title": "Payslip e-delivery pilot",
+      "vendorId": "v-payco",
+      "ownerId": "o-ada",
+      "status": "draft",
+      "startOn": "2026-11-01",
+      "endOn": "2027-04-30",
+      "noticeDays": 30,
+      "categories": [],
+      "purpose": "Pilot electronic payslips",
+      "transferMechanism": "tbd",
+      "obligations": []
+    },
+    {
+      "id": "ag-12",
+      "title": "Helpdeskr AI summaries addendum",
+      "vendorId": "v-helpdeskr",
+      "ownerId": "o-cy",
+      "status": "active",
+      "startOn": "2026-06-01",
+      "endOn": "2027-05-31",
+      "noticeDays": 60,
+      "categories": [
+        "support_history"
+      ],
+      "purpose": "Summarise tickets",
+      "transferMechanism": "intra-EEA (synthetic label)",
+      "obligations": [
+        {
+          "id": "ob-12a",
+          "kind": "breach_notification",
+          "requirement": "24h",
+          "evidence": {
+            "ref": "Addendum §2",
+            "on": "2026-06-01"
+          }
+        },
+        {
+          "id": "ob-12b",
+          "kind": "subprocessor_notice",
+          "requirement": "14 days prior",
+          "evidence": null
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "fl-01",
+      "systemId": "s-hris",
+      "vendorId": "v-payco",
+      "agreementId": "ag-01",
+      "categories": [
+        "payroll",
+        "contact",
+        "bank_details"
+      ],
+      "direction": "outbound",
+      "active": true,
+      "lastTransferOn": "2026-09-28"
+    },
+    {
+      "id": "fl-02",
+      "systemId": "s-warehouse",
+      "vendorId": "v-payco",
+      "agreementId": "ag-02",
+      "categories": [
+        "contact"
+      ],
+      "direction": "inbound",
+      "active": true,
+      "lastTransferOn": "2026-09-30"
+    },
+    {
+      "id": "fl-03",
+      "systemId": "s-crm",
+      "vendorId": "v-mailwave",
+      "agreementId": "ag-03",
+      "categories": [
+        "contact",
+        "marketing_preferences"
+      ],
+      "direction": "outbound",
+      "active": true,
+      "lastTransferOn": "2026-09-27"
+    },
+    {
+      "id": "fl-04",
+      "systemId": "s-billing",
+      "vendorId": "v-mailwave",
+      "agreementId": "ag-04",
+      "categories": [
+        "contact"
+      ],
+      "direction": "outbound",
+      "active": true,
+      "lastTransferOn": "2026-09-30"
+    },
+    {
+      "id": "fl-05",
+      "systemId": "s-support",
+      "vendorId": "v-helpdeskr",
+      "agreementId": "ag-05",
+      "categories": [
+        "contact",
+        "support_history"
+      ],
+      "direction": "bidirectional",
+      "active": true,
+      "lastTransferOn": "2026-09-30"
+    },
+    {
+      "id": "fl-06",
+      "systemId": "s-support",
+      "vendorId": "v-helpdeskr",
+      "agreementId": "ag-12",
+      "categories": [
+        "support_history",
+        "contact"
+      ],
+      "direction": "outbound",
+      "active": true,
+      "lastTransferOn": "2026-09-29"
+    },
+    {
+      "id": "fl-07",
+      "systemId": "s-hris",
+      "vendorId": "v-benefits",
+      "agreementId": "ag-06",
+      "categories": [
+        "contact",
+        "payroll",
+        "health"
+      ],
+      "direction": "outbound",
+      "active": true,
+      "lastTransferOn": "2026-09-01"
+    },
+    {
+      "id": "fl-08",
+      "systemId": "s-hris",
+      "vendorId": "v-benefits",
+      "agreementId": "ag-06",
+      "categories": [
+        "identity_documents"
+      ],
+      "direction": "outbound",
+      "active": true,
+      "lastTransferOn": "2026-08-15"
+    },
+    {
+      "id": "fl-09",
+      "systemId": "s-warehouse",
+      "vendorId": "v-cloudstash",
+      "agreementId": "ag-07",
+      "categories": [
+        "contact",
+        "payroll",
+        "support_history",
+        "bank_details"
+      ],
+      "direction": "outbound",
+      "active": true,
+      "lastTransferOn": "2026-09-30"
+    },
+    {
+      "id": "fl-10",
+      "systemId": "s-crm",
+      "vendorId": "v-insightly",
+      "agreementId": "ag-09",
+      "categories": [
+        "usage_events"
+      ],
+      "direction": "outbound",
+      "active": true,
+      "lastTransferOn": "2026-09-29"
+    },
+    {
+      "id": "fl-11",
+      "systemId": "s-crm",
+      "vendorId": "v-insightly",
+      "agreementId": "ag-10",
+      "categories": [
+        "contact"
+      ],
+      "direction": "outbound",
+      "active": true,
+      "lastTransferOn": "2025-02-10"
+    },
+    {
+      "id": "fl-12",
+      "systemId": "s-billing",
+      "vendorId": "v-cloudstash",
+      "agreementId": null,
+      "categories": [
+        "bank_details"
+      ],
+      "direction": "outbound",
+      "active": true,
+      "lastTransferOn": "2026-09-25"
+    },
+    {
+      "id": "fl-13",
+      "systemId": "s-warehouse",
+      "vendorId": "v-insightly",
+      "agreementId": "ag-09",
+      "categories": [
+        "usage_events",
+        "contact"
+      ],
+      "direction": "outbound",
+      "active": true,
+      "lastTransferOn": "2026-09-15"
+    },
+    {
+      "id": "fl-14",
+      "systemId": "s-support",
+      "vendorId": "v-mailwave",
+      "agreementId": "ag-04",
+      "categories": [
+        "contact"
+      ],
+      "direction": "outbound",
+      "active": false,
+      "lastTransferOn": "2025-11-01"
+    },
+    {
+      "id": "fl-15",
+      "systemId": "s-hris",
+      "vendorId": "v-payco",
+      "agreementId": "ag-11",
+      "categories": [
+        "payroll"
+      ],
+      "direction": "outbound",
+      "active": true,
+      "lastTransferOn": "2026-09-26"
+    }
+  ],
+  "history": []
+}

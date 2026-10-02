@@ -1,0 +1,1599 @@
+{
+  "schemaVersion": 1,
+  "label": "Synthetic access graph — five teams, eight assets",
+  "nodes": [
+    {
+      "id": "g-finance",
+      "kind": "group",
+      "label": "Finance team"
+    },
+    {
+      "id": "g-engineering",
+      "kind": "group",
+      "label": "Engineering team"
+    },
+    {
+      "id": "g-people",
+      "kind": "group",
+      "label": "People team"
+    },
+    {
+      "id": "g-sales",
+      "kind": "group",
+      "label": "Sales team"
+    },
+    {
+      "id": "g-support",
+      "kind": "group",
+      "label": "Support team"
+    },
+    {
+      "id": "g-all",
+      "kind": "group",
+      "label": "All staff"
+    },
+    {
+      "id": "g-finance-leads",
+      "kind": "group",
+      "label": "Finance leads"
+    },
+    {
+      "id": "g-platform",
+      "kind": "group",
+      "label": "Platform engineers"
+    },
+    {
+      "id": "g-contractors",
+      "kind": "group",
+      "label": "Contractors"
+    },
+    {
+      "id": "g-legacy-admins",
+      "kind": "group",
+      "label": "Legacy admins (2019)"
+    },
+    {
+      "id": "r-reader",
+      "kind": "role",
+      "label": "Reader"
+    },
+    {
+      "id": "r-payroll-editor",
+      "kind": "role",
+      "label": "Payroll editor"
+    },
+    {
+      "id": "r-payroll-approver",
+      "kind": "role",
+      "label": "Payroll approver"
+    },
+    {
+      "id": "r-hr-editor",
+      "kind": "role",
+      "label": "HR editor"
+    },
+    {
+      "id": "r-crm-user",
+      "kind": "role",
+      "label": "CRM user"
+    },
+    {
+      "id": "r-crm-exporter",
+      "kind": "role",
+      "label": "CRM exporter"
+    },
+    {
+      "id": "r-wh-analyst",
+      "kind": "role",
+      "label": "Warehouse analyst"
+    },
+    {
+      "id": "r-wh-admin",
+      "kind": "role",
+      "label": "Warehouse admin"
+    },
+    {
+      "id": "r-prod-operator",
+      "kind": "role",
+      "label": "Production operator"
+    },
+    {
+      "id": "r-prod-admin",
+      "kind": "role",
+      "label": "Production admin"
+    },
+    {
+      "id": "r-support-agent",
+      "kind": "role",
+      "label": "Support agent"
+    },
+    {
+      "id": "r-vault-reader",
+      "kind": "role",
+      "label": "Vault reader"
+    },
+    {
+      "id": "a-payroll",
+      "kind": "asset",
+      "label": "Payroll DB",
+      "sensitivity": "high"
+    },
+    {
+      "id": "a-hris",
+      "kind": "asset",
+      "label": "HR records",
+      "sensitivity": "high"
+    },
+    {
+      "id": "a-crm",
+      "kind": "asset",
+      "label": "Customer CRM",
+      "sensitivity": "moderate"
+    },
+    {
+      "id": "a-wh",
+      "kind": "asset",
+      "label": "Analytics warehouse",
+      "sensitivity": "high"
+    },
+    {
+      "id": "a-prod",
+      "kind": "asset",
+      "label": "Production account",
+      "sensitivity": "high"
+    },
+    {
+      "id": "a-wiki",
+      "kind": "asset",
+      "label": "Wiki",
+      "sensitivity": "low"
+    },
+    {
+      "id": "a-tickets",
+      "kind": "asset",
+      "label": "Support tickets",
+      "sensitivity": "moderate"
+    },
+    {
+      "id": "a-vault",
+      "kind": "asset",
+      "label": "Secrets vault",
+      "sensitivity": "high"
+    },
+    {
+      "id": "p-wiki-read",
+      "kind": "permission",
+      "label": "wiki:read",
+      "action": "read"
+    },
+    {
+      "id": "p-payroll-write",
+      "kind": "permission",
+      "label": "payroll:write",
+      "action": "write"
+    },
+    {
+      "id": "p-payroll-admin",
+      "kind": "permission",
+      "label": "payroll:admin",
+      "action": "admin"
+    },
+    {
+      "id": "p-hris-write",
+      "kind": "permission",
+      "label": "hris:write",
+      "action": "write"
+    },
+    {
+      "id": "p-hris-read",
+      "kind": "permission",
+      "label": "hris:read",
+      "action": "read"
+    },
+    {
+      "id": "p-crm-read",
+      "kind": "permission",
+      "label": "crm:read",
+      "action": "read"
+    },
+    {
+      "id": "p-crm-write",
+      "kind": "permission",
+      "label": "crm:write",
+      "action": "write"
+    },
+    {
+      "id": "p-wh-read",
+      "kind": "permission",
+      "label": "warehouse:read",
+      "action": "read"
+    },
+    {
+      "id": "p-wh-admin",
+      "kind": "permission",
+      "label": "warehouse:admin",
+      "action": "admin"
+    },
+    {
+      "id": "p-prod-write",
+      "kind": "permission",
+      "label": "prod:write",
+      "action": "write"
+    },
+    {
+      "id": "p-prod-admin",
+      "kind": "permission",
+      "label": "prod:admin",
+      "action": "admin"
+    },
+    {
+      "id": "p-tickets-write",
+      "kind": "permission",
+      "label": "tickets:write",
+      "action": "write"
+    },
+    {
+      "id": "p-vault-read",
+      "kind": "permission",
+      "label": "vault:read",
+      "action": "read"
+    },
+    {
+      "id": "u-001",
+      "kind": "identity",
+      "label": "Ada Example",
+      "attrs": {
+        "department": "finance",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-002",
+      "kind": "identity",
+      "label": "Bhavna Sample",
+      "attrs": {
+        "department": "engineering",
+        "mfa": "true",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-003",
+      "kind": "identity",
+      "label": "Caius Fixture",
+      "attrs": {
+        "department": "people",
+        "mfa": "true",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-004",
+      "kind": "identity",
+      "label": "Dalia Placeholder",
+      "attrs": {
+        "department": "sales",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-005",
+      "kind": "identity",
+      "label": "Emeka Demo",
+      "attrs": {
+        "department": "support",
+        "mfa": "false",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-006",
+      "kind": "identity",
+      "label": "Farah Example",
+      "attrs": {
+        "department": "finance",
+        "mfa": "true",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-007",
+      "kind": "identity",
+      "label": "Gus Sample",
+      "attrs": {
+        "department": "engineering",
+        "mfa": "true",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-008",
+      "kind": "identity",
+      "label": "Hana Fixture",
+      "attrs": {
+        "department": "people",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-009",
+      "kind": "identity",
+      "label": "Idris Placeholder",
+      "attrs": {
+        "department": "sales",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-010",
+      "kind": "identity",
+      "label": "Juno Demo",
+      "attrs": {
+        "department": "support",
+        "mfa": "false",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-011",
+      "kind": "identity",
+      "label": "Kofi Example",
+      "attrs": {
+        "department": "finance",
+        "mfa": "true",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-012",
+      "kind": "identity",
+      "label": "Lena Sample",
+      "attrs": {
+        "department": "engineering",
+        "mfa": "true",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-013",
+      "kind": "identity",
+      "label": "Mateo Fixture",
+      "attrs": {
+        "department": "people",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-014",
+      "kind": "identity",
+      "label": "Nadia Placeholder",
+      "attrs": {
+        "department": "sales",
+        "mfa": "true",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-015",
+      "kind": "identity",
+      "label": "Oren Demo",
+      "attrs": {
+        "department": "support",
+        "mfa": "false",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "svc-etl",
+      "kind": "identity",
+      "label": "svc-etl",
+      "attrs": {
+        "department": "finance",
+        "mfa": "true",
+        "location": "DE",
+        "type": "service"
+      }
+    },
+    {
+      "id": "u-016",
+      "kind": "identity",
+      "label": "Quill Sample",
+      "attrs": {
+        "department": "engineering",
+        "mfa": "true",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-017",
+      "kind": "identity",
+      "label": "Rosa Fixture",
+      "attrs": {
+        "department": "people",
+        "mfa": "true",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-018",
+      "kind": "identity",
+      "label": "Sven Placeholder",
+      "attrs": {
+        "department": "sales",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-019",
+      "kind": "identity",
+      "label": "Tala Demo",
+      "attrs": {
+        "department": "support",
+        "mfa": "false",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-020",
+      "kind": "identity",
+      "label": "Uma Example",
+      "attrs": {
+        "department": "finance",
+        "mfa": "true",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-021",
+      "kind": "identity",
+      "label": "Viggo Sample",
+      "attrs": {
+        "department": "engineering",
+        "mfa": "true",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-022",
+      "kind": "identity",
+      "label": "Wren Fixture",
+      "attrs": {
+        "department": "people",
+        "mfa": "true",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-023",
+      "kind": "identity",
+      "label": "Ximena Placeholder",
+      "attrs": {
+        "department": "sales",
+        "mfa": "true",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-024",
+      "kind": "identity",
+      "label": "Yusuf Demo",
+      "attrs": {
+        "department": "support",
+        "mfa": "false",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-025",
+      "kind": "identity",
+      "label": "Zara Example",
+      "attrs": {
+        "department": "finance",
+        "mfa": "true",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-026",
+      "kind": "identity",
+      "label": "Anil Sample",
+      "attrs": {
+        "department": "engineering",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-027",
+      "kind": "identity",
+      "label": "Bea Fixture",
+      "attrs": {
+        "department": "people",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-028",
+      "kind": "identity",
+      "label": "Cato Placeholder",
+      "attrs": {
+        "department": "sales",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-029",
+      "kind": "identity",
+      "label": "Dev Demo",
+      "attrs": {
+        "department": "support",
+        "mfa": "false",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-030",
+      "kind": "identity",
+      "label": "Ada Sample",
+      "attrs": {
+        "department": "finance",
+        "mfa": "true",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "svc-backup",
+      "kind": "identity",
+      "label": "svc-backup",
+      "attrs": {
+        "department": "engineering",
+        "mfa": "true",
+        "location": "US",
+        "type": "service"
+      }
+    },
+    {
+      "id": "u-031",
+      "kind": "identity",
+      "label": "Caius Placeholder",
+      "attrs": {
+        "department": "people",
+        "mfa": "true",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-032",
+      "kind": "identity",
+      "label": "Dalia Demo",
+      "attrs": {
+        "department": "sales",
+        "mfa": "true",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-033",
+      "kind": "identity",
+      "label": "Emeka Example",
+      "attrs": {
+        "department": "support",
+        "mfa": "false",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-034",
+      "kind": "identity",
+      "label": "Farah Sample",
+      "attrs": {
+        "department": "finance",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-035",
+      "kind": "identity",
+      "label": "Gus Fixture",
+      "attrs": {
+        "department": "engineering",
+        "mfa": "true",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-036",
+      "kind": "identity",
+      "label": "Hana Placeholder",
+      "attrs": {
+        "department": "people",
+        "mfa": "true",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-037",
+      "kind": "identity",
+      "label": "Idris Demo",
+      "attrs": {
+        "department": "sales",
+        "mfa": "true",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-038",
+      "kind": "identity",
+      "label": "Juno Example",
+      "attrs": {
+        "department": "support",
+        "mfa": "false",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-039",
+      "kind": "identity",
+      "label": "Kofi Sample",
+      "attrs": {
+        "department": "finance",
+        "mfa": "true",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-040",
+      "kind": "identity",
+      "label": "Lena Fixture",
+      "attrs": {
+        "department": "engineering",
+        "mfa": "true",
+        "location": "IN",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-041",
+      "kind": "identity",
+      "label": "Mateo Placeholder",
+      "attrs": {
+        "department": "people",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-042",
+      "kind": "identity",
+      "label": "Nadia Demo",
+      "attrs": {
+        "department": "sales",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-043",
+      "kind": "identity",
+      "label": "Oren Example",
+      "attrs": {
+        "department": "support",
+        "mfa": "false",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-044",
+      "kind": "identity",
+      "label": "Priya Sample",
+      "attrs": {
+        "department": "finance",
+        "mfa": "true",
+        "location": "US",
+        "type": "user"
+      }
+    },
+    {
+      "id": "u-045",
+      "kind": "identity",
+      "label": "Quill Fixture",
+      "attrs": {
+        "department": "engineering",
+        "mfa": "true",
+        "location": "DE",
+        "type": "user"
+      }
+    },
+    {
+      "id": "svc-ci",
+      "kind": "identity",
+      "label": "svc-ci",
+      "attrs": {
+        "department": "people",
+        "mfa": "true",
+        "location": "US",
+        "type": "service"
+      }
+    },
+    {
+      "id": "u-999",
+      "kind": "identity",
+      "label": "Ximena Placeholder",
+      "attrs": {
+        "department": "finance",
+        "mfa": "false",
+        "location": "IN",
+        "type": "user"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-001",
+      "from": "g-finance",
+      "to": "g-all",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-002",
+      "from": "g-engineering",
+      "to": "g-all",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-003",
+      "from": "g-people",
+      "to": "g-all",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-004",
+      "from": "g-sales",
+      "to": "g-all",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-005",
+      "from": "g-support",
+      "to": "g-all",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-006",
+      "from": "g-finance-leads",
+      "to": "g-finance",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-007",
+      "from": "g-platform",
+      "to": "g-engineering",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-008",
+      "from": "g-legacy-admins",
+      "to": "g-platform",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-009",
+      "from": "p-wiki-read",
+      "to": "a-wiki",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-010",
+      "from": "p-payroll-write",
+      "to": "a-payroll",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-011",
+      "from": "p-payroll-admin",
+      "to": "a-payroll",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-012",
+      "from": "p-hris-write",
+      "to": "a-hris",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-013",
+      "from": "p-hris-read",
+      "to": "a-hris",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-014",
+      "from": "p-crm-read",
+      "to": "a-crm",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-015",
+      "from": "p-crm-write",
+      "to": "a-crm",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-016",
+      "from": "p-wh-read",
+      "to": "a-wh",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-017",
+      "from": "p-wh-admin",
+      "to": "a-wh",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-018",
+      "from": "p-prod-write",
+      "to": "a-prod",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-019",
+      "from": "p-prod-admin",
+      "to": "a-prod",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-020",
+      "from": "p-tickets-write",
+      "to": "a-tickets",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-021",
+      "from": "p-vault-read",
+      "to": "a-vault",
+      "kind": "applies_to"
+    },
+    {
+      "id": "e-022",
+      "from": "r-reader",
+      "to": "p-wiki-read",
+      "kind": "grants"
+    },
+    {
+      "id": "e-023",
+      "from": "r-payroll-editor",
+      "to": "p-payroll-write",
+      "kind": "grants"
+    },
+    {
+      "id": "e-024",
+      "from": "r-payroll-editor",
+      "to": "p-hris-read",
+      "kind": "grants"
+    },
+    {
+      "id": "e-025",
+      "from": "r-payroll-approver",
+      "to": "p-payroll-admin",
+      "kind": "grants"
+    },
+    {
+      "id": "e-026",
+      "from": "r-hr-editor",
+      "to": "p-hris-write",
+      "kind": "grants"
+    },
+    {
+      "id": "e-027",
+      "from": "r-hr-editor",
+      "to": "p-hris-read",
+      "kind": "grants"
+    },
+    {
+      "id": "e-028",
+      "from": "r-crm-user",
+      "to": "p-crm-read",
+      "kind": "grants"
+    },
+    {
+      "id": "e-029",
+      "from": "r-crm-user",
+      "to": "p-crm-write",
+      "kind": "grants"
+    },
+    {
+      "id": "e-030",
+      "from": "r-crm-exporter",
+      "to": "p-crm-read",
+      "kind": "grants"
+    },
+    {
+      "id": "e-031",
+      "from": "r-crm-exporter",
+      "to": "p-wh-read",
+      "kind": "grants"
+    },
+    {
+      "id": "e-032",
+      "from": "r-wh-analyst",
+      "to": "p-wh-read",
+      "kind": "grants"
+    },
+    {
+      "id": "e-033",
+      "from": "r-wh-admin",
+      "to": "p-wh-admin",
+      "kind": "grants"
+    },
+    {
+      "id": "e-034",
+      "from": "r-wh-admin",
+      "to": "p-wh-read",
+      "kind": "grants"
+    },
+    {
+      "id": "e-035",
+      "from": "r-prod-operator",
+      "to": "p-prod-write",
+      "kind": "grants"
+    },
+    {
+      "id": "e-036",
+      "from": "r-prod-admin",
+      "to": "p-prod-admin",
+      "kind": "grants"
+    },
+    {
+      "id": "e-037",
+      "from": "r-prod-admin",
+      "to": "p-prod-write",
+      "kind": "grants"
+    },
+    {
+      "id": "e-038",
+      "from": "r-prod-admin",
+      "to": "p-vault-read",
+      "kind": "grants"
+    },
+    {
+      "id": "e-039",
+      "from": "r-support-agent",
+      "to": "p-tickets-write",
+      "kind": "grants"
+    },
+    {
+      "id": "e-040",
+      "from": "r-support-agent",
+      "to": "p-crm-read",
+      "kind": "grants"
+    },
+    {
+      "id": "e-041",
+      "from": "r-vault-reader",
+      "to": "p-vault-read",
+      "kind": "grants"
+    },
+    {
+      "id": "e-042",
+      "from": "g-all",
+      "to": "r-reader",
+      "kind": "assigned"
+    },
+    {
+      "id": "e-043",
+      "from": "g-finance",
+      "to": "r-payroll-editor",
+      "kind": "assigned"
+    },
+    {
+      "id": "e-044",
+      "from": "g-finance-leads",
+      "to": "r-payroll-approver",
+      "kind": "assigned",
+      "condition": {
+        "attr": "mfa",
+        "op": "eq",
+        "value": "true"
+      },
+      "note": "Approvers must have MFA"
+    },
+    {
+      "id": "e-045",
+      "from": "g-people",
+      "to": "r-hr-editor",
+      "kind": "assigned",
+      "condition": {
+        "attr": "type",
+        "op": "eq",
+        "value": "user"
+      }
+    },
+    {
+      "id": "e-046",
+      "from": "g-sales",
+      "to": "r-crm-user",
+      "kind": "assigned"
+    },
+    {
+      "id": "e-047",
+      "from": "g-sales",
+      "to": "r-crm-exporter",
+      "kind": "assigned",
+      "condition": {
+        "attr": "location",
+        "op": "neq",
+        "value": "DE"
+      },
+      "note": "Export restricted for DE-based staff in this synthetic policy"
+    },
+    {
+      "id": "e-048",
+      "from": "g-engineering",
+      "to": "r-wh-analyst",
+      "kind": "assigned"
+    },
+    {
+      "id": "e-049",
+      "from": "g-platform",
+      "to": "r-wh-admin",
+      "kind": "assigned"
+    },
+    {
+      "id": "e-050",
+      "from": "g-platform",
+      "to": "r-prod-operator",
+      "kind": "assigned"
+    },
+    {
+      "id": "e-051",
+      "from": "g-legacy-admins",
+      "to": "r-prod-admin",
+      "kind": "assigned"
+    },
+    {
+      "id": "e-052",
+      "from": "g-support",
+      "to": "r-support-agent",
+      "kind": "assigned"
+    },
+    {
+      "id": "e-053",
+      "from": "g-engineering",
+      "to": "r-vault-reader",
+      "kind": "assigned",
+      "condition": {
+        "attr": "mfa",
+        "op": "eq",
+        "value": "true"
+      }
+    },
+    {
+      "id": "e-054",
+      "from": "g-contractors",
+      "to": "a-payroll",
+      "kind": "deny",
+      "note": "Contractors must never reach payroll"
+    },
+    {
+      "id": "e-055",
+      "from": "g-contractors",
+      "to": "p-prod-admin",
+      "kind": "deny",
+      "note": "No production admin for contractors"
+    },
+    {
+      "id": "e-056",
+      "from": "g-support",
+      "to": "a-wh",
+      "kind": "deny",
+      "note": "Support has no analytics access"
+    },
+    {
+      "id": "e-057",
+      "from": "u-001",
+      "to": "g-finance",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-058",
+      "from": "u-001",
+      "to": "g-finance-leads",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-059",
+      "from": "u-002",
+      "to": "g-engineering",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-060",
+      "from": "u-002",
+      "to": "g-platform",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-061",
+      "from": "u-003",
+      "to": "g-people",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-062",
+      "from": "u-004",
+      "to": "g-sales",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-063",
+      "from": "u-004",
+      "to": "g-contractors",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-064",
+      "from": "u-005",
+      "to": "g-support",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-065",
+      "from": "u-006",
+      "to": "g-finance",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-066",
+      "from": "u-007",
+      "to": "g-engineering",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-067",
+      "from": "u-008",
+      "to": "g-people",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-068",
+      "from": "u-009",
+      "to": "g-sales",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-069",
+      "from": "u-010",
+      "to": "g-support",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-070",
+      "from": "u-011",
+      "to": "g-finance",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-071",
+      "from": "u-011",
+      "to": "g-contractors",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-072",
+      "from": "u-011",
+      "to": "g-finance-leads",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-073",
+      "from": "u-012",
+      "to": "g-engineering",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-074",
+      "from": "u-013",
+      "to": "g-people",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-075",
+      "from": "u-014",
+      "to": "g-sales",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-076",
+      "from": "u-015",
+      "to": "g-support",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-077",
+      "from": "svc-etl",
+      "to": "g-finance",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-078",
+      "from": "u-016",
+      "to": "g-engineering",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-079",
+      "from": "u-017",
+      "to": "g-people",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-080",
+      "from": "u-017",
+      "to": "g-contractors",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-081",
+      "from": "u-018",
+      "to": "g-sales",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-082",
+      "from": "u-019",
+      "to": "g-support",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-083",
+      "from": "u-020",
+      "to": "g-finance",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-084",
+      "from": "u-020",
+      "to": "g-finance-leads",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-085",
+      "from": "u-021",
+      "to": "g-engineering",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-086",
+      "from": "u-022",
+      "to": "g-people",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-087",
+      "from": "u-023",
+      "to": "g-sales",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-088",
+      "from": "u-024",
+      "to": "g-support",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-089",
+      "from": "u-024",
+      "to": "g-contractors",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-090",
+      "from": "u-025",
+      "to": "g-finance",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-091",
+      "from": "u-026",
+      "to": "g-engineering",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-092",
+      "from": "u-027",
+      "to": "g-people",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-093",
+      "from": "u-028",
+      "to": "g-sales",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-094",
+      "from": "u-029",
+      "to": "g-support",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-095",
+      "from": "u-030",
+      "to": "g-finance",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-096",
+      "from": "u-030",
+      "to": "g-finance-leads",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-097",
+      "from": "svc-backup",
+      "to": "g-engineering",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-098",
+      "from": "svc-backup",
+      "to": "g-contractors",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-099",
+      "from": "svc-backup",
+      "to": "g-platform",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-100",
+      "from": "u-031",
+      "to": "g-people",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-101",
+      "from": "u-032",
+      "to": "g-sales",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-102",
+      "from": "u-033",
+      "to": "g-support",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-103",
+      "from": "u-034",
+      "to": "g-finance",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-104",
+      "from": "u-035",
+      "to": "g-engineering",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-105",
+      "from": "u-036",
+      "to": "g-people",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-106",
+      "from": "u-037",
+      "to": "g-sales",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-107",
+      "from": "u-037",
+      "to": "g-contractors",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-108",
+      "from": "u-038",
+      "to": "g-support",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-109",
+      "from": "u-039",
+      "to": "g-finance",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-110",
+      "from": "u-039",
+      "to": "g-finance-leads",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-111",
+      "from": "u-040",
+      "to": "g-engineering",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-112",
+      "from": "u-041",
+      "to": "g-people",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-113",
+      "from": "u-042",
+      "to": "g-sales",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-114",
+      "from": "u-043",
+      "to": "g-support",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-115",
+      "from": "u-044",
+      "to": "g-finance",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-116",
+      "from": "u-044",
+      "to": "g-contractors",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-117",
+      "from": "u-045",
+      "to": "g-engineering",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-118",
+      "from": "svc-ci",
+      "to": "g-people",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-119",
+      "from": "u-003",
+      "to": "g-legacy-admins",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-120",
+      "from": "u-011",
+      "to": "g-finance-leads",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-121",
+      "from": "u-999",
+      "to": "g-finance",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-122",
+      "from": "u-999",
+      "to": "g-finance-leads",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-123",
+      "from": "u-001",
+      "to": "g-engineering",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-124",
+      "from": "u-012",
+      "to": "g-contractors",
+      "kind": "member_of"
+    },
+    {
+      "id": "e-125",
+      "from": "u-012",
+      "to": "g-legacy-admins",
+      "kind": "member_of"
+    }
+  ],
+  "toxicRules": [
+    {
+      "id": "tx-payroll-sod",
+      "name": "Payroll write + payroll admin",
+      "a": {
+        "assetId": "a-payroll",
+        "action": "write"
+      },
+      "b": {
+        "assetId": "a-payroll",
+        "action": "admin"
+      },
+      "rationale": "One identity can prepare and approve payroll."
+    },
+    {
+      "id": "tx-prod-vault",
+      "name": "Production admin + vault read",
+      "a": {
+        "assetId": "a-prod",
+        "action": "admin"
+      },
+      "b": {
+        "assetId": "a-vault",
+        "action": "read"
+      },
+      "rationale": "Full control of production plus its secrets."
+    },
+    {
+      "id": "tx-payroll-wh",
+      "name": "Payroll write + warehouse read",
+      "a": {
+        "assetId": "a-payroll",
+        "action": "write"
+      },
+      "b": {
+        "assetId": "a-wh",
+        "action": "read"
+      },
+      "rationale": "Can edit source data and read the analytics copy."
+    }
+  ]
+}

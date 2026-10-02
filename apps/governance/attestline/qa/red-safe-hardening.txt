@@ -1,0 +1,12 @@
+     ✓ rejects oversized input 16ms
+     ✓ rejects invalid JSON and non-object roots 0ms
+     ✓ rejects deep nesting 0ms
+     ✓ rejects __proto__ keys 0ms
+     ✓ accepts a small object 0ms
+     ✓ neutralises formula prefixes 0ms
+     × neutralises formula prefixes hidden behind whitespace or control characters 5ms
+     ✓ quotes commas, quotes and newlines 0ms
+     × rejects calendar-invalid dates that Date.parse would normalise 2ms
+     ✓ adds and diffs days 0ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  2 failed | 8 passed (10)

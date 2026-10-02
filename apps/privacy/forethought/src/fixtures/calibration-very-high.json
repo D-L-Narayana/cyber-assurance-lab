@@ -1,0 +1,43 @@
+{
+  "schema": "forethought.assessment",
+  "version": 1,
+  "id": "PIA-2026-021",
+  "title": "Kids learning app with adaptive rewards",
+  "owner": "Unassigned",
+  "description": "Synthetic scenario: an app directed at children that profiles learning behaviour, shares data with advertising partners and stores it outside the region without safeguards.",
+  "asOf": "2026-10-01",
+  "answers": {
+    "q-purpose": "personalisation",
+    "q-notice": "no",
+    "q-basis": "consent",
+    "q-categories": "special-category",
+    "q-volume": "100k-1m",
+    "q-rights-tooling": "none",
+    "q-profiling": "decisions-with-effects",
+    "q-children": "yes-directed",
+    "q-children-age-assurance": "none",
+    "q-sharing": "sale",
+    "q-sharing-contracts": "none",
+    "q-transfer": "outside-no-safeguards",
+    "q-retention": "undefined",
+    "q-security": "known-gaps"
+  },
+  "mitigations": [],
+  "flows": [
+    {
+      "id": "f-1",
+      "from": "App",
+      "to": "Ad partner (synthetic)",
+      "dataCategories": [
+        "identifiers",
+        "behaviour"
+      ],
+      "outsideOriginRegion": true,
+      "mechanism": "none"
+    }
+  ],
+  "acceptances": [],
+  "dpoConsulted": false,
+  "signatures": [],
+  "versions": []
+}

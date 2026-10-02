@@ -1,0 +1,809 @@
+[
+  {
+    "name": "desktop",
+    "status": 200,
+    "url": "http://127.0.0.1:6124/#/EX-106",
+    "errors": [],
+    "failedRequests": [],
+    "layout": {
+      "title": "Graceline — policy exception and remediation lifecycle (educational)",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Graceline",
+        "Lifecycle board",
+        "Local admin rights for CAD workstation group",
+        "Attention order"
+      ],
+      "primaryControls": [
+        {
+          "tag": "A",
+          "text": "Skip to board",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Load demo board",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "New request",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Import board",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export board",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export risk register",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-101 Shared admin account on warehouse scanners, high risk, draft",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-102 TLS 1.1 on legacy EDI partner link, moderate risk, submitted",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-103 Legacy report server cannot receive October patches, high risk, under-review",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-112 Production database reachable from developer VLAN, critical risk, under-review",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-104 MFA exemption for printer service account, moderate risk, active",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-105 Unsupported OS on time-clock terminals, high risk, expiring",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-110 Vendor remote support via shared VPN account, high risk, expiring",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-111 Payment terminal firmware pinned to vulnerable version, critical risk, active",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-106 Local admin rights for CAD workstation group, moderate risk, expired, 6 days overdue",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-107 Unencrypted backup tapes in offsite store, critical risk, escalated, 32 days overdue",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-108 Guest Wi-Fi shared PSK, low risk, closed",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-109 Disable endpoint EDR on build agents, critical risk, rejected",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "ManagerRisk ownerCISOControl owner",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Approve renewal",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Refuse renewal",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "plannedin-progressdone",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Update remediation",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Request renewal (needs quorum)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "TEXTAREA",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Close with evidence",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "10.53Unencrypted backup tapes in offsite storecritical · escalated · 32 d overdue",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "4.20Unsupported OS on time-clock terminalshigh · expiring",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "4.20Vendor remote support via shared VPN accounthigh · expiring · policy violation",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "4.20Production database reachable from developer VLANcritical · under-review",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3.90Local admin rights for CAD workstation groupmoderate · expired · 6 d overdue",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3.15Legacy report server cannot receive October patcheshigh · under-review",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2.80Payment terminal firmware pinned to vulnerable versioncritical · active · policy violation",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1.68TLS 1.1 on legacy EDI partner linkmoderate · submitted",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1.50Shared admin account on warehouse scannershigh · draft · policy violation",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1.40MFA exemption for printer service accountmoderate · active",
+          "type": "button",
+          "id": ""
+        }
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incompleteChecks": []
+  },
+  {
+    "name": "tablet",
+    "status": 200,
+    "url": "http://127.0.0.1:6124/#/EX-106",
+    "errors": [],
+    "failedRequests": [],
+    "layout": {
+      "title": "Graceline — policy exception and remediation lifecycle (educational)",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Graceline",
+        "Lifecycle board",
+        "Local admin rights for CAD workstation group",
+        "Attention order"
+      ],
+      "primaryControls": [
+        {
+          "tag": "A",
+          "text": "Skip to board",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Load demo board",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "New request",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Import board",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export board",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export risk register",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-101 Shared admin account on warehouse scanners, high risk, draft",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-102 TLS 1.1 on legacy EDI partner link, moderate risk, submitted",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-103 Legacy report server cannot receive October patches, high risk, under-review",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-112 Production database reachable from developer VLAN, critical risk, under-review",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-104 MFA exemption for printer service account, moderate risk, active",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-105 Unsupported OS on time-clock terminals, high risk, expiring",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-110 Vendor remote support via shared VPN account, high risk, expiring",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-111 Payment terminal firmware pinned to vulnerable version, critical risk, active",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-106 Local admin rights for CAD workstation group, moderate risk, expired, 6 days overdue",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-107 Unencrypted backup tapes in offsite store, critical risk, escalated, 32 days overdue",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-108 Guest Wi-Fi shared PSK, low risk, closed",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-109 Disable endpoint EDR on build agents, critical risk, rejected",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "ManagerRisk ownerCISOControl owner",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Approve renewal",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Refuse renewal",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "plannedin-progressdone",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Update remediation",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Request renewal (needs quorum)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "TEXTAREA",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Close with evidence",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "10.53Unencrypted backup tapes in offsite storecritical · escalated · 32 d overdue",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "4.20Unsupported OS on time-clock terminalshigh · expiring",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "4.20Vendor remote support via shared VPN accounthigh · expiring · policy violation",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "4.20Production database reachable from developer VLANcritical · under-review",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3.90Local admin rights for CAD workstation groupmoderate · expired · 6 d overdue",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3.15Legacy report server cannot receive October patcheshigh · under-review",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2.80Payment terminal firmware pinned to vulnerable versioncritical · active · policy violation",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1.68TLS 1.1 on legacy EDI partner linkmoderate · submitted",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1.50Shared admin account on warehouse scannershigh · draft · policy violation",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1.40MFA exemption for printer service accountmoderate · active",
+          "type": "button",
+          "id": ""
+        }
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incompleteChecks": []
+  },
+  {
+    "name": "mobile",
+    "status": 200,
+    "url": "http://127.0.0.1:6124/#/EX-106",
+    "errors": [],
+    "failedRequests": [],
+    "layout": {
+      "title": "Graceline — policy exception and remediation lifecycle (educational)",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Graceline",
+        "Lifecycle board",
+        "Local admin rights for CAD workstation group",
+        "Attention order"
+      ],
+      "primaryControls": [
+        {
+          "tag": "A",
+          "text": "Skip to board",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Load demo board",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "New request",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Import board",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "file",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export board",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Export risk register",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-101 Shared admin account on warehouse scanners, high risk, draft",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-102 TLS 1.1 on legacy EDI partner link, moderate risk, submitted",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-103 Legacy report server cannot receive October patches, high risk, under-review",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-112 Production database reachable from developer VLAN, critical risk, under-review",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-104 MFA exemption for printer service account, moderate risk, active",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-105 Unsupported OS on time-clock terminals, high risk, expiring",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-110 Vendor remote support via shared VPN account, high risk, expiring",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-111 Payment terminal firmware pinned to vulnerable version, critical risk, active",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-106 Local admin rights for CAD workstation group, moderate risk, expired, 6 days overdue",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-107 Unencrypted backup tapes in offsite store, critical risk, escalated, 32 days overdue",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-108 Guest Wi-Fi shared PSK, low risk, closed",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "EX-109 Disable endpoint EDR on build agents, critical risk, rejected",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "ManagerRisk ownerCISOControl owner",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Approve renewal",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Refuse renewal",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "plannedin-progressdone",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Update remediation",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "type": "date",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Request renewal (needs quorum)",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "TEXTAREA",
+          "text": "",
+          "type": null,
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Close with evidence",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "10.53Unencrypted backup tapes in offsite storecritical · escalated · 32 d overdue",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "4.20Unsupported OS on time-clock terminalshigh · expiring",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "4.20Vendor remote support via shared VPN accounthigh · expiring · policy violation",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "4.20Production database reachable from developer VLANcritical · under-review",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3.90Local admin rights for CAD workstation groupmoderate · expired · 6 d overdue",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "3.15Legacy report server cannot receive October patcheshigh · under-review",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "2.80Payment terminal firmware pinned to vulnerable versioncritical · active · policy violation",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1.68TLS 1.1 on legacy EDI partner linkmoderate · submitted",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1.50Shared admin account on warehouse scannershigh · draft · policy violation",
+          "type": "button",
+          "id": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "1.40MFA exemption for printer service accountmoderate · active",
+          "type": "button",
+          "id": ""
+        }
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incompleteChecks": []
+  }
+]

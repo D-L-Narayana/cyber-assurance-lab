@@ -1,0 +1,25 @@
+ RUN  v3.2.7 /home/user/workspace/cyber-portfolio/candidates/defense/injectboard
+
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/engine.test.ts [ src/engine/engine.test.ts ]
+Error: Cannot find module './engine' imported from '/home/user/workspace/cyber-portfolio/candidates/defense/injectboard/src/engine/engine.test.ts'
+ ❯ src/engine/engine.test.ts:2:1
+      1| import { describe, it, expect } from 'vitest';
+      2| import { initialState, advanceClock, decide, completeTask, addLesson, …
+       | ^
+      3| import { validateScenario, type Scenario } from './scenario';
+      4| import { RANSOMWARE_TABLETOP } from './fixtures';
+
+Caused by: Error: Failed to load url ./engine (resolved id: ./engine) in /home/user/workspace/cyber-portfolio/candidates/defense/injectboard/src/engine/engine.test.ts. Does the file exist?
+ ❯ loadAndTransform node_modules/vite/dist/node/chunks/config.js:22739:33
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  13:02:09
+   Duration  293ms (transform 42ms, setup 0ms, collect 0ms, tests 0ms, environment 0ms, prepare 61ms)
+

@@ -1,0 +1,27 @@
+     ✓ flags both sides of a separation-of-duties conflict 2ms
+     ✓ flags dormant entitlements using the configured threshold 0ms
+     ✓ flags never-used entitlements separately from dormant 0ms
+     ✓ routes leaver access to the resource owner as orphan 0ms
+     ✓ routes identities without a manager to the resource owner and marks no_reviewer only when no owner exists 0ms
+     ✓ scores risk deterministically and higher for more hints 1ms
+     ✓ approves a clean entitlement without a reason 1ms
+     ✓ requires a reason when approving a flagged entitlement 0ms
+     ✓ requires an explicit SoD override when approving the second side of a conflict 0ms
+     ✓ rejects delegation to self and to unknown reviewers 0ms
+     ✓ rejects decisions by someone other than the assigned reviewer 0ms
+     ✓ allows reversing a decision while campaign is open and records every decision 1ms
+     ✓ bulk decisions stop at the first invalid item and apply none 1ms
+     ✓ reports pending blockers by reviewer 1ms
+     ✓ exports a stable certification schema and escapes CSV formulas 1ms
+     ✓ rejects dangling references and bad dates 1ms
+     ✓ rejects oversized fixtures 13ms
+     ✓ accepts the base fixture 0ms
+     × returns bounded errors instead of throwing when rows are null or wrong types 8ms
+     × lets the campaign owner assign a reviewer to an unrouted item, then that reviewer can decide 1ms
+     × rejects routing to an identity that is not in the fixture and routing items that already have a reviewer 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected [Function] to not throw an error but 'TypeError: Cannot read properties of …' was thrown
+"TypeError: Cannot read properties of null (reading 'id')"
+TypeError: routeItem is not a function
+TypeError: routeItem is not a function
+      Tests  3 failed | 18 passed (21)

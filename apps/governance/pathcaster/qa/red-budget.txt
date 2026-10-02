@@ -1,0 +1,5 @@
+     × caps condition-blocked paths and marks the result truncated/indeterminate instead of exhausting memory 6ms
+     × stops expanding after the node-expansion budget and finishes quickly on a path-explosion graph 19ms
+     × transitive group membership honours conditions on member_of edges 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  3 failed | 15 passed (18)

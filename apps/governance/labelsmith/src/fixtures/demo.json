@@ -1,0 +1,598 @@
+{
+  "schemaVersion": 1,
+  "label": "Synthetic catalog — five example systems",
+  "asOf": "2026-10-01",
+  "fields": [
+    {
+      "id": "fld-001",
+      "system": "crm.example",
+      "table": "contacts",
+      "name": "first_name",
+      "type": "string",
+      "samples": [
+        "Gus",
+        "Ada",
+        "Bo",
+        "Bo",
+        "Gus",
+        "Dee"
+      ],
+      "declaredClass": "restricted-pii"
+    },
+    {
+      "id": "fld-002",
+      "system": "crm.example",
+      "table": "contacts",
+      "name": "last_name",
+      "type": "string",
+      "samples": [
+        "Sample",
+        "Demo",
+        "Demo",
+        "Demo",
+        "Demo",
+        "Placeholder"
+      ],
+      "declaredClass": "restricted-pii"
+    },
+    {
+      "id": "fld-003",
+      "system": "crm.example",
+      "table": "contacts",
+      "name": "email",
+      "type": "string",
+      "samples": [
+        "bo.demo@example.test",
+        "fay.placeholder@example.test",
+        "fay.example@example.test",
+        "kit.demo@example.test",
+        "kit.example@example.test",
+        "dee.example@example.test"
+      ],
+      "declaredClass": "internal",
+      "description": "Declared too low on purpose: engine should flag the mismatch."
+    },
+    {
+      "id": "fld-004",
+      "system": "crm.example",
+      "table": "contacts",
+      "name": "phone",
+      "type": "string",
+      "samples": [
+        "+1 555 756 7050",
+        "+1 555 264 0063",
+        "+1 555 644 9617",
+        "+1 555 989 1962",
+        "+1 555 836 8222",
+        "+1 555 658 2411"
+      ]
+    },
+    {
+      "id": "fld-005",
+      "system": "crm.example",
+      "table": "contacts",
+      "name": "preferred_locale",
+      "type": "string",
+      "samples": [
+        "en-GB",
+        "en-IN",
+        "de-DE",
+        "fr-FR"
+      ],
+      "description": "No rule covers locale: lands in the unknown bucket."
+    },
+    {
+      "id": "fld-006",
+      "system": "crm.example",
+      "table": "contacts",
+      "name": "created_at",
+      "type": "date",
+      "samples": [
+        "2023-08-20",
+        "2023-08-21",
+        "2025-12-22",
+        "2025-09-23",
+        "2026-07-03"
+      ],
+      "declaredClass": "internal"
+    },
+    {
+      "id": "fld-007",
+      "system": "crm.example",
+      "table": "accounts",
+      "name": "account_name",
+      "type": "string",
+      "samples": [
+        "Northwind Example Ltd",
+        "Contoso Fixture GmbH",
+        "Fabrikam Sample SA"
+      ],
+      "declaredClass": "confidential",
+      "description": "Declared stricter than computed; kept pending review."
+    },
+    {
+      "id": "fld-008",
+      "system": "crm.example",
+      "table": "accounts",
+      "name": "annual_revenue",
+      "type": "number",
+      "samples": [
+        "21881147",
+        "68124257",
+        "46297548",
+        "15105229",
+        "26978146"
+      ]
+    },
+    {
+      "id": "fld-009",
+      "system": "crm.example",
+      "table": "accounts",
+      "name": "client_ip_last_login",
+      "type": "string",
+      "samples": [
+        "10.205.184.12",
+        "10.187.116.187",
+        "10.116.223.142",
+        "10.22.103.203",
+        "10.140.76.51",
+        "10.181.210.123"
+      ]
+    },
+    {
+      "id": "fld-010",
+      "system": "crm.example",
+      "table": "accounts",
+      "name": "geo_hq",
+      "type": "string",
+      "samples": [
+        "-14.32601, -136.82986",
+        "61.61774, 134.08138",
+        "54.34930, -146.89069",
+        "25.45831, -70.02843",
+        "83.89748, -147.96933"
+      ]
+    },
+    {
+      "id": "fld-011",
+      "system": "payments.example",
+      "table": "cards",
+      "name": "card_number",
+      "type": "string",
+      "samples": [
+        "4539664401307710",
+        "4539692012606147",
+        "4539293103195353",
+        "4539181855002408",
+        "4539162343529558",
+        "4539323108543248"
+      ],
+      "declaredClass": "restricted-financial"
+    },
+    {
+      "id": "fld-012",
+      "system": "payments.example",
+      "table": "cards",
+      "name": "cvv",
+      "type": "string",
+      "samples": [
+        "944",
+        "996",
+        "038",
+        "482",
+        "197",
+        "477"
+      ]
+    },
+    {
+      "id": "fld-013",
+      "system": "payments.example",
+      "table": "cards",
+      "name": "expiry",
+      "type": "string",
+      "samples": [
+        "05/29",
+        "11/27",
+        "05/29",
+        "12/28",
+        "12/28",
+        "09/29"
+      ]
+    },
+    {
+      "id": "fld-014",
+      "system": "payments.example",
+      "table": "cards",
+      "name": "cardholder_reference",
+      "type": "string",
+      "samples": [
+        "5583131886062713",
+        "9573650330667657",
+        "0180408218921470",
+        "8974586625339683",
+        "6024920806004064",
+        "0562443853435851"
+      ],
+      "description": "Sixteen digits but random: most fail Luhn, so the card rule must not fire on value alone."
+    },
+    {
+      "id": "fld-015",
+      "system": "payments.example",
+      "table": "bank_accounts",
+      "name": "iban",
+      "type": "string",
+      "samples": [
+        "GB46 WEST 7676 3253 0284 30",
+        "GB24 WEST 7828 5121 6479 05",
+        "GB68 WEST 2421 8229 3687 48",
+        "GB46 WEST 4349 2206 5692 13",
+        "GB06 WEST 7833 1634 2094 09"
+      ]
+    },
+    {
+      "id": "fld-016",
+      "system": "payments.example",
+      "table": "bank_accounts",
+      "name": "account_holder",
+      "type": "string",
+      "samples": [
+        "Bo Fixture",
+        "Dee Fixture",
+        "Ivy Example",
+        "Ivy Demo",
+        "Jo Demo"
+      ]
+    },
+    {
+      "id": "fld-017",
+      "system": "payments.example",
+      "table": "ledger",
+      "name": "invoice_total",
+      "type": "number",
+      "samples": [
+        "94480.73",
+        "95504.04",
+        "5413.14",
+        "69463.67",
+        "94432.57",
+        "88897.79"
+      ]
+    },
+    {
+      "id": "fld-018",
+      "system": "payments.example",
+      "table": "ledger",
+      "name": "status",
+      "type": "string",
+      "samples": [
+        "open",
+        "paid",
+        "void"
+      ],
+      "declaredClass": "confidential",
+      "description": "Declared stricter than the computed Internal: the declared class is kept as effective pending review."
+    },
+    {
+      "id": "fld-019",
+      "system": "hris.example",
+      "table": "employees",
+      "name": "employee_id",
+      "type": "string",
+      "samples": [
+        "E57988",
+        "E89037",
+        "E92094",
+        "E75559",
+        "E97895",
+        "E66620"
+      ]
+    },
+    {
+      "id": "fld-020",
+      "system": "hris.example",
+      "table": "employees",
+      "name": "national_id",
+      "type": "string",
+      "samples": [
+        "977-42-3956",
+        "136-46-9108",
+        "851-84-3795",
+        "799-45-6681",
+        "448-81-0878",
+        "127-78-7578"
+      ]
+    },
+    {
+      "id": "fld-021",
+      "system": "hris.example",
+      "table": "employees",
+      "name": "date_of_birth",
+      "type": "date",
+      "samples": [
+        "1993-09-16",
+        "1984-09-02",
+        "1981-02-19",
+        "1992-06-19",
+        "1974-11-17",
+        "2003-12-17"
+      ]
+    },
+    {
+      "id": "fld-022",
+      "system": "hris.example",
+      "table": "employees",
+      "name": "salary",
+      "type": "number",
+      "samples": [
+        "111072",
+        "144072",
+        "175996",
+        "116485",
+        "112140",
+        "112594"
+      ]
+    },
+    {
+      "id": "fld-023",
+      "system": "hris.example",
+      "table": "employees",
+      "name": "home_address",
+      "type": "string",
+      "samples": [
+        "111 Fixture Street, Exampleton",
+        "112 Fixture Street, Exampleton",
+        "127 Fixture Street, Exampleton",
+        "161 Fixture Street, Exampleton",
+        "157 Fixture Street, Exampleton"
+      ]
+    },
+    {
+      "id": "fld-024",
+      "system": "hris.example",
+      "table": "employees",
+      "name": "emergency_contact_phone",
+      "type": "string",
+      "samples": [
+        "+44 7700 900711",
+        "+44 7700 900353",
+        "+44 7700 900649",
+        "+44 7700 900190",
+        "+44 7700 900500"
+      ]
+    },
+    {
+      "id": "fld-025",
+      "system": "hris.example",
+      "table": "benefits",
+      "name": "diagnosis_code",
+      "type": "string",
+      "samples": [
+        "E11.9",
+        "J45.40",
+        "M54.5",
+        "I10",
+        "K21.9"
+      ],
+      "description": "Synthetic ICD-10-like codes for an occupational-health extract."
+    },
+    {
+      "id": "fld-026",
+      "system": "hris.example",
+      "table": "benefits",
+      "name": "allergy_notes",
+      "type": "string",
+      "samples": [
+        "none recorded",
+        "penicillin",
+        "latex"
+      ]
+    },
+    {
+      "id": "fld-027",
+      "system": "hris.example",
+      "table": "benefits",
+      "name": "plan_tier",
+      "type": "string",
+      "samples": [
+        "bronze",
+        "silver",
+        "gold"
+      ],
+      "description": "Unknown bucket candidate."
+    },
+    {
+      "id": "fld-028",
+      "system": "platform.example",
+      "table": "users",
+      "name": "password_hash",
+      "type": "string",
+      "samples": [
+        "$2b$12$KeT2n/MTfKljtFPMkgdyGWN15.pcPVx3lYrb8gJQmmDkfXohfPOz4",
+        "$2b$12$jZ5lISBZ7HQgC2rl/3lfaOCQ.RX1fraEyQnsNYS5/4H/IgY0nPlia",
+        "$2b$12$ZWEEHW/0r6haSGMPvmrDXTSN4mh5unZsvMGwLyYP86kcFoHocsJ2o",
+        "$2b$12$tZhbEEQmBfB/myz44IBhSSj2CtR0tKllv6dHOyqJdE6Dk3RJClIeK"
+      ]
+    },
+    {
+      "id": "fld-029",
+      "system": "platform.example",
+      "table": "users",
+      "name": "session_token",
+      "type": "string",
+      "samples": [
+        "eyJhbGciOiJIUzI1NiJ9.25872928040467665558abc.730069744577sig",
+        "eyJhbGciOiJIUzI1NiJ9.99386204180612523191abc.038917417825sig",
+        "eyJhbGciOiJIUzI1NiJ9.19720605074499562972abc.443702326349sig",
+        "eyJhbGciOiJIUzI1NiJ9.40553021031393052364abc.023067769262sig"
+      ]
+    },
+    {
+      "id": "fld-030",
+      "system": "platform.example",
+      "table": "integrations",
+      "name": "vendor_api_key",
+      "type": "string",
+      "samples": [
+        "DEMO_ONLY_NOT_A_SECRET_5322861137EXAMPLEKEY304106",
+        "DEMO_ONLY_NOT_A_SECRET_7039556852EXAMPLEKEY553302",
+        "DEMO_ONLY_NOT_A_SECRET_7971937564EXAMPLEKEY630563",
+        "DEMO_ONLY_NOT_A_SECRET_6081358025EXAMPLEKEY951506"
+      ],
+      "declaredClass": "confidential",
+      "description": "Secret stored in a plain table and under-declared."
+    },
+    {
+      "id": "fld-031",
+      "system": "platform.example",
+      "table": "integrations",
+      "name": "webhook_url",
+      "type": "string",
+      "samples": [
+        "https://hooks.example.test/a",
+        "https://hooks.example.test/b"
+      ]
+    },
+    {
+      "id": "fld-032",
+      "system": "platform.example",
+      "table": "audit_log",
+      "name": "remote_addr",
+      "type": "string",
+      "samples": [
+        "192.168.8.170",
+        "192.168.47.108",
+        "192.168.32.215",
+        "192.168.188.160",
+        "192.168.241.221",
+        "192.168.223.10"
+      ]
+    },
+    {
+      "id": "fld-033",
+      "system": "platform.example",
+      "table": "audit_log",
+      "name": "updated_at",
+      "type": "date",
+      "samples": [
+        "2026-03-17",
+        "2026-05-11",
+        "2025-05-15",
+        "2025-05-02",
+        "2025-04-27"
+      ]
+    },
+    {
+      "id": "fld-034",
+      "system": "platform.example",
+      "table": "audit_log",
+      "name": "notes",
+      "type": "string",
+      "samples": [
+        "rotated key",
+        "reset password",
+        "login"
+      ]
+    },
+    {
+      "id": "fld-035",
+      "system": "catalog.example",
+      "table": "products",
+      "name": "product_name",
+      "type": "string",
+      "samples": [
+        "Example Kettle",
+        "Sample Lamp",
+        "Fixture Chair"
+      ],
+      "declaredClass": "public"
+    },
+    {
+      "id": "fld-036",
+      "system": "catalog.example",
+      "table": "products",
+      "name": "sku",
+      "type": "string",
+      "samples": [
+        "SKU-574487",
+        "SKU-408823",
+        "SKU-683774",
+        "SKU-968126",
+        "SKU-781810"
+      ],
+      "declaredClass": "public"
+    },
+    {
+      "id": "fld-037",
+      "system": "catalog.example",
+      "table": "products",
+      "name": "public_description",
+      "type": "string",
+      "samples": [
+        "A kettle.",
+        "A lamp.",
+        "A chair."
+      ]
+    },
+    {
+      "id": "fld-038",
+      "system": "catalog.example",
+      "table": "products",
+      "name": "margin_pct",
+      "type": "number",
+      "samples": [
+        "42.9",
+        "24.9",
+        "33.4",
+        "54.8",
+        "19.2"
+      ]
+    },
+    {
+      "id": "fld-039",
+      "system": "catalog.example",
+      "table": "reviews",
+      "name": "reviewer_email",
+      "type": "string",
+      "samples": [
+        "kit@example.test",
+        "eli@example.test",
+        "gus@example.test",
+        "kit@example.test",
+        "ada@example.test"
+      ]
+    },
+    {
+      "id": "fld-040",
+      "system": "catalog.example",
+      "table": "reviews",
+      "name": "is_verified",
+      "type": "boolean",
+      "samples": [
+        "true",
+        "false"
+      ]
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "exc-001",
+      "fieldId": "fld-011",
+      "fromClass": "restricted-financial",
+      "toClass": "confidential",
+      "justification": "Column holds provider tokens in production; samples here are synthetic PAN-shaped values for the demo. Tokenisation evidence: PAY-2026-014.",
+      "approvedBy": "dpo@example.test",
+      "grantedOn": "2026-07-01",
+      "expiresOn": "2027-03-31"
+    },
+    {
+      "id": "exc-002",
+      "fieldId": "fld-020",
+      "fromClass": "restricted-pii",
+      "toClass": "confidential",
+      "justification": "Legacy exception from the HR migration; should have been renewed and was not.",
+      "approvedBy": "hr-lead@example.test",
+      "grantedOn": "2025-06-01",
+      "expiresOn": "2026-05-31"
+    }
+  ]
+}

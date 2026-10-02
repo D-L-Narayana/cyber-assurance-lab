@@ -1,0 +1,18 @@
+title=Pathcaster
+summary: 3 identities can reach Production account (any) · 1 have a path but are blocked by an explicit deny · 45 have no path. Synthetic access graph — five teams, eight assets: 92 nodes, 125 edges.
+admin summary: 1 identity can reach Production account (admin) · 1 have a path but are blocked by an explicit deny · 47 have no path. Synthetic access graph — five teams, eight assets: 92 nodes, 125 edges.
+denied identity why: Deny override: No production admin for contractors (edge e-055, from Contractors). || Lena Sample is a member of Legacy admins (2019) is assigned the role Production admin which grants prod:admin on Production account.
+allowed identity why: Caius Fixture is a member of Legacy admins (2019) is assigned the role Production admin which grants prod:admin on Production account.
+condition-blocked why: Blocked by condition: Ximena Placeholder is a member of Finance leads is assigned the role Payroll approver (only when mfa is true) which grants payroll:admin on Payroll DB. — failed: mfa is false.
+toxic: Ada Example — Payroll write + payroll admin. One identity can prepare and approve payroll. || Uma Example — Payroll write + payroll admin. One identity can prepare and approve payroll. || Ada Sample — Payroll write + payroll admin. One identity can prepare and approve payroll. || Kofi Sample — Payro
+hotspot #1: Engineering team group 12 id · 2 hi
+whatif option found=true
+whatif: Allowed before 1 → after 0. Loses access: Caius Fixture.
+after apply: 0 identities can reach Production account (admin) · 0 have a path but are blocked by an explicit deny · 49 have no path. Synthetic access graph — five teams, eight assets: 92 nodes, 124 edges.
+toxic after: Ada Example — Payroll write + payroll admin. One identity can prepare and approve payroll. || Uma Example — Payroll write + payroll admin. One identity can prepare and approve payroll. || Ada Sample —
+json schema=pathcaster.review/v1 identities=49 hotspots=22 summary=0 identities can reach Production account (admin); 0 blocked by explicit deny despite having a path; 49 have no path.
+csv lines=50
+import error: Graph rejected: edge e: self loop
+mobile scrollWidth=375 viewport=375
+tablet scrollWidth=768 viewport=768
+pageErrors=[]

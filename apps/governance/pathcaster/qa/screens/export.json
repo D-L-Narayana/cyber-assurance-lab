@@ -1,0 +1,767 @@
+{
+  "schema": "pathcaster.review/v1",
+  "label": "Synthetic access graph — five teams, eight assets",
+  "query": {
+    "assetId": "a-prod",
+    "asset": "Production account",
+    "action": "admin"
+  },
+  "summary": "0 identities can reach Production account (admin); 0 blocked by explicit deny despite having a path; 49 have no path.",
+  "identities": [
+    {
+      "identityId": "svc-backup",
+      "label": "svc-backup",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "svc-ci",
+      "label": "svc-ci",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "svc-etl",
+      "label": "svc-etl",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-001",
+      "label": "Ada Example",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-002",
+      "label": "Bhavna Sample",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-003",
+      "label": "Caius Fixture",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-004",
+      "label": "Dalia Placeholder",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-005",
+      "label": "Emeka Demo",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-006",
+      "label": "Farah Example",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-007",
+      "label": "Gus Sample",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-008",
+      "label": "Hana Fixture",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-009",
+      "label": "Idris Placeholder",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-010",
+      "label": "Juno Demo",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-011",
+      "label": "Kofi Example",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-012",
+      "label": "Lena Sample",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-013",
+      "label": "Mateo Fixture",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-014",
+      "label": "Nadia Placeholder",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-015",
+      "label": "Oren Demo",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-016",
+      "label": "Quill Sample",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-017",
+      "label": "Rosa Fixture",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-018",
+      "label": "Sven Placeholder",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-019",
+      "label": "Tala Demo",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-020",
+      "label": "Uma Example",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-021",
+      "label": "Viggo Sample",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-022",
+      "label": "Wren Fixture",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-023",
+      "label": "Ximena Placeholder",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-024",
+      "label": "Yusuf Demo",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-025",
+      "label": "Zara Example",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-026",
+      "label": "Anil Sample",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-027",
+      "label": "Bea Fixture",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-028",
+      "label": "Cato Placeholder",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-029",
+      "label": "Dev Demo",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-030",
+      "label": "Ada Sample",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-031",
+      "label": "Caius Placeholder",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-032",
+      "label": "Dalia Demo",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-033",
+      "label": "Emeka Example",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-034",
+      "label": "Farah Sample",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-035",
+      "label": "Gus Fixture",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-036",
+      "label": "Hana Placeholder",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-037",
+      "label": "Idris Demo",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-038",
+      "label": "Juno Example",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-039",
+      "label": "Kofi Sample",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-040",
+      "label": "Lena Fixture",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-041",
+      "label": "Mateo Placeholder",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-042",
+      "label": "Nadia Demo",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-043",
+      "label": "Oren Example",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-044",
+      "label": "Priya Sample",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-045",
+      "label": "Quill Fixture",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    },
+    {
+      "identityId": "u-999",
+      "label": "Ximena Placeholder",
+      "decision": "none",
+      "indeterminateReason": null,
+      "truncated": false,
+      "pathCount": 0,
+      "paths": [],
+      "denies": [],
+      "blockedByCondition": []
+    }
+  ],
+  "hotspots": [
+    {
+      "nodeId": "g-engineering",
+      "kind": "group",
+      "label": "Engineering team",
+      "identities": 12,
+      "highAssets": 2,
+      "pathCount": 45
+    },
+    {
+      "nodeId": "r-vault-reader",
+      "kind": "role",
+      "label": "Vault reader",
+      "identities": 12,
+      "highAssets": 1,
+      "pathCount": 15
+    },
+    {
+      "nodeId": "r-wh-analyst",
+      "kind": "role",
+      "label": "Warehouse analyst",
+      "identities": 12,
+      "highAssets": 1,
+      "pathCount": 15
+    },
+    {
+      "nodeId": "g-finance",
+      "kind": "group",
+      "label": "Finance team",
+      "identities": 11,
+      "highAssets": 2,
+      "pathCount": 50
+    },
+    {
+      "nodeId": "r-payroll-editor",
+      "kind": "role",
+      "label": "Payroll editor",
+      "identities": 11,
+      "highAssets": 2,
+      "pathCount": 32
+    },
+    {
+      "nodeId": "g-people",
+      "kind": "group",
+      "label": "People team",
+      "identities": 9,
+      "highAssets": 1,
+      "pathCount": 28
+    },
+    {
+      "nodeId": "r-hr-editor",
+      "kind": "role",
+      "label": "HR editor",
+      "identities": 9,
+      "highAssets": 1,
+      "pathCount": 18
+    },
+    {
+      "nodeId": "g-finance-leads",
+      "kind": "group",
+      "label": "Finance leads",
+      "identities": 6,
+      "highAssets": 2,
+      "pathCount": 23
+    },
+    {
+      "nodeId": "g-sales",
+      "kind": "group",
+      "label": "Sales team",
+      "identities": 6,
+      "highAssets": 1,
+      "pathCount": 39
+    },
+    {
+      "nodeId": "r-crm-exporter",
+      "kind": "role",
+      "label": "CRM exporter",
+      "identities": 6,
+      "highAssets": 1,
+      "pathCount": 12
+    },
+    {
+      "nodeId": "g-platform",
+      "kind": "group",
+      "label": "Platform engineers",
+      "identities": 4,
+      "highAssets": 3,
+      "pathCount": 24
+    },
+    {
+      "nodeId": "r-wh-admin",
+      "kind": "role",
+      "label": "Warehouse admin",
+      "identities": 4,
+      "highAssets": 1,
+      "pathCount": 8
+    },
+    {
+      "nodeId": "r-payroll-approver",
+      "kind": "role",
+      "label": "Payroll approver",
+      "identities": 4,
+      "highAssets": 1,
+      "pathCount": 4
+    },
+    {
+      "nodeId": "r-prod-operator",
+      "kind": "role",
+      "label": "Production operator",
+      "identities": 4,
+      "highAssets": 1,
+      "pathCount": 4
+    },
+    {
+      "nodeId": "g-legacy-admins",
+      "kind": "group",
+      "label": "Legacy admins (2019)",
+      "identities": 2,
+      "highAssets": 3,
+      "pathCount": 12
+    },
+    {
+      "nodeId": "g-all",
+      "kind": "group",
+      "label": "All staff",
+      "identities": 0,
+      "highAssets": 0,
+      "pathCount": 61
+    },
+    {
+      "nodeId": "r-reader",
+      "kind": "role",
+      "label": "Reader",
+      "identities": 0,
+      "highAssets": 0,
+      "pathCount": 61
+    },
+    {
+      "nodeId": "g-support",
+      "kind": "group",
+      "label": "Support team",
+      "identities": 0,
+      "highAssets": 0,
+      "pathCount": 27
+    },
+    {
+      "nodeId": "r-crm-user",
+      "kind": "role",
+      "label": "CRM user",
+      "identities": 0,
+      "highAssets": 0,
+      "pathCount": 18
+    },
+    {
+      "nodeId": "r-support-agent",
+      "kind": "role",
+      "label": "Support agent",
+      "identities": 0,
+      "highAssets": 0,
+      "pathCount": 18
+    },
+    {
+      "nodeId": "g-contractors",
+      "kind": "group",
+      "label": "Contractors",
+      "identities": 0,
+      "highAssets": 0,
+      "pathCount": 0
+    },
+    {
+      "nodeId": "r-prod-admin",
+      "kind": "role",
+      "label": "Production admin",
+      "identities": 0,
+      "highAssets": 0,
+      "pathCount": 0
+    }
+  ],
+  "toxic": [
+    {
+      "ruleId": "tx-payroll-sod",
+      "identityId": "u-001",
+      "aPaths": 2,
+      "bPaths": 1,
+      "rule": "Payroll write + payroll admin"
+    },
+    {
+      "ruleId": "tx-payroll-sod",
+      "identityId": "u-020",
+      "aPaths": 2,
+      "bPaths": 1,
+      "rule": "Payroll write + payroll admin"
+    },
+    {
+      "ruleId": "tx-payroll-sod",
+      "identityId": "u-030",
+      "aPaths": 2,
+      "bPaths": 1,
+      "rule": "Payroll write + payroll admin"
+    },
+    {
+      "ruleId": "tx-payroll-sod",
+      "identityId": "u-039",
+      "aPaths": 2,
+      "bPaths": 1,
+      "rule": "Payroll write + payroll admin"
+    },
+    {
+      "ruleId": "tx-payroll-wh",
+      "identityId": "u-001",
+      "aPaths": 2,
+      "bPaths": 1,
+      "rule": "Payroll write + warehouse read"
+    }
+  ],
+  "disclaimer": "Synthetic access graph; educational prototype. No directory was enumerated and no permission was changed."
+}

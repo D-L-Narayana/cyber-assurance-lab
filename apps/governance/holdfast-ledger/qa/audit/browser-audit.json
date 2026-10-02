@@ -1,0 +1,79 @@
+[
+  {
+    "name": "desktop",
+    "status": 200,
+    "errors": [],
+    "failed": [],
+    "layout": {
+      "scrollWidth": 1440,
+      "viewport": 1440,
+      "headings": [
+        "Holdfast LedgerRetention · legal holds · simulated disposal with hash-chained receipts · synthetic data, educational prototype",
+        "Retention calendar",
+        "Disposal plan",
+        "Legal holds3 active",
+        "Receipt chain0 receipts"
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "name": "tablet",
+    "status": 200,
+    "errors": [],
+    "failed": [],
+    "layout": {
+      "scrollWidth": 768,
+      "viewport": 768,
+      "headings": [
+        "Holdfast LedgerRetention · legal holds · simulated disposal with hash-chained receipts · synthetic data, educational prototype",
+        "Retention calendar",
+        "Disposal plan",
+        "Legal holds3 active",
+        "Receipt chain0 receipts"
+      ],
+      "overflowing": []
+    },
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "name": "mobile",
+    "status": 200,
+    "errors": [],
+    "failed": [],
+    "layout": {
+      "scrollWidth": 375,
+      "viewport": 375,
+      "headings": [
+        "Holdfast LedgerRetention · legal holds · simulated disposal with hash-chained receipts · synthetic data, educational prototype",
+        "Retention calendar",
+        "Disposal plan",
+        "Legal holds3 active",
+        "Receipt chain0 receipts"
+      ],
+      "overflowing": [
+        "svg.[object SVGAnimatedString]",
+        "g.[object SVGAnimatedString]",
+        "text.[object SVGAnimatedString]",
+        "g.[object SVGAnimatedString]",
+        "text.[object SVGAnimatedString]",
+        "g.[object SVGAnimatedString]",
+        "text.[object SVGAnimatedString]",
+        "g.[object SVGAnimatedString]",
+        "text.[object SVGAnimatedString]",
+        "g.[object SVGAnimatedString]"
+      ]
+    },
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  }
+]

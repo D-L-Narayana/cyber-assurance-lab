@@ -1,0 +1,32 @@
+{
+  "name": "seamline",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser-local client/server trust-boundary simulator: replays synthetic mobile-client events through a tamper layer into a server model that is either client-trusting or server-authoritative, with a test oracle for server-side enforcement.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --port 6113 --strictPort",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview --port 6113 --strictPort",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@fontsource-variable/fira-code": "5.3.0",
+    "@fontsource-variable/manrope": "5.3.0",
+    "@radix-ui/react-slider": "1.4.7",
+    "@radix-ui/react-switch": "1.3.7",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "typescript": "5.9.3",
+    "vite": "7.3.6",
+    "vitest": "4.1.11"
+  },
+  "engines": { "node": ">=20" }
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "forethought.assessment",
+  "version": 1,
+  "id": "PIA-2026-002",
+  "title": "Internal on-call roster tool",
+  "owner": "Marcus Odhiambo (Engineering)",
+  "description": "Synthetic scenario: a small internal tool listing employee names and work phone numbers for on-call rotations, hosted in-region.",
+  "asOf": "2026-10-01",
+  "answers": {
+    "q-purpose": "core-service",
+    "q-basis": "contract",
+    "q-categories": "basic-contact",
+    "q-volume": "under-10k",
+    "q-profiling": "none",
+    "q-children": "no",
+    "q-sharing": "none",
+    "q-transfer": "within-region",
+    "q-retention": "defined-and-enforced",
+    "q-security": "encryption-and-access"
+  },
+  "mitigations": [],
+  "flows": [
+    {
+      "id": "f-1",
+      "from": "HR directory",
+      "to": "Roster tool",
+      "dataCategories": [
+        "name",
+        "work-phone"
+      ],
+      "outsideOriginRegion": false,
+      "mechanism": "not-applicable"
+    }
+  ],
+  "acceptances": [],
+  "dpoConsulted": false,
+  "signatures": [],
+  "versions": []
+}

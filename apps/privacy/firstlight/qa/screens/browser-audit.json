@@ -1,0 +1,143 @@
+{
+  "url": "http://127.0.0.1:6104/",
+  "startedAt": "2026-10-01T14:34:26.000Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "status": 200,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "hosts": [
+        "127.0.0.1:6104"
+      ],
+      "layout": {
+        "title": "Firstlight — privacy incident triage and notification-readiness lab",
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "overflowing": [],
+        "buttons": 13,
+        "storageApisTouched": false
+      },
+      "horizontalOverflow": false,
+      "axeViolations": [],
+      "axePasses": 30
+    },
+    {
+      "name": "tablet",
+      "status": 200,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "hosts": [
+        "127.0.0.1:6104"
+      ],
+      "layout": {
+        "title": "Firstlight — privacy incident triage and notification-readiness lab",
+        "viewport": 768,
+        "scrollWidth": 768,
+        "overflowing": [
+          "SPAN.pin-time",
+          "SPAN.pin-time"
+        ],
+        "buttons": 13,
+        "storageApisTouched": false
+      },
+      "horizontalOverflow": false,
+      "axeViolations": [],
+      "axePasses": 30
+    },
+    {
+      "name": "mobile",
+      "status": 200,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "hosts": [
+        "127.0.0.1:6104"
+      ],
+      "layout": {
+        "title": "Firstlight — privacy incident triage and notification-readiness lab",
+        "viewport": 375,
+        "scrollWidth": 375,
+        "overflowing": [
+          "TABLE.",
+          "THEAD.",
+          "TR.",
+          "TH.",
+          "TBODY.",
+          "TR.",
+          "TD.mono",
+          "TR.",
+          "TD.mono",
+          "TR.",
+          "TD.mono",
+          "TR."
+        ],
+        "buttons": 13,
+        "storageApisTouched": false
+      },
+      "horizontalOverflow": false,
+      "axeViolations": [],
+      "axePasses": 30
+    }
+  ],
+  "flow": {
+    "steps": [
+      {
+        "step": 1,
+        "label": "board-default",
+        "file": "flow-01-board-default.png"
+      },
+      {
+        "step": 2,
+        "label": "clock-exceeded",
+        "file": "flow-02-clock-exceeded.png"
+      },
+      {
+        "step": 3,
+        "label": "severity-recomputed",
+        "file": "flow-03-severity-recomputed.png"
+      },
+      {
+        "step": 4,
+        "label": "readiness-improved",
+        "file": "flow-04-readiness-improved.png"
+      },
+      {
+        "step": 5,
+        "label": "redaction-off-full-view",
+        "file": "flow-05-redaction-off-full-view.png"
+      },
+      {
+        "step": 6,
+        "label": "containment-task-done",
+        "file": "flow-06-containment-task-done.png"
+      },
+      {
+        "step": 7,
+        "label": "import-rejected",
+        "file": "flow-07-import-rejected.png"
+      },
+      {
+        "step": 8,
+        "label": "keyboard-focus",
+        "file": "flow-08-keyboard-focus.png"
+      }
+    ],
+    "result": {
+      "clockChips": "EU-GDPR: 23.5 h left of 72 hoursUK-GDPR: 23.5 h left of 72 hours",
+      "clockExceeded": "EU-GDPR: 72 hours exceeded by 48.5 hUK-GDPR: 72 hours exceeded by 48.5 h",
+      "severityAfter": "SE 3 high",
+      "readiness": "Notification-readiness packet 12/12 required facts",
+      "fullStreamHasName": true,
+      "fullPreviewLabel": "Packet preview, full",
+      "taskStatus": "done",
+      "importError": "Import rejected. bundle.incidentType \"alien\" is not an allowed value · bundle.circumstances.confidentialityLoss is required · bundle.circumstances.integrityLoss is required · bundle.circumstances.availabilityLoss is required · bundle.circumstances.maliciousIntent must be true or false · bundle.circumstances.dpcAdjustment must be a number between -3 and 3 · bundle.circumstances.dpcJustification is required · bundle.circumstances.easeOfIdentification is required"
+    },
+    "pageErrors": [],
+    "consoleErrors": [],
+    "axeViolationsAfterFlow": []
+  },
+  "finishedAt": "2026-10-01T14:34:41.061Z"
+}

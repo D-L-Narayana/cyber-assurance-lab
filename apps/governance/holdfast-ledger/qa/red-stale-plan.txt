@@ -1,0 +1,4 @@
+     × refuses atomically to execute a plan whose inputs (holds/records) changed since it was generated 8ms
+     × also rejects when a record was disposed or added since planning, and accepts an unchanged situation 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  2 failed | 13 passed (15)

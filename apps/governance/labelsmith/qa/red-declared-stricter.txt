@@ -1,0 +1,3 @@
+     × keeps a stricter declared class as the effective class (conservative) and says so, pending review 6ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  1 failed | 22 passed (23)

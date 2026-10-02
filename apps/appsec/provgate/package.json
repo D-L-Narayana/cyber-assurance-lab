@@ -1,0 +1,32 @@
+{
+  "name": "provgate",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser-local secure-SDLC evidence gate: policy-as-code evaluation of release evidence (threat model, review, tests, scans, risk acceptances) with provenance checks and a digest-stamped bundle export.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --port 6111 --strictPort",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview --port 6111 --strictPort",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@fontsource-variable/archivo": "5.3.0",
+    "@fontsource-variable/source-sans-3": "5.3.0",
+    "@radix-ui/react-dialog": "1.1.23",
+    "@radix-ui/react-tabs": "1.1.21",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "typescript": "5.9.3",
+    "vite": "7.3.6",
+    "vitest": "4.1.11"
+  },
+  "engines": { "node": ">=20" }
+}

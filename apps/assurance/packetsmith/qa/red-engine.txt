@@ -1,0 +1,44 @@
+ × tests/engine.test.ts > sha256 > matches FIPS 180-4 test vectors 7ms
+ × tests/engine.test.ts > sha256 > hashes UTF-8 bytes (multi-byte and long inputs) identically to node:crypto 1ms
+ × tests/engine.test.ts > sha256 > agrees with WebCrypto when available 2ms
+ ✓ tests/engine.test.ts > catalog > has 12 unique controls with 2–3 paraphrased determinations and all three methods each 4ms
+ × tests/engine.test.ts > artifacts and integrity > makeArtifact computes the hash of the content 1ms
+ × tests/engine.test.ts > artifacts and integrity > verifyArtifacts reports tampered content as a mismatch 0ms
+ × tests/engine.test.ts > control status rollup > is not-assessed with no results, in-progress when some are missing 0ms
+ × tests/engine.test.ts > control status rollup > is satisfied only when every determination is satisfied; any other-than-satisfied dominates 1ms
+ × tests/engine.test.ts > control status rollup > treats a not-assessed result as missing 1ms
+ × tests/engine.test.ts > completeness gate > passes a complete packet with no blockers 0ms
+ × tests/engine.test.ts > completeness gate > requires at least one performed step per selected control 0ms
+ × tests/engine.test.ts > completeness gate > requires every determination to have a result that is not not-assessed 0ms
+ × tests/engine.test.ts > completeness gate > requires each result to cite a performed step with evidence 0ms
+ × tests/engine.test.ts > completeness gate > requires an other-than-satisfied result to have a finding with owner and a due date not in the past 0ms
+ × tests/engine.test.ts > completeness gate > requires skipped steps to have a reason and flags tampered or missing artifacts 0ms
+ × tests/engine.test.ts > completeness gate > flags a finding whose determination is actually satisfied as stale 0ms
+ × tests/engine.test.ts > packet state machine > drafting → ready-for-review only when complete, by the assessor 2ms
+ × tests/engine.test.ts > packet state machine > ready-for-review → approved requires the named approver who is not the assessor 0ms
+ × tests/engine.test.ts > packet state machine > ready-for-review → returned requires a note and returned → drafting reopens editing 0ms
+ × tests/engine.test.ts > packet state machine > approved packets are immutable: no edits, no transitions 0ms
+ × tests/engine.test.ts > packet state machine > rejects undefined transitions and lists reasons 2ms
+ × tests/engine.test.ts > packet state machine > does not mutate the input packet 0ms
+ × tests/engine.test.ts > digest and memo > digest is stable across key order and changes when any artifact content changes 0ms
+ × tests/engine.test.ts > digest and memo > memo lists control status, findings and the packet digest and labels the subset honestly 0ms
+ × tests/engine.test.ts > import validation > accepts a complete packet round-tripped through JSON 0ms
+ × tests/engine.test.ts > import validation > rejects oversized input measured in UTF-8 bytes 0ms
+ × tests/engine.test.ts > import validation > rejects unknown control ids, unknown determination ids and bad methods with paths 0ms
+ × tests/engine.test.ts > import validation > rejects a malformed sha256, duplicate ids and an unknown state 3ms
+ × tests/engine.test.ts > import validation > rejects more than 400 steps or 300 artifacts and content over 20000 characters 0ms
+ × tests/engine.test.ts > import validation > does not throw on non-object JSON 0ms
+ × tests/engine.test.ts > bundled fixture > validates, is incomplete on purpose, and contains the planned adversarial defects 13ms
+⎯⎯⎯⎯⎯⎯ Failed Tests 30 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  1 failed (1)
+      Tests  30 failed | 1 passed (31)
+ × tests/engine.test.ts > sixth-Fable review regressions — separation of duties up front, imported history consistency > the completeness gate flags assessor == approver as a blocker before anyone tries to approve 42ms
+ × tests/engine.test.ts > sixth-Fable review regressions — separation of duties up front, imported history consistency > the validator refuses a packet whose assessor and approver are the same non-empty name 1ms
+ × tests/engine.test.ts > sixth-Fable review regressions — separation of duties up front, imported history consistency > the validator refuses an imported packet whose history reached approved while its state says otherwise 1ms
+ × tests/engine.test.ts > sixth-Fable review regressions — separation of duties up front, imported history consistency > the validator refuses a history whose transitions do not chain (from ≠ previous to, last to ≠ state) 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected false to be true // Object.is equality
+AssertionError: expected true to be false // Object.is equality
+AssertionError: expected true to be false // Object.is equality
+AssertionError: expected true to be false // Object.is equality
+      Tests  4 failed | 31 passed (35)

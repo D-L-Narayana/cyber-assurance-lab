@@ -1,0 +1,5 @@
+     × flags an active flow that references a draft (unsigned) agreement 14ms
+     × rejects obligation kinds outside the enum (typos cannot silently escape contradiction checks) 3ms
+     × renewal end date must be after the as-of date, not only after the old end date 6ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  3 failed | 16 passed (19)

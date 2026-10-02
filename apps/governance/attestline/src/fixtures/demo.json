@@ -1,0 +1,1870 @@
+{
+  "schemaVersion": 1,
+  "label": "Synthetic demo campaign (Q4 2026 quarterly review)",
+  "asOf": "2026-10-01",
+  "identities": [
+    {
+      "id": "id-mgr-finance",
+      "displayName": "Ada Example",
+      "roleType": "employee",
+      "department": "Finance",
+      "managerId": null,
+      "status": "active",
+      "lastSignIn": "2026-09-30"
+    },
+    {
+      "id": "id-mgr-people",
+      "displayName": "Bhavna Sample",
+      "roleType": "employee",
+      "department": "People Ops",
+      "managerId": null,
+      "status": "active",
+      "lastSignIn": "2026-09-29"
+    },
+    {
+      "id": "id-mgr-eng",
+      "displayName": "Caius Fixture",
+      "roleType": "employee",
+      "department": "Engineering",
+      "managerId": null,
+      "status": "active",
+      "lastSignIn": "2026-09-28"
+    },
+    {
+      "id": "id-mgr-sales",
+      "displayName": "Dalia Placeholder",
+      "roleType": "employee",
+      "department": "Sales",
+      "managerId": null,
+      "status": "active",
+      "lastSignIn": "2026-09-27"
+    },
+    {
+      "id": "id-mgr-support",
+      "displayName": "Emeka Demo",
+      "roleType": "employee",
+      "department": "Support",
+      "managerId": null,
+      "status": "active",
+      "lastSignIn": "2026-09-26"
+    },
+    {
+      "id": "id-mgr-legal",
+      "displayName": "Farah Synthetic",
+      "roleType": "employee",
+      "department": "Legal",
+      "managerId": null,
+      "status": "active",
+      "lastSignIn": "2026-09-25"
+    },
+    {
+      "id": "id-001",
+      "displayName": "Dalia Example",
+      "roleType": "contractor",
+      "department": "Finance",
+      "managerId": "id-mgr-finance",
+      "status": "active",
+      "lastSignIn": "2026-09-25"
+    },
+    {
+      "id": "id-002",
+      "displayName": "Kofi Synthetic",
+      "roleType": "employee",
+      "department": "People Ops",
+      "managerId": "id-mgr-people",
+      "status": "active",
+      "lastSignIn": "2026-09-28"
+    },
+    {
+      "id": "id-003",
+      "displayName": "Rosa Fixture",
+      "roleType": "employee",
+      "department": "Engineering",
+      "managerId": "id-mgr-eng",
+      "status": "active",
+      "lastSignIn": "2026-09-30"
+    },
+    {
+      "id": "id-004",
+      "displayName": "Yusuf Mock",
+      "roleType": "employee",
+      "department": "Sales",
+      "managerId": "id-mgr-sales",
+      "status": "active",
+      "lastSignIn": "2026-09-12"
+    },
+    {
+      "id": "id-005",
+      "displayName": "Farah Demo",
+      "roleType": "employee",
+      "department": "Support",
+      "managerId": "id-mgr-support",
+      "status": "active",
+      "lastSignIn": "2026-09-23"
+    },
+    {
+      "id": "id-006",
+      "displayName": "Mateo Sample",
+      "roleType": "employee",
+      "department": "Legal",
+      "managerId": "id-mgr-legal",
+      "status": "active",
+      "lastSignIn": "2026-09-30"
+    },
+    {
+      "id": "id-007",
+      "displayName": "Tala Testcase",
+      "roleType": "employee",
+      "department": "Finance",
+      "managerId": "id-mgr-finance",
+      "status": "active",
+      "lastSignIn": "2026-09-12"
+    },
+    {
+      "id": "id-008",
+      "displayName": "Ada Placeholder",
+      "roleType": "employee",
+      "department": "People Ops",
+      "managerId": "id-mgr-people",
+      "status": "leaver",
+      "lastSignIn": "2026-05-09"
+    },
+    {
+      "id": "id-009",
+      "displayName": "Hana Example",
+      "roleType": "employee",
+      "department": "Engineering",
+      "managerId": "id-mgr-eng",
+      "status": "active",
+      "lastSignIn": "2026-09-15"
+    },
+    {
+      "id": "id-010",
+      "displayName": "Oren Synthetic",
+      "roleType": "contractor",
+      "department": "Sales",
+      "managerId": "id-mgr-sales",
+      "status": "active",
+      "lastSignIn": "2026-09-21"
+    },
+    {
+      "id": "id-011",
+      "displayName": "Viggo Fixture",
+      "roleType": "employee",
+      "department": "Support",
+      "managerId": "id-mgr-support",
+      "status": "active",
+      "lastSignIn": "2026-09-28"
+    },
+    {
+      "id": "id-012",
+      "displayName": "Caius Mock",
+      "roleType": "employee",
+      "department": "Legal",
+      "managerId": "id-mgr-legal",
+      "status": "active",
+      "lastSignIn": "2026-09-24"
+    },
+    {
+      "id": "id-013",
+      "displayName": "Juno Demo",
+      "roleType": "employee",
+      "department": "Finance",
+      "managerId": "id-mgr-finance",
+      "status": "active",
+      "lastSignIn": "2026-10-01"
+    },
+    {
+      "id": "id-014",
+      "displayName": "Quill Sample",
+      "roleType": "employee",
+      "department": "People Ops",
+      "managerId": "id-mgr-people",
+      "status": "active",
+      "lastSignIn": "2026-09-29"
+    },
+    {
+      "id": "id-015",
+      "displayName": "Ximena Testcase",
+      "roleType": "employee",
+      "department": "Engineering",
+      "managerId": "id-mgr-eng",
+      "status": "active",
+      "lastSignIn": "2026-09-21"
+    },
+    {
+      "id": "id-016",
+      "displayName": "Emeka Placeholder",
+      "roleType": "employee",
+      "department": "Sales",
+      "managerId": "id-mgr-sales",
+      "status": "active",
+      "lastSignIn": "2026-09-25"
+    },
+    {
+      "id": "id-017",
+      "displayName": "Lena Example",
+      "roleType": "employee",
+      "department": "Support",
+      "managerId": "id-mgr-support",
+      "status": "active",
+      "lastSignIn": "2026-10-01"
+    },
+    {
+      "id": "id-018",
+      "displayName": "Sven Synthetic",
+      "roleType": "employee",
+      "department": "Legal",
+      "managerId": "id-mgr-legal",
+      "status": "active",
+      "lastSignIn": "2026-09-30"
+    },
+    {
+      "id": "id-019",
+      "displayName": "Zara Fixture",
+      "roleType": "contractor",
+      "department": "Finance",
+      "managerId": "id-mgr-finance",
+      "status": "active",
+      "lastSignIn": "2026-09-18"
+    },
+    {
+      "id": "id-020",
+      "displayName": "Gus Mock",
+      "roleType": "employee",
+      "department": "People Ops",
+      "managerId": "id-mgr-people",
+      "status": "leaver",
+      "lastSignIn": "2026-03-27"
+    },
+    {
+      "id": "id-021",
+      "displayName": "Nadia Demo",
+      "roleType": "employee",
+      "department": "Engineering",
+      "managerId": "id-mgr-eng",
+      "status": "active",
+      "lastSignIn": "2026-09-17"
+    },
+    {
+      "id": "id-022",
+      "displayName": "Uma Sample",
+      "roleType": "employee",
+      "department": "Sales",
+      "managerId": "id-mgr-sales",
+      "status": "active",
+      "lastSignIn": "2026-09-22"
+    },
+    {
+      "id": "id-023",
+      "displayName": "Bhavna Testcase",
+      "roleType": "employee",
+      "department": "Support",
+      "managerId": "id-mgr-support",
+      "status": "active",
+      "lastSignIn": "2026-09-14"
+    },
+    {
+      "id": "id-024",
+      "displayName": "Idris Placeholder",
+      "roleType": "employee",
+      "department": "Legal",
+      "managerId": "id-mgr-legal",
+      "status": "active",
+      "lastSignIn": "2026-09-17"
+    },
+    {
+      "id": "id-025",
+      "displayName": "Priya Example",
+      "roleType": "employee",
+      "department": "Finance",
+      "managerId": "id-mgr-finance",
+      "status": "active",
+      "lastSignIn": "2026-09-21"
+    },
+    {
+      "id": "id-026",
+      "displayName": "Wren Synthetic",
+      "roleType": "employee",
+      "department": "People Ops",
+      "managerId": "id-mgr-people",
+      "status": "active",
+      "lastSignIn": "2026-09-30"
+    },
+    {
+      "id": "id-027",
+      "displayName": "Dalia Fixture",
+      "roleType": "employee",
+      "department": "Engineering",
+      "managerId": "id-mgr-eng",
+      "status": "active",
+      "lastSignIn": "2026-09-14"
+    },
+    {
+      "id": "id-028",
+      "displayName": "Kofi Mock",
+      "roleType": "contractor",
+      "department": "Sales",
+      "managerId": "id-mgr-sales",
+      "status": "active",
+      "lastSignIn": "2026-09-27"
+    },
+    {
+      "id": "id-029",
+      "displayName": "Rosa Demo",
+      "roleType": "employee",
+      "department": "Support",
+      "managerId": "id-mgr-support",
+      "status": "active",
+      "lastSignIn": "2026-09-14"
+    },
+    {
+      "id": "id-030",
+      "displayName": "Yusuf Sample",
+      "roleType": "employee",
+      "department": "Legal",
+      "managerId": "id-mgr-legal",
+      "status": "active",
+      "lastSignIn": "2026-09-14"
+    },
+    {
+      "id": "id-031",
+      "displayName": "Farah Testcase",
+      "roleType": "employee",
+      "department": "Finance",
+      "managerId": "id-mgr-finance",
+      "status": "suspended",
+      "lastSignIn": "2026-04-30"
+    },
+    {
+      "id": "id-032",
+      "displayName": "Mateo Placeholder",
+      "roleType": "employee",
+      "department": "People Ops",
+      "managerId": "id-mgr-people",
+      "status": "active",
+      "lastSignIn": "2026-09-23"
+    },
+    {
+      "id": "id-033",
+      "displayName": "Tala Example",
+      "roleType": "employee",
+      "department": "Engineering",
+      "managerId": "id-mgr-eng",
+      "status": "active",
+      "lastSignIn": "2026-10-01"
+    },
+    {
+      "id": "id-034",
+      "displayName": "Ada Synthetic",
+      "roleType": "employee",
+      "department": "Sales",
+      "managerId": "id-mgr-gone",
+      "status": "active",
+      "lastSignIn": "2026-09-16"
+    },
+    {
+      "id": "id-035",
+      "displayName": "Hana Fixture",
+      "roleType": "employee",
+      "department": "Support",
+      "managerId": "id-mgr-support",
+      "status": "active",
+      "lastSignIn": "2026-09-25"
+    },
+    {
+      "id": "id-036",
+      "displayName": "Oren Mock",
+      "roleType": "employee",
+      "department": "Legal",
+      "managerId": "id-mgr-legal",
+      "status": "active",
+      "lastSignIn": "2026-10-01"
+    },
+    {
+      "id": "id-037",
+      "displayName": "Viggo Demo",
+      "roleType": "contractor",
+      "department": "Finance",
+      "managerId": "id-mgr-finance",
+      "status": "active",
+      "lastSignIn": "2026-09-23"
+    },
+    {
+      "id": "id-038",
+      "displayName": "Caius Sample",
+      "roleType": "employee",
+      "department": "People Ops",
+      "managerId": "id-mgr-people",
+      "status": "active",
+      "lastSignIn": "2026-09-19"
+    },
+    {
+      "id": "id-039",
+      "displayName": "Juno Testcase",
+      "roleType": "employee",
+      "department": "Engineering",
+      "managerId": "id-mgr-eng",
+      "status": "active",
+      "lastSignIn": "2026-09-18"
+    },
+    {
+      "id": "id-040",
+      "displayName": "Quill Placeholder",
+      "roleType": "employee",
+      "department": "Sales",
+      "managerId": "id-mgr-sales",
+      "status": "active",
+      "lastSignIn": "2026-09-29"
+    },
+    {
+      "id": "id-041",
+      "displayName": "Ximena Example",
+      "roleType": "employee",
+      "department": "Support",
+      "managerId": "id-mgr-support",
+      "status": "active",
+      "lastSignIn": "2026-09-18"
+    },
+    {
+      "id": "svc-1",
+      "displayName": "svc-billing.example",
+      "roleType": "service",
+      "department": "Engineering",
+      "managerId": "id-mgr-eng",
+      "status": "active",
+      "lastSignIn": "2026-09-29"
+    },
+    {
+      "id": "svc-2",
+      "displayName": "svc-etl.example",
+      "roleType": "service",
+      "department": "Engineering",
+      "managerId": "id-mgr-eng",
+      "status": "active",
+      "lastSignIn": null
+    },
+    {
+      "id": "svc-3",
+      "displayName": "svc-backup.example",
+      "roleType": "service",
+      "department": "Engineering",
+      "managerId": null,
+      "status": "active",
+      "lastSignIn": "2026-09-29"
+    }
+  ],
+  "resources": [
+    {
+      "id": "res-payroll",
+      "name": "Payroll (synthetic ERP)",
+      "owner": "id-mgr-finance",
+      "sensitivity": "high"
+    },
+    {
+      "id": "res-ap",
+      "name": "Accounts payable",
+      "owner": "id-mgr-finance",
+      "sensitivity": "high"
+    },
+    {
+      "id": "res-hris",
+      "name": "HR records",
+      "owner": "id-mgr-people",
+      "sensitivity": "high"
+    },
+    {
+      "id": "res-crm",
+      "name": "Customer CRM",
+      "owner": "id-mgr-sales",
+      "sensitivity": "moderate"
+    },
+    {
+      "id": "res-tickets",
+      "name": "Support ticketing",
+      "owner": "id-mgr-support",
+      "sensitivity": "moderate"
+    },
+    {
+      "id": "res-repo",
+      "name": "Source repositories",
+      "owner": "id-mgr-eng",
+      "sensitivity": "moderate"
+    },
+    {
+      "id": "res-prod",
+      "name": "Production cloud account",
+      "owner": "id-mgr-eng",
+      "sensitivity": "high"
+    },
+    {
+      "id": "res-wiki",
+      "name": "Internal wiki",
+      "owner": "id-mgr-people",
+      "sensitivity": "low"
+    },
+    {
+      "id": "res-contracts",
+      "name": "Contract vault",
+      "owner": "id-mgr-legal",
+      "sensitivity": "high"
+    },
+    {
+      "id": "res-analytics",
+      "name": "Analytics warehouse",
+      "owner": "id-mgr-eng",
+      "sensitivity": "moderate"
+    },
+    {
+      "id": "res-legacy",
+      "name": "Legacy file share",
+      "owner": "id-mgr-gone",
+      "sensitivity": "moderate"
+    }
+  ],
+  "entitlements": [
+    {
+      "id": "ent-001",
+      "identityId": "id-mgr-finance",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2024-11-21",
+      "lastUsed": "2026-09-19"
+    },
+    {
+      "id": "ent-002",
+      "identityId": "id-mgr-finance",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.view",
+      "privileged": false,
+      "grantedOn": "2025-11-30",
+      "lastUsed": "2026-08-30"
+    },
+    {
+      "id": "ent-003",
+      "identityId": "id-mgr-finance",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.create",
+      "privileged": false,
+      "grantedOn": "2025-01-25",
+      "lastUsed": "2026-08-21"
+    },
+    {
+      "id": "ent-004",
+      "identityId": "id-mgr-finance",
+      "resourceId": "res-ap",
+      "privilege": "vendor.create",
+      "privileged": false,
+      "grantedOn": "2025-02-05",
+      "lastUsed": "2026-08-18"
+    },
+    {
+      "id": "ent-005",
+      "identityId": "id-mgr-people",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2024-11-07",
+      "lastUsed": "2026-09-07"
+    },
+    {
+      "id": "ent-006",
+      "identityId": "id-mgr-people",
+      "resourceId": "res-hris",
+      "privilege": "hr.read",
+      "privileged": false,
+      "grantedOn": "2024-12-15",
+      "lastUsed": "2026-08-17"
+    },
+    {
+      "id": "ent-007",
+      "identityId": "id-mgr-eng",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2026-01-18",
+      "lastUsed": "2026-09-15"
+    },
+    {
+      "id": "ent-008",
+      "identityId": "id-mgr-eng",
+      "resourceId": "res-repo",
+      "privilege": "repo.read",
+      "privileged": false,
+      "grantedOn": "2026-02-28",
+      "lastUsed": "2026-09-10"
+    },
+    {
+      "id": "ent-009",
+      "identityId": "id-mgr-eng",
+      "resourceId": "res-prod",
+      "privilege": "prod.readonly",
+      "privileged": false,
+      "grantedOn": "2025-10-29",
+      "lastUsed": "2026-09-20"
+    },
+    {
+      "id": "ent-010",
+      "identityId": "id-mgr-sales",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-03-01",
+      "lastUsed": "2026-09-20"
+    },
+    {
+      "id": "ent-011",
+      "identityId": "id-mgr-sales",
+      "resourceId": "res-crm",
+      "privilege": "crm.read",
+      "privileged": false,
+      "grantedOn": "2025-06-07",
+      "lastUsed": "2026-09-25"
+    },
+    {
+      "id": "ent-012",
+      "identityId": "id-mgr-support",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2026-02-23",
+      "lastUsed": "2026-09-29"
+    },
+    {
+      "id": "ent-013",
+      "identityId": "id-mgr-support",
+      "resourceId": "res-tickets",
+      "privilege": "tickets.agent",
+      "privileged": false,
+      "grantedOn": "2024-11-16",
+      "lastUsed": "2026-08-12"
+    },
+    {
+      "id": "ent-014",
+      "identityId": "id-mgr-legal",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-02-07",
+      "lastUsed": "2026-09-15"
+    },
+    {
+      "id": "ent-015",
+      "identityId": "id-mgr-legal",
+      "resourceId": "res-contracts",
+      "privilege": "contracts.read",
+      "privileged": false,
+      "grantedOn": "2025-06-16",
+      "lastUsed": "2026-08-31"
+    },
+    {
+      "id": "ent-016",
+      "identityId": "id-001",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-04-03",
+      "lastUsed": "2026-09-21"
+    },
+    {
+      "id": "ent-017",
+      "identityId": "id-001",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.view",
+      "privileged": false,
+      "grantedOn": "2024-11-04",
+      "lastUsed": "2026-09-21"
+    },
+    {
+      "id": "ent-018",
+      "identityId": "id-001",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.create",
+      "privileged": false,
+      "grantedOn": "2025-09-30",
+      "lastUsed": "2026-08-17"
+    },
+    {
+      "id": "ent-019",
+      "identityId": "id-001",
+      "resourceId": "res-ap",
+      "privilege": "vendor.create",
+      "privileged": false,
+      "grantedOn": "2025-06-01",
+      "lastUsed": "2026-08-26"
+    },
+    {
+      "id": "ent-020",
+      "identityId": "id-001",
+      "resourceId": "res-ap",
+      "privilege": "invoice.enter",
+      "privileged": false,
+      "grantedOn": "2024-12-18",
+      "lastUsed": "2026-08-29"
+    },
+    {
+      "id": "ent-021",
+      "identityId": "id-002",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-12-28",
+      "lastUsed": "2026-10-01"
+    },
+    {
+      "id": "ent-022",
+      "identityId": "id-002",
+      "resourceId": "res-hris",
+      "privilege": "hr.read",
+      "privileged": false,
+      "grantedOn": "2025-11-09",
+      "lastUsed": "2026-08-07"
+    },
+    {
+      "id": "ent-023",
+      "identityId": "id-003",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2024-12-05",
+      "lastUsed": "2026-10-01"
+    },
+    {
+      "id": "ent-024",
+      "identityId": "id-003",
+      "resourceId": "res-repo",
+      "privilege": "repo.read",
+      "privileged": false,
+      "grantedOn": "2025-04-12",
+      "lastUsed": "2026-10-01"
+    },
+    {
+      "id": "ent-025",
+      "identityId": "id-003",
+      "resourceId": "res-repo",
+      "privilege": "repo.admin",
+      "privileged": true,
+      "grantedOn": "2024-11-14",
+      "lastUsed": "2026-08-18"
+    },
+    {
+      "id": "ent-026",
+      "identityId": "id-003",
+      "resourceId": "res-prod",
+      "privilege": "prod.readonly",
+      "privileged": false,
+      "grantedOn": "2025-10-09",
+      "lastUsed": "2026-10-01"
+    },
+    {
+      "id": "ent-027",
+      "identityId": "id-004",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-04-23",
+      "lastUsed": "2026-09-22"
+    },
+    {
+      "id": "ent-028",
+      "identityId": "id-004",
+      "resourceId": "res-crm",
+      "privilege": "crm.read",
+      "privileged": false,
+      "grantedOn": "2025-07-09",
+      "lastUsed": "2026-10-01"
+    },
+    {
+      "id": "ent-029",
+      "identityId": "id-005",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-05-22",
+      "lastUsed": "2026-09-10"
+    },
+    {
+      "id": "ent-030",
+      "identityId": "id-005",
+      "resourceId": "res-tickets",
+      "privilege": "tickets.agent",
+      "privileged": false,
+      "grantedOn": "2025-11-07",
+      "lastUsed": "2026-08-24"
+    },
+    {
+      "id": "ent-031",
+      "identityId": "id-005",
+      "resourceId": "res-tickets",
+      "privilege": "tickets.admin",
+      "privileged": true,
+      "grantedOn": "2025-12-01",
+      "lastUsed": "2026-08-14"
+    },
+    {
+      "id": "ent-032",
+      "identityId": "id-006",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2026-02-07",
+      "lastUsed": "2026-09-27"
+    },
+    {
+      "id": "ent-033",
+      "identityId": "id-006",
+      "resourceId": "res-contracts",
+      "privilege": "contracts.read",
+      "privileged": false,
+      "grantedOn": "2024-12-24",
+      "lastUsed": "2026-08-30"
+    },
+    {
+      "id": "ent-034",
+      "identityId": "id-007",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-07-11",
+      "lastUsed": "2026-09-29"
+    },
+    {
+      "id": "ent-035",
+      "identityId": "id-007",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.view",
+      "privileged": false,
+      "grantedOn": "2025-04-23",
+      "lastUsed": "2026-08-12"
+    },
+    {
+      "id": "ent-036",
+      "identityId": "id-007",
+      "resourceId": "res-ap",
+      "privilege": "vendor.create",
+      "privileged": false,
+      "grantedOn": "2025-11-29",
+      "lastUsed": "2026-08-18"
+    },
+    {
+      "id": "ent-037",
+      "identityId": "id-007",
+      "resourceId": "res-ap",
+      "privilege": "invoice.enter",
+      "privileged": false,
+      "grantedOn": "2025-04-15",
+      "lastUsed": "2026-09-23"
+    },
+    {
+      "id": "ent-038",
+      "identityId": "id-008",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-10-13",
+      "lastUsed": "2026-09-26"
+    },
+    {
+      "id": "ent-039",
+      "identityId": "id-008",
+      "resourceId": "res-hris",
+      "privilege": "hr.read",
+      "privileged": false,
+      "grantedOn": "2026-02-08",
+      "lastUsed": "2026-04-28"
+    },
+    {
+      "id": "ent-040",
+      "identityId": "id-009",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-06-09",
+      "lastUsed": "2026-09-06"
+    },
+    {
+      "id": "ent-041",
+      "identityId": "id-009",
+      "resourceId": "res-repo",
+      "privilege": "repo.read",
+      "privileged": false,
+      "grantedOn": "2025-02-02",
+      "lastUsed": "2026-09-01"
+    },
+    {
+      "id": "ent-042",
+      "identityId": "id-009",
+      "resourceId": "res-prod",
+      "privilege": "prod.readonly",
+      "privileged": false,
+      "grantedOn": "2025-07-24",
+      "lastUsed": "2026-08-11"
+    },
+    {
+      "id": "ent-043",
+      "identityId": "id-010",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-09-02",
+      "lastUsed": "2026-09-05"
+    },
+    {
+      "id": "ent-044",
+      "identityId": "id-010",
+      "resourceId": "res-crm",
+      "privilege": "crm.read",
+      "privileged": false,
+      "grantedOn": "2025-09-07",
+      "lastUsed": "2026-09-24"
+    },
+    {
+      "id": "ent-045",
+      "identityId": "id-011",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-07-01",
+      "lastUsed": "2026-09-15"
+    },
+    {
+      "id": "ent-046",
+      "identityId": "id-011",
+      "resourceId": "res-tickets",
+      "privilege": "tickets.agent",
+      "privileged": false,
+      "grantedOn": "2026-02-20",
+      "lastUsed": "2026-09-27"
+    },
+    {
+      "id": "ent-047",
+      "identityId": "id-011",
+      "resourceId": "res-tickets",
+      "privilege": "tickets.admin",
+      "privileged": true,
+      "grantedOn": "2026-02-23",
+      "lastUsed": "2026-09-16"
+    },
+    {
+      "id": "ent-048",
+      "identityId": "id-012",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-06-02",
+      "lastUsed": "2026-09-25"
+    },
+    {
+      "id": "ent-049",
+      "identityId": "id-012",
+      "resourceId": "res-contracts",
+      "privilege": "contracts.read",
+      "privileged": false,
+      "grantedOn": "2024-12-07",
+      "lastUsed": "2026-08-11"
+    },
+    {
+      "id": "ent-050",
+      "identityId": "id-012",
+      "resourceId": "res-contracts",
+      "privilege": "contracts.sign",
+      "privileged": true,
+      "grantedOn": "2026-02-19",
+      "lastUsed": "2026-09-07"
+    },
+    {
+      "id": "ent-051",
+      "identityId": "id-013",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-10-12",
+      "lastUsed": "2026-09-21"
+    },
+    {
+      "id": "ent-052",
+      "identityId": "id-013",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.view",
+      "privileged": false,
+      "grantedOn": "2025-01-23",
+      "lastUsed": "2026-09-07"
+    },
+    {
+      "id": "ent-053",
+      "identityId": "id-013",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.approve",
+      "privileged": true,
+      "grantedOn": "2025-06-04",
+      "lastUsed": "2026-01-28"
+    },
+    {
+      "id": "ent-054",
+      "identityId": "id-013",
+      "resourceId": "res-ap",
+      "privilege": "vendor.create",
+      "privileged": false,
+      "grantedOn": "2025-08-21",
+      "lastUsed": "2026-09-10"
+    },
+    {
+      "id": "ent-055",
+      "identityId": "id-014",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2026-02-26",
+      "lastUsed": "2026-09-19"
+    },
+    {
+      "id": "ent-056",
+      "identityId": "id-014",
+      "resourceId": "res-hris",
+      "privilege": "hr.read",
+      "privileged": false,
+      "grantedOn": "2025-02-16",
+      "lastUsed": "2026-08-11"
+    },
+    {
+      "id": "ent-057",
+      "identityId": "id-014",
+      "resourceId": "res-hris",
+      "privilege": "hr.edit",
+      "privileged": true,
+      "grantedOn": "2025-12-25",
+      "lastUsed": "2026-09-19"
+    },
+    {
+      "id": "ent-058",
+      "identityId": "id-015",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-01-15",
+      "lastUsed": "2026-09-16"
+    },
+    {
+      "id": "ent-059",
+      "identityId": "id-015",
+      "resourceId": "res-repo",
+      "privilege": "repo.read",
+      "privileged": false,
+      "grantedOn": "2024-11-04",
+      "lastUsed": "2026-09-01"
+    },
+    {
+      "id": "ent-060",
+      "identityId": "id-015",
+      "resourceId": "res-prod",
+      "privilege": "prod.readonly",
+      "privileged": false,
+      "grantedOn": "2025-05-28",
+      "lastUsed": "2026-08-26"
+    },
+    {
+      "id": "ent-061",
+      "identityId": "id-015",
+      "resourceId": "res-prod",
+      "privilege": "prod.admin",
+      "privileged": true,
+      "grantedOn": "2025-01-28",
+      "lastUsed": "2026-09-22"
+    },
+    {
+      "id": "ent-062",
+      "identityId": "id-016",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-07-29",
+      "lastUsed": "2026-09-16"
+    },
+    {
+      "id": "ent-063",
+      "identityId": "id-016",
+      "resourceId": "res-crm",
+      "privilege": "crm.read",
+      "privileged": false,
+      "grantedOn": "2026-03-07",
+      "lastUsed": "2026-08-13"
+    },
+    {
+      "id": "ent-064",
+      "identityId": "id-017",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-06-29",
+      "lastUsed": "2026-09-13"
+    },
+    {
+      "id": "ent-065",
+      "identityId": "id-017",
+      "resourceId": "res-tickets",
+      "privilege": "tickets.agent",
+      "privileged": false,
+      "grantedOn": "2025-10-20",
+      "lastUsed": "2026-08-18"
+    },
+    {
+      "id": "ent-066",
+      "identityId": "id-017",
+      "resourceId": "res-tickets",
+      "privilege": "tickets.admin",
+      "privileged": true,
+      "grantedOn": "2025-04-20",
+      "lastUsed": "2026-05-31"
+    },
+    {
+      "id": "ent-067",
+      "identityId": "id-018",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-07-29",
+      "lastUsed": "2026-09-14"
+    },
+    {
+      "id": "ent-068",
+      "identityId": "id-018",
+      "resourceId": "res-contracts",
+      "privilege": "contracts.read",
+      "privileged": false,
+      "grantedOn": "2025-08-04",
+      "lastUsed": "2026-08-17"
+    },
+    {
+      "id": "ent-069",
+      "identityId": "id-019",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-11-23",
+      "lastUsed": "2026-09-20"
+    },
+    {
+      "id": "ent-070",
+      "identityId": "id-019",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.view",
+      "privileged": false,
+      "grantedOn": "2026-02-12",
+      "lastUsed": "2026-09-25"
+    },
+    {
+      "id": "ent-071",
+      "identityId": "id-019",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.create",
+      "privileged": false,
+      "grantedOn": "2025-10-05",
+      "lastUsed": "2026-08-17"
+    },
+    {
+      "id": "ent-072",
+      "identityId": "id-019",
+      "resourceId": "res-ap",
+      "privilege": "vendor.create",
+      "privileged": false,
+      "grantedOn": "2025-06-06",
+      "lastUsed": "2026-09-25"
+    },
+    {
+      "id": "ent-073",
+      "identityId": "id-020",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-08-27",
+      "lastUsed": "2026-09-21"
+    },
+    {
+      "id": "ent-074",
+      "identityId": "id-020",
+      "resourceId": "res-hris",
+      "privilege": "hr.read",
+      "privileged": false,
+      "grantedOn": "2025-05-18",
+      "lastUsed": "2026-01-28"
+    },
+    {
+      "id": "ent-075",
+      "identityId": "id-021",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-01-21",
+      "lastUsed": "2026-09-14"
+    },
+    {
+      "id": "ent-076",
+      "identityId": "id-021",
+      "resourceId": "res-repo",
+      "privilege": "repo.read",
+      "privileged": false,
+      "grantedOn": "2025-04-28",
+      "lastUsed": "2026-09-26"
+    },
+    {
+      "id": "ent-077",
+      "identityId": "id-021",
+      "resourceId": "res-prod",
+      "privilege": "prod.readonly",
+      "privileged": false,
+      "grantedOn": "2026-01-12",
+      "lastUsed": "2026-09-23"
+    },
+    {
+      "id": "ent-078",
+      "identityId": "id-022",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-12-10",
+      "lastUsed": "2026-09-08"
+    },
+    {
+      "id": "ent-079",
+      "identityId": "id-022",
+      "resourceId": "res-crm",
+      "privilege": "crm.read",
+      "privileged": false,
+      "grantedOn": "2025-06-05",
+      "lastUsed": "2026-09-28"
+    },
+    {
+      "id": "ent-080",
+      "identityId": "id-023",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2024-12-31",
+      "lastUsed": "2026-09-05"
+    },
+    {
+      "id": "ent-081",
+      "identityId": "id-023",
+      "resourceId": "res-tickets",
+      "privilege": "tickets.agent",
+      "privileged": false,
+      "grantedOn": "2025-08-27",
+      "lastUsed": "2026-09-13"
+    },
+    {
+      "id": "ent-082",
+      "identityId": "id-024",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2026-02-06",
+      "lastUsed": "2026-09-04"
+    },
+    {
+      "id": "ent-083",
+      "identityId": "id-024",
+      "resourceId": "res-contracts",
+      "privilege": "contracts.read",
+      "privileged": false,
+      "grantedOn": "2025-12-25",
+      "lastUsed": "2026-08-13"
+    },
+    {
+      "id": "ent-084",
+      "identityId": "id-025",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-03-12",
+      "lastUsed": "2026-09-30"
+    },
+    {
+      "id": "ent-085",
+      "identityId": "id-025",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.view",
+      "privileged": false,
+      "grantedOn": "2026-02-15",
+      "lastUsed": "2026-08-12"
+    },
+    {
+      "id": "ent-086",
+      "identityId": "id-025",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.approve",
+      "privileged": true,
+      "grantedOn": "2025-08-16",
+      "lastUsed": "2026-08-29"
+    },
+    {
+      "id": "ent-087",
+      "identityId": "id-025",
+      "resourceId": "res-ap",
+      "privilege": "vendor.create",
+      "privileged": false,
+      "grantedOn": "2025-11-24",
+      "lastUsed": "2026-08-26"
+    },
+    {
+      "id": "ent-088",
+      "identityId": "id-026",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2026-01-20",
+      "lastUsed": "2026-09-05"
+    },
+    {
+      "id": "ent-089",
+      "identityId": "id-026",
+      "resourceId": "res-hris",
+      "privilege": "hr.read",
+      "privileged": false,
+      "grantedOn": "2025-06-26",
+      "lastUsed": "2026-09-22"
+    },
+    {
+      "id": "ent-090",
+      "identityId": "id-027",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-11-17",
+      "lastUsed": "2026-09-18"
+    },
+    {
+      "id": "ent-091",
+      "identityId": "id-027",
+      "resourceId": "res-repo",
+      "privilege": "repo.read",
+      "privileged": false,
+      "grantedOn": "2025-10-06",
+      "lastUsed": "2026-08-29"
+    },
+    {
+      "id": "ent-092",
+      "identityId": "id-027",
+      "resourceId": "res-prod",
+      "privilege": "prod.readonly",
+      "privileged": false,
+      "grantedOn": "2025-02-17",
+      "lastUsed": "2026-08-06"
+    },
+    {
+      "id": "ent-093",
+      "identityId": "id-027",
+      "resourceId": "res-prod",
+      "privilege": "prod.admin",
+      "privileged": true,
+      "grantedOn": "2025-01-15",
+      "lastUsed": "2026-09-26"
+    },
+    {
+      "id": "ent-094",
+      "identityId": "id-028",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-12-31",
+      "lastUsed": "2026-09-29"
+    },
+    {
+      "id": "ent-095",
+      "identityId": "id-028",
+      "resourceId": "res-crm",
+      "privilege": "crm.read",
+      "privileged": false,
+      "grantedOn": "2024-11-15",
+      "lastUsed": "2026-09-01"
+    },
+    {
+      "id": "ent-096",
+      "identityId": "id-029",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2026-01-12",
+      "lastUsed": "2026-09-29"
+    },
+    {
+      "id": "ent-097",
+      "identityId": "id-029",
+      "resourceId": "res-tickets",
+      "privilege": "tickets.agent",
+      "privileged": false,
+      "grantedOn": "2025-09-20",
+      "lastUsed": "2026-08-20"
+    },
+    {
+      "id": "ent-098",
+      "identityId": "id-030",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-02-21",
+      "lastUsed": "2026-09-06"
+    },
+    {
+      "id": "ent-099",
+      "identityId": "id-030",
+      "resourceId": "res-contracts",
+      "privilege": "contracts.read",
+      "privileged": false,
+      "grantedOn": "2025-04-28",
+      "lastUsed": "2026-09-08"
+    },
+    {
+      "id": "ent-100",
+      "identityId": "id-031",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-06-12",
+      "lastUsed": "2026-09-08"
+    },
+    {
+      "id": "ent-101",
+      "identityId": "id-031",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.view",
+      "privileged": false,
+      "grantedOn": "2025-12-04",
+      "lastUsed": "2026-04-06"
+    },
+    {
+      "id": "ent-102",
+      "identityId": "id-031",
+      "resourceId": "res-ap",
+      "privilege": "vendor.create",
+      "privileged": false,
+      "grantedOn": "2025-04-13",
+      "lastUsed": "2026-02-25"
+    },
+    {
+      "id": "ent-103",
+      "identityId": "id-032",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-11-27",
+      "lastUsed": "2026-09-13"
+    },
+    {
+      "id": "ent-104",
+      "identityId": "id-032",
+      "resourceId": "res-hris",
+      "privilege": "hr.read",
+      "privileged": false,
+      "grantedOn": "2025-11-21",
+      "lastUsed": "2026-09-30"
+    },
+    {
+      "id": "ent-105",
+      "identityId": "id-032",
+      "resourceId": "res-hris",
+      "privilege": "hr.edit",
+      "privileged": true,
+      "grantedOn": "2025-12-05",
+      "lastUsed": "2026-03-25"
+    },
+    {
+      "id": "ent-106",
+      "identityId": "id-033",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-06-30",
+      "lastUsed": "2026-09-24"
+    },
+    {
+      "id": "ent-107",
+      "identityId": "id-033",
+      "resourceId": "res-repo",
+      "privilege": "repo.read",
+      "privileged": false,
+      "grantedOn": "2025-05-18",
+      "lastUsed": "2026-08-16"
+    },
+    {
+      "id": "ent-108",
+      "identityId": "id-033",
+      "resourceId": "res-prod",
+      "privilege": "prod.readonly",
+      "privileged": false,
+      "grantedOn": "2025-01-07",
+      "lastUsed": "2026-08-15"
+    },
+    {
+      "id": "ent-109",
+      "identityId": "id-034",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2026-03-02",
+      "lastUsed": "2026-09-19"
+    },
+    {
+      "id": "ent-110",
+      "identityId": "id-034",
+      "resourceId": "res-crm",
+      "privilege": "crm.read",
+      "privileged": false,
+      "grantedOn": "2025-09-11",
+      "lastUsed": "2026-08-11"
+    },
+    {
+      "id": "ent-111",
+      "identityId": "id-035",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2026-01-18",
+      "lastUsed": "2026-09-18"
+    },
+    {
+      "id": "ent-112",
+      "identityId": "id-035",
+      "resourceId": "res-tickets",
+      "privilege": "tickets.agent",
+      "privileged": false,
+      "grantedOn": "2025-10-24",
+      "lastUsed": "2026-08-16"
+    },
+    {
+      "id": "ent-113",
+      "identityId": "id-036",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2024-11-24",
+      "lastUsed": "2026-09-27"
+    },
+    {
+      "id": "ent-114",
+      "identityId": "id-036",
+      "resourceId": "res-contracts",
+      "privilege": "contracts.read",
+      "privileged": false,
+      "grantedOn": "2025-09-25",
+      "lastUsed": "2026-09-03"
+    },
+    {
+      "id": "ent-115",
+      "identityId": "id-036",
+      "resourceId": "res-contracts",
+      "privilege": "contracts.sign",
+      "privileged": true,
+      "grantedOn": "2025-12-23",
+      "lastUsed": "2026-08-19"
+    },
+    {
+      "id": "ent-116",
+      "identityId": "id-037",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-06-30",
+      "lastUsed": "2026-09-12"
+    },
+    {
+      "id": "ent-117",
+      "identityId": "id-037",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.view",
+      "privileged": false,
+      "grantedOn": "2025-05-07",
+      "lastUsed": "2026-08-11"
+    },
+    {
+      "id": "ent-118",
+      "identityId": "id-037",
+      "resourceId": "res-ap",
+      "privilege": "vendor.create",
+      "privileged": false,
+      "grantedOn": "2025-05-30",
+      "lastUsed": "2026-08-24"
+    },
+    {
+      "id": "ent-119",
+      "identityId": "id-038",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-04-04",
+      "lastUsed": "2026-09-29"
+    },
+    {
+      "id": "ent-120",
+      "identityId": "id-038",
+      "resourceId": "res-hris",
+      "privilege": "hr.read",
+      "privileged": false,
+      "grantedOn": "2025-10-14",
+      "lastUsed": "2026-09-23"
+    },
+    {
+      "id": "ent-121",
+      "identityId": "id-039",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2026-03-03",
+      "lastUsed": "2026-09-02"
+    },
+    {
+      "id": "ent-122",
+      "identityId": "id-039",
+      "resourceId": "res-repo",
+      "privilege": "repo.read",
+      "privileged": false,
+      "grantedOn": "2025-07-18",
+      "lastUsed": "2026-09-17"
+    },
+    {
+      "id": "ent-123",
+      "identityId": "id-039",
+      "resourceId": "res-prod",
+      "privilege": "prod.readonly",
+      "privileged": false,
+      "grantedOn": "2025-05-22",
+      "lastUsed": "2026-09-30"
+    },
+    {
+      "id": "ent-124",
+      "identityId": "id-039",
+      "resourceId": "res-prod",
+      "privilege": "prod.admin",
+      "privileged": true,
+      "grantedOn": "2025-07-26",
+      "lastUsed": "2026-05-14"
+    },
+    {
+      "id": "ent-125",
+      "identityId": "id-040",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-04-26",
+      "lastUsed": "2026-09-02"
+    },
+    {
+      "id": "ent-126",
+      "identityId": "id-040",
+      "resourceId": "res-crm",
+      "privilege": "crm.read",
+      "privileged": false,
+      "grantedOn": "2025-02-05",
+      "lastUsed": "2026-09-03"
+    },
+    {
+      "id": "ent-127",
+      "identityId": "id-040",
+      "resourceId": "res-crm",
+      "privilege": "crm.export",
+      "privileged": true,
+      "grantedOn": "2025-06-12",
+      "lastUsed": "2026-06-04"
+    },
+    {
+      "id": "ent-128",
+      "identityId": "id-041",
+      "resourceId": "res-wiki",
+      "privilege": "wiki.read",
+      "privileged": false,
+      "grantedOn": "2025-10-01",
+      "lastUsed": "2026-09-26"
+    },
+    {
+      "id": "ent-129",
+      "identityId": "id-041",
+      "resourceId": "res-tickets",
+      "privilege": "tickets.agent",
+      "privileged": false,
+      "grantedOn": "2025-09-29",
+      "lastUsed": "2026-08-15"
+    },
+    {
+      "id": "ent-130",
+      "identityId": "id-041",
+      "resourceId": "res-tickets",
+      "privilege": "tickets.admin",
+      "privileged": true,
+      "grantedOn": "2025-12-24",
+      "lastUsed": "2026-09-03"
+    },
+    {
+      "id": "ent-131",
+      "identityId": "svc-1",
+      "resourceId": "res-prod",
+      "privilege": "prod.admin",
+      "privileged": true,
+      "grantedOn": "2024-11-29",
+      "lastUsed": "2026-09-30"
+    },
+    {
+      "id": "ent-132",
+      "identityId": "svc-1",
+      "resourceId": "res-analytics",
+      "privilege": "analytics.query",
+      "privileged": false,
+      "grantedOn": "2025-05-06",
+      "lastUsed": "2026-09-28"
+    },
+    {
+      "id": "ent-133",
+      "identityId": "svc-2",
+      "resourceId": "res-prod",
+      "privilege": "prod.admin",
+      "privileged": true,
+      "grantedOn": "2026-03-03",
+      "lastUsed": null
+    },
+    {
+      "id": "ent-134",
+      "identityId": "svc-2",
+      "resourceId": "res-analytics",
+      "privilege": "analytics.query",
+      "privileged": false,
+      "grantedOn": "2024-12-19",
+      "lastUsed": "2026-09-28"
+    },
+    {
+      "id": "ent-135",
+      "identityId": "svc-3",
+      "resourceId": "res-prod",
+      "privilege": "prod.admin",
+      "privileged": true,
+      "grantedOn": "2025-10-03",
+      "lastUsed": "2026-09-30"
+    },
+    {
+      "id": "ent-136",
+      "identityId": "svc-3",
+      "resourceId": "res-analytics",
+      "privilege": "analytics.query",
+      "privileged": false,
+      "grantedOn": "2025-11-24",
+      "lastUsed": "2025-08-27"
+    },
+    {
+      "id": "ent-137",
+      "identityId": "id-001",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.create",
+      "privileged": false,
+      "grantedOn": "2024-12-21",
+      "lastUsed": "2026-09-27"
+    },
+    {
+      "id": "ent-138",
+      "identityId": "id-001",
+      "resourceId": "res-payroll",
+      "privilege": "payroll.approve",
+      "privileged": true,
+      "grantedOn": "2025-09-23",
+      "lastUsed": "2026-09-21"
+    },
+    {
+      "id": "ent-139",
+      "identityId": "id-013",
+      "resourceId": "res-ap",
+      "privilege": "vendor.create",
+      "privileged": false,
+      "grantedOn": "2025-02-24",
+      "lastUsed": "2026-09-29"
+    },
+    {
+      "id": "ent-140",
+      "identityId": "id-013",
+      "resourceId": "res-ap",
+      "privilege": "payment.release",
+      "privileged": true,
+      "grantedOn": "2026-02-09",
+      "lastUsed": "2026-09-30"
+    },
+    {
+      "id": "ent-141",
+      "identityId": "id-008",
+      "resourceId": "res-prod",
+      "privilege": "prod.admin",
+      "privileged": true,
+      "grantedOn": "2025-02-06",
+      "lastUsed": "2025-10-01"
+    },
+    {
+      "id": "ent-142",
+      "identityId": "id-020",
+      "resourceId": "res-hris",
+      "privilege": "hr.edit",
+      "privileged": true,
+      "grantedOn": "2025-12-07",
+      "lastUsed": "2026-03-15"
+    },
+    {
+      "id": "ent-143",
+      "identityId": "id-004",
+      "resourceId": "res-crm",
+      "privilege": "crm.export",
+      "privileged": true,
+      "grantedOn": "2025-01-11",
+      "lastUsed": null
+    },
+    {
+      "id": "ent-144",
+      "identityId": "id-034",
+      "resourceId": "res-contracts",
+      "privilege": "contracts.sign",
+      "privileged": true,
+      "grantedOn": "2025-05-06",
+      "lastUsed": "2026-06-28"
+    },
+    {
+      "id": "ent-145",
+      "identityId": "id-034",
+      "resourceId": "res-legacy",
+      "privilege": "share.admin",
+      "privileged": true,
+      "grantedOn": "2025-07-11",
+      "lastUsed": "2025-08-27"
+    },
+    {
+      "id": "ent-146",
+      "identityId": "svc-3",
+      "resourceId": "res-legacy",
+      "privilege": "share.read",
+      "privileged": false,
+      "grantedOn": "2025-01-25",
+      "lastUsed": "2026-09-01"
+    }
+  ],
+  "sodRules": [
+    {
+      "id": "sod-payroll",
+      "name": "Create vs approve payroll",
+      "conflict": [
+        "payroll.create",
+        "payroll.approve"
+      ],
+      "rationale": "One person must not both prepare and approve a payroll run."
+    },
+    {
+      "id": "sod-ap",
+      "name": "Vendor master vs payment release",
+      "conflict": [
+        "vendor.create",
+        "payment.release"
+      ],
+      "rationale": "Creating a vendor and releasing payments to it enables fictitious-vendor fraud."
+    },
+    {
+      "id": "sod-prod",
+      "name": "Repository admin vs production admin",
+      "conflict": [
+        "repo.admin",
+        "prod.admin"
+      ],
+      "rationale": "Separates change authorship from production deployment authority."
+    }
+  ]
+}
