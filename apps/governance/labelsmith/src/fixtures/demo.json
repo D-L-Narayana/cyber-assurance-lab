@@ -571,6 +571,89 @@
         "true",
         "false"
       ]
+    },
+    {
+      "id": "fld-041",
+      "system": "platform.example",
+      "table": "ml_models",
+      "name": "tokenizer_version",
+      "type": "string",
+      "samples": [
+        "v2",
+        "v3",
+        "v3.1"
+      ],
+      "description": "FP regression: “tokenizer” is not the token “token”; a version is operational metadata."
+    },
+    {
+      "id": "fld-042",
+      "system": "platform.example",
+      "table": "services",
+      "name": "healthcheck_status",
+      "type": "string",
+      "samples": [
+        "ok",
+        "degraded",
+        "ok",
+        "ok"
+      ],
+      "description": "FP regression: a service health check is not health data."
+    },
+    {
+      "id": "fld-043",
+      "system": "payments.example",
+      "table": "cards",
+      "name": "expiry_warning_days",
+      "type": "number",
+      "samples": [
+        "30",
+        "14",
+        "7"
+      ],
+      "description": "FP regression: a notification setting about expiry, not a card expiry."
+    },
+    {
+      "id": "fld-044",
+      "system": "platform.example",
+      "table": "telemetry",
+      "name": "velocity",
+      "type": "number",
+      "samples": [
+        "38.0",
+        "105.9",
+        "100.2",
+        "3.0",
+        "44.3"
+      ],
+      "description": "FP regression: “velocity” must not match the token “city”."
+    },
+    {
+      "id": "fld-045",
+      "system": "platform.example",
+      "table": "artifacts",
+      "name": "content_md5",
+      "type": "string",
+      "samples": [
+        "88176f73950bdc8054e534baeb9b4965",
+        "9079c71d25d83d24557b20aa85d58351",
+        "0936bc67d202c134930520c242713d54",
+        "a6325292f447fcc1e0982152fe1f2f68"
+      ],
+      "description": "FP regression: a content digest is Confidential via val-hex-digest (review), not a credential."
+    },
+    {
+      "id": "fld-046",
+      "system": "platform.example",
+      "table": "deployments",
+      "name": "commit_sha",
+      "type": "string",
+      "samples": [
+        "73ec242da40dc1a7a881b792708050e4d0efcfb8",
+        "a12365382b7fa2c1932b587742ff350336d040c1",
+        "1bc6be8848a6cfd409fb7e277a8414ae0103bcd8",
+        "35383fa791a98e9d8d4798de904ece65131262f7"
+      ],
+      "description": "FP regression: git commit ids are hex digests, not secrets."
     }
   ],
   "exceptions": [

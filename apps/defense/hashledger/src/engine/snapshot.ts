@@ -4,23 +4,38 @@ export interface FileEntry { path: string; content: string; mode: string; owner:
 export interface SnapshotEntry { path: string; hash: string; size: number; mode: string; owner: string }
 export interface Snapshot { id: string; takenAt: string; entries: SnapshotEntry[]; prevChainHash: string | null; chainHash: string }
 
-export const LIMITS = { maxFiles: 200, maxContentChars: 65_536, maxPathChars: 200 };
+export const LIMITS = { maxFiles: 200, maxContentChars: 65_536, maxPathChars: 200, maxOwnerChars: 64, maxErrors: 20 };
+
+/** Path characters after the segment checks: letters, digits, ".", "_", "-" and "/" only (no spaces, no non-ASCII, no shell metacharacters). */
+export const PATH_CHARS = /^[A-Za-z0-9._/-]+$/;
+/** Printable: no control (Cc), format (Cf), surrogate, private-use or unassigned code points, no line/paragraph separators. */
+const PRINTABLE = /^[^\p{C}\p{Zl}\p{Zp}]+$/u;
 
 export type Validation = { ok: true } | { ok: false; errors: string[] };
-export function validateManifest(files: FileEntry[]): Validation {
+/**
+ * Validate a manifest of `{ path, content, mode, owner }` rows. Accepts `unknown` and never throws: non-array input and
+ * non-object rows are reported as errors. Errors are path-addressed (`files[3].owner: …`) and capped at `LIMITS.maxErrors`.
+ */
+export function validateManifest(files: unknown): Validation {
+  if (!Array.isArray(files)) return { ok: false, errors: ['Manifest must be an array of { path, content, mode, owner } objects.'] };
   const errors: string[] = [];
-  if (!Array.isArray(files)) return { ok: false, errors: ['Manifest must be an array.'] };
   if (files.length > LIMITS.maxFiles) errors.push(`Too many files: ${files.length} (limit ${LIMITS.maxFiles}).`);
   const seen = new Set<string>();
-  for (const f of files) {
-    if (typeof f.path !== 'string' || !f.path || f.path.length > LIMITS.maxPathChars) errors.push(`Invalid path length for "${String(f.path).slice(0, 40)}".`);
-    else if (f.path.startsWith('/') || /\\/.test(f.path) || f.path.split('/').some(seg => seg === '..' || seg === '.' || seg === '')) errors.push(`Path "${f.path}" must be relative, use "/" separators and contain no "." or ".." segments.`);
-    if (seen.has(f.path)) errors.push(`Duplicate path "${f.path}".`);
-    seen.add(f.path);
-    if (typeof f.content !== 'string' || f.content.length > LIMITS.maxContentChars) errors.push(`Content of "${f.path}" exceeds ${LIMITS.maxContentChars.toLocaleString()} characters.`);
-    if (!/^0[0-7]{3}$/.test(f.mode)) errors.push(`Mode for "${f.path}" must be four octal digits like 0644.`);
-  }
-  return errors.length ? { ok: false, errors: errors.slice(0, 20) } : { ok: true };
+  files.forEach((raw: unknown, i: number) => {
+    const p = `files[${i}]`;
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) { errors.push(`${p}: must be an object { path, content, mode, owner }.`); return; }
+    const f = raw as Record<string, unknown>;
+    const shown = typeof f.path === 'string' ? JSON.stringify(f.path.slice(0, 40)) : String(f.path);
+    if (typeof f.path !== 'string' || !f.path || f.path.length > LIMITS.maxPathChars) errors.push(`${p}.path: must be a string of 1–${LIMITS.maxPathChars} characters (got ${shown}).`);
+    else if (f.path.startsWith('/') || /\\/.test(f.path) || f.path.split('/').some(seg => seg === '..' || seg === '.' || seg === '')) errors.push(`${p}.path: ${shown} must be relative, use "/" separators and contain no "." or ".." segments.`);
+    else if (!PATH_CHARS.test(f.path)) errors.push(`${p}.path: ${shown} may only contain letters, digits, ".", "_", "-" and "/".`);
+    else if (seen.has(f.path)) errors.push(`${p}.path: duplicate path ${shown}.`);
+    else seen.add(f.path);
+    if (typeof f.content !== 'string' || f.content.length > LIMITS.maxContentChars) errors.push(`${p}.content: must be a string of at most ${LIMITS.maxContentChars.toLocaleString()} characters.`);
+    if (typeof f.mode !== 'string' || !/^0[0-7]{3}$/.test(f.mode)) errors.push(`${p}.mode: must be four octal digits like 0644.`);
+    if (typeof f.owner !== 'string' || f.owner.length < 1 || f.owner.length > LIMITS.maxOwnerChars || !PRINTABLE.test(f.owner)) errors.push(`${p}.owner: must be a printable string of 1–${LIMITS.maxOwnerChars} characters.`);
+  });
+  return errors.length ? { ok: false, errors: errors.slice(0, LIMITS.maxErrors) } : { ok: true };
 }
 
 /**

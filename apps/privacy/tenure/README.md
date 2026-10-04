@@ -8,7 +8,7 @@ Educational, browser-local prototype for privacy engineers who need a *defensibl
 
 1. **Read the map.** Systems are laid out left-to-right by lineage layer (sources first). The ring on each node encodes its longest retention on a log scale; dashed edges cross regions; a thick clay edge is a cross-region flow with no transfer mechanism; badges count open findings (critical/high vs other). Click or keyboard-select a node to inspect it. Zoom controls and a full inventory table provide the accessible fallback.
 2. **Inspect a system.** Owner (with inactive/missing states), region, hosting, purposes, flow degree, every element with effective retention and review status, and the findings that touch it.
-3. **Work the findings.** Filter by severity and code. Element-level findings can be accepted with an exception: rationale (20+ chars), an *active* approver, an expiry date. Accepted findings remain visible and lapse when the exception expires or the approver leaves.
+3. **Work the findings.** Filter by severity and code. Element- and flow-level findings (including PURPOSE_DRIFT, UNMAPPED_TRANSFER and DANGLING_FLOW since October 2026) can be accepted with an exception: rationale (20+ chars), an *active* approver, an expiry date. Accepted findings remain visible and lapse when the exception expires or the approver leaves. System-level findings (owners, cycles) have no exception route.
 4. **Review calendar.** Every element's review cadence comes from its schedule; overdue, never-reviewed, due-soon and current items are listed with a one-click "mark reviewed today" that is reflected in the findings.
 5. **Normalise messy catalogs.** Import a file with "PII", "Europe" or "SCCs" and see each change recorded in the Normalisation notes tab. Unknown vocabulary is rejected with a precise message.
 6. **Export** the catalog, findings JSON (with summary) or findings CSV (formula-injection guarded).
@@ -17,7 +17,7 @@ Educational, browser-local prototype for privacy engineers who need a *defensibl
 
 ```bash
 npm ci
-npm test        # 42 tests: engine 37 (31 test-first + 6 review-driven) + UI integration 5
+npm test        # 50 tests: engine 44 (31 test-first + 6 review-driven + 7 flow-exception) + UI integration 6
 npm run build
 npm run preview # http://127.0.0.1:6102
 ```
@@ -44,8 +44,10 @@ npm run preview # http://127.0.0.1:6102
 | REVIEW_OVERDUE | review cadence elapsed since last review | low |
 
   An exception accepts a finding only when `status = approved`, `expiresOn ≥ asOf`, the approver is an active owner, `approvedOn` is present and not after `asOf`, and the term from approval to expiry is at most `MAX_EXCEPTION_TERM_DAYS` (365, an educational policy constant matching the fixture's one-year exceptions). Anything else is reported as `EXCEPTION_OUT_OF_POLICY` and the finding it names stays live; the UI's exception form caps the expiry date accordingly. Finding ids are `code:kind:subject`, stable across runs for diffing.
+
+  **Exception subjects** (October 2026): an exception names what it accepts as `subject: { kind: 'element' | 'flow', id }`. The legacy `elementId` is still honoured and means `{ kind: 'element', id: elementId }`; when both are present, `subject` wins. Matching is exact on finding code, subject kind and subject id. `UNMAPPED_TRANSFER` and `DANGLING_FLOW` findings have the flow id as their subject; `PURPOSE_DRIFT` is raised per flow/element pair and has `flow-id/element-id` as its subject, so a purpose-drift exception covers exactly one element on one flow and a flow-wide exception never blanket-accepts drift. The same approval guards apply to every kind. `EXCEPTION_EXPIRED`, `EXCEPTION_OUT_OF_POLICY` and `EXCEPTION_APPROVER_INACTIVE` findings about a flow-subject exception are attached to the flow's receiving system.
 - **Review calendar** (`review.ts`): next review = last review + schedule cadence (365 days default when only an override exists); due-soon within 30 days.
-- **Import bounds** (`catalogIO.ts`): 2 MB, depth 6, 200 systems, 2,000 elements, 2,000 flows, 500 owners/exceptions, 100 schedules; enum/date/sensitivity validation; duplicate ids rejected after normalisation. CSV cells beginning with `= + - @ \t \r` are prefixed with `'`.
+- **Import bounds** (`catalogIO.ts`): 2 MB, depth 6, 200 systems, 2,000 elements, 2,000 flows, 500 owners/exceptions, 100 schedules; enum/date/sensitivity validation; duplicate ids rejected after normalisation. Exception `subject` is validated after normalisation: `kind` must be `element` or `flow`; the id must name a known element, a known flow, or `flow/element` with both known; unknown keys inside `subject` are dropped; an exception without `subject` must carry the legacy `elementId` (an `elementId` naming no element is a warning, as before, so older files still import). CSV cells beginning with `= + - @ \t \r` are prefixed with `'`.
 
 Storage-limitation and purpose-limitation vocabulary follows the general principles in GDPR Art. 5(1)(b) and (e); the engine does not decide what period is lawful, it checks the inventory for internal consistency.
 
@@ -53,7 +55,7 @@ Storage-limitation and purpose-limitation vocabulary follows the general princip
 
 ```
 src/engine/  types, normalise, graph, retention, checks, review, catalogIO
-src/fixtures/demo-catalog.json  12 systems, 6 owners (1 inactive), 6 schedules, 41 elements, 13 flows, 3 exceptions
+src/fixtures/demo-catalog.json  12 systems, 6 owners (1 inactive), 6 schedules, 41 elements, 13 flows, 4 exceptions (3 element-subject, 1 flow-subject)
 src/ui/      LineageMap (SVG)
 src/App.tsx  inspector, tabs, exception dialog, import dialog
 ```
@@ -62,7 +64,7 @@ React 19, TypeScript 5.9, Vite 7, Vitest 4, Testing Library, fast-check; Radix T
 
 ## Tests
 
-42 tests (1 Oct 2026). Engine tests were written first and run red against stubs (31 failures) before implementation (31 passes); two review-driven tests (hostile nesting, strict calendar dates) were added afterwards — see `EVIDENCE.md` for which of them ran red first. Highlights: synonym and idempotence tests for normalisation; a property test that layers form a DAG ordering for random acyclic graphs; one test per finding code including the exception-acceptance rules; review status classification; CSV formula escaping; import rejection cases. The demo fixture's seeded defects are asserted so the fixture cannot drift from the engine.
+50 tests in 2 files (measured 4 Oct 2026: `vitest run` prints `Tests  50 passed (50)`; 42 on 1 Oct 2026). Engine tests were written first and run red against stubs (31 failures) before implementation (31 passes); two review-driven tests (hostile nesting, strict calendar dates) were added afterwards — see `EVIDENCE.md` for which of them ran red first. The October 2026 flow-exception tests (7 engine in `src/engine/engine.test.ts`, 1 jsdom in `src/App.test.tsx`) ran red before the implementation (`EVIDENCE.md`, "Upgrade round — October 2026"). Highlights: synonym and idempotence tests for normalisation; a property test that layers form a DAG ordering for random acyclic graphs; one test per finding code including the exception-acceptance rules for element and flow subjects (exact `flow/element` match for purpose drift, legacy `elementId`, subject precedence, importer validation of `subject`); review status classification; CSV formula escaping; import rejection cases. The demo fixture's seeded defects and its one approved flow exception are asserted so the fixture cannot drift from the engine.
 
 ## Data handling
 
@@ -72,7 +74,7 @@ Browser-local; no network after load; no storage APIs; fixture owners are fictio
 
 - Retention-inflation matching uses element name or id suffix, not a formal lineage identifier.
 - The 365-day exception cap is a teaching policy, not a legal requirement; acceptance of `critical` findings is not forbidden, only bounded.
-- Only element-subject findings can be accepted; flow-subject findings (PURPOSE_DRIFT, UNMAPPED_TRANSFER, DANGLING_FLOW) have no exception route.
+- Exceptions cover element- and flow-subject findings; system-subject findings (MISSING_OWNER, INACTIVE_OWNER, FLOW_CYCLE) still have no exception route, and a purpose-drift exception is per flow/element pair, not per flow.
 - Transfer rules are reduced to "cross-region with mechanism none"; adequacy decisions and real transfer law are not modelled.
 - No field-level data discovery; the catalog is declared, not observed.
 - Layout is a simple layered grid; very wide catalogs will need horizontal scrolling.
@@ -83,7 +85,7 @@ Privacy/data-protection operations (inventory, retention, transfers), GRC-style 
 
 ## AI-assistance disclosure
 
-Built in October 2026 with substantial AI assistance (Claude) for design, tests, implementation and documentation. Human review and understanding of this code have **not** been independently established. Before this project is presented as personal work, the candidate should study the code and rehearse the material in `INTERVIEW_GUIDE.md`; this README makes no claim that such review has already happened.
+Built in October 2026 with substantial AI assistance for design, tests, implementation and documentation. Human review and understanding of this code have **not** been independently established. Before this project is presented as personal work, the candidate should study the code and rehearse the material in `INTERVIEW_GUIDE.md`; this README makes no claim that such review has already happened.
 
 ## License
 

@@ -1,4 +1,5 @@
- RUN  v4.1.11 /home/user/workspace/cyber-portfolio/candidates/governance/attestline
+# note: absolute paths of the original build environment were replaced by <original-build> after capture (text only; test ids, results and counts unchanged)
+ RUN  v4.1.11 <original-build>/governance/attestline
  ❯ src/engine/campaign.test.ts (0 test)
 ⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
  FAIL  src/engine/campaign.test.ts [ src/engine/campaign.test.ts ]

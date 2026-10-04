@@ -6,7 +6,7 @@
  * Everything is deterministic and side-effect free. Nothing here changes a real permission.
  */
 import type {
-  Campaign, CampaignConfig, Decision, DecisionRecord, Entitlement, Fixture, Identity,
+  Campaign, CampaignClosure, CampaignConfig, Decision, DecisionRecord, Entitlement, Fixture, Identity,
   Resource, ReviewItem, RiskHint,
 } from './types';
 import { daysBetween, isIsoDate, toCsv } from './safe';
@@ -174,6 +174,7 @@ export type DecisionResult = { ok: true; campaign: Campaign } | { ok: false; err
 const STATE_FOR: Record<Decision, ReviewItem['state']> = { approve: 'approved', revoke: 'revoked', delegate: 'pending' };
 
 export function applyDecision(campaign: Campaign, input: DecisionInput): DecisionResult {
+  if (campaign.closed) return closedError(campaign);
   const item = campaign.items.find((i) => i.id === input.itemId);
   if (!item) return { ok: false, error: `Unknown review item ${input.itemId}.` };
   if (item.reviewerId === null) return { ok: false, error: 'This item has no reviewer. Use “Route unrouted items” (campaign owner) to assign one first.' };
@@ -235,6 +236,7 @@ export interface RouteInput { itemId: string; toReviewer: string; reason: string
  * Recorded as a `delegate` decision by the synthetic CAMPAIGN_OWNER actor so the audit trail shows who routed it.
  */
 export function routeItem(campaign: Campaign, input: RouteInput): DecisionResult {
+  if (campaign.closed) return closedError(campaign);
   const item = campaign.items.find((i) => i.id === input.itemId);
   if (!item) return { ok: false, error: `Unknown review item ${input.itemId}.` };
   if (item.reviewerId !== null) return { ok: false, error: 'Only unrouted items can be routed by the campaign owner; the assigned reviewer can delegate instead.' };
@@ -252,6 +254,7 @@ export function routeItem(campaign: Campaign, input: RouteInput): DecisionResult
 
 /** Apply the same decision to many items atomically: all succeed or none are applied. */
 export function bulkDecision(campaign: Campaign, itemIds: string[], input: Omit<DecisionInput, 'itemId'>): DecisionResult {
+  if (campaign.closed) return closedError(campaign);
   let current = campaign;
   for (const itemId of itemIds) {
     const r = applyDecision(current, { ...input, itemId });
@@ -302,6 +305,82 @@ export interface CertificationExport {
   }[];
   decisions: DecisionRecord[];
   disclaimer: string;
+  /** Additive (October 2026): closing record when the campaign was closed. */
+  closed?: CampaignClosure;
+  /** Additive (October 2026): SHA-256 over the canonical JSON of generatedFrom, asOf, config, items, decisions, closed. */
+  digest?: string;
+}
+
+/* ----------------------------- campaign closure + digest (October 2026 round) ----------------------------- */
+
+export interface CloseInput {
+  /** Who closes the campaign (the UI passes the synthetic campaign owner). */
+  actor: string;
+  /** ISO closing date; defaults to the campaign as-of date and may not precede it. */
+  at?: string;
+  /** Closing note, at least 10 characters (why the campaign is being closed in this state). */
+  note: string;
+  /** Required when items are still pending: the count is then recorded in the closing record instead of refusing. */
+  acknowledgePending?: boolean;
+}
+
+/**
+ * Close a campaign. Refuses while items are pending unless `acknowledgePending` is set (the pending count is then
+ * written into the closing record), requires an actor and a 10+ character note, and never changes items or decisions.
+ * After closing, `applyDecision`, `routeItem` and `bulkDecision` refuse; "Reset decisions" (a rebuild) starts a new campaign.
+ */
+export function closeCampaign(campaign: Campaign, input: CloseInput): DecisionResult {
+  if (campaign.closed) return { ok: false, error: `Campaign is already closed (by ${campaign.closed.by} on ${campaign.closed.at}).` };
+  const actor = input.actor.trim();
+  if (!actor) return { ok: false, error: 'An actor is required to close the campaign.' };
+  const note = input.note.trim();
+  if (note.length < 10) return { ok: false, error: 'A closing note of at least 10 characters is required.' };
+  const at = input.at ?? campaign.config.asOf;
+  if (!isIsoDate(at)) return { ok: false, error: 'Closing date must be a valid ISO date (YYYY-MM-DD).' };
+  if (daysBetween(campaign.config.asOf, at) < 0) return { ok: false, error: `Closing date ${at} is before the campaign as-of date ${campaign.config.asOf}.` };
+  const pending = campaign.items.filter((i) => i.state === 'pending').length;
+  if (pending > 0 && !input.acknowledgePending) {
+    return { ok: false, error: `${pending} item${pending === 1 ? ' is' : 's are'} still pending. Decide them first, or acknowledge the pending items to close anyway (the count is recorded in the closing record).` };
+  }
+  const closed: CampaignClosure = { at, by: actor, note, pendingAtClose: pending };
+  return { ok: true, campaign: { ...campaign, closed } };
+}
+
+const closedError = (c: Campaign): DecisionResult => ({ ok: false, error: `Campaign is closed (by ${c.closed!.by} on ${c.closed!.at}); no further decisions or routing can be recorded. Export the certification instead.` });
+
+/**
+ * Canonical JSON: object keys sorted at every depth, arrays kept in order, `undefined` members omitted (as
+ * `JSON.stringify` does). Used so the digest does not depend on property insertion order. The input is the
+ * engine's own export object, whose depth is fixed by its type, so plain recursion is bounded.
+ */
+export function canonicalJson(value: unknown): string {
+  if (value === null || typeof value !== 'object') return JSON.stringify(value) ?? 'null';
+  if (Array.isArray(value)) return `[${value.map((v) => canonicalJson(v === undefined ? null : v)).join(',')}]`;
+  const obj = value as Record<string, unknown>;
+  const keys = Object.keys(obj).filter((k) => obj[k] !== undefined).sort();
+  return `{${keys.map((k) => `${JSON.stringify(k)}:${canonicalJson(obj[k])}`).join(',')}}`;
+}
+
+async function sha256Hex(text: string): Promise<string> {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * SHA-256 (Web Crypto) over the canonical JSON of `{ generatedFrom, asOf, config, items, decisions, closed }`.
+ * The `summary`, `disclaimer` and any existing `digest` field are not covered: the summary is derived from the items,
+ * and the digest cannot cover itself. Tamper-evident for an exported file, not proof of anything about a real system.
+ */
+export async function certificationDigest(json: CertificationExport): Promise<string> {
+  const subject = { generatedFrom: json.generatedFrom, asOf: json.asOf, config: json.config, items: json.items, decisions: json.decisions, closed: json.closed ?? null };
+  return sha256Hex(canonicalJson(subject));
+}
+
+/** `exportCertification` plus the digest (additive `digest` field; schema id and CSV unchanged). */
+export async function exportCertificationWithDigest(campaign: Campaign): Promise<{ json: CertificationExport & { digest: string }; csv: string }> {
+  const out = exportCertification(campaign);
+  const digest = await certificationDigest(out.json);
+  return { json: { ...out.json, digest }, csv: out.csv };
 }
 
 export function exportCertification(campaign: Campaign): { json: CertificationExport; csv: string } {
@@ -320,6 +399,7 @@ export function exportCertification(campaign: Campaign): { json: CertificationEx
     items,
     decisions: campaign.decisions,
     disclaimer: 'Educational prototype output from synthetic data. Not an attestation of any real system.',
+    ...(campaign.closed ? { closed: campaign.closed } : {}),
   };
   const csv = toCsv(
     ['item', 'entitlement', 'identity', 'status', 'resource', 'privilege', 'reviewer', 'state', 'risk', 'hints', 'decision_reason', 'sod_override'],

@@ -8,9 +8,12 @@ interface Props {
   selected: string | null;
   onSelect: (id: string) => void;
   rollups: FunctionRollup[];
+  /** Outcomes the forecast says degrade within `markerHorizon` days if no new evidence arrives. */
+  degrading: ReadonlySet<string>;
+  markerHorizon: number;
 }
 
-export function Mosaic({ results, selected, onSelect, rollups }: Props) {
+export function Mosaic({ results, selected, onSelect, rollups, degrading, markerHorizon }: Props) {
   return (
     <div className="mosaic">
       {FUNCTIONS.map((fn) => {
@@ -48,18 +51,22 @@ export function Mosaic({ results, selected, onSelect, rollups }: Props) {
                         const r = results.get(s.id)!;
                         const isSel = selected === s.id;
                         const warn = r.warnings.length > 0;
+                        const willDegrade = degrading.has(s.id);
+                        const forecastText = `forecast: degrades within ${markerHorizon} days if no new evidence is collected`;
                         return (
                           <button
                             key={s.id}
                             type="button"
-                            className={`tile pat--${r.status} ${isSel ? 'is-selected' : ''} ${warn ? 'has-warning' : ''}`}
+                            className={`tile pat--${r.status} ${isSel ? 'is-selected' : ''} ${warn ? 'has-warning' : ''} ${willDegrade ? 'will-degrade' : ''}`}
                             aria-pressed={isSel}
-                            aria-label={`${s.id}: ${r.status}, residual ${r.residual.toFixed(2)} (${r.band}), priority ${r.priority}${warn ? ', has reviewer warning' : ''}`}
+                            aria-label={`${s.id}: ${r.status}, residual ${r.residual.toFixed(2)} (${r.band}), priority ${r.priority}${warn ? ', has reviewer warning' : ''}${willDegrade ? `, ${forecastText}` : ''}`}
+                            title={willDegrade ? `${s.id} — ${forecastText}` : undefined}
                             onClick={() => onSelect(s.id)}
                           >
                             <span className="tile__id">{s.id.slice(6)}</span>
                             <span className="tile__prio" aria-hidden="true">{'●'.repeat(r.priority)}</span>
                             {warn && <span className="tile__warn" aria-hidden="true">!</span>}
+                            {willDegrade && <span className="tile__fc" aria-hidden="true">↓</span>}
                           </button>
                         );
                       })}

@@ -147,9 +147,76 @@ export function transition(packet: Packet, to: PacketState, actor: string, note:
     else if (who !== packet.meta.approver) reasons.push(`Only the named approver (${packet.meta.approver}) can approve.`);
   }
   if (to === 'returned' && note.trim().length === 0) reasons.push('A return note explaining what to fix is required.');
+  const chain = verifyHistoryChain(packet);
+  if (!chain.ok) reasons.push(`History chain is broken at #${(chain.brokenAt ?? 0) + 1} (${chain.reason}); refusing to extend a tampered history.`);
   if (reasons.length) throw new TransitionError(reasons);
-  const entry: HistoryEntry = { at, from: packet.state, to, actor: who, note: note.trim() };
-  return { ...packet, state: to, history: [...packet.history, entry] };
+  // A legacy (unhashed) history is chained retroactively here: the chain then vouches for those entries as they stand now, not for their past.
+  const prior = chain.chained ? packet.history : chainHistory(packet.history);
+  const prevHash = prior.at(-1)?.hash ?? GENESIS_PREV_HASH;
+  const body = { at, from: packet.state, to, actor: who, note: note.trim() };
+  const entry: HistoryEntry = { ...body, prevHash, hash: historyEntryHash(body, prevHash) };
+  return { ...packet, state: to, history: [...prior, entry] };
+}
+
+// ---- Hash-chained history (October 2026 upgrade round) ----
+// Every transition appends an entry whose `hash` is SHA-256 over the canonical JSON of {at, from, to, actor, note, prevHash},
+// where prevHash is the previous entry's hash (64 zeros for the first). Editing, dropping, inserting or reordering an entry
+// of an exported packet breaks the chain. This is tamper-EVIDENCE for the record, not proof of who acted: there is no key
+// material, so anyone can recompute every hash and produce a consistent forgery.
+
+/** prevHash of the first chained history entry. */
+export const GENESIS_PREV_HASH = '0'.repeat(64);
+const HEX64 = /^[0-9a-f]{64}$/;
+
+export interface ChainVerification {
+  ok: boolean; // false only when the chain is broken
+  chained: boolean; // true when the entries carry hashes
+  brokenAt: number | null; // 0-based history index of the first entry that fails, or null
+  reason: string | null; // null when ok and chained; 'history not chained (legacy)' for unhashed histories
+}
+
+/** SHA-256 (hex, lower-case) over canonical({ at, from, to, actor, note, prevHash }). */
+export function historyEntryHash(e: Pick<HistoryEntry, 'at' | 'from' | 'to' | 'actor' | 'note'>, prevHash: string): string {
+  return sha256Hex(canonical({ at: e.at, from: e.from, to: e.to, actor: e.actor, note: e.note, prevHash }));
+}
+
+/** Hash every entry in order. Used when a legacy (unhashed) history receives its first chained transition. Input is not mutated. */
+export function chainHistory(history: HistoryEntry[]): HistoryEntry[] {
+  let prev = GENESIS_PREV_HASH;
+  return history.map((h) => {
+    const hash = historyEntryHash(h, prev);
+    const entry: HistoryEntry = { at: h.at, from: h.from, to: h.to, actor: h.actor, note: h.note, prevHash: prev, hash };
+    prev = hash;
+    return entry;
+  });
+}
+
+export function verifyHistoryChain(packet: Pick<Packet, 'history'>): ChainVerification {
+  const history = packet.history;
+  if (history.length === 0) return { ok: true, chained: false, brokenAt: null, reason: null };
+  if (!history.some((h) => h.hash !== undefined || h.prevHash !== undefined)) return { ok: true, chained: false, brokenAt: null, reason: 'history not chained (legacy)' };
+  let prev = GENESIS_PREV_HASH;
+  for (let i = 0; i < history.length; i++) {
+    const h = history[i];
+    const broken = (reason: string): ChainVerification => ({ ok: false, chained: true, brokenAt: i, reason });
+    if (h.hash === undefined || h.prevHash === undefined) return broken(`history[${i}] carries no hash while other entries are hashed (mixed hashed/unhashed history)`);
+    const prevHash = h.prevHash.toLowerCase();
+    const hash = h.hash.toLowerCase();
+    if (!HEX64.test(prevHash) || !HEX64.test(hash)) return broken(`history[${i}] hash fields must be 64 hex characters`);
+    if (prevHash !== prev) return broken(i === 0 ? 'history[0].prevHash must be the genesis value (64 zeros)' : `history[${i}].prevHash does not equal the hash of history[${i - 1}] (an entry was dropped, inserted or reordered)`);
+    if (historyEntryHash(h, prevHash) !== hash) return broken(`history[${i}] hash does not match its content (at, from, to, actor, note or prevHash was edited)`);
+    prev = hash;
+  }
+  return { ok: true, chained: true, brokenAt: null, reason: null };
+}
+
+/** One-line chain status shared by the Gate badge, the print memo and the Markdown memo. */
+export function describeChain(packet: Pick<Packet, 'history'>): { kind: 'empty' | 'verified' | 'broken' | 'legacy'; label: string; detail: string } {
+  const c = verifyHistoryChain(packet);
+  if (packet.history.length === 0) return { kind: 'empty', label: 'no history yet', detail: 'No transitions recorded.' };
+  if (!c.chained) return { kind: 'legacy', label: 'legacy history (unchained)', detail: 'These entries predate history hashing and cannot be verified; the next transition will chain them as they stand now.' };
+  if (!c.ok) return { kind: 'broken', label: `history chain broken at #${(c.brokenAt ?? 0) + 1}`, detail: c.reason ?? '' };
+  return { kind: 'verified', label: 'history chain verified', detail: `${packet.history.length} entr${packet.history.length === 1 ? 'y' : 'ies'} linked by SHA-256; genesis prevHash is 64 zeros.` };
 }
 
 /** Canonical JSON: sorted keys, stable arrays. */
@@ -186,7 +253,7 @@ export function memoMarkdown(packet: Packet): string {
   lines.push(`- Scope: ${SUBSET_LABEL}`);
   lines.push(`- Assessor: ${packet.meta.assessor} · Approver: ${packet.meta.approver} · As of: ${packet.meta.asOf}`);
   lines.push(`- Packet state: ${packet.state}`);
-  lines.push(`- Packet digest (SHA-256 over canonical content): \`${packetDigest(packet)}\``);
+  lines.push(`- Packet digest (SHA-256 over canonical content; excludes state and history): \`${packetDigest(packet)}\``);
   lines.push('');
   lines.push('## Control results');
   lines.push('');
@@ -232,8 +299,13 @@ export function memoMarkdown(packet: Packet): string {
   lines.push('');
   lines.push('## History');
   lines.push('');
+  const chainStatus = describeChain(packet);
   if (packet.history.length === 0) lines.push('No transitions yet.');
-  for (const h of packet.history) lines.push(`- ${h.at}: ${h.from} → ${h.to} by ${h.actor}${h.note ? ` — ${h.note}` : ''}`);
+  else {
+    lines.push(`History chain: ${chainStatus.label} — ${chainStatus.detail} The chain is tamper-evident for this exported record; it does not prove who acted.`);
+    lines.push('');
+  }
+  for (const h of packet.history) lines.push(`- ${h.at}: ${h.from} → ${h.to} by ${h.actor}${h.note ? ` — ${h.note}` : ''}${h.hash ? ` · hash \`${h.hash.slice(0, 12)}…\`` : ''}`);
   lines.push('');
   lines.push('Determination statements in this packet are paraphrased for teaching and are not the authoritative SP 800-53A procedures.');
   return lines.join('\n');

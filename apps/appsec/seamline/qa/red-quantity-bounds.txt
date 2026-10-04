@@ -1,0 +1,241 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/appsec/seamline
+# 2026-10-04T19:11:04.806Z v20.20.1
+# exit 1
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
+
+
+ RUN  v4.1.11 <repo>/apps/appsec/seamline
+
+ ✓ src/engine/__tests__/seamline.test.ts > scenario validation > accepts the synthetic Brewline scenario 2ms
+ ✓ src/engine/__tests__/seamline.test.ts > scenario validation > rejects unknown tamper kinds, unknown users/skus, duplicate step ids and replay of a later step 6ms
+ ✓ src/engine/__tests__/seamline.test.ts > scenario validation > bounds size, step count, nesting and numeric sanity 21ms
+ ✓ src/engine/__tests__/seamline.test.ts > tamper layer > price-rewrite lowers unit prices and total but keeps items and skus 6ms
+ ✓ src/engine/__tests__/seamline.test.ts > tamper layer > replay copies the nonce and payload of the referenced earlier message 1ms
+ ✓ src/engine/__tests__/seamline.test.ts > trusting server (client-authoritative) > accepts every step and charges the client-supplied total 0ms
+ × src/engine/__tests__/seamline.test.ts > trusting server (client-authoritative) > raises one finding per tampered step with CWE mapping 43ms
+   → expected { s2: 'CWE-602', s4: 'CWE-602', …(4) } to deeply equal { s2: 'CWE-602', s4: 'CWE-602', …(5) }
+ ✓ src/engine/__tests__/seamline.test.ts > trusting server (client-authoritative) > labels price and role as client-controlled 0ms
+ ✓ src/engine/__tests__/seamline.test.ts > enforcing server (server-authoritative) > neutralizes price, coupon and role tampering by recomputing from server state 0ms
+ × src/engine/__tests__/seamline.test.ts > enforcing server (server-authoritative) > rejects replay, backdated and cross-user requests with named checks 22ms
+   → expected 'accepted' to be 'rejected' // Object.is equality
+ ✓ src/engine/__tests__/seamline.test.ts > enforcing server (server-authoritative) > accepts every untampered step and produces no findings 0ms
+ ✓ src/engine/__tests__/seamline.test.ts > enforcing server (server-authoritative) > keeps the reward balance consistent: one redemption, not two 1ms
+ ✓ src/engine/__tests__/seamline.test.ts > determinism and export > is deterministic 19ms
+ × src/engine/__tests__/seamline.test.ts > determinism and export > exports a stable schema without raw session tokens 22ms
+   → expected { stepId: 's12', …(5) } to match object { tamper: 'quantity-rewrite', …(3) }
+(2 matching properties omitted from actual)
+ ✓ src/engine/__tests__/seamline.test.ts > sixth-review regression — findings must come from client/server divergence, not the tamper label > flags an untampered step whose client total disagrees with the catalog when the trusting server bills it 1ms
+ × src/engine/__tests__/seamline.test.ts > sixth-review regression — findings must come from client/server divergence, not the tamper label > records divergences for every tampered step on the trusting server and none for consistent steps 9ms
+   → s12: expected 0 to be greater than 0
+ ✓ src/engine/__tests__/seamline.test.ts > sixth-review regression — findings must come from client/server divergence, not the tamper label > a tamper label without actual divergence produces no finding 0ms
+ ✓ src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > accepts catalog maxQty as an integer 1–10 000 (optional, default 99) and rejects anything else 1ms
+ ✓ src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > validates the quantity-rewrite tamper: place-order only, with an optional finite value 15ms
+ ✓ src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > accepts client quantities outside 1–maxQty at import time (the server, not the schema, judges them) while bounding their magnitude 4ms
+ × src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > quantity-rewrite sets items[0].qty to the scripted value (default -1), recomputes the total from the client’s own unit prices and leaves the original untouched 14ms
+   → expected { items: [ { …(3) }, { …(3) } ], …(1) } to match object { items: [ { …(3) }, { …(3) } ], …(1) }
+ × src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > trusting server accepts the rewritten quantity, bills a negative total and raises a CWE-20 finding keyed by the quantity-bounds invariant 1ms
+   → expected 28 to be -28 // Object.is equality
+ × src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > enforcing server runs quantity-valid, fails it and rejects the order without creating it; valid quantities pass the check 14ms
+   → expected 'accepted' to be 'rejected' // Object.is equality
+ × src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > flags an untampered step whose client sends qty 0 exactly like the tampered one — divergence, not label 3ms
+   → expected [] to deeply equal [ { …(3) } ]
+ × src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > applies the per-item maxQty (default 99), accepts in-range rewrites silently, flags fractions, and lets price outrank quantity in the finding 28ms
+   → expected undefined to be 'CWE-20' // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/__tests__/seamline.test.ts > trusting server (client-authoritative) > raises one finding per tampered step with CWE mapping
+AssertionError: expected { s2: 'CWE-602', s4: 'CWE-602', …(4) } to deeply equal { s2: 'CWE-602', s4: 'CWE-602', …(5) }
+
+- Expected
++ Received
+
+@@ -1,8 +1,7 @@
+  {
+    "s10": "CWE-294",
+-   "s12": "CWE-20",
+    "s2": "CWE-602",
+    "s4": "CWE-602",
+    "s6": "CWE-294",
+    "s8": "CWE-269",
+    "s9": "CWE-639",
+
+ ❯ src/engine/__tests__/seamline.test.ts:77:20
+     75|   it('raises one finding per tampered step with CWE mapping', () => {
+     76|     const byStep = Object.fromEntries(run.steps.filter((x) => x.findin…
+     77|     expect(byStep).toEqual({ s2: 'CWE-602', s4: 'CWE-602', s6: 'CWE-29…
+       |                    ^
+     78|     expect(run.summary.findings).toBe(7);
+     79|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  src/engine/__tests__/seamline.test.ts > enforcing server (server-authoritative) > rejects replay, backdated and cross-user requests with named checks
+AssertionError: expected 'accepted' to be 'rejected' // Object.is equality
+
+Expected: "rejected"
+Received: "accepted"
+
+ ❯ src/engine/__tests__/seamline.test.ts:103:39
+    101|     expect(step(run, 's9').decision).toBe('rejected');
+    102|     expect(step(run, 's9').checks.find((c) => c.name === 'object-owner…
+    103|     expect(step(run, 's12').decision).toBe('rejected');
+       |                                       ^
+    104|     expect(step(run, 's12').checks.find((c) => c.name === 'quantity-va…
+    105|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  src/engine/__tests__/seamline.test.ts > determinism and export > exports a stable schema without raw session tokens
+AssertionError: expected { stepId: 's12', …(5) } to match object { tamper: 'quantity-rewrite', …(3) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "enforcing": "rejected",
+-   "finding": "CWE-20",
++   "enforcing": "accepted",
++   "finding": undefined,
+    "tamper": "quantity-rewrite",
+    "trusting": "accepted",
+  }
+
+ ❯ src/engine/__tests__/seamline.test.ts:131:63
+    129|     expect(text).toMatch(/\[token:u-maya\]/);
+    130|     expect(report.comparison.find((c) => c.stepId === 's6')).toMatchOb…
+    131|     expect(report.comparison.find((c) => c.stepId === 's12')).toMatchO…
+       |                                                               ^
+    132|     expect(reportToMarkdown(report)).toContain('CWE-294');
+    133|     expect(reportToMarkdown(report)).toContain('CWE-20');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  src/engine/__tests__/seamline.test.ts > sixth-review regression — findings must come from client/server divergence, not the tamper label > records divergences for every tampered step on the trusting server and none for consistent steps
+AssertionError: s12: expected 0 to be greater than 0
+ ❯ src/engine/__tests__/seamline.test.ts:155:113
+    153|   it('records divergences for every tampered step on the trusting serv…
+    154|     const run = runScenario(scenario(), 'trusting');
+    155|     for (const id of ['s2', 's4', 's6', 's8', 's9', 's10', 's12']) exp…
+       |                                                                                                                 ^
+    156|     for (const id of ['s1', 's3', 's5', 's7', 's11']) expect(step(run,…
+    157|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > quantity-rewrite sets items[0].qty to the scripted value (default -1), recomputes the total from the client’s own unit prices and leaves the original untouched
+AssertionError: expected { items: [ { …(3) }, { …(3) } ], …(1) } to match object { items: [ { …(3) }, { …(3) } ], …(1) }
+
+- Expected
++ Received
+
+  {
+    "items": [
+      {
+-       "qty": 0,
++       "qty": 1,
+        "sku": "beans-1kg",
+        "unitPrice": 28,
+      },
+      {
+        "qty": 2,
+        "sku": "croissant",
+        "unitPrice": 3.25,
+      },
+    ],
+-   "total": 6.5,
++   "total": 34.5,
+  }
+
+ ❯ src/engine/__tests__/seamline.test.ts:216:31
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > trusting server accepts the rewritten quantity, bills a negative total and raises a CWE-20 finding keyed by the quantity-bounds invariant
+AssertionError: expected 28 to be -28 // Object.is equality
+
+- Expected
++ Received
+
+- -28
++ 28
+
+ ❯ src/engine/__tests__/seamline.test.ts:232:34
+    230|     const s12 = step(run, 's12');
+    231|     expect(s12.decision).toBe('accepted');
+    232|     expect(s12.serverView.total).toBe(-28);
+       |                                  ^
+    233|     expect(s12.divergences).toEqual([{ invariant: 'quantity-bounds', c…
+    234|     expect(s12.checks.find((c) => c.name === 'quantity-valid')).toMatc…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > enforcing server runs quantity-valid, fails it and rejects the order without creating it; valid quantities pass the check
+AssertionError: expected 'accepted' to be 'rejected' // Object.is equality
+
+Expected: "rejected"
+Received: "accepted"
+
+ ❯ src/engine/__tests__/seamline.test.ts:244:26
+    242|     const run = runScenario(scenario(), 'enforcing');
+    243|     const s12 = step(run, 's12');
+    244|     expect(s12.decision).toBe('rejected');
+       |                          ^
+    245|     expect(s12.checks.find((c) => c.name === 'quantity-valid')).toMatc…
+    246|     expect(s12.checks.find((c) => c.name === 'quantity-valid')?.detail…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+ FAIL  src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > flags an untampered step whose client sends qty 0 exactly like the tampered one — divergence, not label
+AssertionError: expected [] to deeply equal [ { …(3) } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "claimed": "flat-white × 0",
+-     "invariant": "quantity-bounds",
+-     "truth": "flat-white: integer 1–99",
+-   },
+- ]
++ []
+
+ ❯ src/engine/__tests__/seamline.test.ts:262:28
+    260|     expect(s1.tamper).toBeUndefined();
+    261|     expect(s1.decision).toBe('accepted');
+    262|     expect(s1.divergences).toEqual([{ invariant: 'quantity-bounds', cl…
+       |                            ^
+    263|     expect(s1.finding).toMatchObject({ kind: 'quantity-unbounded', cwe…
+    264|     expect(s1.finding?.detail).toMatch(/No tamper annotation/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+
+ FAIL  src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > applies the per-item maxQty (default 99), accepts in-range rewrites silently, flags fractions, and lets price outrank quantity in the finding
+AssertionError: expected undefined to be 'CWE-20' // Object.is equality
+
+- Expected:
+"CWE-20"
+
++ Received:
+undefined
+
+ ❯ src/engine/__tests__/seamline.test.ts:282:66
+    280|     const over = loose(); over.steps[11].tamper = { kind: 'quantity-re…
+    281|     const o = accept(over);
+    282|     expect(step(runScenario(o, 'trusting'), 's12').finding?.cwe).toBe(…
+       |                                                                  ^
+    283|     expect(step(runScenario(o, 'enforcing'), 's12').decision).toBe('re…
+    284|     const d99 = loose(); d99.steps[1].tamper = { kind: 'quantity-rewri…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 failed | 16 passed (25)
+   Start at  19:11:07
+   Duration  1.30s (transform 398ms, setup 0ms, import 456ms, tests 254ms, environment 0ms)
+

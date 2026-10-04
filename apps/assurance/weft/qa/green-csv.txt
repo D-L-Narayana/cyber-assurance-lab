@@ -1,0 +1,67 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/assurance/weft
+# 2026-10-04T20:37:13.668Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/assurance/weft
+
+ ✓ tests/engine.test.ts > sha256 and canonical JSON > matches node:crypto for several inputs 5ms
+ ✓ tests/engine.test.ts > sha256 and canonical JSON > canonical JSON is key-order independent 0ms
+ ✓ tests/engine.test.ts > artifact analysis > computes hashes and compares with declared hashes (null when none declared) 17ms
+ ✓ tests/engine.test.ts > artifact analysis > detects duplicate content across different ids and names 1ms
+ ✓ tests/engine.test.ts > artifact analysis > flags orphan artifacts and unsupported assertions 1ms
+ ✓ tests/engine.test.ts > artifact analysis > flags broken and duplicate links 4ms
+ ✓ tests/engine.test.ts > period and status > artifacts captured outside the assertion period are out-of-period; an assertion with only such evidence is weak 3ms
+ ✓ tests/engine.test.ts > period and status > period boundaries are inclusive 1ms
+ ✓ tests/engine.test.ts > period and status > a hash-mismatched artifact cannot support an assertion (tainted) 1ms
+ ✓ tests/engine.test.ts > binding hash and sign-off > binding hash depends on assertion text and the set of evidence hashes, not link order 2ms
+ ✓ tests/engine.test.ts > binding hash and sign-off > signOff records a valid binding; later evidence edits invalidate it 2ms
+ ✓ tests/engine.test.ts > binding hash and sign-off > adding or removing a linked artifact after sign-off also invalidates it 1ms
+ ✓ tests/engine.test.ts > binding hash and sign-off > refuses to sign weak or unsupported assertions and refuses double signing 3ms
+ ✓ tests/engine.test.ts > binding hash and sign-off > does not mutate the input bundle 2ms
+ ✓ tests/engine.test.ts > manifest and verification > manifest entries are sorted by id with hash and byte length; root is a 64-hex digest independent of input order 1ms
+ ✓ tests/engine.test.ts > manifest and verification > verify reports intact for an unchanged bundle 1ms
+ ✓ tests/engine.test.ts > manifest and verification > verify detects modified, missing and added artifacts and changed bindings 1ms
+ ✓ tests/engine.test.ts > manifest and verification > verify flags a manifest whose root does not match its own entries (tampered manifest) 1ms
+ ✓ tests/engine.test.ts > diff > reports added, removed and changed artifacts, assertions and links 0ms
+ ✓ tests/engine.test.ts > validation > accepts a valid bundle and a valid manifest 1ms
+ ✓ tests/engine.test.ts > validation > rejects oversized (UTF-8), malformed, non-object and wrong-schema input 4ms
+ ✓ tests/engine.test.ts > validation > rejects a period that ends before it starts, bad dates, bad declared hashes, unknown kinds and duplicate ids with paths 1ms
+ ✓ tests/engine.test.ts > validation > rejects more than 300 artifacts or content over 50,000 characters 1ms
+ ✓ tests/engine.test.ts > bundled fixture > validates and contains every planned defect kind 13ms
+ ✓ tests/engine.test.ts > parent review regressions — binding scope and added assertions > verify reports an assertion appended after the manifest was built (not intact) 1ms
+ ✓ tests/engine.test.ts > parent review regressions — binding scope and added assertions > verify reports an assertion removed after the manifest was built 0ms
+ ✓ tests/engine.test.ts > parent review regressions — binding scope and added assertions > changing an artifact capturedOn after sign-off invalidates the sign-off (evidence metadata is bound) 0ms
+ ✓ tests/engine.test.ts > parent review regressions — binding scope and added assertions > renaming an artifact id (same content) after sign-off invalidates the sign-off 0ms
+ ✓ tests/engine.test.ts > parent review regressions — binding scope and added assertions > a manifest binding also changes when an artifact capturedOn changes 0ms
+ ✓ tests/engine.test.ts > sixth-review regressions — the manifest root binds sign-offs and names > manifest v2 carries the bundle name and a sorted sign-off list under the root 1ms
+ ✓ tests/engine.test.ts > sixth-review regressions — the manifest root binds sign-offs and names > deleting a sign-off after the manifest was built is reported (external repro A) 0ms
+ ✓ tests/engine.test.ts > sixth-review regressions — the manifest root binds sign-offs and names > swapping the reviewer or back-dating a sign-off is reported (external repro B) 1ms
+ ✓ tests/engine.test.ts > sixth-review regressions — the manifest root binds sign-offs and names > a sign-off added after the manifest was built is reported 0ms
+ ✓ tests/engine.test.ts > sixth-review regressions — the manifest root binds sign-offs and names > renaming an artifact display name after the manifest was built is reported (external repro C) 0ms
+ ✓ tests/engine.test.ts > sixth-review regressions — the manifest root binds sign-offs and names > changing the bundle name is reported; an untouched signed bundle stays intact 1ms
+ ✓ tests/engine.test.ts > sixth-review regressions — the manifest root binds sign-offs and names > the validator accepts manifest v2 and refuses v1 with a clear path message 1ms
+ ✓ tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > quotes every cell, joins rows with CRLF and renders numbers as text 3ms
+ ✓ tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > prefixes cells starting with = + - @ with an apostrophe 0ms
+ ✓ tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > neutralises formulas hidden behind leading spaces, tabs, carriage returns, newlines or NUL bytes 1ms
+ ✓ tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > also prefixes cells that merely start with a tab or carriage return (spreadsheet field-separator tricks) 0ms
+ ✓ tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > escapes embedded quotes by doubling and keeps commas and newlines inside the quoted cell 0ms
+ ✓ tests/csv.test.ts > findings ledger CSV > has the documented header and one row per finding in ledger order (severity, kind, refs) 18ms
+ ✓ tests/csv.test.ts > findings ledger CSV > joins several refs with "; " and neutralises hostile ids that reach refs and messages 2ms
+ ✓ tests/csv.test.ts > findings ledger CSV > fixture: every planted finding appears once, in ledger order, and the CSV line count matches 24ms
+ ✓ tests/csv.test.ts > artifact table CSV > has the documented header, one row per artifact sorted by id, and yes / no / none declared for the hash check 3ms
+ ✓ tests/csv.test.ts > artifact table CSV > neutralises hostile ids and names and sorts by id regardless of bundle order 5ms
+ ✓ tests/csv.test.ts > artifact table CSV > fixture: ten rows in manifest order with the planted mismatch, duplicate and orphan visible; deterministic 14ms
+ ✓ tests/validation.test.ts > validation audit — strict calendar dates > rejects 2026-02-30 in asOf, periodStart, periodEnd, capturedOn and signedOn with the exact path 4ms
+ ✓ tests/validation.test.ts > validation audit — strict calendar dates > rejects other impossible or malformed dates and accepts real leap days 1ms
+ ✓ tests/validation.test.ts > validation audit — strict calendar dates > the shipped sample qa/samples/invalid-bundle-calendar-date.json is rejected with exactly the three date paths 1ms
+ ✓ tests/validation.test.ts > validation audit — strict calendar dates > rejects calendar-invalid dates in manifests too (generatedOn, signoffs[].signedOn) 2ms
+ ✓ tests/validation.test.ts > validation audit — hostile nesting (20 000 levels) > a 20 000-deep array at the root is refused as "not an object" without throwing 7ms
+ ✓ tests/validation.test.ts > validation audit — hostile nesting (20 000 levels) > 20 000-deep nesting inside fields is reported at the field path (the validator never descends into unknown structure) 14ms
+
+ Test Files  3 passed (3)
+      Tests  53 passed (53)
+   Start at  20:37:14
+   Duration  822ms (transform 190ms, setup 0ms, import 248ms, tests 178ms, environment 0ms)
+

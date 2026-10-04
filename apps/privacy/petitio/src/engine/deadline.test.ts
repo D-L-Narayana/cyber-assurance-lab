@@ -154,3 +154,73 @@ describe('requestExtension', () => {
     expect(assessDeadline(ext, '2026-01-11').effectiveDueOn).toBe('2026-03-07');
   });
 });
+
+/** Returns the WorkflowError code/message a call refuses with, or NO_ERROR when it succeeds. */
+function refusal(fn: () => unknown): { code: string; message: string } {
+  try {
+    fn();
+  } catch (e) {
+    if (e instanceof WorkflowError) return { code: e.code, message: e.message };
+    throw e;
+  }
+  return { code: 'NO_ERROR', message: '' };
+}
+
+describe('requestExtension stage and as-of guards (October 2026 upgrade round)', () => {
+  // baseRequest(): EU-GDPR, received 2026-01-15 → statutory due 2026-02-15.
+  const input = { reason: 'Complex multi-system request', notifiedOn: '2026-02-01' };
+
+  it('refuses to extend a closed request with INVALID_TRANSITION', () => {
+    const r = refusal(() => requestExtension(baseRequest({ stage: 'closed', closedOn: '2026-02-10' }), input));
+    expect(r.code).toBe('INVALID_TRANSITION');
+    expect(r.message).toMatch(/closed/);
+  });
+
+  it('refuses to extend a rejected request with INVALID_TRANSITION', () => {
+    const r = refusal(() => requestExtension(baseRequest({ stage: 'rejected', rejectReason: 'out-of-scope' }), input));
+    expect(r.code).toBe('INVALID_TRANSITION');
+    expect(r.message).toMatch(/rejected/);
+  });
+
+  it('reports the terminal stage before the already-extended guard', () => {
+    const once = requestExtension(baseRequest(), input);
+    const closedAfterExtension = { ...once, stage: 'closed' as const, closedOn: '2026-03-01' };
+    expect(refusal(() => requestExtension(closedAfterExtension, { reason: 'again', notifiedOn: '2026-02-02' })).code).toBe('INVALID_TRANSITION');
+  });
+
+  it('refuses a notice dated after the as-of date with INVALID_EXTENSION_INPUT', () => {
+    const r = refusal(() => requestExtension(baseRequest(), { ...input, notifiedOn: '2026-01-25' }, '2026-01-20'));
+    expect(r.code).toBe('INVALID_EXTENSION_INPUT');
+    expect(r.message).toMatch(/future relative to the as-of date 2026-01-20/);
+  });
+
+  it('accepts a notice dated on or before the as-of date', () => {
+    expect(requestExtension(baseRequest(), { ...input, notifiedOn: '2026-01-20' }, '2026-01-20').extension?.notifiedOn).toBe('2026-01-20');
+    expect(requestExtension(baseRequest(), { ...input, notifiedOn: '2026-01-18' }, '2026-01-20').extension?.notifiedOn).toBe('2026-01-18');
+  });
+
+  it('keeps the previous behaviour when no as-of date is supplied (a future notice is not checked)', () => {
+    expect(requestExtension(baseRequest(), { ...input, notifiedOn: '2026-02-10' }).extension?.notifiedOn).toBe('2026-02-10');
+  });
+
+  it('refuses a malformed as-of date as INVALID_EXTENSION_INPUT instead of throwing a RangeError', () => {
+    const r = refusal(() => requestExtension(baseRequest(), input, 'yesterday'));
+    expect(r.code).toBe('INVALID_EXTENSION_INPUT');
+    expect(r.message).toMatch(/as-of/);
+  });
+
+  it('still reports the statutory refusal first when the notice is both after the initial window and after the as-of date', () => {
+    expect(refusal(() => requestExtension(baseRequest(), { ...input, notifiedOn: '2026-02-20' }, '2026-01-20')).code).toBe('EXTENSION_TOO_LATE');
+  });
+
+  it('every notice inside the initial window but after the as-of date is refused, every earlier one accepted (property)', () => {
+    const asOf = '2026-01-20';
+    fc.assert(
+      fc.property(fc.integer({ min: -5, max: 26 }), (offset) => {
+        const notifiedOn = addCalendarDays(asOf, offset); // -5 → 2026-01-15 (receipt), +26 → 2026-02-15 (statutory due)
+        const r = refusal(() => requestExtension(baseRequest(), { ...input, notifiedOn }, asOf));
+        return offset > 0 ? r.code === 'INVALID_EXTENSION_INPUT' : r.code === 'NO_ERROR';
+      }),
+    );
+  });
+});

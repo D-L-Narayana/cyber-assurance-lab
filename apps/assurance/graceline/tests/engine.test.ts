@@ -263,7 +263,7 @@ describe('bundled fixture', () => {
   });
 });
 
-describe('sixth-Fable review regressions — renewal governance', () => {
+describe('sixth review regressions — renewal governance', () => {
   it('only the requester or the risk owner may request a renewal', () => {
     const a = activate(exc());
     expect(() => applyEvent(a, { type: 'renew', actor: 'anyone', newExpiresOn: '2027-01-31', note: '' }, '2026-12-10')).toThrow(/Only the requester .* or the risk owner/i);

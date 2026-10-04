@@ -1,0 +1,53 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/governance/pathcaster
+# 2026-10-04T19:37:45.261Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/governance/pathcaster
+
+ ✓ src/fixtures/validate-demo.test.ts > demo graph > validates and contains the seeded findings 30ms
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > is off by default and the explicit false form is identical, on the unit graph and on the shipped fixture 15ms
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > with hierarchy, admin satisfies write and read and write satisfies read; nothing is implied upwards 1ms
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > a deny on the admin permission still blocks the read that the admin permission would have satisfied, and the path names that permission 1ms
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > "any" queries are unaffected by the option 0ms
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > what-if counts respect the option and record it 1ms
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > toxic combinations: an admin-only identity holds both sides only under the hierarchy; a denied admin never does 1ms
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > hotspots accept the option but are unchanged by it (they query every asset with "any") 1ms
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > the export records query.hierarchy (additive; schema id unchanged) and the summary says so when it was applied 1ms
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > is deterministic with the option on, and widens but never narrows the allowed set on the shipped fixture 6ms
+ ✓ src/engine/graph.test.ts > reach > finds access through nested groups and terminates on cycles 10ms
+ ✓ src/engine/graph.test.ts > reach > applies deny-overrides: a group deny on the asset beats any allow path 1ms
+ ✓ src/engine/graph.test.ts > reach > evaluates ABAC conditions against identity attributes and reports blocked paths 1ms
+ ✓ src/engine/graph.test.ts > reach > filters by action 1ms
+ ✓ src/engine/graph.test.ts > reach > computes transitive groups with cycle protection 2ms
+ ✓ src/engine/graph.test.ts > reach > explains a path in a sentence a screen reader can speak 1ms
+ ✓ src/engine/graph.test.ts > hotspots and toxic combinations > ranks the group/role nodes that carry the most identities to high-sensitivity assets 2ms
+ ✓ src/engine/graph.test.ts > hotspots and toxic combinations > detects identities that hold both sides of a toxic rule, respecting denies 1ms
+ ✓ src/engine/graph.test.ts > what-if remediation > reports who loses access when an edge is removed 1ms
+ ✓ src/engine/graph.test.ts > what-if remediation > removing a deny edge can grant access (reported as gainedAccess) 0ms
+ ✓ src/engine/graph.test.ts > what-if remediation > rejects unknown edges 1ms
+ ✓ src/engine/graph.test.ts > validateGraph and export > rejects dangling references, self loops, kind-incompatible edges, duplicates, and oversize graphs 2ms
+ ✓ src/engine/graph.test.ts > validateGraph and export > exports a stable review schema with a screen-reader summary and formula-safe CSV 2ms
+ ✓ src/engine/graph.test.ts > traversal budget (sixth review: blocked paths were unbounded) > caps condition-blocked paths and marks the result truncated/indeterminate instead of exhausting memory 1ms
+ ✓ src/engine/graph.test.ts > traversal budget (sixth review: blocked paths were unbounded) > stops expanding after the node-expansion budget and finishes quickly on a path-explosion graph 1ms
+ ✓ src/engine/graph.test.ts > traversal budget (sixth review: blocked paths were unbounded) > never returns a false allow or deny when truncated: deny is only definitive with a found path and an applicable deny; allow only when no deny could apply 2ms
+ ✓ src/engine/graph.test.ts > traversal budget (sixth review: blocked paths were unbounded) > completes the reviewer's 60-node / 359-edge explosion graph (8 layers × 7) in bounded time and memory 1ms
+ ✓ src/engine/graph.test.ts > traversal budget (sixth review: blocked paths were unbounded) > does not report indeterminate for ordinary graphs 0ms
+ ✓ src/engine/graph.test.ts > traversal budget (sixth review: blocked paths were unbounded) > transitive group membership honours conditions on member_of edges 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects oversized input 17ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects invalid JSON and non-object roots 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects deep nesting 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects __proto__ keys 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > accepts a small object 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes hidden behind whitespace or control characters 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > quotes commas, quotes and newlines 0ms
+ ✓ src/engine/safe.test.ts > date helpers > rejects calendar-invalid dates that Date.parse would normalise 1ms
+ ✓ src/engine/safe.test.ts > date helpers > adds and diffs days 0ms
+
+ Test Files  4 passed (4)
+      Tests  39 passed (39)
+   Start at  19:37:45
+   Duration  857ms (transform 172ms, setup 0ms, import 222ms, tests 113ms, environment 0ms)
+

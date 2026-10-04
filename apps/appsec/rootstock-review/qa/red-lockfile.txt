@@ -1,0 +1,419 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/appsec/rootstock-review
+# 2026-10-04T18:45:21.493Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/appsec/rootstock-review
+
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > converts a lockfileVersion 3 packages map into a valid rootstock.lockgraph/1 that round-trips through the validator 9ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > accepts lockfileVersion 2 and ignores the legacy dependencies tree however deeply it nests 4ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > rejects lockfileVersion 1 and unknown versions with a clear error 3ms
+   → expected 'not implemented' to match /lockfileVersion 1 is not supported/
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > checks the UTF-8 byte cap before parsing and bounds entry and dependency counts 2ms
+   → expected 262144 to be 2097152 // Object.is equality
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > never throws on hostile or malformed input 2ms
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > keeps scoped names, derives names from the last node_modules segment and records alias installs honestly 0ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > keeps two versions of one package and lists both in the registry, resolved per declared range 0ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > maps licence, install scripts, deprecation and optional dependencies; absent fields stay absent 0ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > excludes dev-only packages by default, includes them with includeDev, and counts them in a note 1ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > excludes peerDependencies edges and says so 1ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > turns an npm: alias range into an unresolved edge with a note — never a crash, never a widened match 0ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > leaves file:, link:, git, workspace:, tarball-URL and dist-tag ranges unresolved with reasons 2ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > collapses the same name@version installed at two paths into one record with the union of ranges 1ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > defaults a missing root version to 0.0.0 with a note and skips entries without a version 0ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > supplies no advisories and no import evidence unless given, states it, and reachability is unknown everywhere 0ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > uses supplied import evidence and advisories, including scoped direct dependencies, and plans against the lock registry 0ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > rejects invalid import names or malformed advisories with path-addressed errors instead of guessing 1ms
+   → expected 'not implemented' to match /imports\[0\]/
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > uses the demo policy by default and the supplied policy otherwise 0ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > states the conversion in the review notes and the exported report 0ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > is deterministic and independent of the key order in the lockfile 0ms
+   → conversion failed: not implemented
+ × src/engine/__tests__/lockfile.test.ts > graph traversal budget > exposes an explicit budget and completes the demo graph without truncation 0ms
+   → expected 0 to be greater than or equal to 1000
+ × src/engine/__tests__/lockfile.test.ts > graph traversal budget > completes a layered 300-package graph within the per-direct budget and flags that path lists were cut 1182ms
+   → expected false to be true // Object.is equality
+ × src/engine/__tests__/lockfile.test.ts > graph traversal budget > flags truncation when the budget is tiny while depth and reachability stay exact 6ms
+   → expected false to be true // Object.is equality
+ × src/engine/__tests__/lockfile.test.ts > graph traversal budget > surfaces truncation through the review and the report 17ms
+   → expected '' to match /within budget/i
+ ✓ src/engine/__tests__/rootstock.test.ts > semver > parses and orders versions, with prereleases below their release 3ms
+ ✓ src/engine/__tests__/rootstock.test.ts > semver > implements caret, tilde, comparators, x-ranges, hyphen ranges and unions 2ms
+ ✓ src/engine/__tests__/rootstock.test.ts > lockgraph validation > accepts the synthetic snapshot 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > lockgraph validation > rejects malformed versions, unknown severities, oversized input and duplicate name@version 5ms
+ ✓ src/engine/__tests__/rootstock.test.ts > graph > resolves each range to the highest satisfying package, keeps multiple versions, tolerates cycles and marks unresolved edges 7ms
+ ✓ src/engine/__tests__/rootstock.test.ts > graph > enumerates bounded root paths and depth 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > matches advisories by semver range and ignores patched versions 11ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > plans an in-range bump, names a parent conflict, and reports no fix when none exists 2ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > labels reachability as known, inferred or unknown — never as exploitability 4ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > evaluates licence policy including OR expressions and empty licences 3ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > raises provenance flags without turning them into verdicts 3ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > summarises blocking items and unknown states 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > is deterministic 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > report > exports a stable schema and a markdown plan that states its limits 2ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > respects parentheses: (MIT OR Apache-2.0) AND GPL-3.0-only is deny, not allow 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > applies SPDX precedence: AND binds tighter than OR 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > handles nested groups and OR with nested AND 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > fails closed to unknown on malformed or unbalanced expressions 2ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > treats unsupported WITH exceptions and unknown identifiers conservatively 11ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > bounds tokens and nesting 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > explains the decision in the detail text 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 23 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > converts a lockfileVersion 3 packages map into a valid rootstock.lockgraph/1 that round-trips through the validator
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:25:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > accepts lockfileVersion 2 and ignores the legacy dependencies tree however deeply it nests
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:42:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > rejects lockfileVersion 1 and unknown versions with a clear error
+AssertionError: expected 'not implemented' to match /lockfileVersion 1 is not supported/
+
+- Expected:
+/lockfileVersion 1 is not supported/
+
++ Received:
+"not implemented"
+
+ ❯ src/engine/__tests__/lockfile.test.ts:55:45
+     53|     const v1 = convert({ name: 'old', version: '1.0.0', lockfileVersio…
+     54|     expect(v1.ok).toBe(false);
+     55|     if (!v1.ok) expect(v1.errors.join(' ')).toMatch(/lockfileVersion 1…
+       |                                             ^
+     56|     const none = convert({ name: 'x', packages: { '': { name: 'x', ver…
+     57|     expect(none.ok).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > checks the UTF-8 byte cap before parsing and bounds entry and dependency counts
+AssertionError: expected 262144 to be 2097152 // Object.is equality
+
+- Expected
++ Received
+
+- 2097152
++ 262144
+
+ ❯ src/engine/__tests__/lockfile.test.ts:62:29
+     60|
+     61|   it('checks the UTF-8 byte cap before parsing and bounds entry and de…
+     62|     expect(LIMITS.maxBytes).toBe(2 * 1024 * 1024);
+       |                             ^
+     63|     expect(LIMITS.maxPackages).toBe(2500);
+     64|     const big = convert('{' + ' '.repeat(LIMITS.maxBytes));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > keeps scoped names, derives names from the last node_modules segment and records alias installs honestly
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:94:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > keeps two versions of one package and lists both in the registry, resolved per declared range
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:106:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > maps licence, install scripts, deprecation and optional dependencies; absent fields stay absent
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:117:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > excludes dev-only packages by default, includes them with includeDev, and counts them in a note
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:131:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > excludes peerDependencies edges and says so
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:145:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > turns an npm: alias range into an unresolved edge with a note — never a crash, never a widened match
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:153:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > leaves file:, link:, git, workspace:, tarball-URL and dist-tag ranges unresolved with reasons
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:169:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > collapses the same name@version installed at two paths into one record with the union of ranges
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:191:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > defaults a missing root version to 0.0.0 with a note and skips entries without a version
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:201:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > supplies no advisories and no import evidence unless given, states it, and reachability is unknown everywhere
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:210:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > uses supplied import evidence and advisories, including scoped direct dependencies, and plans against the lock registry
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:222:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > rejects invalid import names or malformed advisories with path-addressed errors instead of guessing
+AssertionError: expected 'not implemented' to match /imports\[0\]/
+
+- Expected:
+/imports\[0\]/
+
++ Received:
+"not implemented"
+
+ ❯ src/engine/__tests__/lockfile.test.ts:243:47
+    241|     const bad = convert(sample, { imports: ['Not A Name!'] });
+    242|     expect(bad.ok).toBe(false);
+    243|     if (!bad.ok) expect(bad.errors.join(' ')).toMatch(/imports\[0\]/);
+       |                                               ^
+    244|     const adv = convert(sample, { advisories: [{ id: 'x', package: 'pr…
+    245|     expect(adv.ok).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > uses the demo policy by default and the supplied policy otherwise
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:250:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > states the conversion in the review notes and the exported report
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:257:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > is deterministic and independent of the key order in the lockfile
+Error: conversion failed: not implemented
+ ❯ must src/engine/__tests__/lockfile.test.ts:14:98
+     12| const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+     13| const convert = (doc: unknown = sample, opts: ConvertOptions = {}): Co…
+     14| const must = (r: ConvertResult): { lockgraph: Lockgraph; notes: string…
+       |                                                                                                  ^
+     15| const find = (lock: Lockgraph, name: string, version?: string) => lock…
+     16| const rowOf = (lock: Lockgraph, name: string, version?: string) => rev…
+ ❯ src/engine/__tests__/lockfile.test.ts:269:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > graph traversal budget > exposes an explicit budget and completes the demo graph without truncation
+AssertionError: expected 0 to be greater than or equal to 1000
+ ❯ src/engine/__tests__/lockfile.test.ts:295:43
+    293| describe('graph traversal budget', () => {
+    294|   it('exposes an explicit budget and completes the demo graph without …
+    295|     expect(BUDGET.maxExpansionsPerDirect).toBeGreaterThanOrEqual(1000);
+       |                                           ^
+    296|     expect(BUDGET.maxTotalPaths).toBeGreaterThanOrEqual(1000);
+    297|     const g = buildGraph(demoLock());
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > graph traversal budget > completes a layered 300-package graph within the per-direct budget and flags that path lists were cut
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/__tests__/lockfile.test.ts:307:25
+    305|     const g = buildGraph(lock);
+    306|     expect(g.nodes.size).toBe(300);
+    307|     expect(g.truncated).toBe(true);
+       |                         ^
+    308|     expect(g.expansions).toBeLessThanOrEqual(g.directIds.length * BUDG…
+    309|     for (const n of g.nodes.values()) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > graph traversal budget > flags truncation when the budget is tiny while depth and reachability stay exact
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/__tests__/lockfile.test.ts:319:28
+    317|   it('flags truncation when the budget is tiny while depth and reachab…
+    318|     const tiny = buildGraph(demoLock(), { maxExpansionsPerDirect: 2 });
+    319|     expect(tiny.truncated).toBe(true);
+       |                            ^
+    320|     expect(tiny.nodes.get('deepset@1.0.4')?.depth).toBe(2);
+    321|     expect(tiny.nodes.get('fontparse@3.4.0')?.depth).toBe(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/23]⎯
+
+ FAIL  src/engine/__tests__/lockfile.test.ts > graph traversal budget > surfaces truncation through the review and the report
+AssertionError: expected '' to match /within budget/i
+
+- Expected:
+/within budget/i
+
++ Received:
+""
+
+ ❯ src/engine/__tests__/lockfile.test.ts:332:36
+    330|     const normal = reviewDependencies(demoLock());
+    331|     expect(normal.truncated).toBe(false);
+    332|     expect(normal.notes.traversal).toMatch(/within budget/i);
+       |                                    ^
+    333|     const cut = reviewDependencies(demoLock(), { maxExpansionsPerDirec…
+    334|     expect(cut.truncated).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/23]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  23 failed | 22 passed (45)
+   Start at  18:45:25
+   Duration  2.22s (transform 377ms, setup 0ms, import 427ms, tests 1.30s, environment 0ms)
+

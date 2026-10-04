@@ -3,7 +3,8 @@ import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import * as Dialog from '@radix-ui/react-dialog';
 import { initialState, advanceClock, decide, completeTask, addLesson, completeness, minutesToNextInject, pendingDecisions, replay, type State, type Lesson } from './engine/engine';
-import { validateScenario, LIMITS, type Scenario } from './engine/scenario';
+import { parseScenario, LIMITS, type Scenario } from './engine/scenario';
+import { achievableMaxScore } from './engine/score';
 import { RANSOMWARE_TABLETOP } from './engine/fixtures';
 import { afterActionReport } from './engine/report';
 
@@ -25,13 +26,15 @@ export function App() {
   const [importText, setImportText] = useState('');
   const [importErrors, setImportErrors] = useState<string[]>([]);
 
-  const c = completeness(state, scenario);
+  // The branch-aware search depends only on the scenario, so it runs once per loaded scenario, not per render.
+  const achievable = useMemo(() => achievableMaxScore(scenario), [scenario]);
+  const c = completeness(state, scenario, achievable);
   const next = minutesToNextInject(state, scenario);
   const pending = pendingDecisions(state, scenario);
   const roleName = (id: string) => scenario.roles.find(r => r.id === id)?.name ?? id;
   const feed = useMemo(() => [...state.delivered].reverse().map(id => scenario.injects.find(i => i.id === id)!).filter(i => roleView === 'all' || i.role === roleView), [state.delivered, scenario, roleView]);
   const tasks = state.tasks.filter(t => roleView === 'all' || t.role === roleView);
-  const aar = useMemo(() => afterActionReport(state, scenario, new Date().toISOString()), [state, scenario]);
+  const aar = useMemo(() => afterActionReport(state, scenario, new Date().toISOString(), achievable), [state, scenario, achievable]);
 
   function step(min: number) { setState(s => advanceClock(s, scenario, min)); setError(null); setStatus(`Clock advanced ${min} min.`); }
   function jump() { if (next === null) { setStatus('No further scheduled injects. Decisions may still unlock follow-ups.'); return; } step(next); }
@@ -54,9 +57,9 @@ export function App() {
     const url = URL.createObjectURL(new Blob([content], { type })); const a = document.createElement('a'); a.href = url; a.download = name; a.click(); URL.revokeObjectURL(url);
   }
   function doImport() {
-    if (importText.length > 200_000) { setImportErrors(['Scenario text exceeds 200,000 characters.']); return; }
-    let parsed: unknown; try { parsed = JSON.parse(importText); } catch { setImportErrors(['Not valid JSON.']); return; }
-    const v = validateScenario(parsed);
+    // parseScenario enforces the 512 KiB UTF-8 cap before JSON.parse, scans depth/value counts iteratively and then
+    // applies every field rule; it never throws and reports path-addressed errors (at most LIMITS.maxErrors).
+    const v = parseScenario(importText);
     if (!v.ok) { setImportErrors(v.errors); return; }
     setScenario(v.scenario); setState(initialState(v.scenario)); setChoice({}); setImportOpen(false); setImportErrors([]); setRoleView('all');
     setStatus(`Loaded scenario "${v.scenario.title}" with ${v.scenario.injects.length} injects.`);
@@ -104,7 +107,7 @@ export function App() {
             <Dialog.Trigger asChild><button type="button" className="btn outline">Import scenario</button></Dialog.Trigger>
             <Dialog.Portal><Dialog.Overlay className="overlay" /><Dialog.Content className="dialog">
               <Dialog.Title>Import a scenario</Dialog.Title>
-              <Dialog.Description className="muted">JSON matching the shipped scenario shape: roles, injects (≤ {LIMITS.maxInjects}) with optional decisions, options, tasks and unlocks. Keep it fictional.</Dialog.Description>
+              <Dialog.Description className="muted">JSON matching the shipped scenario shape: roles (≤ {LIMITS.maxRoles}), injects (≤ {LIMITS.maxInjects}) with optional decisions, options, tasks and unlocks. Bounded import: ≤ 512 KiB, nesting ≤ {LIMITS.maxDepth} levels, strict ISO <code>startAt</code>, unique ids, unlock targets must be <code>atMinute: null</code>. Errors are reported by path (at most {LIMITS.maxErrors}). Keep it fictional.</Dialog.Description>
               <label htmlFor="scn" className="visually-hidden">Scenario JSON</label>
               <textarea id="scn" rows={10} value={importText} onChange={e => setImportText(e.target.value)} spellCheck={false} />
               {importErrors.length > 0 && <ul role="alert" className="errors">{importErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>}
@@ -121,7 +124,7 @@ export function App() {
         <div><span className="k">Decisions</span><strong>{c.decisionsMade}/{c.decisionsTotal}</strong><span className="muted">{c.pct}% complete · {pending.length} pending</span></div>
         <div className={c.breaches ? 'warn' : ''}><span className="k">SLA breaches</span><strong>{c.breaches}</strong><span className="muted">decisions committed after their SLA</span></div>
         <div className={c.overdueOpen ? 'warn' : ''}><span className="k">Tasks</span><strong>{c.tasksDone}/{c.tasksTotal}</strong><span className="muted">{c.overdueOpen} open past due</span></div>
-        <div><span className="k">Score</span><strong>{c.score}/{c.maxScore}</strong><span className="muted">sum of option scores; max is the best option each time</span></div>
+        <div><span className="k">Score</span><strong>{c.score}/{c.achievableMax}</strong><span className="muted">best achievable on one path{c.achievableTruncated ? ' (search budget reached; lower bound)' : ''} · upper bound {c.maxScore} over all branches</span></div>
         <div><span className="k">Lessons</span><strong>{c.lessons}</strong><span className="muted">captured during play</span></div>
       </section>
 

@@ -1,0 +1,32 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/defense/peerline
+# 2026-10-04T19:12:15.993Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/defense/peerline
+
+ ✓ src/engine/validate.test.ts > bounded record import > parseRecords enforces the byte cap before JSON.parse and reports invalid JSON 54ms
+ ✓ src/engine/validate.test.ts > bounded record import > rejects nesting deeper than the record shape and oversized value counts without recursing 3ms
+ ✓ src/engine/validate.test.ts > bounded record import > rejects impossible calendar days such as 2026-02-30 and accepts a real leap day 1ms
+ ✓ src/engine/validate.test.ts > bounded record import > rejects duplicate (user, day) rows naming both row indices 1ms
+ ✓ src/engine/validate.test.ts > bounded record import > restricts user and dept to printable characters 1ms
+ ✓ src/engine/validate.test.ts > bounded record import > addresses every error by path, requires finite numbers, drops unknown keys and caps the list at 20 2ms
+ ✓ src/engine/engine.test.ts > robust statistics > computes median and MAD 2ms
+ ✓ src/engine/engine.test.ts > robust statistics > scales z by 0.6745/MAD and applies a MAD floor so constant baselines do not explode 0ms
+ ✓ src/engine/engine.test.ts > baselines and scoring > keeps weekday and weekend baselines separate so a habitual weekend worker is not flagged 6ms
+ ✓ src/engine/engine.test.ts > baselines and scoring > flags an upload spike with the measured z and baseline in the reason 6ms
+ ✓ src/engine/engine.test.ts > baselines and scoring > marks a user without history as NO_BASELINE instead of inventing a score 1ms
+ ✓ src/engine/engine.test.ts > baselines and scoring > reports PEER_DEVIATION when a user is stable for themselves but far from their department 1ms
+ ✓ src/engine/engine.test.ts > baselines and scoring > analyst feedback suppresses a reason code for one user and lowers the score deterministically 1ms
+ ✓ src/engine/engine.test.ts > synthetic population and evaluation > is deterministic by seed and labels injected anomalies 34ms
+ ✓ src/engine/engine.test.ts > synthetic population and evaluation > computes precision/recall from labeled injections 1ms
+ ✓ src/engine/engine.test.ts > synthetic population and evaluation > recovers most injected anomalies on the default seed (measured, not asserted as perfect) 16ms
+ ✓ src/engine/engine.test.ts > import validation > rejects oversized, malformed and negative inputs with field-level messages 59ms
+ ✓ src/engine/engine.test.ts > report > emits a stable schema with no raw identities beyond synthetic user labels 9ms
+
+ Test Files  2 passed (2)
+      Tests  18 passed (18)
+   Start at  19:12:18
+   Duration  1.48s (transform 555ms, setup 0ms, import 613ms, tests 209ms, environment 1ms)
+

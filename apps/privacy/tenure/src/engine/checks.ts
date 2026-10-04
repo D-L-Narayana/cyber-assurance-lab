@@ -1,4 +1,4 @@
-import type { Catalog, Finding, FindingCode, Graph, RetentionException, Severity } from './types';
+import type { Catalog, ExceptionSubject, Finding, FindingCode, Graph, RetentionException, Severity } from './types';
 import { retentionReviews } from './review';
 import { effectiveRetentionDays } from './retention';
 
@@ -51,6 +51,28 @@ export function exceptionPolicyViolation(x: RetentionException, asOf: string): s
   return undefined;
 }
 
+/**
+ * Effective subject of an exception (October 2026): an explicit `subject` wins; otherwise the legacy `elementId`
+ * names an element. Flow subjects are `flow-id` (UNMAPPED_TRANSFER, DANGLING_FLOW) or `flow-id/element-id`
+ * (PURPOSE_DRIFT); matching against a finding is exact on kind and id.
+ */
+export function exceptionSubject(x: RetentionException): ExceptionSubject | undefined {
+  if (x.subject) return x.subject;
+  if (x.elementId !== undefined) return { kind: 'element', id: x.elementId };
+  return undefined;
+}
+
+/** Flow id of a flow subject id (`flow-id` or `flow-id/element-id`). */
+export function flowIdOfSubject(subjectId: string): string {
+  const slash = subjectId.indexOf('/');
+  return slash === -1 ? subjectId : subjectId.slice(0, slash);
+}
+
+function describeSubject(x: RetentionException): string {
+  const s = exceptionSubject(x);
+  return s ? `${s.kind} ${s.id}` : 'no subject';
+}
+
 function isLiveException(x: RetentionException, catalog: Catalog, asOf: string): boolean {
   if (x.status !== 'approved') return false;
   if (x.expiresOn < asOf) return false;
@@ -69,6 +91,13 @@ export function runChecks(catalog: Catalog, graph: Graph, asOf: string): Finding
   const owners = new Map(catalog.owners.map((o) => [o.id, o]));
   const elements = new Map(catalog.elements.map((e) => [e.id, e]));
   const schedules = new Map(catalog.schedules.map((s) => [s.id, s]));
+  const flows = new Map(catalog.flows.map((f) => [f.id, f]));
+  /** System an exception finding is attached to: the element's system, or the receiving system of a flow subject. */
+  const systemOfSubject = (x: RetentionException): string | undefined => {
+    const s = exceptionSubject(x);
+    if (!s) return undefined;
+    return s.kind === 'element' ? elements.get(s.id)?.systemId : flows.get(flowIdOfSubject(s.id))?.toSystemId;
+  };
 
   const push = (code: FindingCode, subject: Finding['subject'], message: string, systemId?: string) => {
     findings.push({ id: `${code}:${subject.kind}:${subject.id}`, code, severity: SEVERITY[code], subject, ...(systemId ? { systemId } : {}), message, why: WHY[code], accepted: false });
@@ -133,12 +162,12 @@ export function runChecks(catalog: Catalog, graph: Graph, asOf: string): Finding
 
   for (const x of catalog.exceptions) {
     if (x.status === 'approved' && x.expiresOn < asOf) {
-      push('EXCEPTION_EXPIRED', { kind: 'exception', id: x.id }, `Exception ${x.id} for ${x.elementId} (${x.acceptsFinding}) expired on ${x.expiresOn}.`, elements.get(x.elementId)?.systemId);
+      push('EXCEPTION_EXPIRED', { kind: 'exception', id: x.id }, `Exception ${x.id} for ${describeSubject(x)} (${x.acceptsFinding}) expired on ${x.expiresOn}.`, systemOfSubject(x));
     } else if (x.status === 'approved') {
       const violation = exceptionPolicyViolation(x, asOf);
-      if (violation) push('EXCEPTION_OUT_OF_POLICY', { kind: 'exception', id: x.id }, `Exception ${x.id} for ${x.elementId} (${x.acceptsFinding}) ${violation}.`, elements.get(x.elementId)?.systemId);
+      if (violation) push('EXCEPTION_OUT_OF_POLICY', { kind: 'exception', id: x.id }, `Exception ${x.id} for ${describeSubject(x)} (${x.acceptsFinding}) ${violation}.`, systemOfSubject(x));
       const approver = owners.get(x.approvedBy ?? '');
-      if (!approver || !approver.active) push('EXCEPTION_APPROVER_INACTIVE', { kind: 'exception', id: x.id }, `Exception ${x.id} was approved by ${approver ? approver.name : `unknown owner "${x.approvedBy}"`}, who is ${approver ? 'inactive' : 'not registered'}.`, elements.get(x.elementId)?.systemId);
+      if (!approver || !approver.active) push('EXCEPTION_APPROVER_INACTIVE', { kind: 'exception', id: x.id }, `Exception ${x.id} was approved by ${approver ? approver.name : `unknown owner "${x.approvedBy}"`}, who is ${approver ? 'inactive' : 'not registered'}.`, systemOfSubject(x));
     }
   }
 
@@ -149,10 +178,14 @@ export function runChecks(catalog: Catalog, graph: Graph, asOf: string): Finding
     }
   }
 
-  // Apply exceptions.
+  // Apply exceptions: element- and flow-subject findings only, exact match on code, subject kind and subject id.
   const live = catalog.exceptions.filter((x) => isLiveException(x, catalog, asOf));
   for (const f of findings) {
-    const match = live.find((x) => x.acceptsFinding === f.code && f.subject.kind === 'element' && f.subject.id === x.elementId);
+    if (f.subject.kind !== 'element' && f.subject.kind !== 'flow') continue;
+    const match = live.find((x) => {
+      const s = exceptionSubject(x);
+      return s !== undefined && x.acceptsFinding === f.code && s.kind === f.subject.kind && s.id === f.subject.id;
+    });
     if (match) { f.accepted = true; f.exceptionId = match.id; }
   }
 

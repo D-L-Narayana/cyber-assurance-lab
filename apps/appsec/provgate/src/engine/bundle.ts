@@ -1,3 +1,5 @@
+import { remediationFor } from './remediation';
+import type { RemediationItem } from './remediation';
 import type { Evaluation, Manifest, Policy } from './types';
 
 export async function sha256Hex(text: string): Promise<string> {
@@ -13,6 +15,8 @@ export interface Bundle {
   manifest: Manifest;
   policy: Policy;
   evaluation: Evaluation;
+  /** Additive (October 2026): the remediation checklist derived from the evaluation, policy and manifest. */
+  remediation?: RemediationItem[];
   digest: string;
   digestNote: string;
   disclaimer: string;
@@ -22,13 +26,15 @@ export const DIGEST_NOTE = 'SHA-256 content digest of this bundle with digest/di
 export const DISCLAIMER = 'Educational prototype. The gate evaluates synthetic release metadata against a local policy. It is not a compliance attestation, audit opinion or production release control.';
 
 export async function buildBundle(manifest: Manifest, policy: Policy, evaluation: Evaluation, generatedAt = new Date().toISOString()): Promise<Bundle> {
-  const body = { schema: 'provgate.bundle/1' as const, generatedAt, tool: { name: 'provgate' as const, mode: 'browser-local deterministic evaluation' as const }, manifest, policy, evaluation, disclaimer: DISCLAIMER };
+  const remediation = remediationFor(evaluation, { policy, manifest });
+  const body = { schema: 'provgate.bundle/1' as const, generatedAt, tool: { name: 'provgate' as const, mode: 'browser-local deterministic evaluation' as const }, manifest, policy, evaluation, remediation, disclaimer: DISCLAIMER };
   const digest = await sha256Hex(JSON.stringify({ ...body, digest: undefined, digestNote: undefined }));
   return { ...body, digest, digestNote: DIGEST_NOTE };
 }
 
 export function bundleToMarkdown(b: Bundle): string {
   const e = b.evaluation;
+  const remediation = b.remediation ?? remediationFor(e, { policy: b.policy, manifest: b.manifest });
   const lines = [
     `# Release gate — ${b.manifest.release.name} (${b.manifest.release.version}, ${b.manifest.release.commit})`,
     '',
@@ -49,6 +55,9 @@ export function bundleToMarkdown(b: Bundle): string {
     '',
     '## Blockers',
     ...(e.blockers.length ? e.blockers.map((x) => `- ${x}`) : ['- none']),
+    '',
+    '## Remediation checklist',
+    ...(remediation.length ? remediation.map((i) => `- [ ] **${i.code}** \`${i.target}\` — ${i.action} _(gate: ${i.detail})_`) : ['- none']),
     '',
     `Bundle digest (SHA-256, not a signature): \`${b.digest}\``,
   ];

@@ -1,6 +1,7 @@
-import { buildGraph } from './graph';
+import { BUDGET, buildGraph } from './graph';
+import type { GraphOptions } from './graph';
 import { compareVersions, minSatisfying, satisfies } from './semver';
-import { SEVERITIES } from './types';
+import { SEVERITIES, splitId } from './types';
 import { evaluateLicense } from './license';
 import type { Advisory, Flag, GraphNode, Lockgraph, Plan, Reachability, Review, ReviewRow } from './types';
 
@@ -8,12 +9,13 @@ export { evaluateLicense } from './license';
 
 const rank = (s: string) => SEVERITIES.indexOf(s as (typeof SEVERITIES)[number]);
 function reachabilityOf(node: GraphNode, imports: Set<string>): { reachability: Reachability; detail: string } {
-  if (node.isDirect && imports.has(node.pkg.name)) return { reachability: 'known', detail: 'Direct dependency and listed in the application\u2019s import evidence.' };
-  const viaImported = node.paths.filter((p) => imports.has(p[0].split('@')[0]));
-  if (viaImported.length) return { reachability: 'inferred', detail: `Reachable through imported direct dependency ${[...new Set(viaImported.map((p) => p[0]))].join(', ')}; whether the vulnerable code path is used is not known.` };
+  if (imports.size === 0) return { reachability: 'unknown', detail: 'No import evidence was supplied with this snapshot, so reachability cannot be inferred for any package. Supply the names of the direct dependencies the application actually imports.' };
+  if (node.isDirect && imports.has(node.pkg.name)) return { reachability: 'known', detail: 'Direct dependency and listed in the application’s import evidence.' };
+  const viaImported = node.roots.filter((id) => imports.has(splitId(id).name));
+  if (viaImported.length) return { reachability: 'inferred', detail: `Reachable through imported direct dependency ${viaImported.join(', ')}; whether the vulnerable code path is used is not known.` };
   if (node.isDirect) return { reachability: 'unknown', detail: 'Declared as a direct dependency but absent from the import evidence: possibly unused, possibly loaded dynamically.' };
-  if (node.paths.length === 0) return { reachability: 'unknown', detail: 'Present in the snapshot but not reachable from the root through resolved edges.' };
-  return { reachability: 'unknown', detail: `Only reachable through direct dependencies without import evidence (${[...new Set(node.paths.map((p) => p[0]))].join(', ')}).` };
+  if (node.roots.length === 0) return { reachability: 'unknown', detail: 'Present in the snapshot but not reachable from the root through resolved edges.' };
+  return { reachability: 'unknown', detail: `Only reachable through direct dependencies without import evidence (${node.roots.join(', ')}).` };
 }
 
 function planFor(node: GraphNode, matched: Advisory[], lock: Lockgraph): Plan {
@@ -25,16 +27,24 @@ function planFor(node: GraphNode, matched: Advisory[], lock: Lockgraph): Plan {
   const blockedBy = node.parents.filter((p) => !satisfies(target, p.range)).map((p) => ({ parent: p.from, range: p.range }));
   if (blockedBy.length === 0) return { kind: 'bump-in-range', target, detail: `Every parent range already accepts ${name}@${target}; refreshing the lockfile is enough.` };
   const hints = blockedBy.map((b) => {
-    const parentName = b.parent.split('@')[0];
-    const parentVersion = b.parent.split('@')[1];
+    const { name: parentName, version: parentVersion } = splitId(b.parent);
     const newer = (lock.registry[parentName] ?? []).filter((v) => compareVersions(v, parentVersion) > 0);
     return `${b.parent} declares ${b.range}, which excludes ${target}` + (newer.length ? `; newer ${parentName} ${newer.join(', ')} exist in the registry snapshot — check whether they accept ${name}@${target} (the snapshot does not record their dependency ranges)` : `; no newer ${parentName} in the registry snapshot, so this waits on upstream or an override`);
   });
   return { kind: 'parent-conflict', target, blockedBy, detail: hints.join('. ') + '.' };
 }
 
-export function reviewDependencies(lock: Lockgraph): Review {
-  const graph = buildGraph(lock);
+function dataNote(lock: Lockgraph): string {
+  const src = lock.source;
+  if (src?.kind !== 'package-lock.json') return 'All packages, versions, licences, advisories and registry entries in the demo are synthetic. Nothing is fetched from a live registry or advisory database.';
+  const adv = lock.advisories.length ? `${lock.advisories.length} user-supplied record${lock.advisories.length === 1 ? '' : 's'}` : 'none — no advisory data was supplied';
+  const imp = lock.imports.length ? `${lock.imports.length} user-supplied name${lock.imports.length === 1 ? '' : 's'}` : 'none supplied, so reachability is unknown throughout';
+  return `Converted offline from a package-lock.json (lockfileVersion ${src.lockfileVersion}; devDependencies ${src.includeDev ? 'included' : 'excluded'}). Package names, versions and licences are whatever the lockfile states. Advisories: ${adv}; import evidence: ${imp}. Nothing was fetched from any registry or advisory database.`;
+}
+
+export function reviewDependencies(lock: Lockgraph, options: GraphOptions = {}): Review {
+  const graph = buildGraph(lock, options);
+  const budget = { maxExpansionsPerDirect: options.maxExpansionsPerDirect ?? BUDGET.maxExpansionsPerDirect, maxTotalPaths: options.maxTotalPaths ?? BUDGET.maxTotalPaths };
   const imports = new Set(lock.imports);
   const versionsByName = new Map<string, number>();
   for (const p of lock.packages) versionsByName.set(p.name, (versionsByName.get(p.name) ?? 0) + 1);
@@ -73,7 +83,11 @@ export function reviewDependencies(lock: Lockgraph): Review {
     notes: {
       reachability: 'Reachability is an import-evidence hint (known / inferred / unknown), not exploitability. "Inferred" means a path exists from an imported direct dependency; it says nothing about whether the vulnerable function is called.',
       severity: 'Advisory severities are taken from the synthetic advisory records; blocking means at or above the policy threshold.',
-      data: 'All packages, versions, licences, advisories and registry entries in the demo are synthetic. Nothing is fetched from a live registry or advisory database.',
+      data: dataNote(lock),
+      traversal: graph.truncated
+        ? `Traversal budget exhausted (${graph.expansions} node expansions; limit ${budget.maxExpansionsPerDirect} per direct dependency, ${budget.maxTotalPaths} stored paths): depth and reachability were computed breadth-first and remain exact, but the listed paths to the root are incomplete.`
+        : `Path enumeration completed within budget (${graph.expansions} node expansions; limit ${budget.maxExpansionsPerDirect} per direct dependency, ${budget.maxTotalPaths} stored paths).`,
     },
+    truncated: graph.truncated,
   };
 }

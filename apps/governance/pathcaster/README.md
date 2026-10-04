@@ -15,6 +15,7 @@ No directory is enumerated and no permission is changed. The graph is generated 
 | Privilege hotspots: group/role nodes ranked by identities carried to high-sensitivity assets | Right rail | `hotspots` |
 | Toxic combinations (two asset/action pairs no one should hold together), respecting denies | Right rail | `toxicCombinations` |
 | What-if edge removal with before/after allowed counts and who loses/gains access | Right rail, "Apply removal to session graph" | `whatIfRemoveEdge` |
+| Optional permission hierarchy admin ⊃ write ⊃ read (off by default; denies on the permission actually used still apply; recorded in the export) | "Treat admin as implying write/read" checkbox in the query bar | `reach(g, asset, action, { hierarchy })` and the same option on `hotspots`, `toxicCombinations`, `whatIfRemoveEdge` |
 | Graph validation (dangling, self loops, kind-incompatible edges, duplicates, bounds) | Load graph | `validateGraph` |
 | Stable export `pathcaster.review/v1` + formula-safe CSV | Export buttons | `exportReview` |
 
@@ -22,7 +23,7 @@ No directory is enumerated and no permission is changed. The graph is generated 
 
 ```bash
 npm ci
-npm test        # vitest: 30 tests in 3 files
+npm test        # vitest: 39 tests in 4 files
 npm run build   # tsc --noEmit && vite build (base './')
 npm run dev     # http://localhost:6143
 ```
@@ -35,6 +36,7 @@ Demo graph: 92 nodes (49 identities incl. 3 service accounts, 10 groups, 12 role
 - **Allow path**: identity → `member_of`* → `assigned` → `grants` → `applies_to` asset, with every condition on the way satisfied. Depth-first with a per-path visited set and three budgets: max depth 12, max 50 collected paths per identity (allowed **and** condition-blocked together), and max 4 000 node expansions per identity. Hitting any budget sets `truncated`.
 - **Deny-overrides**: denies are gathered from the identity and all transitive groups; a deny targeting the asset or any permission used by an allow path turns the decision to `deny`. Denies are reported only when at least one allow path exists (otherwise the decision is `none`).
 - **Decision** is `allow` / `deny` / `none` / `indeterminate`. When a traversal was truncated the engine never guesses: `deny` is returned only if a found path is hit by an applicable deny (definitive regardless of unexplored paths); `allow` only if a path was found and no deny edge anywhere targets this asset or a permission applying to it; otherwise `indeterminate` with a reason (shown with `?` in the diagram and counted in the summary). Condition-blocked paths never grant access but are surfaced so reviewers can see "almost" access.
+- **Permission hierarchy (optional, October 2026)**: by default a query for `read` is satisfied only by a permission whose action is `read` (unchanged semantics). With `{ hierarchy: true }` — the "Treat admin as implying write/read" checkbox — an `admin` permission also satisfies `write` and `read` queries and a `write` permission also satisfies `read`; nothing is ever implied upwards. The path records the permission actually used (`… which grants vault:admin on Vault`), so a deny on that permission still turns the verdict to `deny`, exactly as without the option. `any` queries and therefore hotspots are unaffected; toxic-combination rules with specific actions can gain hits (an admin-only identity holds a `write` side under the hierarchy); what-if counts follow the option; the export records it as `query.hierarchy` and says so in its summary sentence.
 - **Transitive groups** honour conditions on `member_of` edges, so a conditional membership whose condition fails does not inherit that group's denies.
 - **Hotspots** count, per group/role, distinct identities whose *allowed* paths to *high*-sensitivity assets pass through it.
 - These are the prototype's semantics, not a claim about any product's evaluation order.
@@ -42,7 +44,7 @@ Demo graph: 92 nodes (49 identities incl. 3 service accounts, 10 groups, 12 role
 ## Architecture
 
 ```
-src/engine/types.ts    GraphNode, GraphEdge, Condition, ToxicRule, ReachResult, Hotspot, WhatIf
+src/engine/types.ts    GraphNode, GraphEdge, Condition, ToxicRule, ReachOptions, ReachResult, Hotspot, WhatIf
 src/engine/graph.ts    reach, transitiveGroups, hotspots, toxicCombinations, whatIfRemoveEdge, explainPath, validateGraph, exportReview
 src/engine/safe.ts     bounded JSON, formula-safe CSV
 src/ui/App.tsx         single view: query bar · lane diagram (SVG) · why panel · identity table · hotspots · toxic · what-if
@@ -52,13 +54,18 @@ No storage APIs; "Apply removal" edits an in-memory copy that resets on refresh.
 
 ## Tests
 
+39 tests in 4 files (`Tests  39 passed (39)`):
+
 - `graph.test.ts` (19): traversal budgets (blocked-path cap, expansion budget, the reviewer's 60-node/359-edge explosion graph completing in bounded time), truncated-but-definitive deny/allow, indeterminate semantics, condition-aware transitive groups, nested-group reach with a membership cycle, deny-override on a group, ABAC blocked paths, action filtering and attribute change, transitive groups, explanation sentence, hotspot ranking, toxic detection respecting denies, what-if lost/gained access, unknown edge error, validation of dangling/self-loop/kind-mismatch/duplicate/oversize/malformed inputs, export schema and CSV escaping.
+- `hierarchy.test.ts` (9, October 2026): default and explicit-false identical on the unit graph and the shipped fixture; admin ⊃ write ⊃ read with nothing implied upwards; a deny on the admin permission still blocks the read it would have satisfied and the path names that permission; `any` queries unaffected; what-if counts respect and record the option; toxic combinations gain the admin-only identity only under the hierarchy and never the denied one; hotspots unchanged; export `query.hierarchy` and summary wording; determinism and never-narrowing on the fixture.
 - `safe.test.ts` (10), `validate-demo.test.ts` (1).
+
+The browser workflow is scripted in `qa/workflow.mjs` with screenshots in `qa/screens/`; both predate the October 2026 round (no hierarchy checkbox in them).
 
 ## Limitations
 
 - Only `eq`/`neq` conditions on string attributes; no time, request-context or resource-attribute conditions.
-- Deny semantics are coarse (asset or permission level); no permission hierarchy (admin ⊃ write ⊃ read) is inferred.
+- Deny semantics are coarse (asset or permission level). The permission hierarchy is an opt-in query option with a fixed order (admin ⊃ write ⊃ read), not inferred from the graph and not configurable per asset or product; with it off (the default) `read` means a `read` permission only.
 - Hotspot ranking is a path-count heuristic, not centrality or usage data.
 - The lane layout places only nodes touched by the current query; broad queries become tall.
 - Single-user, Chromium-only browser QA.
@@ -73,4 +80,4 @@ Blueprint paper: pale blue ground with a faint 24 px grid, indigo ink, Syne for 
 
 ## AI-assistance disclosure
 
-Built October 2026 with AI assistance (Claude) under a test-first workflow; the author reviewed logic, tests and limitations. Dependencies and fonts: `THIRD_PARTY_NOTICES.md`. MIT.
+Built October 2026 with AI assistance under a test-first workflow; the author reviewed logic, tests and limitations. Dependencies and fonts: `THIRD_PARTY_NOTICES.md`. MIT.

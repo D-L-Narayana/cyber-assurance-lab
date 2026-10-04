@@ -104,6 +104,16 @@ details.import { margin: 0 24px 28px; background: var(--card); border: 1px solid
 details.import summary { cursor: pointer; font-weight: 700; }
 details.import textarea { width: 100%; min-height: 200px; margin-top: 10px; border: 1px solid var(--rule); border-radius: 4px; padding: 10px; font-family: var(--mono); font-size: 12px; }
 details.import .rowx { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+details.import .modes { margin: 10px 0 0; }
+details.import .field { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 8px; font-size: 13px; }
+details.import .field input[type='text'] { flex: 1 1 280px; min-width: 0; border: 1px solid var(--rule); border-radius: 4px; padding: 6px 8px; font-family: var(--mono); font-size: 12px; background: var(--card); }
+details.import .check { display: inline-flex; align-items: center; gap: 6px; }
+details.import .help { flex-basis: 100%; font-size: 12px; color: var(--ink-3); }
+.notes { margin: 10px 0 0; padding: 8px 12px; border: 1px solid var(--rule); border-radius: 4px; background: var(--paper); font-size: 13px; color: var(--ink-2); }
+.notes h3 { margin: 0 0 4px; font-family: var(--body); font-size: 13px; font-weight: 700; color: var(--ink); }
+.notes ol { margin: 0; padding-left: 20px; }
+.notes li { margin: 2px 0; overflow-wrap: anywhere; }
+.treecut { margin: 8px 0 0; padding: 6px 10px; border: 1px dashed var(--rule); border-radius: 4px; font-size: 13px; color: var(--ink-2); }
 .errors { margin: 8px 0 0; padding: 8px 12px 8px 26px; background: var(--brick-bg); color: var(--brick); border-radius: 4px; font-size: 13px; }
 .notice { font-size: 13px; color: var(--moss); }
 footer.foot { padding: 0 24px 22px; font-size: 13px; color: var(--ink-3); }

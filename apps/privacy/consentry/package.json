@@ -5,6 +5,7 @@
   "description": "Educational consent and preference decision engine: table-driven policy rules decide whether an event may be used for a purpose, with a full decision trace, rule-coverage analysis and an exportable audit trail. Browser-local synthetic data only.",
   "license": "MIT",
   "type": "module",
+  "engines": { "node": ">=20.19" },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

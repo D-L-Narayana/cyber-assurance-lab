@@ -54,10 +54,18 @@ export function App() {
   const codes = Array.from(new Set(findings.map((f) => f.code))).sort();
 
   function acceptException(f: Finding, input: { rationale: string; approvedBy: string; expiresOn: string }) {
-    const ex: RetentionException = { id: `ex-${String(catalog.exceptions.length + 1).padStart(3, '0')}`, elementId: f.subject.id, acceptsFinding: f.code, rationale: input.rationale, approvedBy: input.approvedBy, approvedOn: catalog.asOf, expiresOn: input.expiresOn, status: 'approved' };
+    // Element findings keep the legacy `elementId` alongside `subject` so exports stay readable by older importers;
+    // flow findings (PURPOSE_DRIFT, UNMAPPED_TRANSFER, DANGLING_FLOW) carry only the subject. Ids skip any `ex-NNN`
+    // already present so a re-import never fails on a duplicate id.
+    const kind = f.subject.kind === 'flow' ? 'flow' : 'element';
+    const used = new Set(catalog.exceptions.map((x) => x.id));
+    let n = catalog.exceptions.length + 1;
+    let id = `ex-${String(n).padStart(3, '0')}`;
+    while (used.has(id)) { n += 1; id = `ex-${String(n).padStart(3, '0')}`; }
+    const ex: RetentionException = { id, ...(kind === 'element' ? { elementId: f.subject.id } : {}), subject: { kind, id: f.subject.id }, acceptsFinding: f.code, rationale: input.rationale, approvedBy: input.approvedBy, approvedOn: catalog.asOf, expiresOn: input.expiresOn, status: 'approved' };
     setCatalog({ ...catalog, exceptions: [...catalog.exceptions, ex] });
     setAcceptTarget(null);
-    setStatus(`Exception ${ex.id} recorded for ${f.subject.id} (${f.code}); expires ${input.expiresOn}.`);
+    setStatus(`Exception ${ex.id} recorded for ${kind} ${f.subject.id} (${f.code}); expires ${input.expiresOn}.`);
   }
 
   function markReviewed(elementId: string) {
@@ -135,7 +143,7 @@ export function App() {
 
         <Tabs.Content value="findings" className="tabpanel">
           <h2>Consistency findings</h2>
-          <p className="lead">Each finding explains why it matters. An element-level finding can be accepted with a time-boxed exception approved by an active owner; accepted findings stay visible and lapse when the exception expires.</p>
+          <p className="lead">Each finding explains why it matters. Element- and flow-level findings (purpose drift, unmapped transfers and dangling flows included) can be accepted with a time-boxed exception approved by an active owner; accepted findings stay visible and lapse when the exception expires.</p>
           <div className="summary">{SEVERITIES.map((s) => <span key={s}><span className={`pill pill-${s}`}>{s}</span> {open.filter((f) => f.severity === s).length} open</span>)}<span><span className="pill pill-accepted">accepted</span> {findings.length - open.length}</span></div>
           <div className="filters">
             <label>Severity<select value={sevFilter} onChange={(e) => setSevFilter(e.target.value as Severity | '')}><option value="">All</option>{SEVERITIES.map((s) => <option key={s} value={s}>{s}</option>)}</select></label>
@@ -153,7 +161,7 @@ export function App() {
                     <td className="mono">{f.code}</td>
                     <td>{f.systemId ? <button type="button" className="rowbtn" onClick={() => { setSelected(f.systemId!); window.scrollTo({ top: 0 }); }}>{systemsById.get(f.systemId)?.name ?? f.systemId}</button> : '—'}</td>
                     <td>{f.message}<span className="why">{f.why}</span></td>
-                    <td>{f.subject.kind === 'element' && !f.accepted && f.code !== 'REVIEW_OVERDUE' && f.code !== 'ORPHAN_ELEMENT' ? <button type="button" className="btn btn-sm" onClick={() => setAcceptTarget(f)}>Accept with exception</button> : f.code === 'REVIEW_OVERDUE' ? <button type="button" className="btn btn-sm" onClick={() => markReviewed(f.subject.id)}>Mark reviewed</button> : '—'}</td>
+                    <td>{(f.subject.kind === 'element' || f.subject.kind === 'flow') && !f.accepted && f.code !== 'REVIEW_OVERDUE' && f.code !== 'ORPHAN_ELEMENT' ? <button type="button" className="btn btn-sm" onClick={() => setAcceptTarget(f)}>Accept with exception</button> : f.code === 'REVIEW_OVERDUE' ? <button type="button" className="btn btn-sm" onClick={() => markReviewed(f.subject.id)}>Mark reviewed</button> : '—'}</td>
                   </tr>
                 ))}
               </tbody>
@@ -235,7 +243,7 @@ export function App() {
           <Dialog.Overlay className="dialog-overlay" />
           <Dialog.Content className="dialog" aria-describedby="acc-desc">
             <Dialog.Title asChild><h2>Accept with a time-boxed exception</h2></Dialog.Title>
-            <Dialog.Description id="acc-desc" className="desc">{acceptTarget?.message} The exception must name an active owner and an expiry date; it lapses automatically after that date.</Dialog.Description>
+            <Dialog.Description id="acc-desc" className="desc">{acceptTarget ? `${acceptTarget.message} Subject: ${acceptTarget.subject.kind} ${acceptTarget.subject.id}. ` : ''}The exception must name an active owner and an expiry date; it lapses automatically after that date.</Dialog.Description>
             {acceptTarget && <ExceptionForm owners={catalog.owners.filter((o) => o.active)} asOf={catalog.asOf} onSubmit={(input) => acceptException(acceptTarget, input)} onCancel={() => setAcceptTarget(null)} />}
           </Dialog.Content>
         </Dialog.Portal>

@@ -21,7 +21,7 @@ Rights-request handling is where privacy programs are measured against hard date
 3. **Record simulated system lookups.** For a request in `collecting`, record a result per system of record (found / not found, record id, subject email on file, fields with a third-party flag). Nothing is actually queried.
 4. **Holds.** In `review`, apply a hold (legal hold, legal-obligation retention, fraud prevention, ongoing transaction, third-party rights) to one system. A hold without a justification blocks `prepare-response`; a justified hold produces a partial response with the exclusion listed.
 5. **Response packet.** Derived live from results and holds: disclosures, redactions (third-party data, identity conflict), exclusions, conflicts, and a `partial` flag. Redacted values can be revealed by a reviewer and the packet exported as JSON.
-6. **Extension.** Record a single extension with reason, days and the date the requester was notified. The engine refuses an extension notified after the initial window or longer than the profile maximum.
+6. **Extension.** Record a single extension with reason, days and the date the requester was notified. The engine refuses an extension notified after the initial window, longer than the profile maximum, dated after the case-file as-of date (the requester cannot have been told yet), or requested on a closed or rejected request; each refusal is shown with its code and appended to the audit log.
 7. **Import / export.** Import a `petitio.casefile` v1 JSON (bounded and validated), export the current case file, export the audit log. State is in memory and resets on refresh by design.
 8. **Audit log.** Every action and every refusal is appended with a SHA-256 hash chained to the previous entry. "Verify chain" recomputes every hash; "Simulate tampering" edits a copy to show detection.
 
@@ -29,7 +29,7 @@ Rights-request handling is where privacy programs are measured against hard date
 
 ```bash
 npm ci
-npm test          # vitest: engine unit/property tests + app integration tests
+npm test          # vitest, 79 tests (Tests  79 passed (79): engine 73 + app integration 6)
 npm run build     # tsc -b && vite build → dist/
 npm run preview   # serves dist on http://127.0.0.1:6100
 npm run dev       # dev server on http://127.0.0.1:6100
@@ -47,6 +47,8 @@ Node 20.19+ or 22.12+ (Vite 7 requirement).
 | US-CA-CCPA | 45 calendar days | up to 45 additional days, once | notice within the first 45 days | Cal. Civ. Code 1798.130(a)(2) ([statute text](https://cppa.ca.gov/regulations/pdf/ccpa_statute_eff_20260101.pdf), [OAG summary](https://www.oag.ca.gov/privacy/ccpa)) |
 
 "Calendar month" uses the corresponding-date rule: 15 March + 1 month = 15 April; 31 January + 1 month = 28/29 February (last day of a shorter month). The month-end rule follows ICO guidance; the EU regulation itself does not define day-counting, so this is a documented modelling choice. Status bands: `overdue` when the as-of date is past the effective due date, `at-risk` within the final 5 days (configurable constant `AT_RISK_DAYS`), otherwise `on-track`. Day counts are whole UTC days; no business-day calendar is applied.
+
+`requestExtension(request, input, asOf?)` runs its guards in a fixed order so refusals are stable: terminal stage (`closed`/`rejected` → `INVALID_TRANSITION`), already extended (`ALREADY_EXTENDED`), input validation (integer days, non-blank reason, real calendar notice date not before receipt → `INVALID_EXTENSION_INPUT`), profile maximum (`EXTENSION_TOO_LONG`), notice inside the initial window (`EXTENSION_TOO_LATE`) and finally — only when the caller supplies `asOf`, as the UI does with the case-file date — a notice dated after `asOf` (`INVALID_EXTENSION_INPUT`, "notice dated in the future relative to the as-of date"). The importer applies the statutory guards but not the stage or as-of guards (see Limitations).
 
 ### State machine (`src/engine/workflow.ts`)
 
@@ -85,13 +87,13 @@ React 19 + TypeScript 5.9 + Vite 7; Vitest 4 with jsdom and Testing Library; fas
 
 ## Tests
 
-`npm test` runs 68 tests in 5 files (measured 1 Oct 2026; engine 63 + UI integration 5; see `EVIDENCE.md` for the RED/GREEN record, including eleven review-driven tests added red-first):
+`npm test` (`vitest run`) prints `Tests  79 passed (79)` in 5 files (measured 4 Oct 2026; engine 73 + UI integration 6; see `EVIDENCE.md` for the RED/GREEN record, including eleven review-driven tests and the October 2026 extension-guard tests, all added red-first):
 
-- `deadline.test.ts` (20): calendar arithmetic incl. a property test over ±5,000 days, profile encodings, status bands, extension refusals, extension input validation.
+- `deadline.test.ts` (29): calendar arithmetic incl. a property test over ±5,000 days, profile encodings, status bands, extension refusals, extension input validation, and the stage/as-of guards (terminal stages refused, notice after the as-of date refused, malformed as-of date, guard order, a property over every notice date in the initial window).
 - `workflow.test.ts` (15): every guard, immutability, attempt exhaustion, explanations.
 - `reconcile.test.ts` (9): duplicate rules and packet assembly.
-- `audit.test.ts` (19): chain linkage, tamper and deletion detection, import bounds and schema rejection, strict calendar dates, imported extensions held to the statutory guards, invalid-input regression (importer returns `ok:false`, never throws).
-- `App.test.tsx` (5): integration through the rendered UI (written after the UI as regression coverage; the engine tests were written first).
+- `audit.test.ts` (20): chain linkage, tamper and deletion detection, import bounds and schema rejection, strict calendar dates, imported extensions held to the statutory guards, invalid-input regression (importer returns `ok:false`, never throws), and the documented acceptance of a historical extension on a request that has since closed.
+- `App.test.tsx` (6): integration through the rendered UI (written after the UI as regression coverage; the engine tests were written first), including the on-screen refusal of a notice dated after the as-of date.
 
 ## Data handling
 
@@ -107,7 +109,7 @@ React 19 + TypeScript 5.9 + Vite 7; Vitest 4 with jsdom and Testing Library; fas
 - Hold semantics are simplified (a hold excludes a system for any right).
 - The audit chain is session-scoped tamper evidence, not a trusted log.
 - Single-user; no authentication or roles beyond labels in history entries.
-- `requestExtension` does not check the request stage (a closed request could be extended) and does not compare the notice date with `asOf`; the importer enforces the statutory maximum, notice window, receipt order and reason, so a file cannot carry an extension the UI would refuse.
+- `requestExtension` refuses terminal stages (`closed`, `rejected`) and, when the caller passes the case-file `asOf` as the UI does, a notice dated after it. The importer (`casefile.ts`) deliberately does not apply those two guards: a historical file may legitimately record an extension on a request that has since closed, so it is accepted as long as the statutory maximum, notice window, receipt order and reason hold. An imported file can therefore carry an extension that the UI would refuse to record today; it cannot carry one that breaks the statutory rules.
 
 ## JD evidence (educational mapping)
 
@@ -115,7 +117,7 @@ Privacy tech workflow (rights automation concepts), analytical/design thinking (
 
 ## AI-assistance disclosure
 
-Built in October 2026 with substantial AI assistance (Claude) for design, tests, implementation and documentation. Human review and understanding of this code have **not** been independently established. Before this project is presented as personal work, the candidate should study the code and rehearse the material in `INTERVIEW_GUIDE.md`; this README makes no claim that such review has already happened.
+Built in October 2026 with substantial AI assistance for design, tests, implementation and documentation. Human review and understanding of this code have **not** been independently established. Before this project is presented as personal work, the candidate should study the code and rehearse the material in `INTERVIEW_GUIDE.md`; this README makes no claim that such review has already happened.
 
 ## License
 

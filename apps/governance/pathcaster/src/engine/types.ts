@@ -70,9 +70,14 @@ export interface IdentityAccess {
   truncated: boolean;
 }
 
+/** Query options (October 2026 round). `hierarchy`: treat admin ⊃ write ⊃ read when matching permission actions. Default false. */
+export interface ReachOptions { hierarchy?: boolean }
+
 export interface ReachResult {
   assetId: string;
   action: Action | 'any';
+  /** Whether the permission hierarchy admin ⊃ write ⊃ read was applied to this query (additive, default false). */
+  hierarchy: boolean;
   identities: IdentityAccess[];
   summary: { allow: number; deny: number; none: number; indeterminate: number };
 }
@@ -81,4 +86,4 @@ export interface Hotspot { nodeId: string; kind: NodeKind; label: string; identi
 
 export interface ToxicHit { ruleId: string; identityId: string; aPaths: number; bPaths: number }
 
-export interface WhatIf { removedEdgeId: string; assetId: string; action: Action | 'any'; before: number; after: number; lostAccess: string[]; gainedAccess: string[] }
+export interface WhatIf { removedEdgeId: string; assetId: string; action: Action | 'any'; hierarchy: boolean; before: number; after: number; lostAccess: string[]; gainedAccess: string[] }

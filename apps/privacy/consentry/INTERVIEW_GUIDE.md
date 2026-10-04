@@ -15,6 +15,12 @@ Two design choices worth defending:
 
 Disable `R06-gpc-signal` in the coverage tab. The regression suite immediately reports `ev-11: expected deny (GPC_OPT_OUT), observed allow (NOTICE_AND_OPT_OUT)`. The point: a consent engine with no stored expectations would silently start allowing sale/share despite a GPC signal. Coverage shows which other rules would have the same blind spot if their fixtures were missing (R99 is the deliberate example: never reached).
 
+## The record-regime rung (October 2026 round)
+
+**Q. Why is `R09a-record-regime` a separate rule placed before R09, and why does it route to review rather than deny?**
+
+A. R09 answers "is there a current grant?"; R09a answers a different question — "was that grant captured under the notice this subject is actually governed by?" A consent captured under the EU notice is not automatically valid for a UK subject (thresholds, wording and the notice itself differ), but it is not evidence of refusal either, so the honest decision is *review*, with the record id named so a human can compare the two notices. Placing it before R09 leaves R09 untouched and makes the rung visible in every consent trace. It applies only to grants: a withdrawal, objection or opt-out recorded under another regime keeps its protective effect (R07/R09 still deny), because a protective signal must never be weakened by a bookkeeping mismatch. The fixture gained Imogen (UK) with `rec-012` captured under `EU-GDPR` and `ev-21` expecting `review / RECORD_REGIME_MISMATCH`, so `ruleCoverage` reports R09a as exercised and the suite fails if the rule is disabled; because it routes to review, it is listed with R05–R08 as a protective rule whose disabling triggers the import warning. The determinism property (exactly one matched rung over 200 random cases) still holds with fourteen rules.
+
 ## Why the tests look like this
 
 - Engine tests first (38 red against stubs → 38 green). The fixture's 20 expectations are themselves a test (`passes for the bundled fixture expectations`), so the fixture cannot drift from the engine.

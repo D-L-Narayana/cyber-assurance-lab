@@ -75,6 +75,10 @@ export interface HistoryEntry {
   to: PacketState;
   actor: string;
   note: string;
+  /** Hash of the previous entry; 64 zeros for the first entry. Absent on legacy packets exported before history hashing existed. */
+  prevHash?: string;
+  /** SHA-256 (hex, lower-case) of canonical({ at, from, to, actor, note, prevHash }). Present together with prevHash or not at all. */
+  hash?: string;
 }
 
 export interface Packet {
@@ -107,4 +111,5 @@ export interface ValidationIssue {
   message: string;
 }
 
-export type ValidationResult = { ok: true; packet: Packet } | { ok: false; issues: ValidationIssue[] };
+/** `warnings` are non-blocking notes about an accepted packet (e.g. a legacy history without hashes). */
+export type ValidationResult = { ok: true; packet: Packet; warnings: string[] } | { ok: false; issues: ValidationIssue[] };

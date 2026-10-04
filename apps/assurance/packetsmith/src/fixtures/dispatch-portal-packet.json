@@ -416,5 +416,33 @@
     }
   ],
   "state": "drafting",
-  "history": []
+  "history": [
+    {
+      "at": "2026-09-26",
+      "from": "drafting",
+      "to": "ready-for-review",
+      "actor": "a.mensah",
+      "note": "First pass submitted for review.",
+      "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hash": "d95aa19041659bd16e4d8ef7e8f37174d1a03797a54b8b4cb95b4a6ed8b15d22"
+    },
+    {
+      "at": "2026-09-29",
+      "from": "ready-for-review",
+      "to": "returned",
+      "actor": "p.lindqvist",
+      "note": "Returned: the AC-6 interview with the application owner is still planned and the SC-7 boundary test has not been attempted; complete or document them before resubmitting.",
+      "prevHash": "d95aa19041659bd16e4d8ef7e8f37174d1a03797a54b8b4cb95b4a6ed8b15d22",
+      "hash": "63cf71d332a318cf1a1acad24c0e6a05fe5c2ba47d22b37bb36fee9caa92720d"
+    },
+    {
+      "at": "2026-09-30",
+      "from": "returned",
+      "to": "drafting",
+      "actor": "a.mensah",
+      "note": "Reopened to address the return note.",
+      "prevHash": "63cf71d332a318cf1a1acad24c0e6a05fe5c2ba47d22b37bb36fee9caa92720d",
+      "hash": "86d7298b7264cacdbb606be772025799b3f733247687878f7669c0628eec30a8"
+    }
+  ]
 }

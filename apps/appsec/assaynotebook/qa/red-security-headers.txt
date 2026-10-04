@@ -1,0 +1,140 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/appsec/assaynotebook
+# 2026-10-04T18:38:52.446Z v20.20.1
+# exit 1
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
+
+
+ RUN  v4.1.11 <repo>/apps/appsec/assaynotebook
+
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > v1 reflects a search marker unencoded; v3 encodes it 11ms
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > v1 returns another user’s receipt; v2 denies it 3ms
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > v1 and v2 set the session cookie without HttpOnly/Secure/SameSite; v3 sets all three 1ms
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > v1 leaks a stack trace on malformed ids; v3 returns a generic 400 0ms
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > v1 and v2 serve the HTML account page without Content-Security-Policy or X-Content-Type-Options; v3 sends both 19ms
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > refuses anything that is not a relative lab path and bounds inputs 7ms
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > generates deterministic, harmless markers 1ms
+ ✓ src/engine/__tests__/notebook.test.ts > oracles > reflects-unencoded fires on v1 and is silent on v3 0ms
+ ✓ src/engine/__tests__/notebook.test.ts > oracles > cross-user-object fires on v1 and is silent on v3 16ms
+ ✓ src/engine/__tests__/notebook.test.ts > oracles > cookie-missing-flags fires on v1 and is silent on v3 1ms
+ ✓ src/engine/__tests__/notebook.test.ts > oracles > stack-trace-disclosed fires on v1 and is silent on v3 1ms
+ × src/engine/__tests__/notebook.test.ts > oracles > security-headers-missing fires on v1 and is silent on v3 23ms
+   → expected false to be true // Object.is equality
+ × src/engine/__tests__/notebook.test.ts > oracles > security-headers-missing fires only on HTML responses lacking CSP or X-Content-Type-Options, looking headers up case-insensitively 1ms
+   → expected false to be true // Object.is equality
+ × src/engine/__tests__/notebook.test.ts > oracles > suggestOracles offers security-headers-missing for HTML responses on every build and never for JSON 4ms
+   → expected [] to include 'security-headers-missing'
+ ✓ src/engine/__tests__/notebook.test.ts > severity rubric > combines impact and likelihood deterministically 0ms
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > hashes each observation with SHA-256 and is deterministic for identical exchanges 33ms
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > deduplicates findings by signature and merges evidence 7ms
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > refuses to record a finding when the oracle did not fire 0ms
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > retest replays the original request: still-open on v1, fixed on v3 1ms
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > enforces transitions: no manual fixed, wont-fix needs a rationale, retest requires a request first 3ms
+ × src/engine/__tests__/notebook.test.ts > notebook > runCatalog records 5 findings on v1, 3 on v2 and 0 on v3 6ms
+   → v1: expected 4 to be 5 // Object.is equality
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > bounds the notebook size 4ms
+ × src/engine/__tests__/notebook.test.ts > report > exports a stable schema with CWE ids, hashes and redacted cookie values 3ms
+   → expected [ 'CWE-1004', 'CWE-209', …(2) ] to deeply equal [ 'CWE-1004', 'CWE-209', …(3) ]
+ ✓ src/engine/__tests__/notebook.test.ts > sixth-review regression — severity re-ratings are part of the audit trail > logs a history entry when impact, likelihood or rationale changes, and nothing when unchanged 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/__tests__/notebook.test.ts > oracles > security-headers-missing fires on v1 and is silent on v3
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/__tests__/notebook.test.ts:78:72
+     76|     const v1 = labRequest('v1', entry.request);
+     77|     const v3 = labRequest('v3', entry.request);
+     78|     expect(evaluateOracle(entry.oracle, entry.request, v1).vulnerable)…
+       |                                                                        ^
+     79|     expect(evaluateOracle(entry.oracle, entry.request, v3).vulnerable)…
+     80|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/engine/__tests__/notebook.test.ts > oracles > security-headers-missing fires only on HTML responses lacking CSP or X-Content-Type-Options, looking headers up case-insensitively
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/__tests__/notebook.test.ts:86:29
+     84|     const html = (headers: Record<string, string>, status = 200): LabR…
+     85|     const bare = evaluateOracle(spec, req, html({ 'content-type': 'tex…
+     86|     expect(bare.vulnerable).toBe(true);
+       |                             ^
+     87|     expect(bare.evidence).toMatch(/content-security-policy/i);
+     88|     expect(bare.evidence).toMatch(/x-content-type-options/i);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/engine/__tests__/notebook.test.ts > oracles > suggestOracles offers security-headers-missing for HTML responses on every build and never for JSON
+AssertionError: expected [] to include 'security-headers-missing'
+ ❯ src/engine/__tests__/notebook.test.ts:107:127
+    105|   it('suggestOracles offers security-headers-missing for HTML response…
+    106|     const account: LabRequest = { method: 'GET', path: '/account', ses…
+    107|     for (const build of ['v1', 'v3'] as const) expect(suggestOracles(a…
+       |                                                                                                                               ^
+    108|     const receipt: LabRequest = { method: 'GET', path: '/receipts/r-10…
+    109|     expect(suggestOracles(receipt, labRequest('v1', receipt)).map((s) …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/engine/__tests__/notebook.test.ts > notebook > runCatalog records 5 findings on v1, 3 on v2 and 0 on v3
+AssertionError: v1: expected 4 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 4
+
+ ❯ src/engine/__tests__/notebook.test.ts:196:39
+    194|       const nb = createNotebook({ clock: () => '2026-10-01T10:00:00.00…
+    195|       const summary = await nb.runCatalog(build);
+    196|       expect(summary.recorded, build).toBe(count);
+       |                                       ^
+    197|       expect(summary.clean, build).toEqual(clean);
+    198|       expect(nb.state().findings).toHaveLength(count);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  src/engine/__tests__/notebook.test.ts > report > exports a stable schema with CWE ids, hashes and redacted cookie values
+AssertionError: expected [ 'CWE-1004', 'CWE-209', …(2) ] to deeply equal [ 'CWE-1004', 'CWE-209', …(3) ]
+
+- Expected
++ Received
+
+  [
+    "CWE-1004",
+    "CWE-209",
+    "CWE-639",
+-   "CWE-693",
+    "CWE-79",
+  ]
+
+ ❯ src/engine/__tests__/notebook.test.ts:216:54
+    214|     const report = buildReport(nb.state(), { generatedAt: '2026-10-01T…
+    215|     expect(report.schema).toBe('assaynotebook.report/1');
+    216|     expect(report.findings.map((f) => f.cwe).sort()).toEqual(['CWE-100…
+       |                                                      ^
+    217|     const text = JSON.stringify(report);
+    218|     expect(text).not.toMatch(/sid=[a-z0-9]{8,}/i);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 19 passed (24)
+   Start at  18:38:54
+   Duration  1.02s (transform 339ms, setup 0ms, import 375ms, tests 155ms, environment 0ms)
+

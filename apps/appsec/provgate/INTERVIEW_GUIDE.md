@@ -19,6 +19,10 @@ Release 1.4.0's unit-test evidence: the artifact text says 212 tests passed and 
 1. `acceptances.find(findingRef)` made the verdict depend on list order: an expired acceptance listed before a valid one blocked the release; reversed, it passed. Fixed by evaluating all acceptances and choosing deterministically, plus a warning for duplicates.
 2. Evidence without a `scope` array was assumed to cover everything, so deleting `scope` from the threat model made a class requirement pass. Fixed fail-closed: class-required evidence must declare scope (`scope-missing`); baseline types need not.
 
+## October 2026 upgrade: one question worth being ready for
+
+**Q: How do you guarantee the remediation checklist never silently skips a problem code?** Two layers. At the type level, `ACTION_SUMMARY` in `remediation.ts` is declared as `Record<ProblemCode | AcceptanceProblemCode, string>`, and the test file declares a second such record of expected key words: if anyone adds a code to `types.ts` without adding an action and an expectation, `tsc` fails — and `npm run build` runs `tsc`, so the app cannot ship. At runtime, the test evaluates release 1.4.0, collects every problem code from `requirements[].problems`, `findings[].acceptance.problems` and the blocking findings without an acceptance, and asserts both that each code has an item and that the item count equals the problem count — ten for 1.4.0. The checklist is a pure function of `(evaluation, policy, manifest)`: the same evaluation always yields the same ordered list, the actions quote the policy's own numbers (30 days, 2 reviewers, 90-day windows) rather than hard-coded prose, and `no-acceptance` exists only because the gate raises that blocker without a code. What it cannot do is know the organisation's process — it says *what* would satisfy the policy, not *who* should do it.
+
 ## Production next steps
 
 1. Ingest manifests from CI (signed attestations such as in-toto/SLSA provenance) instead of hand-authored JSON.

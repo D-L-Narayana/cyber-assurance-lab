@@ -1,0 +1,135 @@
+{
+  "description": "Cases for tools/lib/dist-tokens.mjs and tools/lib/dist-data-urls.mjs (run with `node tools/check-dist.mjs --self-test`). `cases`: token scanner — `expect` maps each token that must be reported to its kind: forbidden | warn | vite-modulepreload; tokens absent from `expect` must not be reported. `dataUrlCases`: inlined data: URLs vs CSP — `expect` lists every data: URL as { mime, directive, blocked } (order-insensitive); an empty list means nothing may be reported.",
+  "cases": [
+    {
+      "name": "Vite modulepreload polyfill, minified entry chunk (Vite 7.3.x, copied from a production bundle)",
+      "text": "(function(){const o=document.createElement(\"link\").relList;if(o&&o.supports&&o.supports(\"modulepreload\"))return;for(const d of document.querySelectorAll('link[rel=\"modulepreload\"]'))r(d);new MutationObserver(d=>{for(const h of d)if(h.type===\"childList\")for(const v of h.addedNodes)v.tagName===\"LINK\"&&v.rel===\"modulepreload\"&&r(v)}).observe(document,{childList:!0,subtree:!0});function s(d){const h={};return d.integrity&&(h.integrity=d.integrity),d.referrerPolicy&&(h.referrerPolicy=d.referrerPolicy),d.crossOrigin===\"use-credentials\"?h.credentials=\"include\":d.crossOrigin===\"anonymous\"?h.credentials=\"omit\":h.credentials=\"same-origin\",h}function r(d){if(d.ep)return;d.ep=!0;const h=s(d);fetch(d.href,h)}})();function Vg(o){return o&&o.__esModule&&Object.prototype.hasOwnProperty.call(o,\"default\")?o.default:o}",
+      "expect": { "fetch(": "vite-modulepreload" }
+    },
+    {
+      "name": "Vite modulepreload polyfill, unminified shape (identifiers as in Vite's source)",
+      "text": "(function polyfill() { const relList = document.createElement(\"link\").relList; if (relList && relList.supports && relList.supports(\"modulepreload\")) { return; } for (const link of document.querySelectorAll('link[rel=\"modulepreload\"]')) { processPreload(link); } function getFetchOpts(link) { const fetchOpts = {}; fetchOpts.credentials = \"same-origin\"; return fetchOpts; } function processPreload(link) { if (link.ep) return; link.ep = true; const fetchOpts = getFetchOpts(link); fetch(link.href, fetchOpts); } })();",
+      "expect": { "fetch(": "vite-modulepreload" }
+    },
+    {
+      "name": "application fetch to an API path is forbidden",
+      "text": "async function load(){const r=await fetch(\"/api/items\",{method:\"GET\"});return r.json()}",
+      "expect": { "fetch(": "forbidden" }
+    },
+    {
+      "name": "fetch(x.href, opts) outside the polyfill (no preload marker, no relList) is forbidden",
+      "text": "function go(d){const h={credentials:\"same-origin\"};fetch(d.href,h)}",
+      "expect": { "fetch(": "forbidden" }
+    },
+    {
+      "name": "fetch(x.href, opts) with the words modulepreload and relList nearby but no .ep marker is forbidden",
+      "text": "const relList=document.createElement(\"link\").relList;const tag=\"modulepreload\";function go(d){const h={};fetch(d.href,h)}",
+      "expect": { "fetch(": "forbidden" }
+    },
+    {
+      "name": "polyfill followed by an application fetch reports the application call as forbidden",
+      "text": "(function(){const o=document.createElement(\"link\").relList;if(o&&o.supports&&o.supports(\"modulepreload\"))return;function r(d){if(d.ep)return;d.ep=!0;const h={};fetch(d.href,h)}})();async function sync(){await fetch(\"https://telemetry.example/collect\",{method:\"POST\"})}",
+      "expect": { "fetch(": "mixed" }
+    },
+    {
+      "name": "prefetch( and refetch( are not fetch(",
+      "text": "router.prefetch(route);cache.refetch(key);",
+      "expect": {}
+    },
+    {
+      "name": "storage APIs via property access are forbidden",
+      "text": "const v=window.localStorage.getItem(\"x\");sessionStorage.setItem(\"y\",v);const db=indexedDB.open(\"z\");",
+      "expect": { "localStorage": "forbidden", "sessionStorage": "forbidden", "indexedDB": "forbidden" }
+    },
+    {
+      "name": "identifiers that merely contain a token are not reported",
+      "text": "const _localStorage=1;const localStorageX=2;const myIndexedDB=3;const sessionStorageKey=4;",
+      "expect": {}
+    },
+    {
+      "name": "XMLHttpRequest and WebSocket constructors are forbidden",
+      "text": "const x=new XMLHttpRequest();const w=new WebSocket(\"wss://example.test\");",
+      "expect": { "XMLHttpRequest": "forbidden", "WebSocket(": "forbidden" }
+    },
+    {
+      "name": "cookies and beacons are warnings",
+      "text": "document.cookie=\"a=b\";navigator.sendBeacon(\"/log\",body);",
+      "expect": { "document.cookie": "warn", "sendBeacon": "warn" }
+    }
+  ],
+  "dataUrlCases": [
+    {
+      "name": "CSS: inlined woff2 font subset under the canonical CSP (font-src 'self', no data:) is blocked",
+      "file": "assets/index-abc123.css",
+      "text": "@font-face{font-family:Example Sans;font-style:normal;font-weight:400;font-display:swap;src:url(data:font/woff2;base64,d09GMgABAAAAAAZ8AA4AAAAADJwAAAYkAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cGh4GYACCWhEICoR4hDgLGAABNgIkAy4EIAWDGgcgG5MKyB6DOw) format(\"woff2\")}",
+      "csp": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'",
+      "expect": [{ "mime": "font/woff2", "directive": "font-src", "blocked": true }]
+    },
+    {
+      "name": "CSS: one woff and one woff2 inlined in the same file are both blocked under font-src 'self'",
+      "file": "assets/index-def456.css",
+      "text": "@font-face{font-family:A;src:url(data:font/woff2;base64,d09GMgABAAAAAAZ8) format(\"woff2\"),url(data:font/woff;base64,d09GRgABAAAAAAZ8) format(\"woff\")}.x{background:url(./assets/paper-abc.png)}",
+      "csp": "default-src 'none'; font-src 'self'; img-src 'self' data: blob:",
+      "expect": [
+        { "mime": "font/woff2", "directive": "font-src", "blocked": true },
+        { "mime": "font/woff", "directive": "font-src", "blocked": true }
+      ]
+    },
+    {
+      "name": "CSS: inlined SVG image is permitted because img-src lists data:",
+      "file": "assets/index-ghi789.css",
+      "text": ".chev{background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M1 2l3 3 3-3'/%3E%3C/svg%3E\")}",
+      "csp": "default-src 'none'; img-src 'self' data: blob:; font-src 'self'",
+      "expect": [{ "mime": "image/svg+xml", "directive": "img-src", "blocked": false }]
+    },
+    {
+      "name": "CSS: inlined font is permitted when font-src lists data:",
+      "file": "assets/index-jkl012.css",
+      "text": "@font-face{font-family:B;src:url(data:font/woff2;base64,d09GMgABAAAAAAZ8) format(\"woff2\")}",
+      "csp": "default-src 'none'; font-src 'self' data:",
+      "expect": [{ "mime": "font/woff2", "directive": "font-src", "blocked": false }]
+    },
+    {
+      "name": "CSS: file and external url() references are not data: URLs (nothing reported by this rule)",
+      "file": "assets/index-mno345.css",
+      "text": "@font-face{font-family:C;src:url(./assets/c-abc.woff2) format(\"woff2\")}.a{background:url(../assets/y.png)}.b{background:url(https://cdn.example/f.woff2)}",
+      "csp": "default-src 'none'; font-src 'self'",
+      "expect": []
+    },
+    {
+      "name": "CSS: an unknown mime falls back to default-src, which has no data: → blocked",
+      "file": "assets/index-pqr678.css",
+      "text": ".cur{cursor:url(data:application/octet-stream;base64,AAAAAAAA),auto}",
+      "csp": "default-src 'none'; font-src 'self' data:; img-src 'self' data:",
+      "expect": [{ "mime": "application/octet-stream", "directive": "default-src", "blocked": true }]
+    },
+    {
+      "name": "CSS: no font-src directive → default-src governs, and it lists data: → permitted",
+      "file": "assets/index-stu901.css",
+      "text": "@font-face{font-family:D;src:url(data:font/woff2;base64,d09GMgABAAAAAAZ8) format(\"woff2\")}",
+      "csp": "default-src 'self' data:; script-src 'self'",
+      "expect": [{ "mime": "font/woff2", "directive": "font-src", "blocked": false }]
+    },
+    {
+      "name": "JS: an inlined font string literal under the canonical CSP is blocked",
+      "file": "assets/index-vwx234.js",
+      "text": "const f=\"data:font/woff2;base64,d09GMgABAAAAAAZ8AA4AAAAADJw\";const s=new FontFace(\"E\",`url(${f})`);",
+      "csp": "default-src 'none'; img-src 'self' data: blob:; font-src 'self'",
+      "expect": [{ "mime": "font/woff2", "directive": "font-src", "blocked": true }]
+    },
+    {
+      "name": "JS: an inlined PNG string literal is permitted because img-src lists data:",
+      "file": "assets/index-yza567.js",
+      "text": "const i='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';img.src=i;",
+      "csp": "default-src 'none'; img-src 'self' data: blob:; font-src 'self'",
+      "expect": [{ "mime": "image/png", "directive": "img-src", "blocked": false }]
+    },
+    {
+      "name": "JS: bare \"data:\" and prose containing data: without a mime type are not data: URLs",
+      "file": "assets/index-bcd890.js",
+      "text": "const s=\"data:\";const t=\"metadata: none\";const u='data:,';if(href.startsWith(\"data:\"))block();",
+      "csp": "default-src 'none'; font-src 'self'",
+      "expect": []
+    }
+  ]
+}

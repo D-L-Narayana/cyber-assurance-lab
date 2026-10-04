@@ -1,0 +1,6 @@
+$ npm audit --audit-level=high
+# cwd apps/appsec/permitmatrix
+# 2026-10-04T18:51:18.906Z v20.20.1
+# exit 0
+
+found 0 vulnerabilities

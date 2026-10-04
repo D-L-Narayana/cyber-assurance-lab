@@ -1,0 +1,75 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/privacy/tenure
+# 2026-10-04T09:30:54.725Z v20.20.1
+# exit 1
+# note: test-name label neutralised after capture (review-round wording only); result lines and counts unchanged
+
+
+ RUN  v4.1.11 <repo>/apps/privacy/tenure
+
+ ✓ src/App.test.tsx > Tenure app (integration, added after the UI) > renders the lineage map with every system as a focusable node and shows the open-finding count 2904ms
+ ✓ src/App.test.tsx > Tenure app (integration, added after the UI) > selecting a system node updates the inspector 1748ms
+ × src/App.test.tsx > Tenure app (integration, added after the UI) > accepting a finding with an exception marks it accepted and lowers the open count 5235ms
+   → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ✓ src/App.test.tsx > Tenure app (integration, added after the UI) > marking an overdue element as reviewed removes it from the overdue list 1157ms
+ ✓ src/App.test.tsx > Tenure app (integration, added after the UI) > import rejects unknown vocabulary with a precise message 2046ms
+ ✓ src/engine/engine.test.ts > normaliseCatalog > trims and lower-cases ids and records each change as a note 27ms
+ ✓ src/engine/engine.test.ts > normaliseCatalog > maps category, region and mechanism synonyms to the canonical vocabulary 1ms
+ ✓ src/engine/engine.test.ts > normaliseCatalog > removes duplicate purposes and element ids inside a flow 1ms
+ ✓ src/engine/engine.test.ts > normaliseCatalog > is idempotent 53ms
+ ✓ src/engine/engine.test.ts > buildGraph > assigns layers by longest path from source systems and counts degrees 1ms
+ ✓ src/engine/engine.test.ts > buildGraph > flags cross-region edges 0ms
+ ✓ src/engine/engine.test.ts > buildGraph > detects cycles and still assigns every node a layer 0ms
+ ✓ src/engine/engine.test.ts > buildGraph > layers form a DAG ordering for acyclic graphs (property) 83ms
+ ✓ src/engine/engine.test.ts > effectiveRetentionDays > prefers an element override over the schedule, and returns undefined when neither exists 0ms
+ ✓ src/engine/engine.test.ts > runChecks > is clean for a consistent catalog 48ms
+ ✓ src/engine/engine.test.ts > runChecks > flags an element whose system does not exist 26ms
+ ✓ src/engine/engine.test.ts > runChecks > flags missing and inactive owners with different codes 1ms
+ ✓ src/engine/engine.test.ts > runChecks > flags missing schedules, with a higher-severity code for special-category data 42ms
+ ✓ src/engine/engine.test.ts > runChecks > flags retention inflation when a downstream copy is kept longer than its source 1ms
+ ✓ src/engine/engine.test.ts > runChecks > flags purpose drift when a flow carries an element to a system with no shared purpose 1ms
+ ✓ src/engine/engine.test.ts > runChecks > flags an unmapped cross-region transfer but accepts an adequacy mechanism 1ms
+ ✓ src/engine/engine.test.ts > runChecks > does not treat a same-region flow with mechanism none as a transfer problem 0ms
+ ✓ src/engine/engine.test.ts > runChecks > flags flows that carry elements the source system does not hold 0ms
+ ✓ src/engine/engine.test.ts > runChecks > reports cycles once per cycle 1ms
+ ✓ src/engine/engine.test.ts > runChecks > an approved, unexpired exception by an active owner marks the finding accepted 5ms
+ ✓ src/engine/engine.test.ts > runChecks > an expired exception no longer accepts the finding and is itself reported 0ms
+ ✓ src/engine/engine.test.ts > runChecks > an exception approved by an inactive owner is reported and does not accept the finding 0ms
+ ✓ src/engine/engine.test.ts > runChecks > gives every finding a stable id so repeated runs can be diffed 31ms
+ ✓ src/engine/engine.test.ts > runChecks > the demo catalog contains the seeded defects 2ms
+ ✓ src/engine/engine.test.ts > retentionReviews > classifies review status from the last review date and cadence 0ms
+ ✓ src/engine/engine.test.ts > retentionReviews > sorts overdue first, then by days until due 1ms
+ ✓ src/engine/engine.test.ts > catalog import/export > round-trips the demo catalog 36ms
+ ✓ src/engine/engine.test.ts > catalog import/export > rejects oversized, deeply nested and over-limit inputs 145ms
+ ✓ src/engine/engine.test.ts > catalog import/export > rejects bad enums, dates, sensitivity and duplicate ids 3ms
+ ✓ src/engine/engine.test.ts > catalog import/export > accepts unknown synonyms through normalisation but rejects truly unknown categories 2ms
+ ✓ src/engine/engine.test.ts > catalog import/export > escapes CSV cells that could be interpreted as formulas 51ms
+ ✓ src/engine/engine.test.ts > hostile nesting (review finding) > returns a validation error, not a RangeError, for 20,000 nested arrays inside the byte limit 34ms
+ ✓ src/engine/engine.test.ts > strict dates (review finding) > rejects impossible calendar dates that match the YYYY-MM-DD pattern 21ms
+ ✓ src/engine/engine.test.ts > exception policy bounds (review finding, 2026-10-01) > an exception approved after asOf cannot apply and is reported out of policy 2ms
+ ✓ src/engine/engine.test.ts > exception policy bounds (review finding, 2026-10-01) > a term longer than 365 days cannot hide a finding 64ms
+ ✓ src/engine/engine.test.ts > exception policy bounds (review finding, 2026-10-01) > an approved exception without an approval date is not live 20ms
+ ✓ src/engine/engine.test.ts > exception policy bounds (review finding, 2026-10-01) > the demo fixture exception within the cap still accepts its finding 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/App.test.tsx > Tenure app (integration, added after the UI) > accepting a finding with an exception marks it accepted and lowers the open count
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/App.test.tsx:24:3
+     22|   });
+     23|
+     24|   it('accepting a finding with an exception marks it accepted and lowe…
+       |   ^
+     25|     const user = userEvent.setup();
+     26|     render(<App />);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 41 passed (42)
+   Start at  09:31:02
+   Duration  29.89s (transform 1.70s, setup 2.16s, import 2.36s, tests 13.86s, environment 9.50s)
+

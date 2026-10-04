@@ -1,0 +1,43 @@
+$ npx vitest run --reporter=verbose src/engine/validate.test.ts
+# cwd apps/defense/peerline
+# 2026-10-04T19:09:20.796Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/defense/peerline
+
+ × src/engine/validate.test.ts > bounded record import > parseRecords enforces the byte cap before JSON.parse and reports invalid JSON 40ms
+   → expected true to be false // Object.is equality
+ ✓ src/engine/validate.test.ts > bounded record import > rejects nesting deeper than the record shape and oversized value counts without recursing 2ms
+ ✓ src/engine/validate.test.ts > bounded record import > rejects impossible calendar days such as 2026-02-30 and accepts a real leap day 0ms
+ ✓ src/engine/validate.test.ts > bounded record import > rejects duplicate (user, day) rows naming both row indices 0ms
+ ✓ src/engine/validate.test.ts > bounded record import > restricts user and dept to printable characters 1ms
+ ✓ src/engine/validate.test.ts > bounded record import > addresses every error by path, requires finite numbers, drops unknown keys and caps the list at 20 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/validate.test.ts > bounded record import > parseRecords enforces the byte cap before JSON.parse and reports invalid JSON
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/engine/validate.test.ts:24:24
+     22|     // Text is decoded exactly once: a JSON string literal that itself…
+     23|     const wrapped = parseRecords(JSON.stringify(JSON.stringify([rec('u…
+     24|     expect(wrapped.ok).toBe(false);
+       |                        ^
+     25|     expect(errorsOf(wrapped)).toMatch(/array/);
+     26|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  19:09:21
+   Duration  340ms (transform 117ms, setup 0ms, import 129ms, tests 46ms, environment 0ms)
+

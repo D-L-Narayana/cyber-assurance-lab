@@ -298,7 +298,7 @@ export function App() {
           })}
           {a.versions.length > 0 && (
             <ol className="versions" aria-label="Version history">
-              {[...a.versions].reverse().map((v) => <li key={v.number}><strong>v{v.number}</strong> · {v.at} · <span className="vh">{v.contentHash.slice(0, 12)}</span><br />{v.changeSummary.join('; ')}</li>)}
+              {[...a.versions].reverse().map((v) => <li key={v.number}><strong>v{v.number}</strong> · {v.at} · <span className="vh">{v.contentHash.slice(0, 12)}</span> · {v.content === undefined ? 'no retained content (next summary will be hash-only)' : 'content retained for field-level diffs'}<br />{v.changeSummary.join('; ')}</li>)}
             </ol>
           )}
         </aside>

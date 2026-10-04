@@ -4,7 +4,7 @@
  * Pure functions, bounded traversal, no network, no live directory.
  */
 import type {
-  AccessPath, Action, Condition, DenyHit, Graph, GraphEdge, GraphNode, Hotspot, IdentityAccess, ReachResult, ToxicHit, WhatIf,
+  AccessPath, Action, Condition, DenyHit, Graph, GraphEdge, GraphNode, Hotspot, IdentityAccess, ReachOptions, ReachResult, ToxicHit, WhatIf,
 } from './types';
 import { toCsv } from './safe';
 
@@ -56,8 +56,26 @@ function denyHits(identityId: string, groups: Set<string>, assetId: string, perm
   return hits;
 }
 
-/** Who can reach an asset (optionally with a specific action), with every path and the deny-override verdict. */
-export function reach(g: Graph, assetId: string, action: Action | 'any'): ReachResult {
+const ACTION_RANK: Record<Action, number> = { read: 0, write: 1, admin: 2 };
+
+/**
+ * Does a permission whose action is `have` satisfy a query for `want`? Exact match always; with the optional
+ * hierarchy (admin ⊃ write ⊃ read) a stronger action also satisfies a weaker query. Nothing is ever implied upwards.
+ */
+function actionSatisfies(have: Action | undefined, want: Action | 'any', hierarchy: boolean): boolean {
+  if (want === 'any') return true;
+  if (!have) return false;
+  return have === want || (hierarchy && ACTION_RANK[have] > ACTION_RANK[want]);
+}
+
+/**
+ * Who can reach an asset (optionally with a specific action), with every path and the deny-override verdict.
+ * `opts.hierarchy` (default false, semantics unchanged) lets an `admin` permission satisfy `write`/`read` queries and a
+ * `write` permission satisfy `read`; the path then names the permission actually used, and a deny on that permission
+ * still applies because deny hits are computed over the permissions the found paths used.
+ */
+export function reach(g: Graph, assetId: string, action: Action | 'any', opts: ReachOptions = {}): ReachResult {
+  const hierarchy = opts.hierarchy === true;
   const idx = index(g);
   const identities = g.nodes.filter((n) => n.kind === 'identity');
   const results: IdentityAccess[] = [];
@@ -87,7 +105,7 @@ export function reach(g: Graph, assetId: string, action: Action | 'any'): ReachR
         if (to.kind === 'asset') {
           if (e.to !== assetId) continue;
           const perm = idx.node.get(nodeId);
-          if (action !== 'any' && perm?.action !== action) continue;
+          if (!actionSatisfies(perm?.action, action, hierarchy)) continue;
           const path: AccessPath = { steps: nextSteps, conditions: nextConds };
           if (nextConds.every((c) => c.satisfied)) { paths.push(path); permsUsed.add(nodeId); }
           else blocked.push(path);
@@ -119,17 +137,17 @@ export function reach(g: Graph, assetId: string, action: Action | 'any'): ReachR
   const ORDER: Record<IdentityAccess['decision'], number> = { indeterminate: 0, deny: 1, allow: 2, none: 3 };
   results.sort((a, b) => ORDER[a.decision] - ORDER[b.decision] || a.identityId.localeCompare(b.identityId));
   const count = (d: IdentityAccess['decision']) => results.filter((r) => r.decision === d).length;
-  return { assetId, action, identities: results, summary: { allow: count('allow'), deny: count('deny'), none: count('none'), indeterminate: count('indeterminate') } };
+  return { assetId, action, hierarchy, identities: results, summary: { allow: count('allow'), deny: count('deny'), none: count('none'), indeterminate: count('indeterminate') } };
 }
 
-/** Group/role nodes ranked by how many identities they carry to high-sensitivity assets. */
-export function hotspots(g: Graph): Hotspot[] {
+/** Group/role nodes ranked by how many identities they carry to high-sensitivity assets. Queries use `any`, so the hierarchy option cannot change the ranking; it is accepted for a uniform call signature. */
+export function hotspots(g: Graph, opts: ReachOptions = {}): Hotspot[] {
   const idx = index(g);
   const assets = g.nodes.filter((n) => n.kind === 'asset');
   const acc = new Map<string, { identities: Set<string>; highAssets: Set<string>; pathCount: number }>();
   for (const n of g.nodes) if (n.kind === 'group' || n.kind === 'role') acc.set(n.id, { identities: new Set(), highAssets: new Set(), pathCount: 0 });
   for (const a of assets) {
-    const r = reach(g, a.id, 'any');
+    const r = reach(g, a.id, 'any', opts);
     for (const ia of r.identities) {
       if (ia.decision !== 'allow') continue;
       for (const p of ia.paths) {
@@ -146,11 +164,12 @@ export function hotspots(g: Graph): Hotspot[] {
     .sort((a, b) => b.identities - a.identities || b.highAssets - a.highAssets || b.pathCount - a.pathCount || a.nodeId.localeCompare(b.nodeId));
 }
 
-export function toxicCombinations(g: Graph): ToxicHit[] {
+/** Identities holding both sides of a toxic rule. With `opts.hierarchy`, an admin-only identity holds a `write` side too (admin ⊃ write). */
+export function toxicCombinations(g: Graph, opts: ReachOptions = {}): ToxicHit[] {
   const hits: ToxicHit[] = [];
   for (const rule of g.toxicRules) {
-    const a = reach(g, rule.a.assetId, rule.a.action);
-    const b = reach(g, rule.b.assetId, rule.b.action);
+    const a = reach(g, rule.a.assetId, rule.a.action, opts);
+    const b = reach(g, rule.b.assetId, rule.b.action, opts);
     for (const ia of a.identities) {
       if (ia.decision !== 'allow') continue;
       const ib = b.identities.find((x) => x.identityId === ia.identityId);
@@ -160,13 +179,13 @@ export function toxicCombinations(g: Graph): ToxicHit[] {
   return hits;
 }
 
-export function whatIfRemoveEdge(g: Graph, edgeId: string, assetId: string, action: Action | 'any'): WhatIf {
+export function whatIfRemoveEdge(g: Graph, edgeId: string, assetId: string, action: Action | 'any', opts: ReachOptions = {}): WhatIf {
   if (!g.edges.some((e) => e.id === edgeId)) throw new Error(`Unknown edge ${edgeId}`);
-  const before = reach(g, assetId, action);
-  const after = reach({ ...g, edges: g.edges.filter((e) => e.id !== edgeId) }, assetId, action);
+  const before = reach(g, assetId, action, opts);
+  const after = reach({ ...g, edges: g.edges.filter((e) => e.id !== edgeId) }, assetId, action, opts);
   const allowed = (r: ReachResult) => new Set(r.identities.filter((i) => i.decision === 'allow').map((i) => i.identityId));
   const b = allowed(before), a = allowed(after);
-  return { removedEdgeId: edgeId, assetId, action, before: b.size, after: a.size, lostAccess: [...b].filter((x) => !a.has(x)).sort(), gainedAccess: [...a].filter((x) => !b.has(x)).sort() };
+  return { removedEdgeId: edgeId, assetId, action, hierarchy: before.hierarchy, before: b.size, after: a.size, lostAccess: [...b].filter((x) => !a.has(x)).sort(), gainedAccess: [...a].filter((x) => !b.has(x)).sort() };
 }
 
 const VERB: Record<GraphEdge['kind'], string> = { member_of: 'is a member of', assigned: 'is assigned the role', grants: 'which grants', applies_to: 'on', deny: 'is denied' };
@@ -253,7 +272,8 @@ export function validateGraph(input: unknown): GraphValidation {
 export interface ReviewExport {
   schema: 'pathcaster.review/v1';
   label: string;
-  query: { assetId: string; asset: string; action: Action | 'any' };
+  /** `hierarchy` (additive, October 2026): whether admin ⊃ write ⊃ read was applied to the query. */
+  query: { assetId: string; asset: string; action: Action | 'any'; hierarchy: boolean };
   summary: string;
   identities: { identityId: string; label: string; decision: IdentityAccess['decision']; indeterminateReason: string | null; truncated: boolean; pathCount: number; paths: string[]; denies: string[]; blockedByCondition: string[] }[];
   hotspots: Hotspot[];
@@ -270,8 +290,8 @@ export function exportReview(g: Graph, r: ReachResult, hs: Hotspot[], toxic: Tox
   }));
   const json: ReviewExport = {
     schema: 'pathcaster.review/v1', label: g.label,
-    query: { assetId: r.assetId, asset, action: r.action },
-    summary: `${r.summary.allow} identit${r.summary.allow === 1 ? 'y' : 'ies'} can reach ${asset} (${r.action}); ${r.summary.deny} blocked by explicit deny despite having a path; ${r.summary.none} have no path${r.summary.indeterminate ? `; ${r.summary.indeterminate} indeterminate because the traversal budget was exhausted` : ''}.`,
+    query: { assetId: r.assetId, asset, action: r.action, hierarchy: r.hierarchy },
+    summary: `${r.summary.allow} identit${r.summary.allow === 1 ? 'y' : 'ies'} can reach ${asset} (${r.action}); ${r.summary.deny} blocked by explicit deny despite having a path; ${r.summary.none} have no path${r.summary.indeterminate ? `; ${r.summary.indeterminate} indeterminate because the traversal budget was exhausted` : ''}${r.hierarchy ? '; permission hierarchy applied (admin ⊃ write ⊃ read)' : ''}.`,
     identities, hotspots: hs, toxic: toxic.map((t) => ({ ...t, rule: g.toxicRules.find((x) => x.id === t.ruleId)?.name ?? t.ruleId })),
     disclaimer: 'Synthetic access graph; educational prototype. No directory was enumerated and no permission was changed.',
   };

@@ -1,0 +1,2106 @@
+$ npx vitest run --reporter=verbose src/App.test.tsx
+# cwd apps/privacy/petitio
+# 2026-10-04T09:34:39.886Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/privacy/petitio
+
+ ✓ src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > loads the demo docket sorted by urgency with the overdue request first 676ms
+ ✓ src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > explains why sending to review is blocked and lets the analyst record the missing lookup 573ms
+ ✓ src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > surfaces the refusal when an unjustified hold blocks the response 231ms
+ ✓ src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > rejects an invalid pasted case file with a readable error and keeps the session 340ms
+ ✓ src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > marks the duplicate access request in the docket 83ms
+ × src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > refuses an extension whose notice date is after the as-of date and shows the engine message 617ms
+   → Unable to find an accessible element with the role "alert"
+
+Here are the accessible roles:
+
+  banner:
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"masthead"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"detail-head"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<header />[39m
+
+  Name "":
+  [36m<header />[39m
+
+  Name "":
+  [36m<header />[39m
+
+  Name "":
+  [36m<header />[39m
+
+  Name "":
+  [36m<header />[39m
+
+  Name "":
+  [36m<header />[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Petitio privacy rights request desk":
+  [36m<h1 />[39m
+
+  Name "Docket · 9 of 9":
+  [36m<h2[39m
+    [33mid[39m=[32m"docket-title"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-0415":
+  [36m<h2[39m
+    [33mid[39m=[32m"case-title"[39m
+  [36m/>[39m
+
+  Name "Next actions":
+  [36m<h3[39m
+    [33mid[39m=[32m"actions-title"[39m
+  [36m/>[39m
+
+  Name "Identity proofing":
+  [36m<h3[39m
+    [33mid[39m=[32m"identity-title"[39m
+  [36m/>[39m
+
+  Name "Systems of record":
+  [36m<h3[39m
+    [33mid[39m=[32m"systems-title"[39m
+  [36m/>[39m
+
+  Name "Holds and exemptions":
+  [36m<h3[39m
+    [33mid[39m=[32m"holds-title"[39m
+  [36m/>[39m
+
+  Name "Response packet preview":
+  [36m<h3[39m
+    [33mid[39m=[32m"packet-title"[39m
+  [36m/>[39m
+
+  Name "History":
+  [36m<h3[39m
+    [33mid[39m=[32m"hist-title"[39m
+  [36m/>[39m
+
+  Name "Analyst notes":
+  [36m<h4[39m
+    [33mstyle[39m=[32m"margin-top: 14px; font-size: 13px; color: var(--mute);"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"hint"[39m
+    [33mstyle[39m=[32m"margin: 0px; color: var(--mute); font-size: 13px;"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mstyle[39m=[32m"margin: 10px 0px 0px; font-size: 13.5px; color: var(--mute);"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mstyle[39m=[32m"margin: 0px; color: var(--mute);"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mstyle[39m=[32m"margin: 0px; color: var(--mute);"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mstyle[39m=[32m"margin: 0px; color: var(--mute);"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  toolbar:
+
+  Name "Case file controls":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Case file controls"[39m
+    [33mclass[39m=[32m"toolbar"[39m
+    [33mrole[39m=[32m"toolbar"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Import case file":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"btn btn-ghost"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Export case file":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-ghost"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Audit log (1)":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"btn btn-ghost"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Reset demo":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-ghost"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-03984d overEU-GDPR · erasure · reviewoverdue: 4 days past due, due 2026-09-27":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-03994d leftEU-GDPR · erasure · response-readyat risk: 4 days remaining, due 2026-10-05":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-04117d leftEU-GDPR · access · collectingon track: 7 days remaining, due 2026-10-08":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-041615d leftEU-GDPR · access · received · possible duplicateon track: 15 days remaining, due 2026-10-16":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-042039d leftUS-CA-CCPA · opt-out-sale · identity-checkon track: 39 days remaining, due 2026-11-09":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-040261d leftUK-GDPR · portability · collectingon track: 61 days remaining, due 2026-12-01 after extension":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-041575d leftEU-GDPR · rectification · receivedon track: 75 days remaining, due 2026-12-15 after extension":
+  [36m<button[39m
+    [33maria-current[39m=[32m"true"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-0380closedUS-CA-CCPA · access · closedclosed: 7 days past due, due 2026-09-24":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-0390rejectedEU-GDPR · access · rejectedrejected: 11 days past due, due 2026-09-20":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Start identity check":
+  [36m<button[39m
+    [33maria-disabled[39m=[32m"false"[39m
+    [33mclass[39m=[32m"btn btn-primary"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Reject with this reason":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-danger"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  complementary:
+
+  Name "Docket · 9 of 9":
+  [36m<aside[39m
+    [33maria-labelledby[39m=[32m"docket-title"[39m
+    [33mclass[39m=[32m"docket"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  combobox:
+
+  Name "Jurisdiction":
+  [36m<select />[39m
+
+  Name "Type":
+  [36m<select />[39m
+
+  Name "Clock":
+  [36m<select />[39m
+
+  Name "Reason":
+  [36m<select[39m
+    [33mid[39m=[32m"reject-reason"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  option:
+
+  Name "All":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "EU GDPR":
+  [36m<option[39m
+    [33mvalue[39m=[32m"EU-GDPR"[39m
+  [36m/>[39m
+
+  Name "UK GDPR":
+  [36m<option[39m
+    [33mvalue[39m=[32m"UK-GDPR"[39m
+  [36m/>[39m
+
+  Name "California":
+  [36m<option[39m
+    [33mvalue[39m=[32m"US-CA-CCPA"[39m
+  [36m/>[39m
+
+  Name "All":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Access":
+  [36m<option[39m
+    [33mvalue[39m=[32m"access"[39m
+  [36m/>[39m
+
+  Name "Erasure":
+  [36m<option[39m
+    [33mvalue[39m=[32m"erasure"[39m
+  [36m/>[39m
+
+  Name "Rectification":
+  [36m<option[39m
+    [33mvalue[39m=[32m"rectification"[39m
+  [36m/>[39m
+
+  Name "Portability":
+  [36m<option[39m
+    [33mvalue[39m=[32m"portability"[39m
+  [36m/>[39m
+
+  Name "Opt out":
+  [36m<option[39m
+    [33mvalue[39m=[32m"opt-out-sale"[39m
+  [36m/>[39m
+
+  Name "All":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Open only":
+  [36m<option[39m
+    [33mvalue[39m=[32m"open"[39m
+  [36m/>[39m
+
+  Name "Overdue":
+  [36m<option[39m
+    [33mvalue[39m=[32m"overdue"[39m
+  [36m/>[39m
+
+  Name "At risk":
+  [36m<option[39m
+    [33mvalue[39m=[32m"at-risk"[39m
+  [36m/>[39m
+
+  Name "On track":
+  [36m<option[39m
+    [33mvalue[39m=[32m"on-track"[39m
+  [36m/>[39m
+
+  Name "Closed":
+  [36m<option[39m
+    [33mvalue[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Rejected":
+  [36m<option[39m
+    [33mvalue[39m=[32m"rejected"[39m
+  [36m/>[39m
+
+  Name "duplicate":
+  [36m<option[39m
+    [33mvalue[39m=[32m"duplicate"[39m
+  [36m/>[39m
+
+  Name "manifestly-unfounded":
+  [36m<option[39m
+    [33mvalue[39m=[32m"manifestly-unfounded"[39m
+  [36m/>[39m
+
+  Name "identity-unverified":
+  [36m<option[39m
+    [33mvalue[39m=[32m"identity-unverified"[39m
+  [36m/>[39m
+
+  Name "out-of-scope":
+  [36m<option[39m
+    [33mvalue[39m=[32m"out-of-scope"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  list:
+
+  Name "":
+  [36m<ul[39m
+    [33mclass[39m=[32m"docket-list"[39m
+  [36m/>[39m
+
+  Name "Request stages":
+  [36m<ol[39m
+    [33maria-label[39m=[32m"Request stages"[39m
+    [33mclass[39m=[32m"rail"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<ul[39m
+    [33mstyle[39m=[32m"margin: 6px 0px 0px; padding-left: 18px;"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  listitem:
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  --------------------------------------------------
+  img:
+
+  Name "overdue: 4 days past due, due 2026-09-27":
+  [36m<div[39m
+    [33maria-label[39m=[32m"overdue: 4 days past due, due 2026-09-27"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "at risk: 4 days remaining, due 2026-10-05":
+  [36m<div[39m
+    [33maria-label[39m=[32m"at risk: 4 days remaining, due 2026-10-05"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "on track: 7 days remaining, due 2026-10-08":
+  [36m<div[39m
+    [33maria-label[39m=[32m"on track: 7 days remaining, due 2026-10-08"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "on track: 15 days remaining, due 2026-10-16":
+  [36m<div[39m
+    [33maria-label[39m=[32m"on track: 15 days remaining, due 2026-10-16"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "on track: 39 days remaining, due 2026-11-09":
+  [36m<div[39m
+    [33maria-label[39m=[32m"on track: 39 days remaining, due 2026-11-09"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "on track: 61 days remaining, due 2026-12-01 after extension":
+  [36m<div[39m
+    [33maria-label[39m=[32m"on track: 61 days remaining, due 2026-12-01 after extension"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "on track: 75 days remaining, due 2026-12-15 after extension":
+  [36m<div[39m
+    [33maria-label[39m=[32m"on track: 75 days remaining, due 2026-12-15 after extension"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "closed: 7 days past due, due 2026-09-24":
+  [36m<div[39m
+    [33maria-label[39m=[32m"closed: 7 days past due, due 2026-09-24"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "rejected: 11 days past due, due 2026-09-20":
+  [36m<div[39m
+    [33maria-label[39m=[32m"rejected: 11 days past due, due 2026-09-20"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "on track: 75 days remaining, due 2026-12-15 after extension":
+  [36m<div[39m
+    [33maria-label[39m=[32m"on track: 75 days remaining, due 2026-12-15 after extension"[39m
+    [33mclass[39m=[32m"ribbon large"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  main:
+
+  Name "":
+  [36m<main />[39m
+
+  --------------------------------------------------
+  article:
+
+  Name "REQ-2026-0415":
+  [36m<article[39m
+    [33maria-labelledby[39m=[32m"case-title"[39m
+    [33mclass[39m=[32m"detail"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  strong:
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong[39m
+    [33mstyle[39m=[32m"font-family: var(--display);"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<strong[39m
+    [33mstyle[39m=[32m"font-family: var(--display);"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<strong[39m
+    [33mstyle[39m=[32m"font-family: var(--display);"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  region:
+
+  Name "Stage":
+  [36m<section[39m
+    [33maria-label[39m=[32m"Stage"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  Name "Next actions":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"actions-title"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  Name "Identity proofing":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"identity-title"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  Name "Systems of record":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"systems-title"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  Name "System lookup results":
+  [36m<div[39m
+    [33maria-label[39m=[32m"System lookup results"[39m
+    [33mrole[39m=[32m"region"[39m
+    [33mstyle[39m=[32m"overflow-x: auto;"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  Name "Holds and exemptions":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"holds-title"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  Name "Response packet preview":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"packet-title"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  Name "History":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"hist-title"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Note for the history entry (optional)":
+  [36m<input[39m
+    [33mid[39m=[32m"action-note"[39m
+    [33mplaceholder[39m=[32m"e.g. Signed-in session matched"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  group:
+
+  Name "Reject request":
+  [36m<fieldset />[39m
+
+  --------------------------------------------------
+  table:
+
+  Name "":
+  [36m<table />[39m
+
+  Name "":
+  [36m<table />[39m
+
+  --------------------------------------------------
+  rowgroup:
+
+  Name "":
+  [36m<tbody />[39m
+
+  Name "":
+  [36m<thead />[39m
+
+  Name "":
+  [36m<tbody />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "Method none":
+  [36m<tr />[39m
+
+  Name "Attempts 0 of 3":
+  [36m<tr />[39m
+
+  Name "Account id —":
+  [36m<tr />[39m
+
+  Name "Age band adult":
+  [36m<tr />[39m
+
+  Name "System Result Matched by Subject email on file Fields":
+  [36m<tr />[39m
+
+  Name "Northwind CRM (synthetic)Customer profiles, marketing preferences and agent notes. not looked up — — —":
+  [36m<tr />[39m
+
+  Name "Ledgerly Billing (synthetic)Invoices, payment references and tax records. not looked up — — —":
+  [36m<tr />[39m
+
+  Name "Helpdesk Tickets (synthetic)Support conversations and attachments. not looked up — — —":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  rowheader:
+
+  Name "Method":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "Attempts":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "Account id":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "Age band":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  cell:
+
+  Name "none":
+  [36m<td />[39m
+
+  Name "0 of 3":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+  [36m/>[39m
+
+  Name "adult":
+  [36m<td />[39m
+
+  Name "Northwind CRM (synthetic)Customer profiles, marketing preferences and agent notes.":
+  [36m<td />[39m
+
+  Name "not looked up":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "Ledgerly Billing (synthetic)Invoices, payment references and tax records.":
+  [36m<td />[39m
+
+  Name "not looked up":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "Helpdesk Tickets (synthetic)Support conversations and attachments.":
+  [36m<td />[39m
+
+  Name "not looked up":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "System":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Result":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Matched by":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Subject email on file":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Fields":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  contentinfo:
+
+  Name "":
+  [36m<footer[39m
+    [33mclass[39m=[32m"status-line"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  status:
+
+  Name "":
+  [36m<span[39m
+    [33maria-live[39m=[32m"polite"[39m
+    [33mrole[39m=[32m"status"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<div>[39m
+    [36m<header[39m
+      [33mclass[39m=[32m"masthead"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<h1>[39m
+          [0mPetitio [0m
+          [36m<small>[39m
+            [0mprivacy rights request desk[0m
+          [36m</small>[39m
+        [36m</h1>[39m
+        [36m<p>[39m
+          [0mEducational prototype. Deterministic deadline clock, request state machine, duplicate detection and multi-system reconciliation over synthetic data. Not legal advice and not a compliance certification.[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33maria-label[39m=[32m"Case file controls"[39m
+        [33mclass[39m=[32m"toolbar"[39m
+        [33mrole[39m=[32m"toolbar"[39m
+      [36m>[39m
+        [36m<label>[39m
+          [0mAs-of date[0m
+          [36m<input[39m
+            [33maria-describedby[39m=[32m"asof-help"[39m
+            [33mtype[39m=[32m"date"[39m
+            [33mvalue[39m=[32m"2026-10-01"[39m
+          [36m/>[39m
+        [36m</label>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"sr-only"[39m
+          [33mid[39m=[32m"asof-help"[39m
+        [36m>[39m
+          [0mDeadlines are calculated relative to this date so the demo stays deterministic.[0m
+        [36m</span>[39m
+        [36m<button[39m
+          [33maria-expanded[39m=[32m"false"[39m
+          [33maria-haspopup[39m=[32m"dialog"[39m
+          [33mclass[39m=[32m"btn btn-ghost"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mImport case file[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn btn-ghost"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mExport case file[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-expanded[39m=[32m"false"[39m
+          [33maria-haspopup[39m=[32m"dialog"[39m
+          [33mclass[39m=[32m"btn btn-ghost"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mAudit log ([0m
+          [0m1[0m
+          [0m)[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn btn-ghost"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mReset demo[0m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</header>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"workspace"[39m
+    [36m>[39m
+      [36m<aside[39m
+        [33maria-labelledby[39m=[32m"docket-title"[39m
+        [33mclass[39m=[32m"docket"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"docket-head"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mid[39m=[32m"docket-title"[39m
+          [36m>[39m
+            [0mDocket · [0m
+            [0m9[0m
+            [0m of [0m
+            [0m9[0m
+          [36m</h2>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"filters"[39m
+          [36m>[39m
+            [36m<label>[39m
+              [0mJurisdiction[0m
+              [36m<select>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0mAll[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"EU-GDPR"[39m
+                [36m>[39m
+                  [0mEU GDPR[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"UK-GDPR"[39m
+                [36m>[39m
+                  [0mUK GDPR[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"US-CA-CCPA"[39m
+                [36m>[39m
+                  [0mCalifornia[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</label>[39m
+            [36m<label>[39m
+              [0mType[0m
+              [36m<select>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0mAll[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"access"[39m
+                [36m>[39m
+                  [0mAccess[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"erasure"[39m
+                [36m>[39m
+                  [0mErasure[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"rectification"[39m
+                [36m>[39m
+                  [0mRectification[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"portability"[39m
+                [36m>[39m
+                  [0mPortability[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"opt-out-sale"[39m
+                [36m>[39m
+                  [0mOpt out[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</label>[39m
+            [36m<label>[39m
+              [0mClock[0m
+              [36m<select>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0mAll[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"open"[39m
+                [36m>[39m
+                  [0mOpen only[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"overdue"[39m
+                [36m>[39m
+                  [0mOverdue[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"at-risk"[39m
+                [36m>[39m
+                  [0mAt risk[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"on-track"[39m
+                [36m>[39m
+                  [0mOn track[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"closed"[39m
+                [36m>[39m
+                  [0mClosed[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"rejected"[39m
+                [36m>[39m
+                  [0mRejected[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</label>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"docket-list"[39m
+        [36m>[39m
+      ...
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > refuses an extension whose notice date is after the as-of date and shows the engine message
+TestingLibraryElementError: Unable to find an accessible element with the role "alert"
+
+Here are the accessible roles:
+
+  banner:
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"masthead"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"detail-head"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<header />[39m
+
+  Name "":
+  [36m<header />[39m
+
+  Name "":
+  [36m<header />[39m
+
+  Name "":
+  [36m<header />[39m
+
+  Name "":
+  [36m<header />[39m
+
+  Name "":
+  [36m<header />[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Petitio privacy rights request desk":
+  [36m<h1 />[39m
+
+  Name "Docket · 9 of 9":
+  [36m<h2[39m
+    [33mid[39m=[32m"docket-title"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-0415":
+  [36m<h2[39m
+    [33mid[39m=[32m"case-title"[39m
+  [36m/>[39m
+
+  Name "Next actions":
+  [36m<h3[39m
+    [33mid[39m=[32m"actions-title"[39m
+  [36m/>[39m
+
+  Name "Identity proofing":
+  [36m<h3[39m
+    [33mid[39m=[32m"identity-title"[39m
+  [36m/>[39m
+
+  Name "Systems of record":
+  [36m<h3[39m
+    [33mid[39m=[32m"systems-title"[39m
+  [36m/>[39m
+
+  Name "Holds and exemptions":
+  [36m<h3[39m
+    [33mid[39m=[32m"holds-title"[39m
+  [36m/>[39m
+
+  Name "Response packet preview":
+  [36m<h3[39m
+    [33mid[39m=[32m"packet-title"[39m
+  [36m/>[39m
+
+  Name "History":
+  [36m<h3[39m
+    [33mid[39m=[32m"hist-title"[39m
+  [36m/>[39m
+
+  Name "Analyst notes":
+  [36m<h4[39m
+    [33mstyle[39m=[32m"margin-top: 14px; font-size: 13px; color: var(--mute);"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p />[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"hint"[39m
+    [33mstyle[39m=[32m"margin: 0px; color: var(--mute); font-size: 13px;"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mstyle[39m=[32m"margin: 10px 0px 0px; font-size: 13.5px; color: var(--mute);"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mstyle[39m=[32m"margin: 0px; color: var(--mute);"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mstyle[39m=[32m"margin: 0px; color: var(--mute);"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mstyle[39m=[32m"margin: 0px; color: var(--mute);"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  toolbar:
+
+  Name "Case file controls":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Case file controls"[39m
+    [33mclass[39m=[32m"toolbar"[39m
+    [33mrole[39m=[32m"toolbar"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Import case file":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"btn btn-ghost"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Export case file":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-ghost"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Audit log (1)":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"btn btn-ghost"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Reset demo":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-ghost"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-03984d overEU-GDPR · erasure · reviewoverdue: 4 days past due, due 2026-09-27":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-03994d leftEU-GDPR · erasure · response-readyat risk: 4 days remaining, due 2026-10-05":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-04117d leftEU-GDPR · access · collectingon track: 7 days remaining, due 2026-10-08":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-041615d leftEU-GDPR · access · received · possible duplicateon track: 15 days remaining, due 2026-10-16":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-042039d leftUS-CA-CCPA · opt-out-sale · identity-checkon track: 39 days remaining, due 2026-11-09":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-040261d leftUK-GDPR · portability · collectingon track: 61 days remaining, due 2026-12-01 after extension":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-041575d leftEU-GDPR · rectification · receivedon track: 75 days remaining, due 2026-12-15 after extension":
+  [36m<button[39m
+    [33maria-current[39m=[32m"true"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-0380closedUS-CA-CCPA · access · closedclosed: 7 days past due, due 2026-09-24":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "REQ-2026-0390rejectedEU-GDPR · access · rejectedrejected: 11 days past due, due 2026-09-20":
+  [36m<button[39m
+    [33maria-current[39m=[32m"false"[39m
+    [33mclass[39m=[32m"docket-row"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Start identity check":
+  [36m<button[39m
+    [33maria-disabled[39m=[32m"false"[39m
+    [33mclass[39m=[32m"btn btn-primary"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Reject with this reason":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-danger"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  complementary:
+
+  Name "Docket · 9 of 9":
+  [36m<aside[39m
+    [33maria-labelledby[39m=[32m"docket-title"[39m
+    [33mclass[39m=[32m"docket"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  combobox:
+
+  Name "Jurisdiction":
+  [36m<select />[39m
+
+  Name "Type":
+  [36m<select />[39m
+
+  Name "Clock":
+  [36m<select />[39m
+
+  Name "Reason":
+  [36m<select[39m
+    [33mid[39m=[32m"reject-reason"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  option:
+
+  Name "All":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "EU GDPR":
+  [36m<option[39m
+    [33mvalue[39m=[32m"EU-GDPR"[39m
+  [36m/>[39m
+
+  Name "UK GDPR":
+  [36m<option[39m
+    [33mvalue[39m=[32m"UK-GDPR"[39m
+  [36m/>[39m
+
+  Name "California":
+  [36m<option[39m
+    [33mvalue[39m=[32m"US-CA-CCPA"[39m
+  [36m/>[39m
+
+  Name "All":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Access":
+  [36m<option[39m
+    [33mvalue[39m=[32m"access"[39m
+  [36m/>[39m
+
+  Name "Erasure":
+  [36m<option[39m
+    [33mvalue[39m=[32m"erasure"[39m
+  [36m/>[39m
+
+  Name "Rectification":
+  [36m<option[39m
+    [33mvalue[39m=[32m"rectification"[39m
+  [36m/>[39m
+
+  Name "Portability":
+  [36m<option[39m
+    [33mvalue[39m=[32m"portability"[39m
+  [36m/>[39m
+
+  Name "Opt out":
+  [36m<option[39m
+    [33mvalue[39m=[32m"opt-out-sale"[39m
+  [36m/>[39m
+
+  Name "All":
+  [36m<option[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Open only":
+  [36m<option[39m
+    [33mvalue[39m=[32m"open"[39m
+  [36m/>[39m
+
+  Name "Overdue":
+  [36m<option[39m
+    [33mvalue[39m=[32m"overdue"[39m
+  [36m/>[39m
+
+  Name "At risk":
+  [36m<option[39m
+    [33mvalue[39m=[32m"at-risk"[39m
+  [36m/>[39m
+
+  Name "On track":
+  [36m<option[39m
+    [33mvalue[39m=[32m"on-track"[39m
+  [36m/>[39m
+
+  Name "Closed":
+  [36m<option[39m
+    [33mvalue[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Rejected":
+  [36m<option[39m
+    [33mvalue[39m=[32m"rejected"[39m
+  [36m/>[39m
+
+  Name "duplicate":
+  [36m<option[39m
+    [33mvalue[39m=[32m"duplicate"[39m
+  [36m/>[39m
+
+  Name "manifestly-unfounded":
+  [36m<option[39m
+    [33mvalue[39m=[32m"manifestly-unfounded"[39m
+  [36m/>[39m
+
+  Name "identity-unverified":
+  [36m<option[39m
+    [33mvalue[39m=[32m"identity-unverified"[39m
+  [36m/>[39m
+
+  Name "out-of-scope":
+  [36m<option[39m
+    [33mvalue[39m=[32m"out-of-scope"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  list:
+
+  Name "":
+  [36m<ul[39m
+    [33mclass[39m=[32m"docket-list"[39m
+  [36m/>[39m
+
+  Name "Request stages":
+  [36m<ol[39m
+    [33maria-label[39m=[32m"Request stages"[39m
+    [33mclass[39m=[32m"rail"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<ul[39m
+    [33mstyle[39m=[32m"margin: 6px 0px 0px; padding-left: 18px;"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  listitem:
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"rail-step"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  --------------------------------------------------
+  img:
+
+  Name "overdue: 4 days past due, due 2026-09-27":
+  [36m<div[39m
+    [33maria-label[39m=[32m"overdue: 4 days past due, due 2026-09-27"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "at risk: 4 days remaining, due 2026-10-05":
+  [36m<div[39m
+    [33maria-label[39m=[32m"at risk: 4 days remaining, due 2026-10-05"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "on track: 7 days remaining, due 2026-10-08":
+  [36m<div[39m
+    [33maria-label[39m=[32m"on track: 7 days remaining, due 2026-10-08"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "on track: 15 days remaining, due 2026-10-16":
+  [36m<div[39m
+    [33maria-label[39m=[32m"on track: 15 days remaining, due 2026-10-16"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "on track: 39 days remaining, due 2026-11-09":
+  [36m<div[39m
+    [33maria-label[39m=[32m"on track: 39 days remaining, due 2026-11-09"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "on track: 61 days remaining, due 2026-12-01 after extension":
+  [36m<div[39m
+    [33maria-label[39m=[32m"on track: 61 days remaining, due 2026-12-01 after extension"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "on track: 75 days remaining, due 2026-12-15 after extension":
+  [36m<div[39m
+    [33maria-label[39m=[32m"on track: 75 days remaining, due 2026-12-15 after extension"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "closed: 7 days past due, due 2026-09-24":
+  [36m<div[39m
+    [33maria-label[39m=[32m"closed: 7 days past due, due 2026-09-24"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "rejected: 11 days past due, due 2026-09-20":
+  [36m<div[39m
+    [33maria-label[39m=[32m"rejected: 11 days past due, due 2026-09-20"[39m
+    [33mclass[39m=[32m"ribbon"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  Name "on track: 75 days remaining, due 2026-12-15 after extension":
+  [36m<div[39m
+    [33maria-label[39m=[32m"on track: 75 days remaining, due 2026-12-15 after extension"[39m
+    [33mclass[39m=[32m"ribbon large"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  main:
+
+  Name "":
+  [36m<main />[39m
+
+  --------------------------------------------------
+  article:
+
+  Name "REQ-2026-0415":
+  [36m<article[39m
+    [33maria-labelledby[39m=[32m"case-title"[39m
+    [33mclass[39m=[32m"detail"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  strong:
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong[39m
+    [33mstyle[39m=[32m"font-family: var(--display);"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<strong[39m
+    [33mstyle[39m=[32m"font-family: var(--display);"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<strong[39m
+    [33mstyle[39m=[32m"font-family: var(--display);"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  region:
+
+  Name "Stage":
+  [36m<section[39m
+    [33maria-label[39m=[32m"Stage"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  Name "Next actions":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"actions-title"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  Name "Identity proofing":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"identity-title"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  Name "Systems of record":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"systems-title"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  Name "System lookup results":
+  [36m<div[39m
+    [33maria-label[39m=[32m"System lookup results"[39m
+    [33mrole[39m=[32m"region"[39m
+    [33mstyle[39m=[32m"overflow-x: auto;"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  Name "Holds and exemptions":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"holds-title"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  Name "Response packet preview":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"packet-title"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  Name "History":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"hist-title"[39m
+    [33mclass[39m=[32m"panel"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Note for the history entry (optional)":
+  [36m<input[39m
+    [33mid[39m=[32m"action-note"[39m
+    [33mplaceholder[39m=[32m"e.g. Signed-in session matched"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  group:
+
+  Name "Reject request":
+  [36m<fieldset />[39m
+
+  --------------------------------------------------
+  table:
+
+  Name "":
+  [36m<table />[39m
+
+  Name "":
+  [36m<table />[39m
+
+  --------------------------------------------------
+  rowgroup:
+
+  Name "":
+  [36m<tbody />[39m
+
+  Name "":
+  [36m<thead />[39m
+
+  Name "":
+  [36m<tbody />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "Method none":
+  [36m<tr />[39m
+
+  Name "Attempts 0 of 3":
+  [36m<tr />[39m
+
+  Name "Account id —":
+  [36m<tr />[39m
+
+  Name "Age band adult":
+  [36m<tr />[39m
+
+  Name "System Result Matched by Subject email on file Fields":
+  [36m<tr />[39m
+
+  Name "Northwind CRM (synthetic)Customer profiles, marketing preferences and agent notes. not looked up — — —":
+  [36m<tr />[39m
+
+  Name "Ledgerly Billing (synthetic)Invoices, payment references and tax records. not looked up — — —":
+  [36m<tr />[39m
+
+  Name "Helpdesk Tickets (synthetic)Support conversations and attachments. not looked up — — —":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  rowheader:
+
+  Name "Method":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "Attempts":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "Account id":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  Name "Age band":
+  [36m<th[39m
+    [33mscope[39m=[32m"row"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  cell:
+
+  Name "none":
+  [36m<td />[39m
+
+  Name "0 of 3":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+  [36m/>[39m
+
+  Name "adult":
+  [36m<td />[39m
+
+  Name "Northwind CRM (synthetic)Customer profiles, marketing preferences and agent notes.":
+  [36m<td />[39m
+
+  Name "not looked up":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "Ledgerly Billing (synthetic)Invoices, payment references and tax records.":
+  [36m<td />[39m
+
+  Name "not looked up":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "Helpdesk Tickets (synthetic)Support conversations and attachments.":
+  [36m<td />[39m
+
+  Name "not looked up":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  Name "—":
+  [36m<td />[39m
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "System":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Result":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Matched by":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Subject email on file":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Fields":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  contentinfo:
+
+  Name "":
+  [36m<footer[39m
+    [33mclass[39m=[32m"status-line"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  status:
+
+  Name "":
+  [36m<span[39m
+    [33maria-live[39m=[32m"polite"[39m
+    [33mrole[39m=[32m"status"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<div>[39m
+    [36m<header[39m
+      [33mclass[39m=[32m"masthead"[39m
+    [36m>[39m
+      [36m<div>[39m
+        [36m<h1>[39m
+          [0mPetitio [0m
+          [36m<small>[39m
+            [0mprivacy rights request desk[0m
+          [36m</small>[39m
+        [36m</h1>[39m
+        [36m<p>[39m
+          [0mEducational prototype. Deterministic deadline clock, request state machine, duplicate detection and multi-system reconciliation over synthetic data. Not legal advice and not a compliance certification.[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33maria-label[39m=[32m"Case file controls"[39m
+        [33mclass[39m=[32m"toolbar"[39m
+        [33mrole[39m=[32m"toolbar"[39m
+      [36m>[39m
+        [36m<label>[39m
+          [0mAs-of date[0m
+          [36m<input[39m
+            [33maria-describedby[39m=[32m"asof-help"[39m
+            [33mtype[39m=[32m"date"[39m
+            [33mvalue[39m=[32m"2026-10-01"[39m
+          [36m/>[39m
+        [36m</label>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"sr-only"[39m
+          [33mid[39m=[32m"asof-help"[39m
+        [36m>[39m
+          [0mDeadlines are calculated relative to this date so the demo stays deterministic.[0m
+        [36m</span>[39m
+        [36m<button[39m
+          [33maria-expanded[39m=[32m"false"[39m
+          [33maria-haspopup[39m=[32m"dialog"[39m
+          [33mclass[39m=[32m"btn btn-ghost"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mImport case file[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn btn-ghost"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mExport case file[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-expanded[39m=[32m"false"[39m
+          [33maria-haspopup[39m=[32m"dialog"[39m
+          [33mclass[39m=[32m"btn btn-ghost"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mAudit log ([0m
+          [0m1[0m
+          [0m)[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn btn-ghost"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mReset demo[0m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</header>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"workspace"[39m
+    [36m>[39m
+      [36m<aside[39m
+        [33maria-labelledby[39m=[32m"docket-title"[39m
+        [33mclass[39m=[32m"docket"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"docket-head"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mid[39m=[32m"docket-title"[39m
+          [36m>[39m
+            [0mDocket · [0m
+            [0m9[0m
+            [0m of [0m
+            [0m9[0m
+          [36m</h2>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"filters"[39m
+          [36m>[39m
+            [36m<label>[39m
+              [0mJurisdiction[0m
+              [36m<select>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0mAll[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"EU-GDPR"[39m
+                [36m>[39m
+                  [0mEU GDPR[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"UK-GDPR"[39m
+                [36m>[39m
+                  [0mUK GDPR[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"US-CA-CCPA"[39m
+                [36m>[39m
+                  [0mCalifornia[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</label>[39m
+            [36m<label>[39m
+              [0mType[0m
+              [36m<select>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0mAll[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"access"[39m
+                [36m>[39m
+                  [0mAccess[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"erasure"[39m
+                [36m>[39m
+                  [0mErasure[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"rectification"[39m
+                [36m>[39m
+                  [0mRectification[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"portability"[39m
+                [36m>[39m
+                  [0mPortability[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"opt-out-sale"[39m
+                [36m>[39m
+                  [0mOpt out[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</label>[39m
+            [36m<label>[39m
+              [0mClock[0m
+              [36m<select>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0mAll[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"open"[39m
+                [36m>[39m
+                  [0mOpen only[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"overdue"[39m
+                [36m>[39m
+                  [0mOverdue[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"at-risk"[39m
+                [36m>[39m
+                  [0mAt risk[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"on-track"[39m
+                [36m>[39m
+                  [0mOn track[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"closed"[39m
+                [36m>[39m
+                  [0mClosed[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"rejected"[39m
+                [36m>[39m
+                  [0mRejected[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</label>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"docket-list"[39m
+        [36m>[39m
+      ...
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/App.test.tsx:64:19
+     62|     await user.type(screen.getByLabelText(/Why more time is necessary/…
+     63|     await user.click(screen.getByRole('button', { name: 'Record extens…
+     64|     expect(screen.getByRole('alert')).toHaveTextContent(/INVALID_EXTEN…
+       |                   ^
+     65|     expect(screen.getByRole('alert')).toHaveTextContent(/future relati…
+     66|     expect(screen.queryByText(/Extended to/)).toBeNull(); // nothing w…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  09:34:42
+   Duration  19.29s (transform 4.43s, setup 189ms, import 12.08s, tests 2.54s, environment 1.31s)
+

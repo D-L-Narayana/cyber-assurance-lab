@@ -3,7 +3,7 @@ import demoJson from '../fixtures/demo.json';
 import {
   ALL_CLASSES, BUILT_IN_RULES, addKeywordRule, classifyField, effectiveLabels, exportCatalog, policyFor, validateException, validateFixture,
 } from '../engine/classify';
-import type { DataClass, Exception, Field, Fixture, Rule } from '../engine/types';
+import type { DataClass, Exception, Field, Fixture, NameMatchMode, Rule } from '../engine/types';
 import { parseBoundedJson } from '../engine/safe';
 import { downloadText } from './download';
 
@@ -20,7 +20,7 @@ export function App() {
   const [draft, setDraft] = useState<Field | null>(null);
   const [filter, setFilter] = useState('');
   const [notice, setNotice] = useState<{ tone: 'ok' | 'error'; text: string } | null>(null);
-  const [kw, setKw] = useState({ id: '', tokens: '', class: 'confidential' as DataClass, weight: '0.7' });
+  const [kw, setKw] = useState({ id: '', tokens: '', class: 'confidential' as DataClass, weight: '0.7', match: 'token' as NameMatchMode });
   const [exc, setExc] = useState({ toClass: 'confidential' as DataClass, justification: '', approvedBy: '', expiresOn: '' });
 
   const labels = useMemo(() => effectiveLabels(fixture, rules), [fixture, rules]);
@@ -46,9 +46,9 @@ export function App() {
   const edit = (patch: Partial<Field>) => setDraft({ ...field, ...patch });
   const commit = () => { if (!draft) return; setFixture({ ...fixture, fields: fixture.fields.map((f) => f.id === draft.id ? draft : f) }); setDraft(null); setNotice({ tone: 'ok', text: `Saved changes to ${draft.name}; catalog re-labelled.` }); };
   const addRule = () => {
-    const r = addKeywordRule(rules, { id: kw.id.trim() || `kw-${rules.length + 1}`, name: kw.id.trim() || 'Keyword rule', tokens: kw.tokens.split(',').map((t) => t.trim()), class: kw.class, weight: Number(kw.weight) });
+    const r = addKeywordRule(rules, { id: kw.id.trim() || `kw-${rules.length + 1}`, name: kw.id.trim() || 'Keyword rule', tokens: kw.tokens.split(',').map((t) => t.trim()), class: kw.class, weight: Number(kw.weight), match: kw.match });
     if (!r.ok) { setNotice({ tone: 'error', text: r.error }); return; }
-    setRules(r.rules); setKw({ id: '', tokens: '', class: 'confidential', weight: '0.7' }); setNotice({ tone: 'ok', text: `Rule added. ${r.rules.length} rules now evaluate every field.` });
+    setRules(r.rules); setKw({ id: '', tokens: '', class: 'confidential', weight: '0.7', match: 'token' }); setNotice({ tone: 'ok', text: `Rule added (${kw.match === 'substring' ? 'substring' : 'whole-token'} match). ${r.rules.length} rules now evaluate every field.` });
   };
   const addException = () => {
     const x: Exception = { id: `exc-${String((fixture.exceptions?.length ?? 0) + 1).padStart(3, '0')}`, fieldId: stored.id, fromClass: label.computedClass, toClass: exc.toClass, justification: exc.justification, approvedBy: exc.approvedBy, grantedOn: fixture.asOf, expiresOn: exc.expiresOn };
@@ -170,7 +170,9 @@ export function App() {
               <label className="field">Keywords, comma separated<input value={kw.tokens} onChange={(e) => setKw({ ...kw, tokens: e.target.value })} placeholder="codename, project_alias" /></label>
               <label className="field">Class<select value={kw.class} onChange={(e) => setKw({ ...kw, class: e.target.value as DataClass })}>{ALL_CLASSES.filter((c) => c !== 'unknown').map((c) => <option key={c} value={c}>{CLASS_LABEL[c]}</option>)}</select></label>
               <label className="field">Weight (0–1)<input value={kw.weight} onChange={(e) => setKw({ ...kw, weight: e.target.value })} inputMode="decimal" /></label>
+              <label className="field">Match mode<select value={kw.match} onChange={(e) => setKw({ ...kw, match: e.target.value as NameMatchMode })}><option value="token">Whole token or token sequence (default)</option><option value="substring">Substring (legacy, broader)</option></select></label>
             </div>
+            <p className="sub" style={{ margin: '8px 0 0', fontSize: 12 }}>Whole-token: <span className="mono">codename</span> matches <span className="mono">project_codename</span> and <span className="mono">projectCodename</span> but not <span className="mono">projectcodename</span>; substring also matches the glued form. Allow-listed metadata tokens (version, status, count…) discount sensitive keyword hits in whole-token mode.</p>
             <button className="btn" style={{ marginTop: 10 }} onClick={addRule}>Add rule</button>
           </details>
         </main>
@@ -182,7 +184,7 @@ export function App() {
               {live.trace.map((t) => (
                 <li key={t.ruleId} className={t.outcome}>
                   <i className={`cls-${t.class}`} aria-hidden="true" />
-                  <div><div className="rname">{t.name} <span className="mono" style={{ color: 'var(--slate)' }}>→ {CLASS_LABEL[t.class]}</span></div><div className="rreason">{t.outcome === 'matched' ? 'Matched: ' : t.outcome === 'skipped' ? 'Skipped: ' : ''}{t.reason}</div></div>
+                  <div><div className="rname">{t.name} <span className="mono" style={{ color: 'var(--slate)' }}>→ {CLASS_LABEL[t.class]}</span></div><div className="rreason">{t.outcome === 'matched' ? 'Matched: ' : t.outcome === 'skipped' ? 'Skipped: ' : t.outcome === 'suppressed' ? 'Suppressed: ' : ''}{t.reason}</div></div>
                   <div><span className="mono">{t.outcome === 'matched' ? `w ${t.weight}` : t.outcome}</span><div className="w" aria-hidden="true"><span style={{ width: `${t.outcome === 'matched' ? t.weight * 100 : 0}%` }} /></div></div>
                 </li>
               ))}

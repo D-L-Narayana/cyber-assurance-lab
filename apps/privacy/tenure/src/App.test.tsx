@@ -31,7 +31,19 @@ describe('Tenure app (integration, added after the UI)', () => {
     await user.click(screen.getByRole('button', { name: 'Record exception' }));
     const after = Number(screen.getByRole('tab', { name: /Findings/ }).textContent!.match(/\((\d+) open\)/)![1]);
     expect(after).toBe(before - 1);
-    expect(screen.getByRole('status')).toHaveTextContent(/Exception ex-004 recorded/);
+    // ex-001..ex-004 ship in the fixture (ex-004, a flow exception, was added in October 2026), so the next id is ex-005.
+    expect(screen.getByRole('status')).toHaveTextContent(/Exception ex-005 recorded for element/);
+  });
+
+  it('offers the exception dialog for a flow-subject finding and records a flow exception (October 2026 round)', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const row = screen.getAllByRole('row').find((r) => r.textContent?.includes('UNMAPPED_TRANSFER') && within(r).queryByRole('button', { name: 'Accept with exception' }));
+    expect(row).toBeDefined();
+    await user.click(within(row!).getByRole('button', { name: 'Accept with exception' }));
+    await user.type(screen.getByLabelText(/Rationale/), 'Transfer impact assessment under way; interim clauses signed (synthetic rationale).');
+    await user.click(screen.getByRole('button', { name: 'Record exception' }));
+    expect(screen.getByRole('status')).toHaveTextContent(/recorded for flow flow-crm-marketing \(UNMAPPED_TRANSFER\)/);
   });
 
   it('marking an overdue element as reviewed removes it from the overdue list', async () => {

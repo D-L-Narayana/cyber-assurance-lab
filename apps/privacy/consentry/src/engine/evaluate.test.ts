@@ -270,7 +270,55 @@ describe('unknown age (review finding)', () => {
   });
 });
 
-describe('California under-16 sale/share opt-in is category-based (sixth-Fable finding)', () => {
+describe('R09a record regime (October 2026 upgrade round)', () => {
+  const ukAdult: Subject = { id: 'uk-adult', label: 'UK adult', regime: 'UK-GDPR', ageBand: 'adult', gpcSignal: false };
+
+  it('routes a consent grant captured under another regime to review with RECORD_REGIME_MISMATCH and names the record', () => {
+    const r = rec({ subjectId: 'uk-adult', purposeId: 'marketing-email', status: 'granted', at: '2026-09-01T00:00:00Z', regime: 'EU-GDPR' });
+    const d = run(ev('uk-adult', 'marketing-email'), ukAdult, [r]);
+    expect(d).toMatchObject({ decision: 'review', reasonCode: 'RECORD_REGIME_MISMATCH', ruleId: 'R09a-record-regime', recordId: r.id });
+    const rung = d.trace.find((t) => t.ruleId === 'R09a-record-regime');
+    expect(rung?.outcome).toBe('matched');
+    expect(rung?.note).toMatch(/EU-GDPR/);
+    expect(rung?.note).toMatch(/UK-GDPR/);
+  });
+
+  it('leaves a grant captured under the subject’s own regime unaffected', () => {
+    const r = rec({ subjectId: 'uk-adult', purposeId: 'marketing-email', status: 'granted', at: '2026-09-01T00:00:00Z', regime: 'UK-GDPR' });
+    const d = run(ev('uk-adult', 'marketing-email'), ukAdult, [r]);
+    expect(d.reasonCode).toBe('CONSENT_VALID');
+    expect(d.trace.find((t) => t.ruleId === 'R09a-record-regime')?.outcome).toBe('passed');
+  });
+
+  it('does not apply to non-consent bases even when the record regime differs', () => {
+    const li = rec({ subjectId: 'uk-adult', purposeId: 'product-analytics', status: 'granted', at: '2026-09-01T00:00:00Z', regime: 'EU-GDPR' });
+    expect(run(ev('uk-adult', 'product-analytics'), ukAdult, [li]).reasonCode).toBe('LEGITIMATE_INTEREST');
+    const notice = rec({ subjectId: 'ca-adult', purposeId: 'marketing-email', status: 'granted', at: '2026-09-01T00:00:00Z', regime: 'EU-GDPR' });
+    expect(run(ev('ca-adult', 'marketing-email'), ca, [notice]).reasonCode).toBe('NOTICE_AND_OPT_OUT');
+  });
+
+  it('keeps the protective effect of a withdrawal recorded under another regime (deny, not review)', () => {
+    const records = [
+      rec({ subjectId: 'uk-adult', purposeId: 'marketing-email', status: 'granted', at: '2026-08-01T00:00:00Z', regime: 'EU-GDPR' }),
+      rec({ subjectId: 'uk-adult', purposeId: 'marketing-email', status: 'withdrawn', at: '2026-09-01T00:00:00Z', regime: 'EU-GDPR' }),
+    ];
+    expect(run(ev('uk-adult', 'marketing-email'), ukAdult, records).reasonCode).toBe('CONSENT_WITHDRAWN');
+  });
+
+  it('with no record on file the mismatch rule passes and R09 still denies NO_CONSENT', () => {
+    const d = run(ev('uk-adult', 'marketing-email'), ukAdult, []);
+    expect(d.reasonCode).toBe('NO_CONSENT');
+    expect(d.trace.find((t) => t.ruleId === 'R09a-record-regime')?.outcome).toBe('passed');
+  });
+
+  it('sits immediately before R09-consent and after R08-objection in the rule table', () => {
+    const ids = RULES.map((r) => r.id);
+    expect(ids.indexOf('R09a-record-regime')).toBe(ids.indexOf('R09-consent') - 1);
+    expect(ids.indexOf('R09a-record-regime')).toBeGreaterThan(ids.indexOf('R08-objection'));
+  });
+});
+
+describe('California under-16 sale/share opt-in is category-based (sixth-review finding)', () => {
   const sale = adSale;
   const kid = { id: 'kid', label: 'kid', regime: 'US-CA-CCPA' as const, ageBand: 'under-13' as const, gpcSignal: false };
   const ev = (purposeId: string) => ({ id: 'e', subjectId: kid.id, purposeId, occurredAt: '2026-10-01T12:00:00Z', channel: 'web' as const });

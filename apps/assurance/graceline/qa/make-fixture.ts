@@ -37,7 +37,7 @@ list.push(approve(submitReview(base({ id: 'EX-103', title: 'Legacy report server
 {
   let e = submitReview(base({ id: 'EX-106', title: 'Local admin rights for CAD workstation group', policyRef: 'SEC-POL-05 §2 Least privilege', riskLevel: 'moderate', startOn: '2026-04-01', expiresOn: '2026-09-25', requester: 'eng.lead', owner: 'it.director', justification: 'CAD plugin installer requires local admin; vendor fix promised but not delivered.', remediation: { plan: 'Deploy packaged installer via endpoint management.', dueOn: '2026-09-20', status: 'in-progress' } }), '2026-03-25');
   e = approve(e, 'risk.owner', 'risk-owner', '2026-03-28');
-  // Adversarial: a renewal was requested before expiry but never approved — the term must still expire and age (sixth-Fable repro).
+  // Adversarial: a renewal was requested before expiry but never approved — the term must still expire and age (sixth-review repro).
   e = applyEvent(e, { type: 'renew', actor: 'eng.lead', newExpiresOn: '2026-11-20', note: 'Vendor says fix ships in Q4.' }, '2026-09-20');
   list.push(e); // tick() in the app moves it to expired at AS_OF despite the pending renewal
 }

@@ -1,0 +1,84 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/appsec/provgate
+# 2026-10-04T20:31:36.935Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/appsec/provgate
+
+ ✓ src/engine/__tests__/gate.test.ts > schema validation > accepts both synthetic releases and the default policy 4ms
+ ✓ src/engine/__tests__/gate.test.ts > schema validation > rejects malformed JSON, oversized text and over-limit evidence lists 10ms
+ ✓ src/engine/__tests__/gate.test.ts > schema validation > rejects unknown identity references and invalid timestamps 1ms
+ ✓ src/engine/__tests__/gate.test.ts > schema validation > rejects a policy whose change class references an unknown evidence type 0ms
+ ✓ src/engine/__tests__/gate.test.ts > change classification > matches ** across segments and * within one segment 1ms
+ ✓ src/engine/__tests__/gate.test.ts > change classification > derives required evidence as baseline plus matched classes with the strictest reviewer count 13ms
+ ✓ src/engine/__tests__/gate.test.ts > gate evaluation — vulnerable release 1.4.0 > blocks and names each weak-evidence state 30ms
+ ✓ src/engine/__tests__/gate.test.ts > gate evaluation — vulnerable release 1.4.0 > treats an expired acceptance as no acceptance 5ms
+ ✓ src/engine/__tests__/gate.test.ts > gate evaluation — remediated release 1.4.1 > releases with accepted risk and no requirement problems 1ms
+ ✓ src/engine/__tests__/gate.test.ts > gate evaluation — remediated release 1.4.1 > marks evidence without an inline artifact as unverified rather than failed 28ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > rejects an acceptance approved by the release author even with the security role 5ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > rejects an acceptance longer than the policy maximum or approved by a non-security identity 11ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > counts duplicate reviewer identities once and rejects reviewers without the reviewer role 2ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > rejects evidence dated after the as-of time 1ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > prefers the strongest candidate when several pieces of evidence share a type 5ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > is sensitive to the as-of date: the same evidence goes stale 1ms
+ ✓ src/engine/__tests__/gate.test.ts > bundle export > computes SHA-256 correctly and stamps a reproducible content digest 7ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > chooses a valid acceptance regardless of list order and warns about the duplicate 8ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > reports the least-broken acceptance when none is valid 1ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > fails closed when class-required evidence omits scope 5ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > still releases 1.4.1 when scope is present on every class-required item (fixture contract) 2ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > 1.4.0 has exactly 7 blockers carrying 8 problem codes 5ms
+ ✓ src/engine/__tests__/remediation.test.ts > remediation checklist > has a generic action for every problem and acceptance-problem code 12ms
+ × src/engine/__tests__/remediation.test.ts > remediation checklist > turns every problem in the 1.4.0 evaluation into a concrete, policy-aware action 60ms
+   → expected 'Fix SAST-17 and record it as fixed in…' to match /record it as fixed in new sast eviden…/
+ ✓ src/engine/__tests__/remediation.test.ts > remediation checklist > is empty for the clean 1.4.1 evaluation and surfaces acceptances that reference unknown findings 80ms
+ × src/engine/__tests__/remediation.test.ts > remediation checklist > is deterministic and still produces an action per problem without policy or manifest context 3ms
+   → expected 'Fix SAST-17 and record it as fixed in…' to match /new evidence of the same type/
+ ✓ src/engine/__tests__/remediation.test.ts > remediation checklist > appends a "Remediation checklist" section to the Markdown memo 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/__tests__/remediation.test.ts > remediation checklist > turns every problem in the 1.4.0 evaluation into a concrete, policy-aware action
+AssertionError: expected 'Fix SAST-17 and record it as fixed in…' to match /record it as fixed in new sast eviden…/
+
+- Expected:
+/record it as fixed in new sast evidence for the release commit/
+
++ Received:
+"Fix SAST-17 and record it as fixed in new ev-sast-type evidence for the release commit, or obtain a time-boxed risk acceptance of at most 90 days approved by an identity holding the \"security\" role who is not the release author; until then this high finding blocks the release."
+
+ ❯ src/engine/__tests__/remediation.test.ts:110:25
+    108|     expect(open.action).toMatch(/90 days/);
+    109|     // The finding came from evidence ev-sast-61; the action must name…
+    110|     expect(open.action).toMatch(/record it as fixed in new sast eviden…
+       |                         ^
+    111|     expect(open.action).not.toMatch(/-type evidence/);
+    112|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/engine/__tests__/remediation.test.ts > remediation checklist > is deterministic and still produces an action per problem without policy or manifest context
+AssertionError: expected 'Fix SAST-17 and record it as fixed in…' to match /new evidence of the same type/
+
+- Expected:
+/new evidence of the same type/
+
++ Received:
+"Fix SAST-17 and record it as fixed in new ev-sast-type evidence for the release commit, or obtain a time-boxed risk acceptance of at most the policy maximum (acceptance.maxDays) approved by an identity holding the approver role who is not the release author; until then this high finding blocks the release."
+
+ ❯ src/engine/__tests__/remediation.test.ts:142:69
+    140|     for (const i of generic) expect(i.action.length).toBeGreaterThan(3…
+    141|     expect(generic.find((i) => i.code === 'stale')!.action).toMatch(/e…
+    142|     expect(generic.find((i) => i.code === 'no-acceptance')!.action).to…
+       |                                                                     ^
+    143|   });
+    144|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 25 passed (27)
+   Start at  20:31:39
+   Duration  1.28s (transform 332ms, setup 0ms, import 395ms, tests 329ms, environment 0ms)
+

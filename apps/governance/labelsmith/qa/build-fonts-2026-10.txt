@@ -1,0 +1,32 @@
+$ npm run build
+# cwd apps/governance/labelsmith
+# 2026-10-04T20:42:19.421Z v20.20.1
+# exit 0
+
+
+> labelsmith@0.1.0 build
+> tsc --noEmit -p tsconfig.json && vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 37 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                          0.61 kB │ gzip:  0.34 kB
+dist/assets/martian-mono-cyrillic-ext-wght-normal-DAknEryR.woff2         3.17 kB
+dist/assets/bricolage-grotesque-vietnamese-wght-normal-BUzh504Q.woff2    8.61 kB
+dist/assets/literata-cyrillic-ext-wght-normal-CGKlZYBf.woff2             9.73 kB
+dist/assets/martian-mono-cyrillic-wght-normal-B84CD5C_.woff2            10.56 kB
+dist/assets/literata-vietnamese-wght-normal-LcSrhZ7T.woff2              11.41 kB
+dist/assets/literata-greek-ext-wght-normal-e3e57Shi.woff2               12.19 kB
+dist/assets/martian-mono-latin-ext-wght-normal-DlL6xMw5.woff2           15.91 kB
+dist/assets/bricolage-grotesque-latin-ext-wght-normal-CcLUaPy7.woff2    18.67 kB
+dist/assets/literata-greek-wght-normal-CO1l-giJ.woff2                   19.25 kB
+dist/assets/martian-mono-latin-wght-normal-5W32yIyr.woff2               23.56 kB
+dist/assets/literata-cyrillic-wght-normal-DLqwHbi6.woff2                28.07 kB
+dist/assets/bricolage-grotesque-latin-wght-normal-DLoelf7F.woff2        41.34 kB
+dist/assets/literata-latin-ext-wght-normal-BnEbWgdZ.woff2               42.66 kB
+dist/assets/literata-latin-wght-normal-DLxlUchJ.woff2                   52.50 kB
+dist/assets/index-BbZ7Cc-M.css                                          12.17 kB │ gzip:  2.93 kB
+dist/assets/index-K4Ggek5Z.js                                          274.82 kB │ gzip: 86.50 kB
+✓ built in 1.65s

@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { labRequest, LAB_ROUTES, validateLabRequest, makeMarker } from '../lab';
-import { ORACLES, evaluateOracle } from '../oracles';
+import type { LabRequest, LabResponse } from '../lab';
+import { ORACLES, evaluateOracle, suggestOracles } from '../oracles';
+import type { OracleSpec } from '../oracles';
 import { CATALOG } from '../catalog';
 import { createNotebook, rateSeverity } from '../notebook';
 import { buildReport, reportToMarkdown } from '../report';
@@ -39,6 +41,17 @@ describe('lab application', () => {
     expect(v3.status).toBe(400);
     expect(v3.body).not.toMatch(/receipts\.ts/);
   });
+  it('v1 and v2 serve the HTML account page without Content-Security-Policy or X-Content-Type-Options; v3 sends both', () => {
+    const req: LabRequest = { method: 'GET', path: '/account', session: 'alice' };
+    const [v1, v2, v3] = (['v1', 'v2', 'v3'] as const).map((b) => labRequest(b, req));
+    for (const r of [v1, v2, v3]) { expect(r.status).toBe(200); expect(r.headers['content-type']).toMatch(/^text\/html/); }
+    expect(v1.headers).not.toHaveProperty('content-security-policy');
+    expect(v1.headers).not.toHaveProperty('x-content-type-options');
+    expect(v2.headers).not.toHaveProperty('content-security-policy');
+    expect(v2.headers).not.toHaveProperty('x-content-type-options');
+    expect(v3.headers['content-security-policy']).toMatch(/default-src/);
+    expect(v3.headers['x-content-type-options']).toBe('nosniff');
+  });
   it('refuses anything that is not a relative lab path and bounds inputs', () => {
     expect(validateLabRequest({ method: 'GET', path: 'https://victim.example/search' }).ok).toBe(false);
     expect(validateLabRequest({ method: 'GET', path: '//victim.example/x' }).ok).toBe(false);
@@ -64,6 +77,41 @@ describe('oracles', () => {
     const v3 = labRequest('v3', entry.request);
     expect(evaluateOracle(entry.oracle, entry.request, v1).vulnerable).toBe(true);
     expect(evaluateOracle(entry.oracle, entry.request, v3).vulnerable).toBe(false);
+  });
+  it('security-headers-missing fires only on HTML responses lacking CSP or X-Content-Type-Options, looking headers up case-insensitively', () => {
+    const req: LabRequest = { method: 'GET', path: '/account', session: 'alice' };
+    const spec: OracleSpec = { kind: 'security-headers-missing' };
+    const html = (headers: Record<string, string>, status = 200): LabResponse => ({ status, headers, body: '<!doctype html><html><body><h1>Account</h1></body></html>' });
+    const bare = evaluateOracle(spec, req, html({ 'content-type': 'text/html; charset=utf-8' }));
+    expect(bare.vulnerable).toBe(true);
+    expect(bare.evidence).toMatch(/content-security-policy/i);
+    expect(bare.evidence).toMatch(/x-content-type-options/i);
+    const cspOnly = evaluateOracle(spec, req, html({ 'content-type': 'text/html', 'content-security-policy': "default-src 'self'" }));
+    expect(cspOnly.vulnerable).toBe(true);
+    expect(cspOnly.evidence).toMatch(/x-content-type-options/i);
+    expect(cspOnly.evidence).not.toMatch(/lacks content-security-policy/i);
+    const mixedCase = evaluateOracle(spec, req, html({ 'Content-Type': 'TEXT/HTML; charset=utf-8', 'Content-Security-Policy': "default-src 'self'", 'X-Content-Type-Options': 'nosniff' }));
+    expect(mixedCase.vulnerable).toBe(false);
+    expect(evaluateOracle(spec, req, { status: 200, headers: { 'content-type': 'application/json' }, body: '{"ok":true}' }).vulnerable).toBe(false);
+    expect(evaluateOracle(spec, req, { status: 302, headers: { 'content-type': 'text/html', location: '/account' }, body: '' }).vulnerable).toBe(false);
+    const def = ORACLES['security-headers-missing'];
+    expect(def.cwe).toBe('CWE-693');
+    expect(def.cweName).toBe('Protection Mechanism Failure');
+    expect(def.owasp2021).toMatch(/^A05:2021/);
+    expect(def.defaultImpact).toBe('low');
+    expect(def.defaultLikelihood).toBe('high');
+    expect(def.remediation).toMatch(/Content-Security-Policy/);
+  });
+  it('suggestOracles offers security-headers-missing for HTML responses on every build and never for JSON', () => {
+    const account: LabRequest = { method: 'GET', path: '/account', session: 'alice' };
+    for (const build of ['v1', 'v3'] as const) expect(suggestOracles(account, labRequest(build, account)).map((s) => s.kind)).toContain('security-headers-missing');
+    const receipt: LabRequest = { method: 'GET', path: '/receipts/r-100', session: 'alice' };
+    expect(suggestOracles(receipt, labRequest('v1', receipt)).map((s) => s.kind)).not.toContain('security-headers-missing');
+    expect(CATALOG.map((c) => c.id)).toEqual(['TC-01', 'TC-02', 'TC-03', 'TC-04', 'TC-05']);
+    const tc05 = CATALOG[4];
+    expect(tc05.request).toEqual({ method: 'GET', path: '/account', session: 'alice' });
+    expect(tc05.oracle.kind).toBe('security-headers-missing');
+    expect(tc05.steps.length).toBeGreaterThanOrEqual(2);
   });
 });
 
@@ -141,11 +189,12 @@ describe('notebook', () => {
     const r = await nb.retest(id, 'v3');
     expect(r.ok).toBe(false);
   });
-  it('runCatalog records 4 findings on v1, 2 on v2 and 0 on v3', async () => {
-    for (const [build, count] of [['v1', 4], ['v2', 2], ['v3', 0]] as const) {
+  it('runCatalog records 5 findings on v1, 3 on v2 and 0 on v3', async () => {
+    for (const [build, count, clean] of [['v1', 5, []], ['v2', 3, ['TC-01', 'TC-02']], ['v3', 0, ['TC-01', 'TC-02', 'TC-03', 'TC-04', 'TC-05']]] as const) {
       const nb = createNotebook({ clock: () => '2026-10-01T10:00:00.000Z' });
       const summary = await nb.runCatalog(build);
-      expect(summary.recorded).toBe(count);
+      expect(summary.recorded, build).toBe(count);
+      expect(summary.clean, build).toEqual(clean);
       expect(nb.state().findings).toHaveLength(count);
       expect(nb.state().observations).toHaveLength(CATALOG.length);
     }
@@ -164,7 +213,7 @@ describe('report', () => {
     await nb.runCatalog('v1');
     const report = buildReport(nb.state(), { generatedAt: '2026-10-01T11:00:00.000Z', scope: 'Ledgerly lab (in-browser simulation)' });
     expect(report.schema).toBe('assaynotebook.report/1');
-    expect(report.findings.map((f) => f.cwe).sort()).toEqual(['CWE-1004', 'CWE-209', 'CWE-639', 'CWE-79']);
+    expect(report.findings.map((f) => f.cwe).sort()).toEqual(['CWE-1004', 'CWE-209', 'CWE-639', 'CWE-693', 'CWE-79']);
     const text = JSON.stringify(report);
     expect(text).not.toMatch(/sid=[a-z0-9]{8,}/i);
     expect(text).toMatch(/sid=\[redacted\]/);
@@ -174,7 +223,7 @@ describe('report', () => {
   });
 });
 
-describe('sixth-Fable regression — severity re-ratings are part of the audit trail', () => {
+describe('sixth-review regression — severity re-ratings are part of the audit trail', () => {
   it('logs a history entry when impact, likelihood or rationale changes, and nothing when unchanged', async () => {
     const nb = createNotebook({ clock: () => '2026-10-01T10:00:00.000Z' });
     const entry = CATALOG.find((c) => c.oracle.kind === 'cross-user-object')!;

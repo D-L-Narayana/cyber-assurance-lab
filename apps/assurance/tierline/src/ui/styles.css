@@ -9,10 +9,10 @@
   --line: #c5cedc;
   --line-2: #e1e7ef;
   --t1: #c8401f;
-  --t2: #9a5e05;
+  --t2: #935a05; /* was #9a5e05 (4.37:1 as text on --accent-bg selected rows); now 4.69:1 there, 5.67:1 on --panel (Oct 2026) */
   --t3: #4e7a3f;
   --t1-bg: #f9e3dc; --t2-bg: #f7ebd2; --t3-bg: #e2eedb;
-  --accent: #2d5bff;
+  --accent: #2a55f5; /* was #2d5bff (4.29:1 as link text on --accent-bg); now 4.67:1 there, 5.65:1 on --panel (Oct 2026) */
   --accent-bg: #e3e9ff;
   --bad: #b3261e;
   --sans: 'Archivo', system-ui, sans-serif;
@@ -153,6 +153,12 @@ tr.is-selected td { background: var(--accent-bg); }
 .kind--missing-evidence, .kind--expired-evidence, .kind--exception-expired, .kind--exception-out-of-policy, .kind--future-dated-evidence, .kind--review-overdue, .kind--incomplete-questionnaire { color: var(--bad); }
 .kind--expiring-evidence, .kind--exception-expiring, .kind--tier-drift { color: var(--t2); }
 .kind--review-due-soon { color: var(--ink-2); }
+
+/* Forecast (Oct 2026): what will lapse within the chosen horizon; same table idiom as the queue */
+.forecast { margin-top: 1rem; background: var(--panel); border: 1px solid var(--line); padding: 0.8rem 1rem; }
+.kind--evidence-lapses { color: var(--t2); }
+.kind--exception-expires { color: var(--accent); }
+.kind--review-due { color: var(--ink-2); }
 .foot { margin-top: 1.2rem; font-size: 0.8rem; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 0.6rem; }
 
 @media (max-width: 1100px) {

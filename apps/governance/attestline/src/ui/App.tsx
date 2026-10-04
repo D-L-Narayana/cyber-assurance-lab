@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import demoJson from '../fixtures/demo.json';
 import {
-  applyDecision, buildCampaign, bulkDecision, completion, exportCertification, routeItem, validateFixture, CAMPAIGN_OWNER,
+  applyDecision, buildCampaign, bulkDecision, closeCampaign, completion, exportCertificationWithDigest, routeItem, validateFixture, CAMPAIGN_OWNER,
 } from '../engine/campaign';
 import type { Campaign, Decision, Fixture, ReviewItem, RiskHint } from '../engine/types';
 import { parseBoundedJson } from '../engine/safe';
@@ -44,6 +44,12 @@ export function App() {
   const [importError, setImportError] = useState<string | null>(null);
   const [routeTarget, setRouteTarget] = useState('');
   const [routeReason, setRouteReason] = useState('');
+  // Campaign closure (October 2026): note dialog state and the live certification digest.
+  const [closeOpen, setCloseOpen] = useState(false);
+  const [closeNote, setCloseNote] = useState('');
+  const [ackPending, setAckPending] = useState(false);
+  const [digest, setDigest] = useState<string | null>(null);
+  const closed = campaign.closed ?? null;
   const unrouted = useMemo(() => campaign.items.filter((i) => i.reviewerId === null), [campaign]);
   const route = (itemId: string) => {
     const r = routeItem(campaign, { itemId, toReviewer: routeTarget, reason: routeReason });
@@ -55,6 +61,20 @@ export function App() {
   const rowRefs = useRef(new Map<string, HTMLTableRowElement>());
 
   const summary = useMemo(() => completion(campaign), [campaign]);
+  const pendingCount = summary.total - summary.decided;
+  useEffect(() => {
+    // The digest is recomputed from the current campaign so the masthead always shows what an export right now would carry.
+    let live = true;
+    exportCertificationWithDigest(campaign).then((out) => { if (live) setDigest(out.json.digest); }).catch(() => { if (live) setDigest(null); });
+    return () => { live = false; };
+  }, [campaign]);
+  const doClose = () => {
+    const r = closeCampaign(campaign, { actor: CAMPAIGN_OWNER, note: closeNote, acknowledgePending: ackPending });
+    if (!r.ok) { setNotice({ tone: 'error', text: r.error }); return; }
+    setCampaign(r.campaign); setCloseOpen(false); setCloseNote(''); setAckPending(false); setSelected(new Set());
+    const c = r.campaign.closed!;
+    setNotice({ tone: 'ok', text: `Campaign closed by ${c.by} on ${c.at}${c.pendingAtClose > 0 ? ` with ${c.pendingAtClose} undecided item${c.pendingAtClose === 1 ? '' : 's'} acknowledged` : ''}. Decisions are frozen; export the certification.` });
+  };
   const myItems = useMemo(() => campaign.items.filter((i) => i.reviewerId === actor), [campaign, actor]);
   const visible = useMemo(() => myItems.filter((i) =>
     filter === 'all' ? true : filter === 'pending' ? i.state === 'pending' : i.hints.length > 0), [myItems, filter]);
@@ -122,11 +142,11 @@ export function App() {
     setNotice({ tone: 'ok', text: `Loaded "${v.fixture.label}" with ${v.fixture.entitlements.length} entitlements. Decisions were reset.` });
   };
 
-  const exportAll = (kind: 'json' | 'csv') => {
-    const out = exportCertification(campaign);
+  const exportAll = async (kind: 'json' | 'csv') => {
+    const out = await exportCertificationWithDigest(campaign);
     if (kind === 'json') downloadText('attestline-certification.json', JSON.stringify(out.json, null, 2), 'application/json');
     else downloadText('attestline-certification.csv', out.csv, 'text/csv');
-    setNotice({ tone: 'ok', text: `Exported ${kind.toUpperCase()} (${out.json.items.length} items, ${out.json.decisions.length} decisions).` });
+    setNotice({ tone: 'ok', text: `Exported ${kind.toUpperCase()} (${out.json.items.length} items, ${out.json.decisions.length} decisions${kind === 'json' ? `; digest sha256:${out.json.digest.slice(0, 16)}…` : ''}).` });
   };
 
   const delegateTargets = campaign.reviewers.filter((r) => r.id !== actor);
@@ -137,7 +157,7 @@ export function App() {
     <div className="app">
       <header className="masthead">
         <h1>Attestline<small>Access-review decision engine · educational prototype on synthetic data</small></h1>
-        <p className="campaign"><strong>{campaign.fixtureLabel}</strong><br />as of {campaign.config.asOf} · {summary.decided}/{summary.total} decided ({summary.percent}%) · {summary.sodOverrides} SoD override{summary.sodOverrides === 1 ? '' : 's'} · {summary.unrouted} unrouted</p>
+        <p className="campaign"><strong>{campaign.fixtureLabel}</strong><br />as of {campaign.config.asOf} · {summary.decided}/{summary.total} decided ({summary.percent}%) · {summary.sodOverrides} SoD override{summary.sodOverrides === 1 ? '' : 's'} · {summary.unrouted} unrouted{closed ? ' · closed' : ''}<br /><span className="digest-label">certification digest</span> <code className="digest">{digest ? `sha256:${digest}` : 'computing…'}</code></p>
         <div className="controls">
           <label className="field">Acting as reviewer
             <select value={actor} onChange={(e) => { setActor(e.target.value); setSelected(new Set()); setFocusId(null); }}>
@@ -150,8 +170,28 @@ export function App() {
           </label>
           <button className="btn ghost" onClick={() => exportAll('json')}>Export JSON</button>
           <button className="btn ghost" onClick={() => exportAll('csv')}>Export CSV</button>
-          <button className="btn ghost" onClick={() => { rebuild(fixture, dormantAfterDays); setSelected(new Set()); setNotice({ tone: 'warn', text: 'All decisions cleared. Campaign rebuilt from the loaded fixture.' }); }}>Reset decisions</button>
+          <button className="btn ghost" onClick={() => { rebuild(fixture, dormantAfterDays); setSelected(new Set()); setCloseOpen(false); setNotice({ tone: 'warn', text: 'All decisions cleared. Campaign rebuilt from the loaded fixture.' }); }}>Reset decisions</button>
+          <button className="btn" onClick={() => setCloseOpen((o) => !o)} aria-expanded={closeOpen} aria-controls="close-panel" disabled={!!closed}>Close campaign</button>
         </div>
+        {closeOpen && !closed && (
+          <section id="close-panel" className="close-panel" aria-labelledby="close-h">
+            <h2 id="close-h">Close this campaign</h2>
+            <p>Closing freezes every decision and routing action. The closing record (who, when, note, undecided count) is written into the certification export and covered by its digest. {pendingCount > 0 ? `${pendingCount} item${pendingCount === 1 ? ' is' : 's are'} still undecided.` : 'Every item has been decided.'}</p>
+            <label>Closing note (at least 10 characters)
+              <textarea value={closeNote} onChange={(e) => setCloseNote(e.target.value)} placeholder="Why the campaign is being closed in this state" />
+            </label>
+            {pendingCount > 0 && (
+              <label className="check"><input type="checkbox" checked={ackPending} onChange={(e) => setAckPending(e.target.checked)} /> Acknowledge the {pendingCount} undecided item{pendingCount === 1 ? '' : 's'} and record that count in the closing record</label>
+            )}
+            <div className="actions">
+              <button type="button" className="btn revoke" onClick={doClose}>Confirm close</button>
+              <button type="button" className="btn ghost" onClick={() => { setCloseOpen(false); setCloseNote(''); setAckPending(false); }}>Cancel</button>
+            </div>
+          </section>
+        )}
+        {closed && (
+          <p className="notice warn closed-banner" role="status"><strong>Campaign closed</strong> by <span className="mono">{closed.by}</span> on <span className="mono">{closed.at}</span>{closed.pendingAtClose > 0 ? ` with ${closed.pendingAtClose} item${closed.pendingAtClose === 1 ? '' : 's'} left undecided` : ''} — “{closed.note}”. Decisions and routing are frozen; export the certification (its digest covers the closing record). “Reset decisions” starts a new campaign.</p>
+        )}
         <div className="progress" role="group" aria-label="Progress by reviewer">
           {summary.byReviewer.map((r) => (
             <button key={r.reviewerId} className="reviewer-chip" aria-pressed={r.reviewerId === actor} onClick={() => { setActor(r.reviewerId); setSelected(new Set()); setFocusId(null); }}>
@@ -197,7 +237,7 @@ export function App() {
                 </label>
                 <label className="field">Routing reason<input value={routeReason} onChange={(e) => setRouteReason(e.target.value)} placeholder="Why this reviewer" /></label>
                 <ul className="log">
-                  {unrouted.map((i) => <li key={i.id}><span className="seq mono">{i.entitlement.id}</span><span>{i.identity.displayName} · {i.entitlement.privilege} on {i.resource.name} <button className="btn small ghost" disabled={!routeTarget || !routeReason.trim()} onClick={() => route(i.id)}>Route</button></span></li>)}
+                  {unrouted.map((i) => <li key={i.id}><span className="seq mono">{i.entitlement.id}</span><span>{i.identity.displayName} · {i.entitlement.privilege} on {i.resource.name} <button className="btn small ghost" disabled={!routeTarget || !routeReason.trim() || !!closed} onClick={() => route(i.id)}>Route</button></span></li>)}
                 </ul>
               </div>
             </details>
@@ -206,8 +246,8 @@ export function App() {
           {selected.size > 0 && (
             <div className="bulk" role="group" aria-label="Bulk actions">
               <strong>{selected.size} selected</strong>
-              <button className="btn small approve" onClick={() => bulk('approve')}>Approve selected</button>
-              <button className="btn small revoke" onClick={() => bulk('revoke')}>Revoke selected</button>
+              <button className="btn small approve" onClick={() => bulk('approve')} disabled={!!closed}>Approve selected</button>
+              <button className="btn small revoke" onClick={() => bulk('revoke')} disabled={!!closed}>Revoke selected</button>
               <button className="btn small ghost" onClick={() => setSelected(new Set())}>Clear selection</button>
               <span>Bulk actions use the reason typed in the drawer; flagged items require one. All-or-nothing.</span>
             </div>
@@ -286,11 +326,12 @@ export function App() {
                   </select>
                 </label>
                 <div className="actions">
-                  <button type="button" className="btn approve" onClick={() => decide('approve')} disabled={focused.reviewerId !== actor}>Approve</button>
-                  <button type="button" className="btn revoke" onClick={() => decide('revoke')} disabled={focused.reviewerId !== actor}>Revoke</button>
-                  <button type="button" className="btn delegate" onClick={() => decide('delegate')} disabled={focused.reviewerId !== actor || !delegateTo}>Delegate</button>
+                  <button type="button" className="btn approve" onClick={() => decide('approve')} disabled={focused.reviewerId !== actor || !!closed}>Approve</button>
+                  <button type="button" className="btn revoke" onClick={() => decide('revoke')} disabled={focused.reviewerId !== actor || !!closed}>Revoke</button>
+                  <button type="button" className="btn delegate" onClick={() => decide('delegate')} disabled={focused.reviewerId !== actor || !delegateTo || !!closed}>Delegate</button>
                 </div>
-                {focused.reviewerId !== actor && <p className="notice warn">Only {focused.reviewerId ?? 'an assigned reviewer'} can decide this item. Switch “Acting as reviewer” to simulate them.</p>}
+                {closed && <p className="notice warn">The campaign is closed; this item can no longer be decided or delegated.</p>}
+                {!closed && focused.reviewerId !== actor && <p className="notice warn">Only {focused.reviewerId ?? 'an assigned reviewer'} can decide this item. Switch “Acting as reviewer” to simulate them.</p>}
               </form>
               <h3>Decision log for this item</h3>
               {campaign.decisions.filter((d) => d.itemId === focused.id).length === 0 ? <p className="sub">No decisions yet.</p> : (

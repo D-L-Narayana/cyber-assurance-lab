@@ -1,0 +1,176 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/privacy/forethought
+# 2026-10-04T18:41:54.751Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/privacy/forethought
+
+ ✓ src/App.test.tsx > Forethought app (integration, added after the UI) > shows the demo as high inherent risk with no sign-off blockers 276ms
+ ✓ src/App.test.tsx > Forethought app (integration, added after the UI) > changing an answer reveals a follow-up question and can introduce a blocker 857ms
+ ✓ src/App.test.tsx > Forethought app (integration, added after the UI) > signing binds a hash; editing afterwards marks the signature stale 898ms
+ ✓ src/App.test.tsx > Forethought app (integration, added after the UI) > refuses to sign while blockers exist and explains why 383ms
+ ✓ src/App.test.tsx > Forethought app (integration, added after the UI) > switching audience shows the executive summary 384ms
+ ✓ src/App.test.tsx > Forethought app (integration, added after the UI) > marking an evidence-required mitigation verified without a reference does not count and blocks 331ms
+ ✓ src/engine/engine.test.ts > band > maps a 5x5 likelihood x impact product to four bands 2ms
+ ✓ src/engine/engine.test.ts > rubric > has ten top-level questions plus follow-ups, and every question has at least one option that moves a theme 2ms
+ ✓ src/engine/engine.test.ts > rubric > reveals follow-up questions only when their trigger answer is chosen 1ms
+ ✓ src/engine/engine.test.ts > rubric > every mitigation references real themes 1ms
+ ✓ src/engine/engine.test.ts > score > starts every theme at likelihood 1 x impact 1 when nothing is answered 1ms
+ ✓ src/engine/engine.test.ts > score > clamps likelihood and impact to the 1..5 range 1ms
+ ✓ src/engine/engine.test.ts > score > lists the answers that contributed to each theme 1ms
+ ✓ src/engine/engine.test.ts > score > only implemented or verified mitigations reduce residual risk; planned ones affect the projection 1ms
+ ✓ src/engine/engine.test.ts > score > a mitigation that requires evidence counts only when verified with an evidence reference 1ms
+ ✓ src/engine/engine.test.ts > score > residual never exceeds inherent and projected never exceeds residual (property over random mitigation sets) 14ms
+ ✓ src/engine/engine.test.ts > score > calibration: the low fixture scores low overall, the demo scores high, the children-and-profiling fixture scores very high 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > blocks when visible questions are unanswered 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > blocks a high residual theme without a recorded acceptance and clears it with one 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > a very-high residual theme cannot be accepted by the product owner alone 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > blocks when a flow leaves the origin region with no mechanism 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > requires DPO consultation when the inherent risk is DPIA-scale 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > blocks when a verified mitigation lacks its evidence reference 0ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > the demo fixture is signable as shipped 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > signOff refuses while blockers exist and records the content hash when clear 10ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > changing an answer after sign-off makes the signature stale 4ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > content hash ignores signatures and versions but changes with answers, mitigations, flows and acceptances 1ms
+ ✓ src/engine/engine.test.ts > versioning > snapshot increments the version and summarises what changed since the last snapshot 1ms
+ ✓ src/engine/engine.test.ts > versioning > snapshotting without changes records no-change 1ms
+ × src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > snapshot stores the canonical content on the version 6ms
+   → expected undefined to be '{"id":"PIA-2026-014","title":"Recomme…' // Object.is equality
+ ✓ src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > export → import → snapshot yields a field-level diff (answer change and mitigation status change) 1ms
+ ✓ src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > legacy files whose versions carry no content still import; the next summary says the previous content is unavailable 1ms
+ × src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > omits content above 64 KiB and says so; the following snapshot then has no field-level basis 2ms
+   → expected 'Initial version.' to match /content too large to retain/
+ × src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > does not leak snapshot content across assessments that share a content hash 1ms
+   → expected 'Answer q-volume: 100k-1m → over-1m' to match /previous snapshot content unavailable/
+ × src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > fromCanonical reconstructs the assessable content and round-trips through canonicalContent 1ms
+   → expected undefined to be defined
+ × src/engine/engine.test.ts > version content import (October 2026 upgrade round) > accepts and round-trips a version with canonical content 1ms
+   → expected undefined to be '{"id":"PIA-2026-014","title":"Recomme…' // Object.is equality
+ ✓ src/engine/engine.test.ts > version content import (October 2026 upgrade round) > still imports legacy files whose versions have no content 0ms
+ × src/engine/engine.test.ts > version content import (October 2026 upgrade round) > rejects content that is not a string, is above 64 KiB, or is not canonical content JSON, naming the path 2ms
+   → 42: expected true to be false // Object.is equality
+ ✓ src/engine/engine.test.ts > narrative > produces a deterministic executive summary naming the overall band and the top themes 1ms
+ ✓ src/engine/engine.test.ts > import/export > round-trips and rejects unknown question/option/mitigation ids 1ms
+ ✓ src/engine/engine.test.ts > import/export > bounds size and nesting and validates enums 7ms
+ ✓ src/engine/engine.test.ts > hostile nesting (review finding) > returns a validation error, not a RangeError, for 20,000 nested arrays inside the byte limit 2ms
+ ✓ src/engine/engine.test.ts > strict import (review findings) > rejects impossible calendar dates even when they match the pattern 0ms
+ ✓ src/engine/engine.test.ts > strict import (review findings) > rejects malformed or oversized list fields instead of silently filtering them 1ms
+ ✓ src/engine/engine.test.ts > strict import (review findings) > rejects duplicate mitigation ids, flow ids, acceptance themes, signature roles and version numbers 1ms
+ ✓ src/engine/engine.test.ts > strict import (review findings) > reports the offending path in the error message 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > snapshot stores the canonical content on the version
+AssertionError: expected undefined to be '{"id":"PIA-2026-014","title":"Recomme…' // Object.is equality
+
+- Expected:
+"{\"id\":\"PIA-2026-014\",\"title\":\"Recommendation feature for the storefront\",\"owner\":\"Tamsin Reyes (Product)\",\"description\":\"Synthetic scenario: ranking products for each signed-in shopper using browsing and purchase history, with a vendor-hosted analytics pipeline outside the shoppers' region.\",\"answers\":[[\"q-basis\",\"legitimate-interest\"],[\"q-categories\",\"behavioural\"],[\"q-children\",\"possible\"],[\"q-children-age-assurance\",\"self-declared\"],[\"q-notice\",\"planned\"],[\"q-profiling\",\"individual-recommendations\"],[\"q-purpose\",\"personalisation\"],[\"q-retention\",\"defined-not-enforced\"],[\"q-rights-tooling\",\"manual\"],[\"q-security\",\"standard-controls\"],[\"q-sharing\",\"processors\"],[\"q-sharing-contracts\",\"in-place\"],[\"q-transfer\",\"outside-with-safeguards\"],[\"q-volume\",\"100k-1m\"]],\"mitigations\":[[\"m-age-assurance\",\"planned\",\"\",\"Trust & Safety\"],[\"m-human-review\",\"implemented\",\"\",\"Merchandising\"],[\"m-pentest\",\"verified\",\"pentest-report-2026-09 (synthetic)\",\"Security\"],[\"m-retention-automation\",\"planned\",\"\",\"Data Platform\"],[\"m-sccs\",\"verified\",\"transfer-assessment-TA-07 (synthetic)\",\"Legal\"]],\"flows\":[[\"f-1\",\"Storefront app\",\"Recommendation service\",[\"browsing\",\"purchase-history\"],false,\"not-applicable\"],[\"f-2\",\"Recommendation service\",\"Analytics vendor (synthetic)\",[\"pseudonymous-events\"],true,\"standard-contractual-clauses\"]],\"acceptances\":[[\"vulnerable-subjects\",\"data-protection-lead\",\"Ines Okafor\",\"Age assurance is scheduled before general release; until then recommendations are disabled for accounts flagged as under 18.\",\"2026-09-28\"]],\"dpoConsulted\":true}"
+
++ Received:
+undefined
+
+ ❯ src/engine/engine.test.ts:227:41
+    225|     const a = load(demo);
+    226|     const v1 = await snapshot(a, T1);
+    227|     expect(v1.versions.at(-1)?.content).toBe(canonicalContent(a));
+       |                                         ^
+    228|   });
+    229|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > omits content above 64 KiB and says so; the following snapshot then has no field-level basis
+AssertionError: expected 'Initial version.' to match /content too large to retain/
+
+- Expected:
+/content too large to retain/
+
++ Received:
+"Initial version."
+
+ ❯ src/engine/engine.test.ts:259:57
+    257|     const v1 = await snapshot(big, T1);
+    258|     expect(v1.versions.at(-1)?.content).toBeUndefined();
+    259|     expect(v1.versions.at(-1)?.changeSummary.join(' ')).toMatch(/conte…
+       |                                                         ^
+    260|     const v2 = await snapshot(applyAnswer(v1, 'q-volume', 'over-1m'), …
+    261|     expect(v2.versions.at(-1)?.changeSummary.join(' ')).toMatch(/previ…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > does not leak snapshot content across assessments that share a content hash
+AssertionError: expected 'Answer q-volume: 100k-1m → over-1m' to match /previous snapshot content unavailable/
+
+- Expected:
+/previous snapshot content unavailable/
+
++ Received:
+"Answer q-volume: 100k-1m → over-1m"
+
+ ❯ src/engine/engine.test.ts:270:21
+    268|     const next = await snapshot(applyAnswer(other, 'q-volume', 'over-1…
+    269|     const summary = next.versions.at(-1)!.changeSummary.join(' ');
+    270|     expect(summary).toMatch(/previous snapshot content unavailable/);
+       |                     ^
+    271|     expect(summary).not.toMatch(/Answer q-volume/);
+    272|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > fromCanonical reconstructs the assessable content and round-trips through canonicalContent
+AssertionError: expected undefined to be defined
+ ❯ src/engine/engine.test.ts:277:18
+    275|     const a = load(demo);
+    276|     const back = fromCanonical(canonicalContent(a));
+    277|     expect(back).toBeDefined();
+       |                  ^
+    278|     if (!back) return;
+    279|     expect(back.title).toBe(a.title);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/engine/engine.test.ts > version content import (October 2026 upgrade round) > accepts and round-trips a version with canonical content
+AssertionError: expected undefined to be '{"id":"PIA-2026-014","title":"Recomme…' // Object.is equality
+
+- Expected:
+"{\"id\":\"PIA-2026-014\",\"title\":\"Recommendation feature for the storefront\",\"owner\":\"Tamsin Reyes (Product)\",\"description\":\"Synthetic scenario: ranking products for each signed-in shopper using browsing and purchase history, with a vendor-hosted analytics pipeline outside the shoppers' region.\",\"answers\":[[\"q-basis\",\"legitimate-interest\"],[\"q-categories\",\"behavioural\"],[\"q-children\",\"possible\"],[\"q-children-age-assurance\",\"self-declared\"],[\"q-notice\",\"planned\"],[\"q-profiling\",\"individual-recommendations\"],[\"q-purpose\",\"personalisation\"],[\"q-retention\",\"defined-not-enforced\"],[\"q-rights-tooling\",\"manual\"],[\"q-security\",\"standard-controls\"],[\"q-sharing\",\"processors\"],[\"q-sharing-contracts\",\"in-place\"],[\"q-transfer\",\"outside-with-safeguards\"],[\"q-volume\",\"100k-1m\"]],\"mitigations\":[[\"m-age-assurance\",\"planned\",\"\",\"Trust & Safety\"],[\"m-human-review\",\"implemented\",\"\",\"Merchandising\"],[\"m-pentest\",\"verified\",\"pentest-report-2026-09 (synthetic)\",\"Security\"],[\"m-retention-automation\",\"planned\",\"\",\"Data Platform\"],[\"m-sccs\",\"verified\",\"transfer-assessment-TA-07 (synthetic)\",\"Legal\"]],\"flows\":[[\"f-1\",\"Storefront app\",\"Recommendation service\",[\"browsing\",\"purchase-history\"],false,\"not-applicable\"],[\"f-2\",\"Recommendation service\",\"Analytics vendor (synthetic)\",[\"pseudonymous-events\"],true,\"standard-contractual-clauses\"]],\"acceptances\":[[\"vulnerable-subjects\",\"data-protection-lead\",\"Ines Okafor\",\"Age assurance is scheduled before general release; until then recommendations are disabled for accounts flagged as under 18.\",\"2026-09-28\"]],\"dpoConsulted\":true}"
+
++ Received:
+undefined
+
+ ❯ src/engine/engine.test.ts:303:47
+    301|     expect(r.ok).toBe(true);
+    302|     if (!r.ok) return;
+    303|     expect(r.assessment.versions[0]?.content).toBe(content);
+       |                                               ^
+    304|     expect(parseAssessment(serializeAssessment(r.assessment)).ok).toBe…
+    305|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  src/engine/engine.test.ts > version content import (October 2026 upgrade round) > rejects content that is not a string, is above 64 KiB, or is not canonical content JSON, naming the path
+AssertionError: 42: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/engine/engine.test.ts:316:46
+    314|     for (const bad of [42, 'x'.repeat(65_537), 'not json', JSON.string…
+    315|       const r = parseAssessment(JSON.stringify({ ...base, versions: [v…
+    316|       expect(r.ok, String(bad).slice(0, 20)).toBe(false);
+       |                                              ^
+    317|       if (!r.ok) expect(r.errors.join(' ')).toMatch(/versions\[0\]\.co…
+    318|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  6 failed | 40 passed (46)
+   Start at  18:41:58
+   Duration  8.41s (transform 359ms, setup 661ms, import 601ms, tests 3.21s, environment 3.61s)
+

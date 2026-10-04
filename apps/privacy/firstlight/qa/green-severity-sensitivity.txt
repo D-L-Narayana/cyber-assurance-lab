@@ -1,0 +1,57 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/privacy/firstlight
+# 2026-10-04T19:09:28.472Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/privacy/firstlight
+
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > shows the 72-hour clock within window at the fixed demo time and the sequence issue for the duplicate event 505ms
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > moving "now" past the deadline flips the clock to exceeded 346ms
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > changing a circumstance factor recomputes the severity formula 265ms
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > filling a missing fact increases readiness 885ms
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > redaction toggle hides personal tokens in the packet preview 379ms
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > lists, in text, which single changes would move the severity band 90ms
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > a containment task needs an evidence reference to be marked done 204ms
+ ✓ src/engine/engine.test.ts > buildTimeline > sorts events chronologically and removes exact duplicates (same id, or same time+kind+summary) 23ms
+ ✓ src/engine/engine.test.ts > buildTimeline > derives occurred, detected, aware and contained timestamps from the first event of each kind 1ms
+ ✓ src/engine/engine.test.ts > buildTimeline > flags a missing awareness event as a first-class unknown 1ms
+ ✓ src/engine/engine.test.ts > buildTimeline > flags containment or awareness recorded before detection 0ms
+ ✓ src/engine/engine.test.ts > buildTimeline > flags a gap of more than 7 days between occurrence and detection 0ms
+ ✓ src/engine/engine.test.ts > buildTimeline > is idempotent and order-independent (property) 36ms
+ ✓ src/engine/engine.test.ts > evidenceClock > runs a 72-hour clock from awareness for GDPR jurisdictions 1ms
+ ✓ src/engine/engine.test.ts > evidenceClock > reports the window exceeded with the overrun and the reasons-for-delay note 0ms
+ ✓ src/engine/engine.test.ts > evidenceClock > cannot start without an awareness time 0ms
+ ✓ src/engine/engine.test.ts > evidenceClock > runs a 30-calendar-day clock from discovery for California (Civ. Code 1798.82 as amended by SB 446, eff. 2026-01-01) 0ms
+ ✓ src/engine/engine.test.ts > evidenceClock > decides the phase on the unrounded timestamp, so one minute past the deadline is exceeded 0ms
+ ✓ src/engine/engine.test.ts > summariseScope and severity (ENISA-inspired SE = DPC x EI + CB) > aggregates subjects and records per data class and finds the highest class 2ms
+ ✓ src/engine/engine.test.ts > summariseScope and severity (ENISA-inspired SE = DPC x EI + CB) > uses the highest data class as the DPC base (simple 1, behavioural 2, financial 3, sensitive 4) 1ms
+ ✓ src/engine/engine.test.ts > summariseScope and severity (ENISA-inspired SE = DPC x EI + CB) > computes SE = DPC x EI + CB with the published factor values 1ms
+ ✓ src/engine/engine.test.ts > summariseScope and severity (ENISA-inspired SE = DPC x EI + CB) > adds circumstance points and applies the bands low <2, medium <3, high <4, very high >=4 1ms
+ ✓ src/engine/engine.test.ts > summariseScope and severity (ENISA-inspired SE = DPC x EI + CB) > clamps the DPC adjustment to keep DPC within 1..4 and records the justification in the rationale 0ms
+ ✓ src/engine/engine.test.ts > summariseScope and severity (ENISA-inspired SE = DPC x EI + CB) > severity is monotonic in ease of identification (property) 6ms
+ ✓ src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > lists at least one single-field change that moves the demo band, including ease of identification 1ms
+ ✓ src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > every flip really produces its bandTo and seDelta when applied (loop over all flips) 6ms
+ ✓ src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > includes the highest data class moving one class up and one class down 1ms
+ ✓ src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > moves the context adjustment by ±1 only and never beyond −3..+3 1ms
+ ✓ src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > returns no flips when every single change keeps the band (a deep-low bundle and a clamp-saturated medium bundle) 1ms
+ ✓ src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > is deterministic and sorted by |seDelta| descending, then field 5ms
+ ✓ src/engine/engine.test.ts > readiness > lists the Art. 33(3) facts and derived checks, and scores completeness over required items 1ms
+ ✓ src/engine/engine.test.ts > readiness > completeness rises when a missing fact is supplied 0ms
+ ✓ src/engine/engine.test.ts > readiness > the timeline check fails when awareness is missing 0ms
+ ✓ src/engine/engine.test.ts > readiness > containment is complete only when every applicable task is done with evidence 1ms
+ ✓ src/engine/engine.test.ts > readiness > completeTask refuses to mark a task done without an evidence reference 1ms
+ ✓ src/engine/engine.test.ts > redaction and packet > masks every personal token case-insensitively and masks email-shaped strings 2ms
+ ✓ src/engine/engine.test.ts > redaction and packet > builds a packet whose redacted view contains no personal tokens while the full view does 1ms
+ ✓ src/engine/engine.test.ts > bundle import > round-trips the demo bundle 0ms
+ ✓ src/engine/engine.test.ts > bundle import > rejects bad enums, timestamps, negative counts and duplicate ids 5ms
+ ✓ src/engine/engine.test.ts > bundle import > rejects oversized input and hostile nesting without throwing 23ms
+ ✓ src/engine/engine.test.ts > bundle import > drops unknown keys 1ms
+ ✓ src/engine/engine.test.ts > import strictness (review findings) > rejects timestamps that match the pattern but are not real instants 1ms
+ ✓ src/engine/engine.test.ts > import strictness (review findings) > rejects malformed or oversized personalTokens instead of silently dropping redaction terms 1ms
+
+ Test Files  2 passed (2)
+      Tests  43 passed (43)
+   Start at  19:09:29
+   Duration  7.25s (transform 463ms, setup 440ms, import 680ms, tests 2.81s, environment 2.76s)
+

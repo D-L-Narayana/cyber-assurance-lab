@@ -77,7 +77,7 @@ export function App() {
     if (!selected) return;
     setError(null);
     try {
-      const next = requestExtension(selected, input);
+      const next = requestExtension(selected, input, file.asOf);
       replace(next);
       await audit(selected.id, 'extension', `${next.extension?.days} days; notified ${input.notifiedOn}`);
       setStatus(`${selected.id}: extension recorded; due date moved to ${assessDeadline(next, file.asOf).effectiveDueOn}.`);

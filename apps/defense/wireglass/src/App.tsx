@@ -7,6 +7,7 @@ import { runRules, correlateAlerts, DEFAULT_RULE_CONFIG, RULE_CATALOG, type Rule
 import { createTriage, transitionAlert, type TriageState, type Disposition, type Status } from './engine/triage';
 import { buildReport } from './engine/report';
 import { generateScenario, SCENARIOS, type ScenarioId } from './engine/scenario';
+import { diffAlerts, recordTuning } from './engine/diff';
 import type { Alert } from './engine/types';
 import { Timeline } from './ui/Timeline';
 
@@ -24,6 +25,8 @@ export function App() {
   const [seed, setSeed] = useState(7);
   const [rawLog, setRawLog] = useState(() => generateScenario('mixed-day', 7));
   const [config, setConfig] = useState<RuleConfig>(DEFAULT_RULE_CONFIG);
+  const [pending, setPending] = useState<RuleConfig | null>(null);   // staged rule edits (what-if) until Apply/Discard
+  const [tuningFrom, setTuningFrom] = useState<RuleConfig | null>(null); // config in force before the first applied change of the session
   const [triage, setTriage] = useState<TriageState | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [filter, setFilter] = useState<Filter>('all');
@@ -39,6 +42,13 @@ export function App() {
   const parsed = useMemo(() => parseLogs(rawLog), [rawLog]);
   const alerts = useMemo(() => runRules(parsed.events, config), [parsed, config]);
   const chains = useMemo(() => correlateAlerts(alerts, 30 * 60_000), [alerts]);
+  const draft = pending ?? config;
+  // What-if: the pending configuration run over the current events, diffed by content-derived alert id.
+  const whatIf = useMemo(() => pending ? diffAlerts(alerts, runRules(parsed.events, pending)) : null, [pending, alerts, parsed]);
+  // Session tuning record (report `tuning`): from = the configuration before the first applied change, to = the applied
+  // configuration; removed/added ids are evaluated against the events currently loaded, so they always refer to the same
+  // event set as the report's alerts (regenerating or pasting keeps the applied config and re-evaluates the record).
+  const tuning = useMemo(() => tuningFrom ? recordTuning(parsed.events, tuningFrom, config) : null, [tuningFrom, parsed, config]);
   const tri = useMemo<TriageState>(() => {
     const base = createTriage(alerts.map(a => a.id));
     if (!triage) return base;
@@ -72,20 +82,28 @@ export function App() {
     setFormError(null); setTriage(res.state); setNote('');
     setStatus(`Alert ${current.ruleId} marked ${to}.`);
   }
+  function applyPending() {
+    if (!pending || !whatIf) return;
+    setTuningFrom(f => f ?? config); setConfig(pending); setPending(null); setSelected(s => (s && whatIf.removed.some(a => a.id === s) ? null : s));
+    setStatus(`Applied rule changes: ${whatIf.removed.length} alert${whatIf.removed.length === 1 ? '' : 's'} removed, ${whatIf.added.length} added.`);
+  }
+  function discardPending() { setPending(null); setStatus('Discarded the pending rule changes.'); }
   function exportReport() {
-    const report = buildReport({ events: parsed.events, alerts, triage: tri, config, generatedAt: new Date().toISOString() });
+    const report = buildReport({ events: parsed.events, alerts, triage: tri, config, generatedAt: new Date().toISOString(), tuning: tuning ?? undefined });
     const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a'); a.href = url; a.download = `wireglass-report-${Date.now()}.json`; a.click();
     URL.revokeObjectURL(url);
-    setStatus(`Exported report with ${alerts.length} alerts.`);
+    setStatus(`Exported report with ${alerts.length} alerts${tuning ? ' and the session tuning record' : ''}.`);
   }
+  // Rule edits are staged into `pending` (initialised from the applied config) and only take effect on Apply.
   const num = (k: keyof RuleConfig) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = Number(e.target.value);
-    if (Number.isFinite(v) && v >= 0 && v <= 1e9) setConfig(c => ({ ...c, [k]: v }));
+    if (Number.isFinite(v) && v >= 0 && v <= 1e9) setPending(p => ({ ...(p ?? config), [k]: v }));
   };
   const list = (k: 'dnsSuffixAllowlist' | 'smtpRelayAllowlist' | 'scriptedUaPatterns') => (e: React.ChangeEvent<HTMLInputElement>) =>
-    setConfig(c => ({ ...c, [k]: e.target.value.split(',').map(s => s.trim()).filter(Boolean).slice(0, 50) }));
+    setPending(p => ({ ...(p ?? config), [k]: e.target.value.split(',').map(s => s.trim()).filter(Boolean).slice(0, 50) }));
+  const alertLine = (a: Alert) => `${a.ruleId} · ${a.src}${a.dst ? ` → ${a.dst}` : ''} · ${a.eventIds.length} event${a.eventIds.length === 1 ? '' : 's'} · ${a.id}`;
 
   return (
     <div className="app">
@@ -122,7 +140,7 @@ export function App() {
               </Dialog.Content>
             </Dialog.Portal>
           </Dialog.Root>
-          <button type="button" className="btn btn-quiet" onClick={exportReport} disabled={!alerts.length}>Export JSON</button>
+          <button type="button" className="btn btn-quiet" onClick={exportReport} disabled={!alerts.length && !tuning}>Export JSON</button>
         </form>
       </header>
       <p className="scenario-note">{SCENARIOS[scenario]}</p>
@@ -246,35 +264,48 @@ export function App() {
         <aside className="side">
           <Tabs.Root defaultValue="rules">
             <Tabs.List aria-label="Reference panels" className="tabs">
-              <Tabs.Trigger value="rules">Rules</Tabs.Trigger>
+              <Tabs.Trigger value="rules">Rules{pending ? ' (pending change)' : ''}</Tabs.Trigger>
               <Tabs.Trigger value="primer">Protocol primer</Tabs.Trigger>
               <Tabs.Trigger value="errors">Parse errors ({parsed.errors.length})</Tabs.Trigger>
             </Tabs.List>
             <Tabs.Content value="rules" className="tab-body">
-              <p className="muted">Thresholds re-run instantly. Closed alerts keep their notes while the alert id is stable.</p>
+              <p className="muted">Edits are staged: the what-if panel shows which alerts would be removed or added for the current events before you apply them. Closed alerts keep their notes while the alert id is stable.</p>
+              {pending && whatIf && (
+                <section className="whatif" aria-labelledby="whatif-h">
+                  <h3 id="whatif-h" className="whatif-h">Pending rule change · what-if against the current {parsed.events.length.toLocaleString()} events</h3>
+                  <p role="status" aria-live="polite"><strong>{whatIf.removed.length}</strong> alert{whatIf.removed.length === 1 ? '' : 's'} would be removed · <strong>{whatIf.added.length}</strong> added · {whatIf.kept.length} kept{whatIf.removed.length + whatIf.added.length === 0 ? ' — no alert changes for this input; the change can still be applied' : ''}.</p>
+                  {whatIf.removed.length > 0 && <><h4>Would be removed</h4><ul className="whatif-list">{whatIf.removed.slice(0, 20).map(a => <li key={a.id} className="mono">{alertLine(a)}</li>)}</ul>{whatIf.removed.length > 20 && <p className="muted">… and {whatIf.removed.length - 20} more.</p>}</>}
+                  {whatIf.added.length > 0 && <><h4>Would be added</h4><ul className="whatif-list">{whatIf.added.slice(0, 20).map(a => <li key={a.id} className="mono">{alertLine(a)}</li>)}</ul>{whatIf.added.length > 20 && <p className="muted">… and {whatIf.added.length - 20} more.</p>}</>}
+                  <div className="whatif-actions">
+                    <button type="button" className="btn" onClick={applyPending}>Apply</button>
+                    <button type="button" className="btn btn-quiet" onClick={discardPending}>Discard</button>
+                  </div>
+                </section>
+              )}
+              {tuning && !pending && <p className="muted">Session tuning (included in the JSON export): relative to the configuration this session started with, the applied rules remove {tuning.removed.length} alert{tuning.removed.length === 1 ? '' : 's'} and add {tuning.added.length} on the current events.</p>}
               <fieldset><legend>DNS-001 label analysis</legend>
-                <label>Long-label length <input type="number" min={10} max={63} value={config.dnsLongLabel} onChange={num('dnsLongLabel')} /></label>
-                <label>Entropy threshold (bits/char) <input type="number" step={0.1} min={1} max={6} value={config.dnsEntropyThreshold} onChange={num('dnsEntropyThreshold')} /></label>
-                <label>Allowlisted suffixes <input type="text" value={config.dnsSuffixAllowlist.join(', ')} onChange={list('dnsSuffixAllowlist')} /></label>
+                <label>Long-label length <input type="number" min={10} max={63} value={draft.dnsLongLabel} onChange={num('dnsLongLabel')} /></label>
+                <label>Entropy threshold (bits/char) <input type="number" step={0.1} min={1} max={6} value={draft.dnsEntropyThreshold} onChange={num('dnsEntropyThreshold')} /></label>
+                <label>Allowlisted suffixes <input type="text" value={draft.dnsSuffixAllowlist.join(', ')} onChange={list('dnsSuffixAllowlist')} /></label>
               </fieldset>
               <fieldset><legend>DNS-002 NXDOMAIN burst</legend>
-                <label>Count <input type="number" min={2} max={1000} value={config.nxdomainBurst} onChange={num('nxdomainBurst')} /></label>
-                <label>Window (s) <input type="number" min={1} max={86400} value={config.nxdomainWindowSec} onChange={num('nxdomainWindowSec')} /></label>
+                <label>Count <input type="number" min={2} max={1000} value={draft.nxdomainBurst} onChange={num('nxdomainBurst')} /></label>
+                <label>Window (s) <input type="number" min={1} max={86400} value={draft.nxdomainWindowSec} onChange={num('nxdomainWindowSec')} /></label>
               </fieldset>
               <fieldset><legend>HTTP-001 auth failures</legend>
-                <label>Count <input type="number" min={2} max={1000} value={config.authFailBurst} onChange={num('authFailBurst')} /></label>
-                <label>Window (s) <input type="number" min={1} max={86400} value={config.authFailWindowSec} onChange={num('authFailWindowSec')} /></label>
+                <label>Count <input type="number" min={2} max={1000} value={draft.authFailBurst} onChange={num('authFailBurst')} /></label>
+                <label>Window (s) <input type="number" min={1} max={86400} value={draft.authFailWindowSec} onChange={num('authFailWindowSec')} /></label>
               </fieldset>
               <fieldset><legend>HTTP-002 scripted upload</legend>
-                <label>Bytes <input type="number" min={1} max={1e12} value={config.uploadBytes} onChange={num('uploadBytes')} /></label>
-                <label>Scripted UA patterns <input type="text" value={config.scriptedUaPatterns.join(', ')} onChange={list('scriptedUaPatterns')} /></label>
+                <label>Bytes <input type="number" min={1} max={1e12} value={draft.uploadBytes} onChange={num('uploadBytes')} /></label>
+                <label>Scripted UA patterns <input type="text" value={draft.scriptedUaPatterns.join(', ')} onChange={list('scriptedUaPatterns')} /></label>
               </fieldset>
               <fieldset><legend>SMTP-001 mail fan-out</legend>
-                <label>Distinct domains <input type="number" min={2} max={1000} value={config.smtpDistinctDomains} onChange={num('smtpDistinctDomains')} /></label>
-                <label>Window (s) <input type="number" min={1} max={86400} value={config.smtpWindowSec} onChange={num('smtpWindowSec')} /></label>
-                <label>Relay allowlist (IPs) <input type="text" value={config.smtpRelayAllowlist.join(', ')} onChange={list('smtpRelayAllowlist')} /></label>
+                <label>Distinct domains <input type="number" min={2} max={1000} value={draft.smtpDistinctDomains} onChange={num('smtpDistinctDomains')} /></label>
+                <label>Window (s) <input type="number" min={1} max={86400} value={draft.smtpWindowSec} onChange={num('smtpWindowSec')} /></label>
+                <label>Relay allowlist (IPs) <input type="text" value={draft.smtpRelayAllowlist.join(', ')} onChange={list('smtpRelayAllowlist')} /></label>
               </fieldset>
-              <button type="button" className="btn btn-quiet" onClick={() => setConfig(DEFAULT_RULE_CONFIG)}>Reset thresholds</button>
+              <button type="button" className="btn btn-quiet" onClick={() => setPending(DEFAULT_RULE_CONFIG)}>Stage default thresholds</button>
               <h3>Rule catalogue</h3>
               {RULE_CATALOG.map(r => (
                 <details key={r.id} className="rule-card">

@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Injectboard — incident-response tabletop commander (educational prototype, synthetic data only)",
   "license": "MIT",
+  "engines": { "node": ">=20.19" },
   "scripts": {
     "dev": "vite --port 6133 --strictPort",
     "build": "tsc -p tsconfig.json && vite build",

@@ -1,0 +1,94 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/assurance/packetsmith
+# 2026-10-04T19:36:35.216Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/assurance/packetsmith
+
+ ✓ tests/engine.test.ts > sha256 > matches FIPS 180-4 test vectors 3ms
+ ✓ tests/engine.test.ts > sha256 > hashes UTF-8 bytes (multi-byte and long inputs) identically to node:crypto 3ms
+ ✓ tests/engine.test.ts > sha256 > agrees with WebCrypto when available 2ms
+ ✓ tests/engine.test.ts > catalog > has 12 unique controls with 2–3 paraphrased determinations and all three methods each 2ms
+ ✓ tests/engine.test.ts > artifacts and integrity > makeArtifact computes the hash of the content 0ms
+ ✓ tests/engine.test.ts > artifacts and integrity > verifyArtifacts reports tampered content as a mismatch 9ms
+ ✓ tests/engine.test.ts > control status rollup > is not-assessed with no results, in-progress when some are missing 0ms
+ ✓ tests/engine.test.ts > control status rollup > is satisfied only when every determination is satisfied; any other-than-satisfied dominates 0ms
+ ✓ tests/engine.test.ts > control status rollup > treats a not-assessed result as missing 0ms
+ ✓ tests/engine.test.ts > completeness gate > passes a complete packet with no blockers 1ms
+ ✓ tests/engine.test.ts > completeness gate > requires at least one performed step per selected control 0ms
+ ✓ tests/engine.test.ts > completeness gate > requires every determination to have a result that is not not-assessed 0ms
+ ✓ tests/engine.test.ts > completeness gate > requires each result to cite a performed step with evidence 3ms
+ ✓ tests/engine.test.ts > completeness gate > requires an other-than-satisfied result to have a finding with owner and a due date not in the past 1ms
+ ✓ tests/engine.test.ts > completeness gate > requires skipped steps to have a reason and flags tampered or missing artifacts 1ms
+ ✓ tests/engine.test.ts > completeness gate > flags a finding whose determination is actually satisfied as stale 2ms
+ ✓ tests/engine.test.ts > packet state machine > drafting → ready-for-review only when complete, by the assessor 1ms
+ ✓ tests/engine.test.ts > packet state machine > ready-for-review → approved requires the named approver who is not the assessor 1ms
+ ✓ tests/engine.test.ts > packet state machine > ready-for-review → returned requires a note and returned → drafting reopens editing 1ms
+ ✓ tests/engine.test.ts > packet state machine > approved packets are immutable: no edits, no transitions 1ms
+ ✓ tests/engine.test.ts > packet state machine > rejects undefined transitions and lists reasons 0ms
+ ✓ tests/engine.test.ts > packet state machine > does not mutate the input packet 0ms
+ ✓ tests/engine.test.ts > digest and memo > digest is stable across key order and changes when any artifact content changes 1ms
+ ✓ tests/engine.test.ts > digest and memo > memo lists control status, findings and the packet digest and labels the subset honestly 1ms
+ ✓ tests/engine.test.ts > import validation > accepts a complete packet round-tripped through JSON 1ms
+ ✓ tests/engine.test.ts > import validation > rejects oversized input measured in UTF-8 bytes 2ms
+ ✓ tests/engine.test.ts > import validation > rejects unknown control ids, unknown determination ids and bad methods with paths 0ms
+ ✓ tests/engine.test.ts > import validation > rejects a malformed sha256, duplicate ids and an unknown state 0ms
+ ✓ tests/engine.test.ts > import validation > rejects more than 400 steps or 300 artifacts and content over 20000 characters 4ms
+ ✓ tests/engine.test.ts > import validation > does not throw on non-object JSON 0ms
+ ✓ tests/engine.test.ts > bundled fixture > validates, is incomplete on purpose, and contains the planned adversarial defects 8ms
+ ✓ tests/engine.test.ts > sixth review regressions — separation of duties up front, imported history consistency > the completeness gate flags assessor == approver as a blocker before anyone tries to approve 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — separation of duties up front, imported history consistency > the validator refuses a packet whose assessor and approver are the same non-empty name 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — separation of duties up front, imported history consistency > the validator refuses an imported packet whose history reached approved while its state says otherwise 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — separation of duties up front, imported history consistency > the validator refuses a history whose transitions do not chain (from ≠ previous to, last to ≠ state) 1ms
+ ✓ tests/history-chain.test.ts > hash-chained history — construction by transitions > writes prevHash/hash on every transition: genesis prevHash is 64 zeros and hash = SHA-256(canonical({at, from, to, actor, note, prevHash})) 4ms
+ ✓ tests/history-chain.test.ts > hash-chained history — construction by transitions > links each later entry to the previous hash so the whole chain verifies 2ms
+ ✓ tests/history-chain.test.ts > hash-chained history — construction by transitions > is deterministic: the same transitions produce the same hashes 10ms
+ ✓ tests/history-chain.test.ts > hash-chained history — verification > detects an edited note at the right (0-based) index 1ms
+ ✓ tests/history-chain.test.ts > hash-chained history — verification > detects a dropped entry: the entry that follows no longer links to its predecessor 1ms
+ ✓ tests/history-chain.test.ts > hash-chained history — verification > detects reordered entries at the first displaced position 1ms
+ ✓ tests/history-chain.test.ts > hash-chained history — verification > treats a legacy history without any hashes as unchained but not broken 1ms
+ ✓ tests/history-chain.test.ts > hash-chained history — verification > treats a mix of hashed and unhashed entries as broken at the first unhashed entry 1ms
+ ✓ tests/history-chain.test.ts > hash-chained history — verification > reports an empty history as neither chained nor broken 5ms
+ ✓ tests/history-chain.test.ts > hash-chained history — transitions on legacy and broken chains > a transition on a legacy packet chains the existing entries in order (retroactively) and appends a linked entry, without mutating the input 2ms
+ ✓ tests/history-chain.test.ts > hash-chained history — transitions on legacy and broken chains > refuses to extend a broken chain and names the break 2ms
+ ✓ tests/history-chain.test.ts > hash-chained history — import validation > a chained packet round-trips through JSON, keeps its hashes and imports without warnings 5ms
+ ✓ tests/history-chain.test.ts > hash-chained history — import validation > refuses a chained packet whose history was tampered with, addressing the broken entry 1ms
+ ✓ tests/history-chain.test.ts > hash-chained history — import validation > imports a legacy (unhashed) history with a warning instead of refusing it 1ms
+ ✓ tests/history-chain.test.ts > hash-chained history — import validation > refuses a mix of hashed and unhashed entries, and a hash that is not 64 hex characters, with paths 1ms
+ ✓ tests/history-chain.test.ts > hash-chained history — import validation > refuses an entry that carries only one of prevHash/hash 0ms
+ ✓ tests/history-chain.test.ts > hash-chained history — digest, memo and bundled fixture > the packet digest still excludes state and history; the memo states the chain status 1ms
+ ✓ tests/history-chain.test.ts > hash-chained history — digest, memo and bundled fixture > the bundled fixture carries a valid hash chain and still imports without warnings 2ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --paper ≥ 4.5 2ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --cobalt on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --cobalt on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --red on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --red on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --green on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --green on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --amber on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --amber on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --cobalt on --cobalt-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --red on --red-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --green on --green-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --amber on --amber-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --cobalt ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --red ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --ink-3 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --ink ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on #3b5bdb ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on #7a4ba3 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on #0f766e ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > the history-chain badge classes exist and reuse the guarded chip tokens 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > the contrast helper agrees with a known pair (black on white = 21) 0ms
+
+ Test Files  3 passed (3)
+      Tests  80 passed (80)
+   Start at  19:36:35
+   Duration  879ms (transform 265ms, setup 0ms, import 317ms, tests 108ms, environment 0ms)
+

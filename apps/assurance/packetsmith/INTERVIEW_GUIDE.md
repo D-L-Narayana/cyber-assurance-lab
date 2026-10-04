@@ -20,6 +20,7 @@ SHA-256 against FIPS vectors *and* `node:crypto` *and* WebCrypto, because a hash
 - Why is "other than satisfied" the only negative result? (That is 800-53A's vocabulary; severity lives on the finding, not the result.)
 - Why not let the approver fix a typo? (Immutability after approval is what makes the digest meaningful.)
 - What does the hash *not* prove? (Who captured the evidence or whether it is genuine — only that it has not changed since hashing.)
+- **What does the hash-chained history add, and what does it still not prove?** (Added October 2026. Each transition writes `prevHash`/`hash`, where `hash = SHA-256(canonical({at, from, to, actor, note, prevHash}))` and the first `prevHash` is 64 zeros. Editing, dropping, inserting or reordering an entry in the exported JSON breaks the chain at that index: the validator refuses the import with a path-addressed issue and the gate badge turns to "history chain broken at #n". It is tamper-*evidence*, not a signature: there are no keys, so someone who edits an entry and recomputes every later hash produces a chain that verifies. That is why the README calls the approval "session-only" even now. Exports from before the chain existed import with the warning "history not chained (legacy)" and are chained by their next transition. The memo digest was left unchanged — it still excludes state and history on purpose.)
 
 ## Production next steps
 

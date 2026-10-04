@@ -6,6 +6,7 @@ import type { Circumstances, DataClass, FactKey, IncidentBundle, IncidentEvent }
 import { buildTimeline } from './engine/timeline';
 import { evidenceClock } from './engine/clock';
 import { severity, summariseScope } from './engine/severity';
+import { severitySensitivity } from './engine/sensitivity';
 import { FACTS, readiness } from './engine/readiness';
 import { buildPacket, redactText } from './engine/packet';
 import { completeTask, DEFAULT_LIMITS, parseBundle, serializeBundle } from './engine/bundleIO';
@@ -41,6 +42,7 @@ export function App() {
   const clocks = useMemo(() => b.jurisdictions.map((j) => evidenceClock(j, timeline.awareAt, now)), [b.jurisdictions, timeline.awareAt, now]);
   const scope = useMemo(() => summariseScope(b.dataScope), [b.dataScope]);
   const sev = useMemo(() => severity(b), [b]);
+  const flips = useMemo(() => severitySensitivity(b), [b]);
   const ready = useMemo(() => readiness(b), [b]);
   const packet = useMemo(() => buildPacket(b, now, redacted), [b, now, redacted]);
 
@@ -100,6 +102,21 @@ export function App() {
             <span className="se">SE {Math.round(sev.se * 100) / 100}</span><span className={`band ${sev.band}`}>{sev.band.replace('-', ' ')}</span>
             <ul>{sev.rationale.map((r, i) => <li key={i}>{r}</li>)}</ul>
           </div>
+          <section className="flips" aria-labelledby="flips-h" tabIndex={0}>
+            <h3 id="flips-h">What would change the band</h3>
+            {flips.length === 0 ? (
+              <p>No single change to a circumstance factor, the context adjustment (one step) or the highest data class would move the band from {sev.band.replace('-', ' ')}.</p>
+            ) : (
+              <ul>
+                {flips.map((f) => (
+                  <li key={`${f.field}:${f.to}`}>
+                    {FLIP_LABEL[f.field] ?? f.field} {flipValue(f.from)} → {flipValue(f.to)}: {f.bandFrom.replace('-', ' ')} → {f.bandTo.replace('-', ' ')} <span className="delta">(SE {f.seDelta > 0 ? '+' : '−'}{Math.abs(f.seDelta)})</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <p className="flips-note">Each line changes one field of the current bundle and re-runs the same formula; combinations are not explored.</p>
+          </section>
           <div className="factors">
             <label>Ease of identification (EI)
               <select value={b.circumstances.easeOfIdentification} onChange={(e) => setCirc('easeOfIdentification', e.target.value as Circumstances['easeOfIdentification'])}>
@@ -247,3 +264,16 @@ function ImportDialog({ onImport }: { onImport: (b: IncidentBundle, warnings: st
 }
 
 export const DATA_CLASSES: DataClass[] = ['simple', 'behavioural', 'financial', 'sensitive'];
+
+/** Human labels for the engine's flip field keys (the engine stays label-free). */
+const FLIP_LABEL: Record<string, string> = {
+  confidentialityLoss: 'Confidentiality loss',
+  integrityLoss: 'Integrity loss',
+  availabilityLoss: 'Availability loss',
+  easeOfIdentification: 'Ease of identification',
+  maliciousIntent: 'Malicious intent',
+  dpcAdjustment: 'Context adjustment',
+  'dataScope.highestClass': 'Highest data class',
+};
+
+const flipValue = (v: string): string => (v === 'true' ? 'yes' : v === 'false' ? 'no' : v);

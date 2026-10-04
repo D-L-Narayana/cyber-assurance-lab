@@ -1,3 +1,4 @@
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
  × tests/engine.test.ts > model > has 8 questions whose weights sum to 100 and whose options are unique with 0..4 points 9ms
  × tests/engine.test.ts > model > defines stricter evidence and cadence for higher tiers 1ms
  × tests/engine.test.ts > inherent score and tier > is 0 for all-minimum answers and 100 for all-maximum answers 1ms
@@ -32,10 +33,10 @@
  Test Files  1 failed (1)
       Tests  29 failed (29)
  ✓ tests/engine.test.ts > evidence requirements and coverage > residual = inherent × (1 − 0.6 × coverage), rounded to one decimal 4ms
- × tests/engine.test.ts > sixth-Fable review regressions — future-dated evidence and exception validity cap > evidence issued after the assessment date gets no credit and is reported as future-dated 8ms
- × tests/engine.test.ts > sixth-Fable review regressions — future-dated evidence and exception validity cap > future-dated evidence does not shadow an older valid item of the same type 1ms
- × tests/engine.test.ts > sixth-Fable review regressions — future-dated evidence and exception validity cap > an exception that runs longer than the policy cap gets no credit and is reported as out of policy 1ms
- × tests/engine.test.ts > sixth-Fable review regressions — future-dated evidence and exception validity cap > the exception cap is a labelled heuristic in the scoring note 1ms
+ × tests/engine.test.ts > sixth review regressions — future-dated evidence and exception validity cap > evidence issued after the assessment date gets no credit and is reported as future-dated 8ms
+ × tests/engine.test.ts > sixth review regressions — future-dated evidence and exception validity cap > future-dated evidence does not shadow an older valid item of the same type 1ms
+ × tests/engine.test.ts > sixth review regressions — future-dated evidence and exception validity cap > an exception that runs longer than the policy cap gets no credit and is reported as out of policy 1ms
+ × tests/engine.test.ts > sixth review regressions — future-dated evidence and exception validity cap > the exception cap is a labelled heuristic in the scoring note 1ms
 ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
 AssertionError: expected 'valid' to be 'future-dated' // Object.is equality
 AssertionError: expected 'F1' to be 'OK' // Object.is equality

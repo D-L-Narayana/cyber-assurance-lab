@@ -1,3 +1,4 @@
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
  × tests/engine.test.ts > sha256 > matches FIPS 180-4 test vectors 7ms
  × tests/engine.test.ts > sha256 > hashes UTF-8 bytes (multi-byte and long inputs) identically to node:crypto 1ms
  × tests/engine.test.ts > sha256 > agrees with WebCrypto when available 2ms
@@ -32,10 +33,10 @@
 ⎯⎯⎯⎯⎯⎯ Failed Tests 30 ⎯⎯⎯⎯⎯⎯⎯
  Test Files  1 failed (1)
       Tests  30 failed | 1 passed (31)
- × tests/engine.test.ts > sixth-Fable review regressions — separation of duties up front, imported history consistency > the completeness gate flags assessor == approver as a blocker before anyone tries to approve 42ms
- × tests/engine.test.ts > sixth-Fable review regressions — separation of duties up front, imported history consistency > the validator refuses a packet whose assessor and approver are the same non-empty name 1ms
- × tests/engine.test.ts > sixth-Fable review regressions — separation of duties up front, imported history consistency > the validator refuses an imported packet whose history reached approved while its state says otherwise 1ms
- × tests/engine.test.ts > sixth-Fable review regressions — separation of duties up front, imported history consistency > the validator refuses a history whose transitions do not chain (from ≠ previous to, last to ≠ state) 1ms
+ × tests/engine.test.ts > sixth review regressions — separation of duties up front, imported history consistency > the completeness gate flags assessor == approver as a blocker before anyone tries to approve 42ms
+ × tests/engine.test.ts > sixth review regressions — separation of duties up front, imported history consistency > the validator refuses a packet whose assessor and approver are the same non-empty name 1ms
+ × tests/engine.test.ts > sixth review regressions — separation of duties up front, imported history consistency > the validator refuses an imported packet whose history reached approved while its state says otherwise 1ms
+ × tests/engine.test.ts > sixth review regressions — separation of duties up front, imported history consistency > the validator refuses a history whose transitions do not chain (from ≠ previous to, last to ≠ state) 1ms
 ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
 AssertionError: expected false to be true // Object.is equality
 AssertionError: expected true to be false // Object.is equality

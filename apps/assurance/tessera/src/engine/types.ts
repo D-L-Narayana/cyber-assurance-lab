@@ -121,6 +121,48 @@ export interface FunctionRollup {
   band: RollupBand;
 }
 
+/** One evidence item whose freshness differs between the evaluation date and the projected date. */
+export interface ForecastDriver {
+  evidenceId: string;
+  from: Freshness;
+  to: Freshness;
+}
+
+/** Projection of one outcome at `profile.asOf + horizonDays` with no new evidence and no new decisions. */
+export interface ForecastRow {
+  horizonDays: number;
+  asOf: string; // projected evaluation date (profile.asOf + horizonDays), ISO
+  subcategoryId: string;
+  statusNow: Status;
+  statusThen: Status;
+  residualNow: number;
+  residualThen: number;
+  bandNow: RiskBand;
+  bandThen: RiskBand;
+  degrades: boolean; // residual (status exposure × priority) is higher at the horizon — status or band worsens
+  drivers: ForecastDriver[]; // freshness transitions of the related evidence, sorted by evidence id
+  decisionLapses: boolean; // the recorded decision is within DECISION_VALID_DAYS today but not at the horizon
+}
+
+export interface ForecastDriverCount extends ForecastDriver {
+  outcomes: number; // degrading outcomes at that horizon that this transition contributes to
+}
+
+export interface ForecastSummaryEntry {
+  horizonDays: number;
+  asOf: string;
+  outcomes: number;
+  degrading: number;
+  decisionLapses: number;
+  topDrivers: ForecastDriverCount[];
+}
+
+export interface ForecastBlock {
+  horizons: number[];
+  rows: ForecastRow[];
+  note: string;
+}
+
 export interface Report {
   schema: 'tessera.report/1';
   generatedFor: string; // profile name
@@ -133,6 +175,7 @@ export interface Report {
   scoringNote: string;
   decisionPolicy: string;
   disclaimer: string;
+  forecast?: ForecastBlock; // additive (October 2026): present only when the report was built with a forecast
 }
 
 export interface ValidationIssue {

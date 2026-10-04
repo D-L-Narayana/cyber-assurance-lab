@@ -15,10 +15,14 @@ Two obligations on the same agreement both lacked evidence and my first issue id
 - Transition guards are tested individually (owner, categories, acknowledgement, later end date, undefined edge, empty reason) because each is a distinct business rule.
 - The packet test counts flows including an inactive mismatched one — a correction I made to my own expectation after the engine was right.
 
+## Q: Two agreements say "72h" and "3 days". Is that a contradiction?
+
+A: It used to be reported as one, which is the kind of false positive that teaches people to ignore a register. Since October 2026 `parseWindowHours` reduces each breach-notification requirement to hours before comparing: it reads the first number followed by a unit of hours, days or weeks — case-insensitive, with or without a space, inside longer phrasing like "within 72 hours" or "no later than 3 days" — so `72h` and `3 days` both become 72 and agree, while `24h` against `3 days` is a real conflict and is reported with both normalised values in the detail. The important design choice is what happens when the text cannot be read: "without undue delay", "immediately" or "24 business hours" return `null`, are listed in the issue as *not compared*, and can never produce a contradiction by themselves. Guessing would be worse than admitting the gap — a register should say exactly what it did and did not compare. The demo fixture was changed to state PayCo's conflict in mixed units so the detector is proven across units, not only within them.
+
 ## Production next steps
 
 1. Attach evidence files with hashes and reviewer sign-off; expire evidence by age.
 2. Add approval workflow and notifications for renewal windows and acknowledgements.
-3. Compare more obligation kinds across agreements (sub-processor notice periods, audit rights, deletion windows).
+3. Compare more obligation kinds across agreements (sub-processor notice periods, audit rights, deletion windows), and extend window normalisation to months and business days with an explicit calendar convention.
 4. Import flows from DLP/SaaS telemetry to reconcile declared vs observed sharing.
 5. Map categories and mechanisms to the organisation's actual policy taxonomy and cite it.

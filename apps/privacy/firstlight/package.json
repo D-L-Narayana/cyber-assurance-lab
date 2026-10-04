@@ -5,6 +5,7 @@
   "description": "Educational privacy incident triage lab: normalises a synthetic incident event bundle, classifies affected data, scores severity with an ENISA-inspired method, runs a 72-hour evidence clock, tracks containment and produces a notification-readiness packet with redaction preview. Browser-local synthetic data only.",
   "license": "MIT",
   "type": "module",
+  "engines": { "node": ">=20.19" },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

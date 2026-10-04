@@ -11,32 +11,36 @@ Credential-like fixtures use the explicit `DEMO_ONLY_NOT_A_SECRET_` prefix, not 
 | Step | Where in the UI | Engine |
 |---|---|---|
 | Rule evaluation with explicit precedence (highest sensitivity rank wins, then heaviest rule) | "Why this label" waterfall | `classifyField` |
-| 13 value-shape checks (Luhn, IBAN mod-97, email, JWT, API-key prefixes, bcrypt/argon2, ICD-10-like, ISO birth dates, IPv4, geo pairs, E.164-bounded phones, national-id patterns, money) | Trace reasons like `0/6 samples (0%) match; need 60%` | `checkValue` |
+| 14 value-shape checks (Luhn, IBAN mod-97, email, JWT, API-key prefixes, bcrypt/argon2, ICD-10-like, ISO birth dates, IPv4, geo pairs, E.164-bounded phones, national-id patterns, money, 32–64-char hex digests) | Trace reasons like `0/6 samples (0%) match; need 60%` | `checkValue` |
+| Token-boundary name matching: field names are tokenised (`cardNumberLast4` → `card`,`number`,`last`,`4`); keywords match whole tokens or token sequences; allow-listed metadata tokens (`version`, `count`, `verified`…) discount sensitive hits; per-rule exception tokens veto a rule (`ip_address` is not a postal address) | `Suppressed:` lines in the waterfall | `normaliseName`, `tokensOf`, `ALLOW_TOKENS`, `Rule.match`, `Rule.exceptTokens` |
 | Evidence combination: confidence = 1 − Π(1 − wᵢ) over rules supporting the winning class | Confidence meter | `classifyField` |
 | Unknown bucket and review flags (below-threshold confidence, declared/computed mismatch, rank ties) | Proposed label card, `review` markers in catalog | `reviewReasons` |
 | Live re-classification while editing name/type/samples | Specimen under test | React state → `classifyField` |
 | Handling policy per class (8 classes) | Handling policy card | `policyFor` |
 | Downgrade exceptions: downgrade only, ≥ 20-char justification, ≤ 365 days, expiry reverts to computed class | "Record a downgrade exception" | `validateException`, `effectiveLabels` |
-| User keyword rules without regex (ReDoS-safe) | "Add a keyword rule" | `addKeywordRule` |
+| User keyword rules without regex (ReDoS-safe), whole-token by default or substring on request | "Add a keyword rule" → "Match mode" | `addKeywordRule` |
 | Stable export `labelsmith.catalog/v1` + formula-safe CSV | Export buttons | `exportCatalog` |
 
 ## Quickstart
 
 ```bash
 npm ci
-npm test        # vitest: 34 tests in 3 files
+npm test        # vitest: 58 tests in 4 files
 npm run build   # tsc --noEmit && vite build (base './')
 npm run dev     # http://localhost:6141
 ```
 
 ## Algorithm
 
-1. **Normalise** the field name (`Customer-Email` → `customer_email`). Keyword rules match on substrings; tokens of ≤ 3 characters (`pan`, `dob`, `ip`) must match a whole underscore-delimited token so `span` does not trigger `pan`.
-2. **Evaluate every rule** (27 built-in) and write a trace entry: `matched`, `not-matched` or `skipped` with the reason (`no samples to test`, `value check does not apply to date type`, `2/6 samples (33%) match; need 60%`). Value checks only run on compatible field types.
-3. **Pick the winner**: among matched rules take the highest `CLASS_RANK` (public 0 → internal 1 → confidential 2 → restricted-* 3 → secret-credential 4); ties at the same rank go to the heaviest rule and are flagged for review.
-4. **Confidence** combines all matched rules that support the winning class (`1 − Π(1 − w)`); below 0.6 triggers review. No match → declared class provisionally (0.5, review) or **Unknown** (0, review).
-5. **Declared vs computed**: a declared class lower than computed is a finding and never lowers the effective class; a declared class *stricter* than computed is kept as the **effective** class (and drives the handling policy) until a reviewer confirms the downgrade — the conservative direction.
-6. **Exceptions** apply only when `fromClass` equals the current computed class and the expiry is on or after the catalog's as-of date; expired exceptions stay visible but no longer change the effective class.
+1. **Normalise and tokenise** the field name: camelCase humps, acronym runs and letter→digit boundaries become separators, everything is lower-cased and non-alphanumerics collapse to `_` (`Customer-Email` → `customer_email`, `cardNumberLast4` → `card_number_last_4`, `HTTPServerIP` → `http_server_ip`). The tokens are the underscore pieces.
+2. **Match keywords on token boundaries** (October 2026). A rule keyword matches when it equals a whole token or a contiguous token *sequence* (`card_number` matches `card_number_last4` but not `number_card` or `cardnumber`); a trailing English plural is tolerated on keywords longer than three characters (`emails`, `addresses`, `allergies`), never on short ones (`pan` ≠ `pans`). `pan` no longer hits `span`, `city` no longer hits `velocity`, `token` no longer hits `tokenizer`. One built-in (`name-password`) keeps `match: 'substring'` because legacy schemas glue the stem (`userpassword`) and no ordinary word contains it; every other built-in is whole-token. Two guards sit on top:
+   - `ALLOW_TOKENS` — metadata modifiers (`version`, `status`, `count`, `days`, `warning`, `check`, `verified`, `enabled`, `policy`…). If any appears anywhere in the name, the *name* evidence of a Confidential-or-higher rule is discounted (`token_count`, `email_verified`, `card_number_status`): the trace says `Suppressed:` and names the token. Internal/Public rules and restricted-health rules are exempt (an `allergy_count` is still health data), and sample values are never discounted — `verified_email` with email samples is still PII via `val-email`.
+   - `exceptTokens` per rule — tokens that veto the rule outright in either mode: `health_check` on the health rule, `ip`/`email`/`url` on the postal-address rule, timestamp words (`created`, `updated`, `expires`…) on the weak birth-date value rule, credential words on the hex-digest rule.
+3. **Evaluate every rule** (31 built-in) and write a trace entry: `matched`, `not-matched`, `skipped` or `suppressed` with the reason (`no samples to test`, `value check does not apply to date type`, `2/6 samples (33%) match; need 60%`, `exception token “health_check” in the field name vetoes this rule`). Value checks only run on compatible field types. Bare 32–64-character hex (md5, SHA-1/commit ids, SHA-256) is `val-hex-digest` → Confidential at weight 0.5 (always review-flagged); under a credential-like name that rule steps aside and `val-hex-credential` plus the name rules make it Secret · Credential. The API-key shape no longer accepts bare hex.
+4. **Pick the winner**: among matched rules take the highest `CLASS_RANK` (public 0 → internal 1 → confidential 2 → restricted-* 3 → secret-credential 4); ties at the same rank go to the heaviest rule and are flagged for review.
+5. **Confidence** combines all matched rules that support the winning class (`1 − Π(1 − w)`); below 0.6 triggers review. No match → declared class provisionally (0.5, review) or **Unknown** (0, review).
+6. **Declared vs computed**: a declared class lower than computed is a finding and never lowers the effective class; a declared class *stricter* than computed is kept as the **effective** class (and drives the handling policy) until a reviewer confirms the downgrade — the conservative direction.
+7. **Exceptions** apply only when `fromClass` equals the current computed class and the expiry is on or after the catalog's as-of date; expired exceptions stay visible but no longer change the effective class.
 
 Rule weights and policy tables are opinionated defaults in `classify.ts`, not derived from any standard. Class names are deliberately generic (not a specific regulation's taxonomy).
 
@@ -44,36 +48,50 @@ Rule weights and policy tables are opinionated defaults in `classify.ts`, not de
 
 ```
 src/engine/types.ts      DataClass, Field, Rule, Classification, HandlingPolicy, Exception
-src/engine/classify.ts   checkValue, BUILT_IN_RULES, classifyField, policyFor, validateException, effectiveLabels, addKeywordRule, validateFixture, exportCatalog
+src/engine/classify.ts   checkValue, normaliseName, tokensOf, ALLOW_TOKENS, BUILT_IN_RULES, classifyField, policyFor, validateException, effectiveLabels, addKeywordRule, validateFixture, exportCatalog
 src/engine/safe.ts       bounded JSON import, strict ISO dates, formula-safe CSV
 src/ui/App.tsx           single-view React UI: catalog tree · specimen · rule waterfall + policy
-src/fixtures/demo.json   40 synthetic fields across 5 example systems, 2 exceptions (one expired)
+src/fixtures/demo.json   46 synthetic fields across 5 example systems (40 original + 6 false-positive regression fields), 2 exceptions (one expired)
 ```
+
+The fixture is regenerated with `node scripts/generate-fixture.mjs --out src/fixtures/demo.json` (seeded; the first 40 fields are byte-identical to the previous version).
 
 No router, no storage APIs; state resets on refresh (export to keep it).
 
 ## Tests
 
-- `classify.test.ts` (23): stricter-declared-kept-as-effective, weaker-declared-never-lowers, pinned known false positives, value checks incl. Luhn-invalid and 16-digit non-phone, precedence (credential beats PII), Luhn ratio gating, unknown bucket, declared fallback and mismatch, full-trace ordering with skipped entries, confidence combination, determinism, keyword-rule validation (regex metacharacters, duplicates, weights), policy table, active/expired exceptions, exception validation, malformed/oversize fixtures, export schema + CSV escaping, rule-set coverage.
-- `safe.test.ts` (10): import bounds, `__proto__`, array roots, calendar-invalid dates, formula prefixes behind whitespace/control chars.
-- `validate-demo.test.ts` (1): the shipped fixture exhibits each designed scenario.
+58 tests in 4 files (`Tests  58 passed (58)`):
 
-RED/GREEN evidence in `EVIDENCE.md`; browser workflow in `qa/workflow.mjs` with screenshots in `qa/screens/`.
+- `classify.test.ts` (38): stricter-declared-kept-as-effective, weaker-declared-never-lowers, the former substring false positives now resolved, value checks incl. Luhn-invalid and 16-digit non-phone, precedence (credential beats PII), Luhn ratio gating, unknown bucket, declared fallback and mismatch, full-trace ordering with skipped entries, confidence combination, determinism, keyword-rule validation (regex metacharacters, duplicates, weights, match modes), policy table, active/expired exceptions, exception validation, malformed/oversize fixtures, export schema + CSV escaping + per-rule `match`, rule-set coverage; and the October 2026 block: the README false-positive table (`tokenizer_version`, `healthcheck_status`/`health_check_status`, `expiry_warning_days`, `velocity`/`electricity_tariff`, md5/git-SHA columns), hex under a credential name, token-sequence and camelCase matching, `pan` vs `span`, allow-list discounting, `exceptTokens` (`ip_address`), timestamp columns vs birth dates, the single substring built-in, determinism across suppression traces.
+- `tokens.test.ts` (9): tokeniser cases, `ALLOW_TOKENS` membership (what is deliberately absent), `exceptTokens` in both modes, token vs substring semantics on hand-built rules, allow-list scope (not Internal, not health, not substring), value evidence surviving a discounted name, the hex-digest check and rule, dotted-quad IPs rejected by the phone shape.
+- `safe.test.ts` (10): import bounds, `__proto__`, array roots, calendar-invalid dates, formula prefixes behind whitespace/control chars.
+- `validate-demo.test.ts` (1): the shipped fixture exhibits each designed scenario, including the six regression fields.
+
+RED/GREEN evidence in `EVIDENCE.md`; browser workflow in `qa/workflow.mjs` with screenshots in `qa/screens/` (the screenshots and `workflow-log.txt` predate the October 2026 round: class counts and the keyword-rule form have changed since).
 
 ## Data handling and safety
 
 - Synthetic values only; card numbers and IBANs are generated to pass checksums so the checks can be demonstrated, and `.test` domains are used for emails.
 - Imports: 512 KB, depth 8, 5 000 values, 2 000 fields, 50 samples per field, 200 chars per sample. Malformed rows produce bounded error lists.
-- User rules are plain substrings; no user input is ever compiled to a RegExp. Built-in patterns are anchored and free of nested quantifiers.
-- No network after load; `vercel.json` sets CSP, `nosniff`, `DENY`, `no-referrer`.
+- User rules are plain keywords compared token-by-token (or by containment in substring mode); no user input is ever compiled to a RegExp. Built-in patterns, including the three tokeniser splits, are anchored or two-class linear patterns without nested quantifiers, applied to names of at most 200 characters.
+- No network after load; `vercel.json` sets the lab-wide canonical headers (CSP `default-src 'none'`, `nosniff`, `DENY`, `no-referrer`, COOP/CORP, HSTS).
 
 ## Known false positives (heuristic name matching)
 
-Substring matching is deliberately simple and over-classifies some names with high confidence and no review flag — e.g. `tokenizer_version` → Secret · Credential (`token`), `healthcheck_status` → Restricted · Health (`health`), `expiry_warning_days` → Restricted · Financial (`expiry`), `velocity` / `electricity_tariff` → Restricted · PII (`city`), and any md5/git-SHA column → Secret · Credential (hex shape). Over-classification is the safe failure direction for a proposal tool, but it costs reviewer time; the rule waterfall shows exactly which token fired so the field can be downgraded with a recorded exception. A redesign (word-boundary tokens, allow-lists) is listed under next steps rather than done here.
+The five substring false positives documented in the first release — `tokenizer_version`, `healthcheck_status`, `expiry_warning_days`, `velocity` / `electricity_tariff`, md5/git-SHA columns — are fixed by token-boundary matching, the allow-list, exception tokens and the hex-digest rule, and are pinned by tests plus six regression fields in the demo fixture. Dotted-quad IP columns are no longer PII-ranked through the phone shape, and timestamp columns (`created_at`) are no longer weak birth-date candidates. What remains, honestly:
+
+- **Semantics are still invisible.** A `notes` column full of health details is Internal; a `description` column holding card numbers is caught only if the samples pass Luhn.
+- **Whole-token still over-reaches on genuinely ambiguous words**: `budget`, `forecast`, `margin` outside finance (`time_budget`, `weather_forecast`), `bonus` outside compensation, `blood`/`patient` in non-medical schemas, `expiry`/`expiration` in contexts not on the veto list (`membership_expiry` → Restricted · Financial at 0.55, always review-flagged), `design_tokens` (tolerated plural of `token`) → Secret · Credential, `email_domain` → PII.
+- **Value shapes over-reach too**: any 8–15-digit numeric identifier looks like a phone (Restricted · PII at 0.5, review-flagged); any 32–64-character hex id — dash-less UUIDs, cache keys, ETags — is a "digest" (Confidential at 0.5, review-flagged); any ISO date 0–120 years old in a column whose name is not on the timestamp veto list is a weak birth-date candidate (0.35, review-flagged).
+- **The allow-list can cause false negatives**: it is position-agnostic, so `verified_email` (an address) has its name evidence discounted and is rescued only by email-shaped samples; without samples it lands in Unknown rather than PII. The list is kept short for that reason.
+- **Exception tokens are built-in only**: user keyword rules can choose the match mode but not their own veto list.
+
+Over-classification remains the safe failure direction for a proposal tool; every suppression and every firing token is visible in the waterfall, and downgrades are recorded as exceptions.
 
 ## Limitations
 
 - Name/shape heuristics cannot see semantics: a `notes` column full of health details classifies as Internal. Sampling real content was intentionally out of scope.
+- Token matching is English-centric (plural tolerance `s`/`es`/`ies`; no stemming, no synonyms, no other languages) and the allow-list and veto lists are hand-curated, not learned.
 - Weights and thresholds are untuned defaults; precision/recall against a labelled corpus was not measured.
 - Policies are illustrative handling requirements, not a mapping to any regulation or standard.
 - Exceptions are a single-step record (no approval workflow or reminder).
@@ -89,4 +107,4 @@ A specimen bench: white surfaces, graphite type, one violet for "the thing you a
 
 ## AI-assistance disclosure
 
-Built in October 2026 with AI assistance (Claude) under a test-first workflow; the author reviewed logic, tests and limitations. Dependencies and fonts: `THIRD_PARTY_NOTICES.md`. MIT licensed.
+Built in October 2026 with AI assistance under a test-first workflow; the author reviewed logic, tests and limitations. Dependencies and fonts: `THIRD_PARTY_NOTICES.md`. MIT licensed.

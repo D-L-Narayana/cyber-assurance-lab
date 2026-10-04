@@ -1,0 +1,425 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/defense/wireglass
+# 2026-10-04T18:40:24.886Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/defense/wireglass
+
+ ✓ src/engine/engine.test.ts > parseLogs > normalises DNS, HTTP and SMTP lines into typed events 13ms
+ ✓ src/engine/engine.test.ts > parseLogs > reports malformed lines with their line number and keeps going 1ms
+ ✓ src/engine/engine.test.ts > parseLogs > bounds input by lines and bytes and flags truncation 1ms
+ ✓ src/engine/engine.test.ts > parseLogs > rejects HTTP byte counts above the 13-digit bound instead of parsing them as huge numbers 3ms
+ ✓ src/engine/engine.test.ts > parseLogs > rejects a timestamp that cannot be parsed 0ms
+ ✓ src/engine/engine.test.ts > helpers > computes Shannon entropy in bits per symbol 0ms
+ ✓ src/engine/engine.test.ts > helpers > classifies RFC1918 addresses as internal and TEST-NET as external 0ms
+ ✓ src/engine/engine.test.ts > rules > DNS-001 flags a long high-entropy label and not an allowlisted CDN suffix (false-positive fixture) 8ms
+ ✓ src/engine/engine.test.ts > rules > DNS-002 flags an NXDOMAIN burst within the window and ignores sparse typos 1ms
+ ✓ src/engine/engine.test.ts > rules > HTTP-001 flags an auth-failure burst to one destination but not three failures 1ms
+ ✓ src/engine/engine.test.ts > rules > HTTP-002 flags a large scripted upload to an external host, not an internal backup 36ms
+ ✓ src/engine/engine.test.ts > rules > SMTP-001 flags a host mailing many external domains unless it is an allowlisted relay 10ms
+ ✓ src/engine/engine.test.ts > rules > produces deterministic alert ids for the same input 1ms
+ ✓ src/engine/engine.test.ts > rules > correlates alerts from two protocols on one source into a chain within 30 minutes 1ms
+ ✓ src/engine/engine.test.ts > triage state machine > requires a disposition and note to close, and rejects reopening a closed alert to new 1ms
+ ✓ src/engine/engine.test.ts > triage state machine > rejects unknown alert ids 0ms
+ ✓ src/engine/engine.test.ts > scenario generator and report > generates the same synthetic log for the same seed and includes the three protocols 11ms
+ ✓ src/engine/engine.test.ts > scenario generator and report > cdn-noise reliably raises DNS-001 on CDN content-hash hostnames for every seed, and the suffix allowlist silences it 200ms
+ ✓ src/engine/engine.test.ts > scenario generator and report > mixed-day CDN hostnames sit under an allowlisted suffix and only alert once that suffix is removed 4ms
+ ✓ src/engine/engine.test.ts > scenario generator and report > builds a stable report schema with counts derived from alerts 9ms
+ × src/engine/engine.test.ts > scenario generator and report > report gains an additive tuning record only when a config change was applied in the session 17ms
+   → expected undefined to deeply equal { Object (from, to, ...) }
+ × src/engine/diff.test.ts > diffAlerts (tuning what-if) > identical configs produce an empty diff and keep every alert 40ms
+   → expected [] to deeply equal [ 'DNS-001-9fdec490', …(4) ]
+ × src/engine/diff.test.ts > diffAlerts (tuning what-if) > adding .edge.media.example to the allowlist on cdn-noise removes exactly the DNS-001 alerts and adds none 8ms
+   → expected [] to deeply equal [ 'DNS-001-8e86f72d', …(8) ]
+ × src/engine/diff.test.ts > diffAlerts (tuning what-if) > raising authFailBurst above the burst size removes HTTP-001 on mixed-day and nothing else 6ms
+   → expected [] to deeply equal [ 'HTTP-001-704fbad5' ]
+ × src/engine/diff.test.ts > diffAlerts (tuning what-if) > alert ids are stable across identical configs and across threshold changes that do not alter the evidence 25ms
+   → expected { removed: [], added: [], kept: [] } to deeply equal { removed: [], added: [], …(1) }
+ × src/engine/diff.test.ts > diffAlerts (tuning what-if) > orders removed, added and kept by first timestamp then id regardless of input order 13ms
+   → expected [] to deeply equal [ 'HTTP-001' ]
+ × src/engine/diff.test.ts > diffAlerts (tuning what-if) > recordTuning captures from/to configs and the removed/added ids for the current events 24ms
+   → expected { Object (from, to, ...) } to deeply equal { Object (from, to, ...) }
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/diff.test.ts > diffAlerts (tuning what-if) > identical configs produce an empty diff and keep every alert
+AssertionError: expected [] to deeply equal [ 'DNS-001-9fdec490', …(4) ]
+
+- Expected
++ Received
+
+- [
+-   "DNS-001-9fdec490",
+-   "DNS-002-720955be",
+-   "HTTP-001-704fbad5",
+-   "HTTP-002-489e0a59",
+-   "SMTP-001-7f6091e1",
+- ]
++ []
+
+ ❯ src/engine/diff.test.ts:21:25
+     19|     expect(d.removed).toEqual([]);
+     20|     expect(d.added).toEqual([]);
+     21|     expect(ids(d.kept)).toEqual(ids(before));
+       |                         ^
+     22|   });
+     23|   it('adding .edge.media.example to the allowlist on cdn-noise removes…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  src/engine/diff.test.ts > diffAlerts (tuning what-if) > adding .edge.media.example to the allowlist on cdn-noise removes exactly the DNS-001 alerts and adds none
+AssertionError: expected [] to deeply equal [ 'DNS-001-8e86f72d', …(8) ]
+
+- Expected
++ Received
+
+- [
+-   "DNS-001-8e86f72d",
+-   "DNS-001-1355cb53",
+-   "DNS-001-6e1ba970",
+-   "DNS-001-5243658c",
+-   "DNS-001-c6f5fdda",
+-   "DNS-001-97d09e58",
+-   "DNS-001-97794707",
+-   "DNS-001-b13ad7e9",
+-   "DNS-001-d7cfdccd",
+- ]
++ []
+
+ ❯ src/engine/diff.test.ts:29:28
+     27|     expect(dns1.length).toBeGreaterThan(0);
+     28|     const d = diffAlerts(before, runRules(ev, ALLOW_EDGE));
+     29|     expect(ids(d.removed)).toEqual(ids(dns1));
+       |                            ^
+     30|     expect(d.added).toEqual([]);
+     31|     expect(ids(d.kept)).toEqual(ids(before.filter(a => a.ruleId !== 'D…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  src/engine/diff.test.ts > diffAlerts (tuning what-if) > raising authFailBurst above the burst size removes HTTP-001 on mixed-day and nothing else
+AssertionError: expected [] to deeply equal [ 'HTTP-001-704fbad5' ]
+
+- Expected
++ Received
+
+- [
+-   "HTTP-001-704fbad5",
+- ]
++ []
+
+ ❯ src/engine/diff.test.ts:47:28
+     45|     expect(http1).toHaveLength(1);
+     46|     const d = diffAlerts(before, runRules(ev, { ...DEFAULT_RULE_CONFIG…
+     47|     expect(ids(d.removed)).toEqual(ids(http1));
+       |                            ^
+     48|     expect(d.added).toEqual([]);
+     49|     expect(d.kept).toHaveLength(before.length - 1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  src/engine/diff.test.ts > diffAlerts (tuning what-if) > alert ids are stable across identical configs and across threshold changes that do not alter the evidence
+AssertionError: expected { removed: [], added: [], kept: [] } to deeply equal { removed: [], added: [], …(1) }
+
+- Expected
++ Received
+
+  {
+    "added": [],
+-   "kept": [
+-     {
+-       "dst": null,
+-       "eventIds": [
+-         "e88",
+-         "e91",
+-         "e93",
+-         "e96",
+-         "e97",
+-         "e99",
+-       ],
+-       "evidence": [
+-         "6 queries under t.exfil-lab.example with encoded-looking labels",
+-         "longest label 48 chars (long-label threshold 40)",
+-         "highest entropy 4.62 bits/char (threshold 3.8 at length ≥ 21)",
+-         "example label \"2uqs7llwnsabcxnggeud5ct5oa2etx3uthzyg34krvseopak\"",
+-         "suffix not in allowlist [.cdn.example, .static.example]",
+-       ],
+-       "explanation": "10.0.4.31 queried labels under t.exfil-lab.example that look encoded rather than human-chosen.",
+-       "firstTs": 1789374600000,
+-       "id": "DNS-001-9fdec490",
+-       "lastTs": 1789374750000,
+-       "proto": "dns",
+-       "ruleId": "DNS-001",
+-       "ruleName": "High-entropy or very long DNS label",
+-       "severity": "medium",
+-       "src": "10.0.4.31",
+-     },
+-     {
+-       "dst": null,
+-       "eventIds": [
+-         "e121",
+-         "e122",
+-         "e123",
+-         "e124",
+-         "e125",
+-         "e127",
+-         "e128",
+-         "e129",
+-       ],
+-       "evidence": [
+-         "8 NXDOMAIN answers within 28s (threshold 8 in 61s)",
+-         "names: qzv0gen.example, xkp1gen.example, wrt2gen.example, plm3gen.example, qzv4gen.example, …",
+-       ],
+-       "explanation": "10.0.4.27 asked for many names that do not exist in quick succession.",
+-       "firstTs": 1789375200000,
+-       "id": "DNS-002-720955be",
+-       "lastTs": 1789375228000,
+-       "proto": "dns",
+-       "ruleId": "DNS-002",
+-       "ruleName": "NXDOMAIN burst",
+-       "severity": "medium",
+-       "src": "10.0.4.27",
+-     },
+-     {
+-       "dst": "10.0.9.5",
+-       "eventIds": [
+-         "e153",
+-         "e154",
+-         "e155",
+-         "e156",
+-         "e157",
+-         "e158",
+-         "e159",
+-         "e160",
+-         "e161",
+-         "e162",
+-       ],
+-       "evidence": [
+-         "10 responses with status 401/403 within 54s (threshold 10 in 120s)",
+-         "paths: /login",
+-       ],
+-       "explanation": "10.0.4.29 repeatedly failed authentication against 10.0.9.5.",
+-       "firstTs": 1789375800000,
+-       "id": "HTTP-001-704fbad5",
+-       "lastTs": 1789375854000,
+-       "proto": "http",
+-       "ruleId": "HTTP-001",
+-       "ruleName": "Authentication failure burst",
+-       "severity": "high",
+-       "src": "10.0.4.29",
+-     },
+-     {
+-       "dst": "198.51.100.77",
+-       "eventIds": [
+-         "e178",
+-       ],
+-       "evidence": [
+-         "POST of 7,340,032 bytes (threshold 5,000,000)",
+-         "destination 198.51.100.77 is outside RFC 1918 space",
+-         "user agent \"curl/8.4.0\" matches scripted-client pattern",
+-       ],
+-       "explanation": "10.0.4.27 pushed a large payload to an external host with a scripted client.",
+-       "firstTs": 1789376200000,
+-       "id": "HTTP-002-489e0a59",
+-       "lastTs": 1789376200000,
+-       "proto": "http",
+-       "ruleId": "HTTP-002",
+-       "ruleName": "Large scripted upload to external host",
+-       "severity": "high",
+-       "src": "10.0.4.27",
+-     },
+-     {
+-       "dst": "mail.corp.example",
+-       "eventIds": [
+-         "e207",
+-         "e208",
+-         "e209",
+-         "e212",
+-         "e213",
+-         "e214",
+-         "e217",
+-         "e218",
+-         "e220",
+-         "e222",
+-       ],
+-       "evidence": [
+-         "10 distinct recipient domains within 10 min (threshold 10)",
+-         "host 10.0.4.24 is not in relay allowlist [10.0.9.25]",
+-       ],
+-       "explanation": "10.0.4.24 behaves like a mail relay but is not registered as one.",
+-       "firstTs": 1789376800000,
+-       "id": "SMTP-001-7f6091e1",
+-       "lastTs": 1789377025000,
+-       "proto": "smtp",
+-       "ruleId": "SMTP-001",
+-       "ruleName": "Mail fan-out from non-relay host",
+-       "severity": "medium",
+-       "src": "10.0.4.24",
+-     },
+-   ],
++   "kept": [],
+    "removed": [],
+  }
+
+ ❯ src/engine/diff.test.ts:62:30
+     60|     const c = runRules(ev, { ...DEFAULT_RULE_CONFIG, nxdomainWindowSec…
+     61|     expect(ids(c)).toEqual(ids(a));
+     62|     expect(diffAlerts(a, c)).toEqual({ removed: [], added: [], kept: c…
+       |                              ^
+     63|   });
+     64|   it('orders removed, added and kept by first timestamp then id regard…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  src/engine/diff.test.ts > diffAlerts (tuning what-if) > orders removed, added and kept by first timestamp then id regardless of input order
+AssertionError: expected [] to deeply equal [ 'HTTP-001' ]
+
+- Expected
++ Received
+
+- [
+-   "HTTP-001",
+- ]
++ []
+
+ ❯ src/engine/diff.test.ts:74:42
+     72|     expect(d.added).toEqual(sorted(d.added));
+     73|     expect(d.kept).toEqual(sorted(d.kept));
+     74|     expect(d.removed.map(a => a.ruleId)).toEqual(['HTTP-001']);
+       |                                          ^
+     75|     expect(d.added.every(a => a.ruleId === 'DNS-001')).toBe(true);
+     76|     expect(diffAlerts(before, after)).toEqual(d);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  src/engine/diff.test.ts > diffAlerts (tuning what-if) > recordTuning captures from/to configs and the removed/added ids for the current events
+AssertionError: expected { Object (from, to, ...) } to deeply equal { Object (from, to, ...) }
+
+- Expected
++ Received
+
+@@ -24,21 +24,11 @@
+        "10.0.9.25",
+      ],
+      "smtpWindowSec": 600,
+      "uploadBytes": 5000000,
+    },
+-   "removed": [
+-     "DNS-001-8e86f72d",
+-     "DNS-001-1355cb53",
+-     "DNS-001-6e1ba970",
+-     "DNS-001-5243658c",
+-     "DNS-001-c6f5fdda",
+-     "DNS-001-97d09e58",
+-     "DNS-001-97794707",
+-     "DNS-001-b13ad7e9",
+-     "DNS-001-d7cfdccd",
+-   ],
++   "removed": [],
+    "to": {
+      "authFailBurst": 10,
+      "authFailWindowSec": 120,
+      "dnsEntropyThreshold": 3.8,
+      "dnsLabelMinLength": 20,
+
+ ❯ src/engine/diff.test.ts:82:17
+     80|     const before = runRules(ev, DEFAULT_RULE_CONFIG);
+     81|     const rec = recordTuning(ev, DEFAULT_RULE_CONFIG, ALLOW_EDGE);
+     82|     expect(rec).toEqual({ from: DEFAULT_RULE_CONFIG, to: ALLOW_EDGE, r…
+       |                 ^
+     83|     expect(recordTuning(ev, DEFAULT_RULE_CONFIG, DEFAULT_RULE_CONFIG))…
+     84|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  src/engine/engine.test.ts > scenario generator and report > report gains an additive tuning record only when a config change was applied in the session
+AssertionError: expected undefined to deeply equal { Object (from, to, ...) }
+
+- Expected:
+{
+  "added": [],
+  "from": {
+    "authFailBurst": 10,
+    "authFailWindowSec": 120,
+    "dnsEntropyThreshold": 3.8,
+    "dnsLabelMinLength": 20,
+    "dnsLongLabel": 40,
+    "dnsSuffixAllowlist": [
+      ".cdn.example",
+      ".static.example",
+    ],
+    "nxdomainBurst": 8,
+    "nxdomainWindowSec": 60,
+    "scriptedUaPatterns": [
+      "python-requests",
+      "curl/",
+      "wget/",
+      "go-http-client",
+      "powershell",
+    ],
+    "smtpDistinctDomains": 10,
+    "smtpRelayAllowlist": [
+      "10.0.9.25",
+    ],
+    "smtpWindowSec": 600,
+    "uploadBytes": 5000000,
+  },
+  "removed": [
+    "DNS-001-8e86f72d",
+    "DNS-001-1355cb53",
+    "DNS-001-6e1ba970",
+    "DNS-001-5243658c",
+    "DNS-001-c6f5fdda",
+    "DNS-001-97d09e58",
+    "DNS-001-97794707",
+    "DNS-001-b13ad7e9",
+    "DNS-001-d7cfdccd",
+  ],
+  "to": {
+    "authFailBurst": 10,
+    "authFailWindowSec": 120,
+    "dnsEntropyThreshold": 3.8,
+    "dnsLabelMinLength": 20,
+    "dnsLongLabel": 40,
+    "dnsSuffixAllowlist": [
+      ".cdn.example",
+      ".static.example",
+      ".edge.media.example",
+    ],
+    "nxdomainBurst": 8,
+    "nxdomainWindowSec": 60,
+    "scriptedUaPatterns": [
+      "python-requests",
+      "curl/",
+      "wget/",
+      "go-http-client",
+      "powershell",
+    ],
+    "smtpDistinctDomains": 10,
+    "smtpRelayAllowlist": [
+      "10.0.9.25",
+    ],
+    "smtpWindowSec": 600,
+    "uploadBytes": 5000000,
+  },
+}
+
++ Received:
+undefined
+
+ ❯ src/engine/engine.test.ts:201:27
+    199|     const report = buildReport({ events, alerts: after, triage: create…
+    200|     expect(report.schema).toBe('wireglass.report/1');
+    201|     expect(report.tuning).toEqual({ from: DEFAULT_RULE_CONFIG, to: tun…
+       |                           ^
+    202|     expect(report.summary.alerts).toBe(0);
+    203|     const roundTrip = JSON.parse(JSON.stringify(report));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  7 failed | 20 passed (27)
+   Start at  18:40:26
+   Duration  1.34s (transform 356ms, setup 0ms, import 411ms, tests 441ms, environment 0ms)
+

@@ -1,0 +1,424 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/governance/labelsmith
+# 2026-10-04T09:40:55.171Z v20.20.1
+# exit 1
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
+
+
+ RUN  v4.1.11 <repo>/apps/governance/labelsmith
+
+ × src/engine/tokens.test.ts > field-name tokenisation > lower-cases, splits camelCase humps, acronym runs and letter→digit boundaries, and collapses separators 76ms
+   → normaliseName is not a function
+ × src/engine/tokens.test.ts > field-name tokenisation > ALLOW_TOKENS holds only metadata modifiers, never nouns that carry sensitivity themselves 1ms
+   → Cannot read properties of undefined (reading 'has')
+ × src/engine/tokens.test.ts > exceptTokens and match modes on hand-built rules > exceptTokens veto the whole rule when the token or token sequence appears anywhere in the name 132ms
+   → expected 'matched' to be 'suppressed' // Object.is equality
+ × src/engine/tokens.test.ts > exceptTokens and match modes on hand-built rules > token mode needs whole tokens or a contiguous sequence; substring mode keeps the legacy behaviour including the ≤3-char whole-token guard 2ms
+   → expected 'matched' to be 'not-matched' // Object.is equality
+ × src/engine/tokens.test.ts > exceptTokens and match modes on hand-built rules > allow-list discounting applies only to token-mode matches of Confidential-and-above rules 1ms
+   → expected 'matched' to be 'suppressed' // Object.is equality
+ × src/engine/tokens.test.ts > exceptTokens and match modes on hand-built rules > a value check still counts when the name evidence was discounted (values are evidence regardless of the name) 126ms
+   → expected 'name contains “email”; 2/2 samples (1…' to match /discounted/
+ × src/engine/tokens.test.ts > hex digest value check > accepts 32–64 hex characters only, and the api-key shape no longer accepts bare hex 1ms
+   → expected undefined to be true // Object.is equality
+ × src/engine/tokens.test.ts > hex digest value check > val-hex-digest is Confidential at weight 0.5, so on its own it always lands below the review threshold 87ms
+   → Cannot read properties of undefined (reading 'class')
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects oversized input 907ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects invalid JSON and non-object roots 1ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects deep nesting 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects __proto__ keys 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > accepts a small object 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes 133ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes hidden behind whitespace or control characters 1ms
+ ✓ src/engine/safe.test.ts > CSV export safety > quotes commas, quotes and newlines 0ms
+ ✓ src/engine/safe.test.ts > date helpers > rejects calendar-invalid dates that Date.parse would normalise 1ms
+ ✓ src/engine/safe.test.ts > date helpers > adds and diffs days 163ms
+ ✓ src/engine/classify.test.ts > value checks > luhn accepts valid card-like numbers and rejects invalid ones 229ms
+ ✓ src/engine/classify.test.ts > value checks > phone shape rejects 16-digit strings (E.164 allows at most 15 digits) so random references are not mislabelled 1ms
+ ✓ src/engine/classify.test.ts > value checks > email, ipv4, jwt, iban, apikey, dob, icd10, password-hash shapes 119ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > labels a credential column secret-credential even when it also looks like PII 293ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > does not label as card data when the Luhn check fails for most samples 208ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > puts unmatched fields in the unknown bucket and asks for review 1ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > falls back to the declared class when nothing matches, but flags it for review 118ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > flags a declared class that is lower than the computed one 1ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > produces a trace entry for every rule in precedence order 1ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > combines evidence: name and value agreement gives higher confidence than name alone 1ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > is deterministic 1ms
+ ✓ src/engine/classify.test.ts > custom keyword rules > adds a safe substring rule that participates in classification 231ms
+ ✓ src/engine/classify.test.ts > custom keyword rules > rejects empty tokens, regex metacharacters, duplicate ids and bad weights 0ms
+ ✓ src/engine/classify.test.ts > handling policy and exceptions > every class has a policy and stricter classes have stricter handling 228ms
+ ✓ src/engine/classify.test.ts > handling policy and exceptions > applies an active exception to the effective class and keeps the computed class visible 156ms
+ ✓ src/engine/classify.test.ts > handling policy and exceptions > reverts an expired exception 1ms
+ ✓ src/engine/classify.test.ts > handling policy and exceptions > validates new exceptions: downgrade only, justification length, expiry window, matching fromClass 2ms
+ ✓ src/engine/classify.test.ts > fixture validation and export > rejects malformed fields and oversize fixtures without throwing 226ms
+ ✓ src/engine/classify.test.ts > fixture validation and export > exports a stable catalog schema with formula-safe CSV 1ms
+ ✓ src/engine/classify.test.ts > built-in rule set > has at least 20 rules with unique ids covering all eight classes except unknown 1ms
+ ✓ src/engine/classify.test.ts > sixth review follow-ups > keeps a stricter declared class as the effective class (conservative) and says so, pending review 113ms
+ ✓ src/engine/classify.test.ts > sixth review follow-ups > a weaker declared class never lowers the effective class 1ms
+ × src/engine/classify.test.ts > sixth review follow-ups > the substring false positives pinned in the sixth review are resolved by token-boundary matching (October 2026); the export keeps the proposal disclaimer 574ms
+   → expected 'secret-credential' not to be 'secret-credential' // Object.is equality
+ × src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: tokenizer_version is operational metadata, not a credential 2ms
+   → expected 'secret-credential' not to be 'secret-credential' // Object.is equality
+ × src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: healthcheck_status (one token) and health_check_status (allow-listed check/status) are not health data 215ms
+   → expected 'restricted-health' to be 'internal' // Object.is equality
+ × src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: expiry_warning_days is a setting, while expiry alone is still card data 314ms
+   → expected 'restricted-financial' not to be 'restricted-financial' // Object.is equality
+ × src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: velocity and electricity_tariff do not contain the token city 1ms
+   → expected 'restricted-pii' not to be 'restricted-pii' // Object.is equality
+ × src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: an md5 / git-SHA column under a non-credential name is Confidential via the hex-digest rule (and flagged for review), not a credential 1ms
+   → expected 'secret-credential' to be 'confidential' // Object.is equality
+ × src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > a hex digest under a credential name stays secret-credential with value corroboration; the digest rule steps aside 705ms
+   → expected [ 'name-secret', 'val-apikey' ] to include 'val-hex-credential'
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > matches multi-token rule tokens as a contiguous token sequence (card_number ⊂ card_number_last4) and splits camelCase 2ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > whole-token matching: pan matches pan but not span or expand 321ms
+ × src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > allow-list tokens mark metadata about a sensitive thing: sensitive name evidence is discounted, Internal/Public evidence is not 1ms
+   → expected 'secret-credential' not to be 'secret-credential' // Object.is equality
+ × src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > per-rule exceptTokens veto the rule: ip_address is a network identifier (Confidential), not a postal address 239ms
+   → expected 'restricted-pii' to be 'confidential' // Object.is equality
+ × src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > timestamp columns are not birth dates: val-dob is vetoed by created/updated tokens, real birth dates still match 1ms
+   → expected 'restricted-pii' to be 'internal' // Object.is equality
+ × src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > the password stem rule is the one justified substring built-in: glued names are caught, metadata about passwords is not 52ms
+   → expected 'secret-credential' not to be 'secret-credential' // Object.is equality
+ × src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > addKeywordRule defaults to whole-token matching and can opt into substring matching; other modes are rejected 1ms
+   → expected undefined to be 'token' // Object.is equality
+ × src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > export records the match mode per rule (additive field, schema id unchanged) 1ms
+   → expected undefined to be 'token' // Object.is equality
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > is deterministic across the new matcher (suppression traces included) 149ms
+ × src/fixtures/validate-demo.test.ts > demo fixture > validates and exhibits every designed scenario 76270ms
+   → expected 40 to be 46 // Object.is equality
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 22 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/classify.test.ts > sixth review follow-ups > the substring false positives pinned in the sixth review are resolved by token-boundary matching (October 2026); the export keeps the proposal disclaimer
+AssertionError: expected 'secret-credential' not to be 'secret-credential' // Object.is equality
+ ❯ src/engine/classify.test.ts:194:34
+    192|     // Formerly asserted secret-credential / restricted-health; see th…
+    193|     const c1 = classifyField(f({ name: 'tokenizer_version', samples: […
+    194|     expect(c1.computedClass).not.toBe('secret-credential');
+       |                                  ^
+    195|     const c2 = classifyField(f({ name: 'healthcheck_status', samples: …
+    196|     expect(c2.computedClass).not.toBe('restricted-health');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/22]⎯
+
+ FAIL  src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: tokenizer_version is operational metadata, not a credential
+AssertionError: expected 'secret-credential' not to be 'secret-credential' // Object.is equality
+ ❯ src/engine/classify.test.ts:208:33
+    206|   it('README false-positive table: tokenizer_version is operational me…
+    207|     const c = cls({ name: 'tokenizer_version', samples: ['v2', 'v3'] }…
+    208|     expect(c.computedClass).not.toBe('secret-credential');
+       |                                 ^
+    209|     expect(c.computedClass).toBe('internal');
+    210|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/22]⎯
+
+ FAIL  src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: healthcheck_status (one token) and health_check_status (allow-listed check/status) are not health data
+AssertionError: expected 'restricted-health' to be 'internal' // Object.is equality
+
+Expected: "internal"
+Received: "restricted-health"
+
+ ❯ src/engine/classify.test.ts:212:80
+    210|   });
+    211|   it('README false-positive table: healthcheck_status (one token) and …
+    212|     expect(cls({ name: 'healthcheck_status', samples: ['ok'] }).comput…
+       |                                                                                ^
+    213|     const c = cls({ name: 'health_check_status', samples: ['ok', 'degr…
+    214|     expect(c.computedClass).toBe('internal');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/22]⎯
+
+ FAIL  src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: expiry_warning_days is a setting, while expiry alone is still card data
+AssertionError: expected 'restricted-financial' not to be 'restricted-financial' // Object.is equality
+ ❯ src/engine/classify.test.ts:219:33
+    217|   it('README false-positive table: expiry_warning_days is a setting, w…
+    218|     const c = cls({ name: 'expiry_warning_days', type: 'number', sampl…
+    219|     expect(c.computedClass).not.toBe('restricted-financial');
+       |                                 ^
+    220|     expect(c.computedClass).toBe('unknown');
+    221|     expect(cls({ name: 'expiry', samples: ['03/28'] }).computedClass).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/22]⎯
+
+ FAIL  src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: velocity and electricity_tariff do not contain the token city
+AssertionError: expected 'restricted-pii' not to be 'restricted-pii' // Object.is equality
+ ❯ src/engine/classify.test.ts:224:92
+    222|   });
+    223|   it('README false-positive table: velocity and electricity_tariff do …
+    224|     expect(cls({ name: 'velocity', type: 'number', samples: ['12.5'] }…
+       |                                                                                            ^
+    225|     expect(cls({ name: 'electricity_tariff', samples: ['E7'] }).comput…
+    226|     expect(cls({ name: 'city', samples: ['Exampleton'] }).computedClas…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/22]⎯
+
+ FAIL  src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: an md5 / git-SHA column under a non-credential name is Confidential via the hex-digest rule (and flagged for review), not a credential
+AssertionError: expected 'secret-credential' to be 'confidential' // Object.is equality
+
+Expected: "confidential"
+Received: "secret-credential"
+
+ ❯ src/engine/classify.test.ts:230:31
+    228|   it('README false-positive table: an md5 / git-SHA column under a non…
+    229|     const md5 = cls({ name: 'content_md5', samples: ['d41d8cd98f00b204…
+    230|     expect(md5.computedClass).toBe('confidential');
+       |                               ^
+    231|     expect(matchedIds(md5)).toEqual(['val-hex-digest']);
+    232|     expect(md5.needsReview).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/22]⎯
+
+ FAIL  src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > a hex digest under a credential name stays secret-credential with value corroboration; the digest rule steps aside
+AssertionError: expected [ 'name-secret', 'val-apikey' ] to include 'val-hex-credential'
+ ❯ src/engine/classify.test.ts:241:27
+    239|     expect(c.computedClass).toBe('secret-credential');
+    240|     expect(matchedIds(c)).toContain('name-secret');
+    241|     expect(matchedIds(c)).toContain('val-hex-credential');
+       |                           ^
+    242|     expect(outcomeOf(c, 'val-hex-digest')).toBe('suppressed');
+    243|     expect(c.confidence).toBeGreaterThan(0.85);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/22]⎯
+
+ FAIL  src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > allow-list tokens mark metadata about a sensitive thing: sensitive name evidence is discounted, Internal/Public evidence is not
+AssertionError: expected 'secret-credential' not to be 'secret-credential' // Object.is equality
+ ❯ src/engine/classify.test.ts:257:92
+    255|   });
+    256|   it('allow-list tokens mark metadata about a sensitive thing: sensiti…
+    257|     expect(cls({ name: 'token_count', type: 'number', samples: ['3'] }…
+       |                                                                                            ^
+    258|     expect(cls({ name: 'email_verified', type: 'boolean', samples: ['t…
+    259|     expect(cls({ name: 'card_number_status', samples: ['active'] }).co…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/22]⎯
+
+ FAIL  src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > per-rule exceptTokens veto the rule: ip_address is a network identifier (Confidential), not a postal address
+AssertionError: expected 'restricted-pii' to be 'confidential' // Object.is equality
+
+Expected: "confidential"
+Received: "restricted-pii"
+
+ ❯ src/engine/classify.test.ts:265:29
+    263|   it('per-rule exceptTokens veto the rule: ip_address is a network ide…
+    264|     const c = cls({ name: 'ip_address', samples: ['10.0.0.7', '10.0.0.…
+    265|     expect(c.computedClass).toBe('confidential');
+       |                             ^
+    266|     expect(outcomeOf(c, 'name-address')).toBe('suppressed');
+    267|     expect(cls({ name: 'home_address', samples: ['1 Fixture Street'] }…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/22]⎯
+
+ FAIL  src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > timestamp columns are not birth dates: val-dob is vetoed by created/updated tokens, real birth dates still match
+AssertionError: expected 'restricted-pii' to be 'internal' // Object.is equality
+
+Expected: "internal"
+Received: "restricted-pii"
+
+ ❯ src/engine/classify.test.ts:271:29
+    269|   it('timestamp columns are not birth dates: val-dob is vetoed by crea…
+    270|     const c = cls({ name: 'created_at', type: 'date', samples: ['2024-…
+    271|     expect(c.computedClass).toBe('internal');
+       |                             ^
+    272|     expect(outcomeOf(c, 'val-dob')).toBe('suppressed');
+    273|     expect(cls({ name: 'date_of_birth', type: 'date', samples: ['1988-…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/22]⎯
+
+ FAIL  src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > the password stem rule is the one justified substring built-in: glued names are caught, metadata about passwords is not
+AssertionError: expected 'secret-credential' not to be 'secret-credential' // Object.is equality
+ ❯ src/engine/classify.test.ts:278:85
+    276|     expect(cls({ name: 'userpassword', samples: [] }).computedClass).t…
+    277|     expect(cls({ name: 'password_hash', samples: [] }).computedClass).…
+    278|     expect(cls({ name: 'password_policy', samples: ['strong'] }).compu…
+       |                                                                                     ^
+    279|     expect(BUILT_IN_RULES.filter((r) => r.match === 'substring').map((…
+    280|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/22]⎯
+
+ FAIL  src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > addKeywordRule defaults to whole-token matching and can opt into substring matching; other modes are rejected
+AssertionError: expected undefined to be 'token' // Object.is equality
+
+- Expected:
+"token"
+
++ Received:
+undefined
+
+ ❯ src/engine/classify.test.ts:286:37
+    284|     expect(tok.ok && sub.ok).toBe(true);
+    285|     if (!tok.ok || !sub.ok) return;
+    286|     expect(tok.rules.at(-1)!.match).toBe('token');
+       |                                     ^
+    287|     expect(classifyField(f({ name: 'projectcodename', samples: [] }), …
+    288|     expect(classifyField(f({ name: 'projectcodename', samples: [] }), …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/22]⎯
+
+ FAIL  src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > export records the match mode per rule (additive field, schema id unchanged)
+AssertionError: expected undefined to be 'token' // Object.is equality
+
+- Expected:
+"token"
+
++ Received:
+undefined
+
+ ❯ src/engine/classify.test.ts:296:73
+    294|     const out = exportCatalog(fx, effectiveLabels(fx, BUILT_IN_RULES),…
+    295|     expect(out.json.schema).toBe('labelsmith.catalog/v1');
+    296|     expect(out.json.ruleSet.find((r) => r.id === 'name-secret')?.match…
+       |                                                                         ^
+    297|     expect(out.json.ruleSet.find((r) => r.id === 'name-password')?.mat…
+    298|     expect(out.json.fields[0]!.computedClass).toBe('internal');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/22]⎯
+
+ FAIL  src/engine/tokens.test.ts > field-name tokenisation > lower-cases, splits camelCase humps, acronym runs and letter→digit boundaries, and collapses separators
+TypeError: normaliseName is not a function
+ ❯ src/engine/tokens.test.ts:10:12
+      8| describe('field-name tokenisation', () => {
+      9|   it('lower-cases, splits camelCase humps, acronym runs and letter→dig…
+     10|     expect(normaliseName('customerEmail')).toBe('customer_email');
+       |            ^
+     11|     expect(normaliseName('Customer-Email')).toBe('customer_email');
+     12|     expect(normaliseName('cardNumberLast4')).toBe('card_number_last_4'…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/22]⎯
+
+ FAIL  src/engine/tokens.test.ts > field-name tokenisation > ALLOW_TOKENS holds only metadata modifiers, never nouns that carry sensitivity themselves
+TypeError: Cannot read properties of undefined (reading 'has')
+ ❯ src/engine/tokens.test.ts:21:119
+     19|   });
+     20|   it('ALLOW_TOKENS holds only metadata modifiers, never nouns that car…
+     21|     for (const t of ['version', 'status', 'count', 'days', 'warning', …
+       |                                                                                                                       ^
+     22|     for (const t of ['type', 'date', 'name', 'hash', 'id', 'number', '…
+     23|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/22]⎯
+
+ FAIL  src/engine/tokens.test.ts > exceptTokens and match modes on hand-built rules > exceptTokens veto the whole rule when the token or token sequence appears anywhere in the name
+AssertionError: expected 'matched' to be 'suppressed' // Object.is equality
+
+Expected: "suppressed"
+Received: "matched"
+
+ ❯ src/engine/tokens.test.ts:32:55
+     30|   it('exceptTokens veto the whole rule when the token or token sequenc…
+     31|     const r: Rule = { ...base, nameTokens: ['health'], exceptTokens: […
+     32|     expect(outcome(r, 'health_check_status').outcome).toBe('suppressed…
+       |                                                       ^
+     33|     expect(outcome(r, 'health_check_status').reason).toMatch(/health_c…
+     34|     expect(outcome(r, 'health_record').outcome).toBe('matched');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/22]⎯
+
+ FAIL  src/engine/tokens.test.ts > exceptTokens and match modes on hand-built rules > token mode needs whole tokens or a contiguous sequence; substring mode keeps the legacy behaviour including the ≤3-char whole-token guard
+AssertionError: expected 'matched' to be 'not-matched' // Object.is equality
+
+Expected: "not-matched"
+Received: "matched"
+
+ ❯ src/engine/tokens.test.ts:45:51
+     43|     expect(outcome(sub, 'cardnumber').outcome).toBe('not-matched'); //…
+     44|     expect(outcome(sub, 'xcard_numberx').outcome).toBe('matched');
+     45|     expect(outcome(tok, 'xcard_numberx').outcome).toBe('not-matched');
+       |                                                   ^
+     46|     expect(outcome(sub, 'span').outcome).toBe('not-matched');
+     47|     expect(outcome(tok, 'span').outcome).toBe('not-matched');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/22]⎯
+
+ FAIL  src/engine/tokens.test.ts > exceptTokens and match modes on hand-built rules > allow-list discounting applies only to token-mode matches of Confidential-and-above rules
+AssertionError: expected 'matched' to be 'suppressed' // Object.is equality
+
+Expected: "suppressed"
+Received: "matched"
+
+ ❯ src/engine/tokens.test.ts:54:54
+     52|     const sub: Rule = { ...base, nameTokens: ['codename'], match: 'sub…
+     53|     const low: Rule = { ...base, class: 'internal', nameTokens: ['code…
+     54|     expect(outcome(tok, 'codename_version').outcome).toBe('suppressed'…
+       |                                                      ^
+     55|     expect(outcome(tok, 'codename_version').reason).toMatch(/version/);
+     56|     expect(outcome(sub, 'codename_version').outcome).toBe('matched');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/22]⎯
+
+ FAIL  src/engine/tokens.test.ts > exceptTokens and match modes on hand-built rules > a value check still counts when the name evidence was discounted (values are evidence regardless of the name)
+AssertionError: expected 'name contains “email”; 2/2 samples (1…' to match /discounted/
+
+- Expected:
+/discounted/
+
++ Received:
+"name contains “email”; 2/2 samples (100%) match; need 60%"
+
+ ❯ src/engine/tokens.test.ts:64:32
+     62|     const c = classifyField(f({ name: 'email_verified', samples: ['a@e…
+     63|     expect(c.trace[0]!.outcome).toBe('matched');
+     64|     expect(c.trace[0]!.reason).toMatch(/discounted/);
+       |                                ^
+     65|   });
+     66| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/22]⎯
+
+ FAIL  src/engine/tokens.test.ts > hex digest value check > accepts 32–64 hex characters only, and the api-key shape no longer accepts bare hex
+AssertionError: expected undefined to be true // Object.is equality
+
+- Expected:
+true
+
++ Received:
+undefined
+
+ ❯ src/engine/tokens.test.ts:70:74
+     68| describe('hex digest value check', () => {
+     69|   it('accepts 32–64 hex characters only, and the api-key shape no long…
+     70|     expect(checkValue('hex-digest', 'd41d8cd98f00b204e9800998ecf8427e'…
+       |                                                                          ^
+     71|     expect(checkValue('hex-digest', '2fd4e1c67a2d28fced849ee1bb76e7391…
+     72|     expect(checkValue('hex-digest', 'e3b0c44298fc1c149afbf4c8996fb9242…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/22]⎯
+
+ FAIL  src/engine/tokens.test.ts > hex digest value check > val-hex-digest is Confidential at weight 0.5, so on its own it always lands below the review threshold
+TypeError: Cannot read properties of undefined (reading 'class')
+ ❯ src/engine/tokens.test.ts:80:14
+     78|   it('val-hex-digest is Confidential at weight 0.5, so on its own it a…
+     79|     const r = BUILT_IN_RULES.find((x) => x.id === 'val-hex-digest')!;
+     80|     expect(r.class).toBe('confidential');
+       |              ^
+     81|     expect(r.weight).toBe(0.5);
+     82|     expect(r.valueCheck).toBe('hex-digest');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/22]⎯
+
+ FAIL  src/fixtures/validate-demo.test.ts > demo fixture > validates and exhibits every designed scenario
+AssertionError: expected 40 to be 46 // Object.is equality
+
+- Expected
++ Received
+
+- 46
++ 40
+
+ ❯ src/fixtures/validate-demo.test.ts:30:37
+     28|     expect(labels.filter((l) => l.computedClass === 'unknown').length)…
+     29|     // False-positive regression fields appended by scripts/generate-f…
+     30|     expect(v.fixture.fields.length).toBe(46);
+       |                                     ^
+     31|     expect(by('tokenizer_version').computedClass).toBe('internal');
+     32|     expect(by('healthcheck_status').computedClass).toBe('internal');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/22]⎯
+
+
+ Test Files  3 failed | 1 passed (4)
+      Tests  22 failed | 35 passed (57)
+   Start at  09:41:05
+   Duration  129.31s (transform 8.84s, setup 0ms, import 11.05s, tests 83.12s, environment 0ms)
+

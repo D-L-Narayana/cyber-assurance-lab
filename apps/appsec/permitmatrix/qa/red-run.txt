@@ -1,9 +1,10 @@
+# note: absolute paths of the original build environment were replaced by <original-build> after capture (text only; test ids, results and counts unchanged)
 
 
 ⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
 
  FAIL  src/engine/__tests__/engine.test.ts [ src/engine/__tests__/engine.test.ts ]
-Error: Cannot find module '../contract' imported from '/home/user/workspace/cyber-portfolio/candidates/appsec/permitmatrix/src/engine/__tests__/engine.test.ts'
+Error: Cannot find module '../contract' imported from '<original-build>/appsec/permitmatrix/src/engine/__tests__/engine.test.ts'
  ❯ src/engine/__tests__/engine.test.ts:3:1
       1| import { describe, expect, it } from 'vitest';
       2| import fixture from '../../fixtures/ledgerly-contract.json';
@@ -12,7 +13,7 @@ Error: Cannot find module '../contract' imported from '/home/user/workspace/cybe
       4| import { generateCases } from '../cases';
       5| import { createMockServer } from '../mockServer';
 
-Caused by: Error: Failed to load url ../contract (resolved id: ../contract) in /home/user/workspace/cyber-portfolio/candidates/appsec/permitmatrix/src/engine/__tests__/engine.test.ts. Does the file exist?
+Caused by: Error: Failed to load url ../contract (resolved id: ../contract) in <original-build>/appsec/permitmatrix/src/engine/__tests__/engine.test.ts. Does the file exist?
  ❯ loadAndTransform node_modules/vite/dist/node/chunks/config.js:22739:33
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

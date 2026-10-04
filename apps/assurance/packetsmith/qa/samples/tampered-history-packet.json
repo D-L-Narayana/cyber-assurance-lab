@@ -1,0 +1,448 @@
+{
+  "schema": "packetsmith.packet/1",
+  "meta": {
+    "systemName": "Harbourline Dispatch Portal (synthetic)",
+    "assessor": "a.mensah",
+    "approver": "p.lindqvist",
+    "asOf": "2026-10-01"
+  },
+  "selectedControls": [
+    "AC-2",
+    "AC-6",
+    "AU-2",
+    "AU-6",
+    "CP-9",
+    "SI-2",
+    "SC-7"
+  ],
+  "steps": [
+    {
+      "id": "S-01",
+      "controlId": "AC-2",
+      "method": "examine",
+      "object": "Account management procedure",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-01"
+      ],
+      "notes": "Procedure defines account types and approval."
+    },
+    {
+      "id": "S-02",
+      "controlId": "AC-2",
+      "method": "examine",
+      "object": "Directory export for August leavers",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-02"
+      ],
+      "notes": "Two leavers still enabled > 30 days."
+    },
+    {
+      "id": "S-03",
+      "controlId": "AC-2",
+      "method": "interview",
+      "object": "Identity team lead",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-03"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "S-04",
+      "controlId": "AC-2",
+      "method": "test",
+      "object": "Automated disable of inactive accounts",
+      "status": "skipped",
+      "evidenceIds": [],
+      "notes": ""
+    },
+    {
+      "id": "S-05",
+      "controlId": "AC-6",
+      "method": "examine",
+      "object": "Privilege matrix",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-04"
+      ],
+      "notes": "Matrix reviewed; see tamper warning."
+    },
+    {
+      "id": "S-06",
+      "controlId": "AC-6",
+      "method": "interview",
+      "object": "Application owner",
+      "status": "planned",
+      "evidenceIds": [],
+      "notes": ""
+    },
+    {
+      "id": "S-07",
+      "controlId": "AU-2",
+      "method": "examine",
+      "object": "Logging configuration api-gateway",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-05"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "S-08",
+      "controlId": "AU-2",
+      "method": "test",
+      "object": "Generate auth.failure and confirm in SIEM",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-99"
+      ],
+      "notes": "Evidence id typo — artifact does not exist."
+    },
+    {
+      "id": "S-09",
+      "controlId": "AU-6",
+      "method": "examine",
+      "object": "Weekly SIEM review records",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-06"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "S-10",
+      "controlId": "AU-6",
+      "method": "interview",
+      "object": "SOC analyst",
+      "status": "performed",
+      "evidenceIds": [],
+      "notes": "Interview held; note not yet captured as artifact."
+    },
+    {
+      "id": "S-11",
+      "controlId": "CP-9",
+      "method": "examine",
+      "object": "Backup job logs",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-07"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "S-12",
+      "controlId": "CP-9",
+      "method": "test",
+      "object": "Restore sample and verify checksum",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-08"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "S-13",
+      "controlId": "SI-2",
+      "method": "examine",
+      "object": "Patch compliance report",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-09"
+      ],
+      "notes": "4 overdue servers."
+    },
+    {
+      "id": "S-14",
+      "controlId": "SC-7",
+      "method": "examine",
+      "object": "DMZ firewall rule export",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-10"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "S-15",
+      "controlId": "SC-7",
+      "method": "test",
+      "object": "Attempt DMZ→DB connection from test host",
+      "status": "planned",
+      "evidenceIds": [],
+      "notes": ""
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "ART-01",
+      "name": "Account management procedure §3 excerpt",
+      "kind": "document-excerpt",
+      "content": "Section 3. Account types: individual, shared-service (prohibited except break-glass), service, emergency. Approval by application owner recorded in ticket before provisioning. Disable within 5 business days of leaver notification.",
+      "capturedOn": "2026-09-18",
+      "sha256": "a774b3084f627f8ff51d1ce6691af2016c3ac79bcda7333992a2f11173777b9e"
+    },
+    {
+      "id": "ART-02",
+      "name": "Directory export — enabled accounts for leavers (Sep)",
+      "kind": "log-excerpt",
+      "content": "uid=j.alvarez status=ENABLED leftOn=2026-08-01\nuid=t.nyberg status=ENABLED leftOn=2026-08-12\nuid=s.okoro status=DISABLED leftOn=2026-08-15",
+      "capturedOn": "2026-09-22",
+      "sha256": "778da005189f83dd4e30abaee134ff169f3cc5971e9707e5b0f4f91c6003285d"
+    },
+    {
+      "id": "ART-03",
+      "name": "Interview note — identity team lead",
+      "kind": "interview-note",
+      "content": "Interviewee confirms monthly leaver reconciliation against HR feed; two exceptions in August attributed to contractor records missing from HR feed.",
+      "capturedOn": "2026-09-23",
+      "sha256": "e6888a3aa621d021dde471503a24d6c4ad07081e5579d2dc98c1e67a6099c3b6"
+    },
+    {
+      "id": "ART-04",
+      "name": "Privilege matrix (roles → entitlements)",
+      "kind": "config-snippet",
+      "content": "role=dispatch-admin: manage-routes, manage-users\nrole=dispatcher: view-routes, assign-driver\nrole=auditor: read-only\nrole=contractor-temp: manage-users",
+      "capturedOn": "2026-09-10",
+      "sha256": "92bfb4a08054317f329f830b50cb6f8783bb4b1739e83c393dbf91cb096e276b"
+    },
+    {
+      "id": "ART-05",
+      "name": "Logging configuration — api-gateway",
+      "kind": "config-snippet",
+      "content": "events: [auth.success, auth.failure, admin.change, data.export]\nretention_days: 365\nforward_to: siem.example",
+      "capturedOn": "2026-09-15",
+      "sha256": "51ce844cca9a1d2f065d6352642a51c3016ac68432b8b68008318bdf61db25da"
+    },
+    {
+      "id": "ART-06",
+      "name": "SIEM weekly review record W37",
+      "kind": "log-excerpt",
+      "content": "Week 37: 4 alerts reviewed, 1 escalated (EXP-2291 data export outside hours), closed as authorised bulk export.",
+      "capturedOn": "2026-09-19",
+      "sha256": "89ec56b7e5e40b7cc83309a8f308ca6b0cc380011063a8df14104b3297eded98"
+    },
+    {
+      "id": "ART-07",
+      "name": "Backup job log — nightly",
+      "kind": "log-excerpt",
+      "content": "2026-09-27 02:00 full backup OK 412 GB encrypted AES-256 target=vault.example\n2026-09-28 02:00 full backup OK 413 GB",
+      "capturedOn": "2026-09-28",
+      "sha256": "8ce8362b427680d076dc47342f3f5ee20476b1f2d56b4eb025ec9c44418df8fc"
+    },
+    {
+      "id": "ART-08",
+      "name": "Restore test — screenshot description",
+      "kind": "screenshot-description",
+      "content": "Screenshot shows restore job RST-77 completed with checksum verification PASSED for 5/5 sampled objects.",
+      "capturedOn": "2026-09-29",
+      "sha256": "36b76fc6d1480840a2890b6cb2d3b4ad0676c2a5c3090bdc0910e1c6d92b6f39"
+    },
+    {
+      "id": "ART-09",
+      "name": "Patch compliance report (September)",
+      "kind": "document-excerpt",
+      "content": "Servers in scope: 42. Critical patches within 14 days: 38 (90%). Overdue: 4 (dispatch-db-02, dispatch-db-03, legacy-report-01, bastion-02).",
+      "capturedOn": "2026-09-30",
+      "sha256": "bb19132ccdd66768e72de800c089fd498e536813be69f28a3c3686d486299550"
+    },
+    {
+      "id": "ART-10",
+      "name": "Firewall rule export — DMZ boundary",
+      "kind": "config-snippet",
+      "content": "permit tcp any dmz-web 443\ndeny ip dmz-web internal-db any log\npermit tcp internal-app internal-db 5432",
+      "capturedOn": "2026-09-26",
+      "sha256": "ce7023c58b862e0e103d7a9d4bc14f09a2b4a8299e010df701283e541627c0fe"
+    }
+  ],
+  "determinations": [
+    {
+      "controlId": "AC-2",
+      "determinationId": "AC-2.a",
+      "result": "satisfied",
+      "stepIds": [
+        "S-01"
+      ],
+      "rationale": "Account types and prohibitions documented in §3."
+    },
+    {
+      "controlId": "AC-2",
+      "determinationId": "AC-2.d",
+      "result": "satisfied",
+      "stepIds": [
+        "S-01",
+        "S-03"
+      ],
+      "rationale": "Approval recorded before provisioning per procedure and interview."
+    },
+    {
+      "controlId": "AC-2",
+      "determinationId": "AC-2.h",
+      "result": "other-than-satisfied",
+      "stepIds": [
+        "S-02",
+        "S-03"
+      ],
+      "rationale": "Two leavers remained enabled beyond the 5-business-day requirement."
+    },
+    {
+      "controlId": "AC-6",
+      "determinationId": "AC-6.1",
+      "result": "satisfied",
+      "stepIds": [
+        "S-05"
+      ],
+      "rationale": "Privileged roles defined."
+    },
+    {
+      "controlId": "AU-2",
+      "determinationId": "AU-2.a",
+      "result": "satisfied",
+      "stepIds": [
+        "S-07"
+      ],
+      "rationale": "Event types enumerated."
+    },
+    {
+      "controlId": "AU-2",
+      "determinationId": "AU-2.c",
+      "result": "satisfied",
+      "stepIds": [
+        "S-07",
+        "S-08"
+      ],
+      "rationale": "Selected events and forwarding configured."
+    },
+    {
+      "controlId": "AU-6",
+      "determinationId": "AU-6.a",
+      "result": "satisfied",
+      "stepIds": [
+        "S-09"
+      ],
+      "rationale": "Weekly review evidenced."
+    },
+    {
+      "controlId": "AU-6",
+      "determinationId": "AU-6.b",
+      "result": "satisfied",
+      "stepIds": [
+        "S-10"
+      ],
+      "rationale": "Escalation path confirmed in interview."
+    },
+    {
+      "controlId": "CP-9",
+      "determinationId": "CP-9.a",
+      "result": "satisfied",
+      "stepIds": [
+        "S-11"
+      ],
+      "rationale": "Nightly backups logged."
+    },
+    {
+      "controlId": "CP-9",
+      "determinationId": "CP-9.b",
+      "result": "satisfied",
+      "stepIds": [
+        "S-11"
+      ],
+      "rationale": "Full backups include system state."
+    },
+    {
+      "controlId": "CP-9",
+      "determinationId": "CP-9.d",
+      "result": "satisfied",
+      "stepIds": [
+        "S-12"
+      ],
+      "rationale": "Encrypted; restore verified."
+    },
+    {
+      "controlId": "SI-2",
+      "determinationId": "SI-2.a",
+      "result": "satisfied",
+      "stepIds": [
+        "S-13"
+      ],
+      "rationale": "Flaws identified and tracked."
+    },
+    {
+      "controlId": "SI-2",
+      "determinationId": "SI-2.c",
+      "result": "other-than-satisfied",
+      "stepIds": [
+        "S-13"
+      ],
+      "rationale": "4 of 42 servers exceed the 14-day window."
+    },
+    {
+      "controlId": "SC-7",
+      "determinationId": "SC-7.a",
+      "result": "satisfied",
+      "stepIds": [
+        "S-14"
+      ],
+      "rationale": "Deny rule with logging at DMZ boundary."
+    }
+  ],
+  "findings": [
+    {
+      "id": "F-01",
+      "controlId": "AC-2",
+      "determinationId": "AC-2.h",
+      "description": "Leaver accounts j.alvarez and t.nyberg remained enabled 30+ days after departure.",
+      "severity": "moderate",
+      "action": {
+        "description": "Disable both accounts; add contractor records to HR feed.",
+        "owner": "identity.team",
+        "dueOn": "2026-09-15",
+        "status": "in-progress"
+      }
+    },
+    {
+      "id": "F-02",
+      "controlId": "CP-9",
+      "determinationId": "CP-9.d",
+      "description": "Historic finding from the previous cycle about unencrypted backups.",
+      "severity": "low",
+      "action": {
+        "description": "Verify encryption at rest.",
+        "owner": "platform.team",
+        "dueOn": "2026-12-01",
+        "status": "open"
+      }
+    }
+  ],
+  "state": "drafting",
+  "history": [
+    {
+      "at": "2026-09-26",
+      "from": "drafting",
+      "to": "ready-for-review",
+      "actor": "a.mensah",
+      "note": "First pass submitted for review.",
+      "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hash": "d95aa19041659bd16e4d8ef7e8f37174d1a03797a54b8b4cb95b4a6ed8b15d22"
+    },
+    {
+      "at": "2026-09-29",
+      "from": "ready-for-review",
+      "to": "returned",
+      "actor": "p.lindqvist",
+      "note": "Returned for minor wording only; otherwise ready to approve.",
+      "prevHash": "d95aa19041659bd16e4d8ef7e8f37174d1a03797a54b8b4cb95b4a6ed8b15d22",
+      "hash": "63cf71d332a318cf1a1acad24c0e6a05fe5c2ba47d22b37bb36fee9caa92720d"
+    },
+    {
+      "at": "2026-09-30",
+      "from": "returned",
+      "to": "drafting",
+      "actor": "a.mensah",
+      "note": "Reopened to address the return note.",
+      "prevHash": "63cf71d332a318cf1a1acad24c0e6a05fe5c2ba47d22b37bb36fee9caa92720d",
+      "hash": "86d7298b7264cacdbb606be772025799b3f733247687878f7669c0628eec30a8"
+    }
+  ]
+}

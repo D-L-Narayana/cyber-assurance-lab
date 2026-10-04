@@ -189,7 +189,7 @@ export default function App() {
         </section>
       </main>
       <footer className="foot">
-        The target is a pure function inside this page: three builds of a fictional expense app with four seeded weaknesses. Oracles are declarative checks on the exchange; "fixed" and "still open" can only be reached by an automated retest that replays the original request. Nothing leaves the tab; state resets on refresh, so export the notebook to keep it.
+        The target is a pure function inside this page: three builds of a fictional expense app with five seeded weaknesses. Oracles are declarative checks on the exchange; "fixed" and "still open" can only be reached by an automated retest that replays the original request. Nothing leaves the tab; state resets on refresh, so export the notebook to keep it.
       </footer>
     </div>
   );

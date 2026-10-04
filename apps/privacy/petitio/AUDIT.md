@@ -18,9 +18,21 @@ Self-review written 1 Oct 2026. It records what was checked and what remains ope
 | Data leaves the device | No network calls after load (QA audit lists only the local host); no storage APIs; exports are user-initiated downloads | None known |
 | Clickjacking / MIME sniffing | `frame-ancestors 'none'`, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy: no-referrer`, HSTS | Headers apply only when hosted on Vercel with `vercel.json` |
 
+## Security headers
+
+`vercel.json` applies the lab-wide canonical header set to every path (`/(.*)`), with `cleanUrls: true`:
+
+- `Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'`
+- `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`
+- `Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()`
+- `Cross-Origin-Opener-Policy: same-origin`, `Cross-Origin-Resource-Policy: same-origin`
+- `Strict-Transport-Security: max-age=63072000; includeSubDomains`
+
+`form-action 'none'` is compatible because every `<form>` in the app (extension, lookup result, hold) handles `onSubmit` with `preventDefault()` and never navigates; `style-src 'unsafe-inline'` remains for Radix inline style attributes. The October 2026 round replaced the earlier `default-src 'self'` / `base-uri 'self'` / `form-action 'self'` / `upgrade-insecure-requests` / `interest-cohort=()` variant. The headers apply only when the built `dist/` is served through Vercel with this file.
+
 ## Data flow
 
-Fixture JSON → `parseCaseFile` → React state → engine functions (pure) → rendered views → user-initiated JSON downloads. No other sinks.
+Fixture JSON → `parseCaseFile` → React state → engine functions (pure) → rendered views → user-initiated JSON downloads. No other sinks. `requestExtension` additionally receives the case-file `asOf` from the UI so a notice dated in the future (relative to the demo clock) or an extension on a closed/rejected request is refused before state changes; the importer keeps accepting historical extensions on closed requests (statutory guards only) by design.
 
 ## Dependency findings
 
@@ -36,3 +48,4 @@ Fixture JSON → `parseCaseFile` → React state → engine functions (pure) →
 - The stage rail scrolls horizontally on narrow screens rather than wrapping.
 - Dates in the UI use the browser's `<input type="date">` and ISO strings; no locale formatting.
 - No end-to-end test runner is committed to the repo; browser QA lives in the track-level harness and screenshots.
+- The screenshots in `qa/screens/` predate the October 2026 round (the extension panel's hint text and help text changed; no browser re-audit was run in this round).

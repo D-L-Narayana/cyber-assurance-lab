@@ -1,0 +1,19 @@
+$ npx vitest run --reporter=verbose tests/validation.test.ts
+# cwd apps/assurance/weft
+# 2026-10-04T19:10:52.977Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/assurance/weft
+
+ ✓ tests/validation.test.ts > validation audit — strict calendar dates > rejects 2026-02-30 in asOf, periodStart, periodEnd, capturedOn and signedOn with the exact path 13ms
+ ✓ tests/validation.test.ts > validation audit — strict calendar dates > rejects other impossible or malformed dates and accepts real leap days 1ms
+ ✓ tests/validation.test.ts > validation audit — strict calendar dates > rejects calendar-invalid dates in manifests too (generatedOn, signoffs[].signedOn) 2ms
+ ✓ tests/validation.test.ts > validation audit — hostile nesting (20 000 levels) > a 20 000-deep array at the root is refused as "not an object" without throwing 28ms
+ ✓ tests/validation.test.ts > validation audit — hostile nesting (20 000 levels) > 20 000-deep nesting inside fields is reported at the field path (the validator never descends into unknown structure) 39ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  19:10:55
+   Duration  1.02s (transform 263ms, setup 0ms, import 286ms, tests 84ms, environment 0ms)
+

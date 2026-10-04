@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react()],
   server: { port: 6143, strictPort: true },
   preview: { port: 6143, strictPort: true },
-  build: { target: 'es2022', sourcemap: false },
+  // assetsInlineLimit 0: fonts must ship as files — the production CSP is font-src 'self' (no data:), so an inlined subset would be blocked.
+  build: { target: 'es2022', sourcemap: false, assetsInlineLimit: 0 },
   test: { environment: 'node', include: ['src/**/*.test.ts'] },
 });

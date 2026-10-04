@@ -1,0 +1,224 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/appsec/permitmatrix
+# 2026-10-04T09:36:41.105Z v20.20.1
+# exit 1
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
+
+
+ RUN  v4.1.11 <repo>/apps/appsec/permitmatrix
+
+ ✓ src/engine/__tests__/engine.test.ts > contract validation > accepts the synthetic Ledgerly contract 12ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation > refuses any server that is not a mock:// or localhost target 1ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation > rejects contracts above the endpoint limit 5ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation > rejects endpoints that reference unknown roles or resources 3ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation > rejects malformed JSON and oversized text 1ms
+ ✓ src/engine/__tests__/engine.test.ts > case generation > derives own / peer / cross-tenant expectations for an owner-scoped endpoint 1ms
+ ✓ src/engine/__tests__/engine.test.ts > case generation > marks role-excluded calls as function-level denials 18ms
+ ✓ src/engine/__tests__/engine.test.ts > case generation > adds property-level cases for writable and sensitive field rules 0ms
+ ✓ src/engine/__tests__/engine.test.ts > case generation > is deterministic 2ms
+ ✓ src/engine/__tests__/engine.test.ts > mock server > fixed build denies a member reading a peer invoice 11ms
+ ✓ src/engine/__tests__/engine.test.ts > mock server > vulnerable build leaks the peer invoice (BOLA) 0ms
+ ✓ src/engine/__tests__/engine.test.ts > mock server > fixed build ignores non-writable fields and strips sensitive fields 10ms
+ ✓ src/engine/__tests__/engine.test.ts > mock server > returns 401 for unknown principals and 404 for unknown routes 0ms
+ ✓ src/engine/__tests__/engine.test.ts > suite runner and findings > reports no findings against the remediated build 11ms
+ × src/engine/__tests__/engine.test.ts > suite runner and findings > classifies the five seeded flaws with OWASP API Security Top 10 (2023) ids 58ms
+   → expected undefined to be 'API3:2023' // Object.is equality
+ ✓ src/engine/__tests__/engine.test.ts > suite runner and findings > flags over-denial as a functional regression rather than a security pass 11ms
+ ✓ src/engine/__tests__/engine.test.ts > suite runner and findings > builds a coverage matrix of endpoints by roles 9ms
+ × src/engine/__tests__/engine.test.ts > report export > produces a stable schema and never includes raw bearer tokens 17ms
+   → expected 4 to be 5 // Object.is equality
+ ✓ src/engine/__tests__/engine.test.ts > contract validation — review regressions > measures the byte limit in UTF-8 bytes, not UTF-16 code units 1ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation — review regressions > rejects duplicate record ids within a resource 0ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation — review regressions > rejects non-finite numeric field values such as 1e999 0ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation — review regressions > caps servers, builds and flaws per build 10ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation — review regressions > does not throw on absurdly large lists passed as objects 84ms
+ ✓ src/engine/__tests__/engine.test.ts > sixth-review regressions — routing ambiguity and export labelling > rejects two endpoints with the same method and path template 2ms
+ ✓ src/engine/__tests__/engine.test.ts > sixth-review regressions — routing ambiguity and export labelling > rejects parameter names other than {id}, more than one parameter, and templates that differ only by parameter name 0ms
+ ✓ src/engine/__tests__/engine.test.ts > sixth-review regressions — routing ambiguity and export labelling > routes a literal path to its own endpoint even when registered after a {id} sibling 20ms
+ × src/engine/__tests__/engine.test.ts > sixth-review regressions — routing ambiguity and export labelling > keeps the demo contract self-consistent: list and item scope agree, and the remediated build never lists a record the item route would deny 10ms
+   → expected [ { …(8) }, { …(8) }, { …(8) }, …(84) ] to have a length of 89 but got 87
+ ✓ src/engine/__tests__/engine.test.ts > sixth-review regressions — routing ambiguity and export labelling > states in the export that response bodies carry fictional field values even though headers are redacted 18ms
+ × src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > generates write:<field> probes on POST collection endpoints for expected-allow principals only 1ms
+   → expected [ { …(8) }, { …(8) }, { …(8) }, …(1) ] to have a length of 6 but got 4
+ × src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > derives the non-writable set as the union of field names across the resource records minus writableFields, in first-seen order 14ms
+   → expected [] to deeply equal [ 'status', 'currency' ]
+ × src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > sends the writable fields plus the probe field, inspects the created record and reports mass-assignment only when the field was persisted 16ms
+   → Cannot read properties of undefined (reading 'request')
+ × src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > adds exactly one finding (mass-assignment, API3:2023) relative to the four original flaws 45ms
+   → expected [ { …(8) }, { …(8) }, { …(8) }, …(1) ] to have a length of 5 but got 4
+ × src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > measures the demo-contract numbers quoted in the documentation 4ms
+   → expected [ { …(8) }, { …(8) }, { …(8) }, …(84) ] to have a length of 89 but got 87
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/__tests__/compare.test.ts [ src/engine/__tests__/compare.test.ts ]
+Error: Cannot find module '../compare' imported from <repo>/apps/appsec/permitmatrix/src/engine/__tests__/compare.test.ts
+ ❯ src/engine/__tests__/compare.test.ts:6:1
+      4| import { generateCases } from '../cases';
+      5| import { runSuite } from '../runner';
+      6| import { compareRuns } from '../compare';
+       | ^
+      7| import { buildReport, reportToMarkdown } from '../report';
+      8| import type { Contract, Flaw } from '../types';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'ERR_MODULE_NOT_FOUND' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/__tests__/engine.test.ts > suite runner and findings > classifies the five seeded flaws with OWASP API Security Top 10 (2023) ids
+AssertionError: expected undefined to be 'API3:2023' // Object.is equality
+
+- Expected:
+"API3:2023"
+
++ Received:
+undefined
+
+ ❯ src/engine/__tests__/engine.test.ts:134:57
+    132|     expect(kinds.get('patch-user:mass-assignment')).toBe('API3:2023');
+    133|     expect(kinds.get('get-user:sensitive-exposure')).toBe('API3:2023');
+    134|     expect(kinds.get('create-invoice:mass-assignment')).toBe('API3:202…
+       |                                                         ^
+    135|     expect(run.findings).toHaveLength(5);
+    136|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  src/engine/__tests__/engine.test.ts > report export > produces a stable schema and never includes raw bearer tokens
+AssertionError: expected 4 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 4
+
+ ❯ src/engine/__tests__/engine.test.ts:158:37
+    156|     const report = buildReport(c, run, { build: 'vulnerable', generate…
+    157|     expect(report.schema).toBe('permitmatrix.report/1');
+    158|     expect(report.summary.findings).toBe(5);
+       |                                     ^
+    159|     const text = JSON.stringify(report);
+    160|     expect(text).not.toMatch(/mock-token-/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  src/engine/__tests__/engine.test.ts > sixth-review regressions — routing ambiguity and export labelling > keeps the demo contract self-consistent: list and item scope agree, and the remediated build never lists a record the item route would deny
+AssertionError: expected [ { …(8) }, { …(8) }, { …(8) }, …(84) ] to have a length of 89 but got 87
+
+- Expected
++ Received
+
+- 89
++ 87
+
+ ❯ src/engine/__tests__/engine.test.ts:244:30
+    242|     const listed = server.handle({ method: 'GET', path: '/invoices', p…
+    243|     for (const row of listed) expect(server.handle({ method: 'GET', pa…
+    244|     expect(generateCases(c)).toHaveLength(89);
+       |                              ^
+    245|   });
+    246|   it('states in the export that response bodies carry fictional field …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > generates write:<field> probes on POST collection endpoints for expected-allow principals only
+AssertionError: expected [ { …(8) }, { …(8) }, { …(8) }, …(1) ] to have a length of 6 but got 4
+
+- Expected
++ Received
+
+- 6
++ 4
+
+ ❯ src/engine/__tests__/engine.test.ts:259:19
+    257|   it('generates write:<field> probes on POST collection endpoints for …
+    258|     const cases = generateCases(contract()).filter((c) => c.endpoint =…
+    259|     expect(cases).toHaveLength(6);
+       |                   ^
+    260|     const probes = cases.filter((c) => c.category === 'property');
+    261|     expect(probes.map((c) => c.id)).toEqual([probeId, 'create-invoice|…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > derives the non-writable set as the union of field names across the resource records minus writableFields, in first-seen order
+AssertionError: expected [] to deeply equal [ 'status', 'currency' ]
+
+- Expected
++ Received
+
+- [
+-   "status",
+-   "currency",
+- ]
++ []
+
+ ❯ src/engine/__tests__/engine.test.ts:281:45
+    279|     };
+    280|     const probes = generateCases(extended).filter((x) => x.endpoint ==…
+    281|     expect(probes.map((p) => p.probeField)).toEqual(['status', 'curren…
+       |                                             ^
+    282|     expect(generateCases(extended)).toEqual(generateCases(extended));
+    283|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > sends the writable fields plus the probe field, inspects the created record and reports mass-assignment only when the field was persisted
+TypeError: Cannot read properties of undefined (reading 'request')
+ ❯ src/engine/__tests__/engine.test.ts:290:18
+    288|     const vulnerable = runSuite(c, cases, vulnerableFlaws());
+    289|     const probe = vulnerable.results.find((r) => r.caseId === probeId)…
+    290|     expect(probe.request.method).toBe('POST');
+       |                  ^
+    291|     expect(probe.request.path).toBe('/invoices');
+    292|     expect(Object.keys(probe.request.body ?? {}).sort()).toEqual(['amo…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+ FAIL  src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > adds exactly one finding (mass-assignment, API3:2023) relative to the four original flaws
+AssertionError: expected [ { …(8) }, { …(8) }, { …(8) }, …(1) ] to have a length of 5 but got 4
+
+- Expected
++ Received
+
+- 5
++ 4
+
+ ❯ src/engine/__tests__/engine.test.ts:310:27
+    308|     const full = runSuite(c, cases, vulnerableFlaws());
+    309|     expect(original.findings).toHaveLength(4);
+    310|     expect(full.findings).toHaveLength(5);
+       |                           ^
+    311|     const added = full.findings.filter((f) => !original.findings.some(…
+    312|     expect(added).toHaveLength(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+
+ FAIL  src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > measures the demo-contract numbers quoted in the documentation
+AssertionError: expected [ { …(8) }, { …(8) }, { …(8) }, …(84) ] to have a length of 89 but got 87
+
+- Expected
++ Received
+
+- 89
++ 87
+
+ ❯ src/engine/__tests__/engine.test.ts:322:19
+    320|     expect(c.endpoints).toHaveLength(7);
+    321|     expect(vulnerableFlaws()).toHaveLength(5);
+    322|     expect(cases).toHaveLength(89);
+       |                   ^
+    323|     const vulnerable = buildReport(c, runSuite(c, cases, vulnerableFla…
+    324|     expect(vulnerable.summary.byVerdict).toEqual({ pass: 56, bypass: 1…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  8 failed | 25 passed (33)
+   Start at  09:36:52
+   Duration  3.25s (transform 589ms, setup 0ms, import 607ms, tests 412ms, environment 0ms)
+

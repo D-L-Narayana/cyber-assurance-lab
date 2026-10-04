@@ -12,6 +12,12 @@ Mark "Signed data-processing agreements" as **verified** without an evidence ref
 
 A second one worth knowing: the first calibration run put the demo at *very high* because the `personalisation` purpose already adds L+1 to automated decisions and the individual-recommendations option added L+3 on top. The rubric weight was reduced to L+2 and the reasoning recorded; calibration fixtures exist precisely to catch this.
 
+## Version content (October 2026 round)
+
+**Q. The first implementation kept a module-level `Map` of snapshots keyed by content hash. Why was that wrong, and what replaced it?**
+
+A. Three reasons. It was hidden global state in an otherwise pure engine, so two assessments in one session that happened to share a content hash could read each other's content; it vanished on refresh or export/import, so imported histories could only ever say "content changed"; and it made `snapshot` depend on something other than its inputs. The replacement stores the canonical content on the version itself (`Version.content`, optional, at most 64 KiB) — exactly the string the hash covers. Before diffing, `snapshot` re-hashes the stored content and requires it to equal the version's `contentHash`, so a copied or stale version cannot leak another assessment's content; when content is missing, oversized or inconsistent, the summary says so instead of guessing. `fromCanonical` is the inverse of `canonicalContent` and is also what the importer uses to validate the field. The tests pin the round-trip (export → import → snapshot yields `Answer q-volume: 100k-1m → over-1m` and `Mitigation m-human-review: implemented → verified`), the legacy path, the cap and the no-leak case. One honest detail: the round-trip test passed *before* the fix, because the old `Map` was still alive in the same test process — which is the hidden-state problem in miniature; the leakage and "content stored on the version" tests are what failed and forced the design.
+
 ## Why the tests look like this
 
 - Engine tests first (24 red against stubs; the 2 rubric-shape tests passed immediately because the rubric is data, which is stated rather than hidden).

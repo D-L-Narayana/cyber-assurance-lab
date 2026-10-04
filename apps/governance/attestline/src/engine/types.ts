@@ -92,6 +92,18 @@ export interface CampaignConfig {
   asOf: string;
 }
 
+/** Closing record (October 2026 round). A closed campaign accepts no further decisions or routing. */
+export interface CampaignClosure {
+  /** ISO date the campaign was closed (defaults to the campaign as-of date). */
+  at: string;
+  /** Actor who closed it (the synthetic campaign owner in the UI). */
+  by: string;
+  /** Closing note, at least 10 characters. */
+  note: string;
+  /** Items still pending when the campaign was closed; 0 unless the closer acknowledged them explicitly. */
+  pendingAtClose: number;
+}
+
 export interface Campaign {
   config: CampaignConfig;
   fixtureLabel: string;
@@ -100,4 +112,6 @@ export interface Campaign {
   reviewers: { id: string; name: string }[];
   /** Snapshot of identities so decision guards can check status without the fixture */
   identities: { id: string; name: string; status: IdentityStatus }[];
+  /** Present once the campaign has been closed (additive, optional). */
+  closed?: CampaignClosure;
 }

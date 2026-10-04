@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   computeDue, planDisposal, executePlan, verifyChain, reconcile, validateFixture, exportAudit, activeHoldsFor, sha256Hex,
+  releaseHold, reinstateHold, LIMITS,
 } from './ledger';
 import type { Fixture, Receipt } from './types';
 import { daysBetween } from './safe';
@@ -153,7 +154,7 @@ describe('validation and export', () => {
   });
 });
 
-describe('stale plan rejection (sixth-Fable review: holds were checked at planning, not execution)', () => {
+describe('stale plan rejection (review of 2026-10-01: holds were checked at planning, not execution)', () => {
   it('refuses atomically to execute a plan whose inputs (holds/records) changed since it was generated', async () => {
     const plan = await planDisposal(fx, fx.asOf);
     const target = plan.items.find((i) => i.decision === 'dispose')!.recordId;
@@ -171,5 +172,126 @@ describe('stale plan rejection (sixth-Fable review: holds were checked at planni
     const ok = await executePlan(plan, fx, []);
     expect(ok.rejectedStale).toBe(false);
     expect(ok.receipts).toHaveLength(1);
+  });
+});
+
+describe('guarded hold release and reinstatement with trail (October 2026 upgrade round)', () => {
+  const input = { holdId: 'h-subj1', on: '2026-10-01', actor: 'legal-counsel@example.test', reason: 'Matter closed; counsel confirmed no further preservation duty.' };
+
+  it('refuses unknown holds, already-released holds, dates before placedOn and non-calendar dates', () => {
+    expect(releaseHold(fx, { ...input, holdId: 'ghost' })).toMatchObject({ ok: false, error: expect.stringMatching(/unknown/i) });
+    expect(releaseHold(fx, { ...input, holdId: 'h-old' })).toMatchObject({ ok: false, error: expect.stringMatching(/already/i) });
+    expect(releaseHold(fx, { ...input, on: '2026-01-09' })).toMatchObject({ ok: false, error: expect.stringMatching(/placed/i) });
+    expect(releaseHold(fx, { ...input, on: '2026-02-30' })).toMatchObject({ ok: false, error: expect.stringMatching(/date/i) });
+    expect(releaseHold(fx, { ...input, on: '01/10/2026' })).toMatchObject({ ok: false, error: expect.stringMatching(/date/i) });
+  });
+
+  it('requires an actor of 1–120 characters and a reason of at least 10 characters', () => {
+    expect(releaseHold(fx, { ...input, actor: '' })).toMatchObject({ ok: false, error: expect.stringMatching(/actor/i) });
+    expect(releaseHold(fx, { ...input, actor: '   ' })).toMatchObject({ ok: false, error: expect.stringMatching(/actor/i) });
+    expect(releaseHold(fx, { ...input, actor: 'x'.repeat(121) })).toMatchObject({ ok: false, error: expect.stringMatching(/actor/i) });
+    expect(releaseHold(fx, { ...input, reason: 'too short' })).toMatchObject({ ok: false, error: expect.stringMatching(/reason/i) });
+    expect(releaseHold(fx, { ...input, reason: '             ' })).toMatchObject({ ok: false, error: expect.stringMatching(/reason/i) });
+    expect(releaseHold(fx, { ...input, actor: 'x'.repeat(120) }).ok).toBe(true);
+  });
+
+  it('releases on the given date, appends a release event, recomputes due states and never mutates the input', () => {
+    const before = JSON.stringify(fx);
+    const r = releaseHold(fx, input);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    const h = r.fixture.holds.find((x) => x.id === 'h-subj1')!;
+    expect(h.releasedOn).toBe('2026-10-01');
+    expect(h.placedOn).toBe('2026-01-10');
+    expect(r.fixture.holdHistory).toEqual([{ seq: 1, holdId: 'h-subj1', action: 'release', on: '2026-10-01', actor: input.actor, reason: input.reason }]);
+    expect(JSON.stringify(fx)).toBe(before);
+    expect(fx.holdHistory).toBeUndefined();
+    expect(computeDue(r.fixture, '2026-10-01').find((d) => d.recordId === 'r1')!.state).toBe('overdue');
+    // releasing on the placement day itself is allowed (the hold was then never active)
+    expect(releaseHold(fx, { ...input, on: '2026-01-10' }).ok).toBe(true);
+  });
+
+  it('reinstates only released holds, not before the release date, clears releasedOn and keeps seq contiguous', () => {
+    expect(reinstateHold(fx, input)).toMatchObject({ ok: false, error: expect.stringMatching(/not released/i) });
+    const released = releaseHold(fx, input);
+    expect(released.ok).toBe(true);
+    if (!released.ok) return;
+    expect(reinstateHold(released.fixture, { ...input, on: '2026-09-30' })).toMatchObject({ ok: false, error: expect.stringMatching(/release/i) });
+    expect(reinstateHold(released.fixture, { ...input, holdId: 'ghost' })).toMatchObject({ ok: false, error: expect.stringMatching(/unknown/i) });
+    expect(reinstateHold(released.fixture, { ...input, reason: 'short' })).toMatchObject({ ok: false, error: expect.stringMatching(/reason/i) });
+    expect(reinstateHold(released.fixture, { ...input, actor: '' })).toMatchObject({ ok: false, error: expect.stringMatching(/actor/i) });
+    expect(reinstateHold(released.fixture, { ...input, on: '2026-02-30' })).toMatchObject({ ok: false, error: expect.stringMatching(/date/i) });
+    const r = reinstateHold(released.fixture, { ...input, on: '2026-10-05', reason: 'New claim filed; preservation duty resumes.' });
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.fixture.holds.find((x) => x.id === 'h-subj1')!.releasedOn).toBeNull();
+    expect(r.fixture.holds.find((x) => x.id === 'h-subj1')!.placedOn).toBe('2026-01-10');
+    expect(r.fixture.holdHistory!.map((e) => [e.seq, e.action, e.on])).toEqual([[1, 'release', '2026-10-01'], [2, 'reinstate', '2026-10-05']]);
+    expect(released.fixture.holdHistory).toHaveLength(1); // input untouched
+    // a legacy released hold (no trail yet) can be reinstated and starts the trail at seq 1
+    const legacy = reinstateHold(fx, { ...input, holdId: 'h-old', reason: 'Audit reopened after new evidence surfaced.' });
+    expect(legacy.ok).toBe(true);
+    if (legacy.ok) expect(legacy.fixture.holdHistory).toEqual([{ seq: 1, holdId: 'h-old', action: 'reinstate', on: '2026-10-01', actor: input.actor, reason: 'Audit reopened after new evidence surfaced.' }]);
+  });
+
+  it('is deterministic and refuses to grow the trail past the cap', () => {
+    expect(releaseHold(fx, input)).toEqual(releaseHold(fx, input));
+    const full: Fixture = { ...fx, holdHistory: Array.from({ length: LIMITS.holdHistory }, (_, i) => ({ seq: i + 1, holdId: 'h-old', action: i % 2 === 0 ? 'reinstate' as const : 'release' as const, on: '2025-06-30', actor: 'a', reason: 'synthetic trail entry' })) };
+    expect(releaseHold(full, input)).toMatchObject({ ok: false, error: expect.stringMatching(/limit|cap|full/i) });
+  });
+
+  const ev = { seq: 1, holdId: 'h-old', action: 'release' as const, on: '2025-06-30', actor: 'audit.example', reason: 'Audit completed; no further preservation duty.' };
+
+  it('validateFixture accepts legacy fixtures without holdHistory and well-formed trails, rejects malformed entries with the path', () => {
+    expect(validateFixture(fx).ok).toBe(true); // legacy: no holdHistory key at all
+    const again = validateFixture(JSON.parse(JSON.stringify({ ...fx, holdHistory: [ev] })));
+    expect(again.ok).toBe(true);
+    if (again.ok) expect(again.fixture.holdHistory).toEqual([ev]);
+    const bad: unknown[] = [
+      { ...fx, holdHistory: 'x' },
+      { ...fx, holdHistory: [null] },
+      { ...fx, holdHistory: [{ ...ev, holdId: 'ghost' }] },
+      { ...fx, holdHistory: [{ ...ev, seq: 2 }] },
+      { ...fx, holdHistory: [ev, { ...ev, seq: 3 }] },
+      { ...fx, holdHistory: [{ ...ev, on: '2026-02-30' }] },
+      { ...fx, holdHistory: [{ ...ev, action: 'delete' }] },
+      { ...fx, holdHistory: [{ ...ev, actor: '' }] },
+      { ...fx, holdHistory: [{ ...ev, reason: 7 }] },
+      { ...fx, holdHistory: Array.from({ length: LIMITS.holdHistory + 1 }, (_, i) => ({ ...ev, seq: i + 1 })) },
+    ];
+    for (const b of bad) {
+      let v: ReturnType<typeof validateFixture> | undefined;
+      expect(() => { v = validateFixture(b); }).not.toThrow();
+      expect(v!.ok).toBe(false);
+    }
+    const v = validateFixture({ ...fx, holdHistory: [{ ...ev, holdId: 'ghost' }] });
+    expect(v.ok).toBe(false);
+    if (!v.ok) expect(v.errors.join(' ')).toMatch(/holdHistory\[0\]/);
+    // unknown keys inside an event are dropped
+    const extra = validateFixture({ ...fx, holdHistory: [{ ...ev, surprise: true }] });
+    expect(extra.ok).toBe(true);
+    if (extra.ok) expect(extra.fixture.holdHistory![0]).toEqual(ev);
+    // a trail written by the engine round-trips through JSON and the validator
+    const r = releaseHold(fx, input);
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(validateFixture(JSON.parse(JSON.stringify(r.fixture))).ok).toBe(true);
+  });
+
+  it('a release after planning makes the plan stale, and the trail travels in the audit export', async () => {
+    expect((await exportAudit({ ...fx, holdHistory: [ev] }, [], [])).json.holdHistory).toEqual([ev]);
+    expect((await exportAudit(fx, [], [])).json.holdHistory).toEqual([]); // legacy fixture exports an empty trail
+    const plan = await planDisposal(fx, fx.asOf);
+    const r = releaseHold(fx, input);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    const exec = await executePlan(plan, r.fixture, []);
+    expect(exec.rejectedStale).toBe(true);
+    expect(exec.receipts).toHaveLength(0);
+    const fresh = await planDisposal(r.fixture, fx.asOf);
+    expect(fresh.id).not.toBe(plan.id);
+    expect(fresh.counts.dispose).toBe(3);
+    const out = await exportAudit(r.fixture, [], []);
+    expect(out.json.holdHistory).toEqual(r.fixture.holdHistory);
+    expect(out.json.holds.find((h) => h.id === 'h-subj1')!.releasedOn).toBe('2026-10-01');
   });
 });

@@ -275,7 +275,7 @@ describe('bundled fixture', () => {
   });
 });
 
-describe('sixth-Fable review regressions — future-dated evidence and exception validity cap', () => {
+describe('sixth review regressions — future-dated evidence and exception validity cap', () => {
   it('evidence issued after the assessment date gets no credit and is reported as future-dated', () => {
     const v = vendor({ evidence: [{ id: 'F1', type: 'questionnaire', title: 'Q', issuedOn: '2027-06-01', validMonths: 12 }] });
     const res = requirementResults(v, 3, AS_OF);

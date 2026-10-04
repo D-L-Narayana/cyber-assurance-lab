@@ -36,7 +36,8 @@
     {
       "sku": "beans-1kg",
       "name": "House beans 1 kg",
-      "price": 28.0
+      "price": 28.0,
+      "maxQty": 5
     }
   ],
   "coupons": [
@@ -217,7 +218,7 @@
     },
     {
       "id": "s9",
-      "label": "Order view redirected to Omar\u2019s order id",
+      "label": "Order view redirected to Omar’s order id",
       "client": {
         "user": "u-maya",
         "event": "view-order",
@@ -272,6 +273,30 @@
           ],
           "total": 28.0
         }
+      }
+    },
+    {
+      "id": "s12",
+      "label": "Beans order with the quantity rewritten to -1 in transit",
+      "client": {
+        "user": "u-omar",
+        "event": "place-order",
+        "nonce": "n-1012",
+        "tOffset": 165,
+        "payload": {
+          "items": [
+            {
+              "sku": "beans-1kg",
+              "qty": 1,
+              "unitPrice": 28.0
+            }
+          ],
+          "total": 28.0
+        }
+      },
+      "tamper": {
+        "kind": "quantity-rewrite",
+        "value": -1
       }
     }
   ]

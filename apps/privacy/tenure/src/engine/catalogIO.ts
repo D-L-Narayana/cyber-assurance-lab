@@ -1,4 +1,4 @@
-import type { Catalog, DataElement, Finding, Flow, Owner, RetentionException, RetentionSchedule, System } from './types';
+import type { Catalog, DataElement, ExceptionSubject, ExceptionSubjectKind, Finding, Flow, Owner, RetentionException, RetentionSchedule, System } from './types';
 import { canonicalCategory, canonicalMechanism, canonicalRegion, normaliseCatalog } from './normalise';
 
 export interface ImportLimits {
@@ -39,6 +39,7 @@ export function isStrictDate(v: string): boolean {
 const HOSTING = new Set(['internal', 'vendor']);
 const TRIGGERS = new Set(['collection', 'last-activity', 'contract-end', 'employment-end']);
 const EXC_STATUS = new Set(['proposed', 'approved', 'expired', 'rejected']);
+const SUBJECT_KINDS = new Set(['element', 'flow']);
 const FINDING_CODES = new Set(['ORPHAN_ELEMENT', 'MISSING_OWNER', 'INACTIVE_OWNER', 'MISSING_SCHEDULE', 'SPECIAL_CATEGORY_UNSCHEDULED', 'RETENTION_INFLATION', 'PURPOSE_DRIFT', 'UNMAPPED_TRANSFER', 'FLOW_CYCLE', 'DANGLING_FLOW', 'EXCEPTION_EXPIRED', 'EXCEPTION_APPROVER_INACTIVE', 'EXCEPTION_OUT_OF_POLICY', 'REVIEW_OVERDUE']);
 
 /**
@@ -173,13 +174,25 @@ export function parseCatalog(text: string, overrides: Partial<ImportLimits> = {}
 
   const exceptions = v.arr(root, 'exceptions', 'catalog', limits.maxExceptions).map((x, i): RetentionException | undefined => {
     const path = `catalog.exceptions[${i}]`; const o = v.obj(x, path); if (!o) return undefined;
-    const id = v.str(o, 'id', path); const elementId = v.str(o, 'elementId', path);
+    const id = v.str(o, 'id', path);
+    // Subject (October 2026, additive): `{ kind: 'element' | 'flow', id }`; the legacy `elementId` is still accepted
+    // and at least one of the two is required. Unknown keys inside `subject` are dropped by rebuilding it.
+    const elementId = v.str(o, 'elementId', path, { optional: true });
+    let subject: ExceptionSubject | undefined;
+    if (o.subject !== undefined) {
+      const so = v.obj(o.subject, `${path}.subject`);
+      if (so) {
+        const kind = v.str(so, 'kind', `${path}.subject`, { enumSet: SUBJECT_KINDS });
+        const sid = v.str(so, 'id', `${path}.subject`);
+        if (kind && sid) subject = { kind: kind as ExceptionSubjectKind, id: sid };
+      }
+    } else if (elementId === undefined) v.errors.push(`${path} needs a subject ({ kind, id }) or a legacy elementId`);
     const acceptsFinding = v.str(o, 'acceptsFinding', path, { enumSet: FINDING_CODES });
     const rationale = v.str(o, 'rationale', path, { allowEmpty: true }) ?? '';
     const approvedBy = v.str(o, 'approvedBy', path, { optional: true }); const approvedOn = v.str(o, 'approvedOn', path, { optional: true, pattern: ISO_DATE });
     const expiresOn = v.str(o, 'expiresOn', path, { pattern: ISO_DATE }); const status = v.str(o, 'status', path, { enumSet: EXC_STATUS });
-    if (!id || !elementId || !acceptsFinding || !expiresOn || !status) return undefined;
-    return { id, elementId, acceptsFinding: acceptsFinding as RetentionException['acceptsFinding'], rationale, expiresOn, status: status as RetentionException['status'], ...(approvedBy ? { approvedBy } : {}), ...(approvedOn ? { approvedOn } : {}) };
+    if (!id || !acceptsFinding || !expiresOn || !status) return undefined;
+    return { id, acceptsFinding: acceptsFinding as RetentionException['acceptsFinding'], rationale, expiresOn, status: status as RetentionException['status'], ...(elementId ? { elementId } : {}), ...(subject ? { subject } : {}), ...(approvedBy ? { approvedBy } : {}), ...(approvedOn ? { approvedOn } : {}) };
   }).filter((x): x is RetentionException => Boolean(x));
 
   if (v.errors.length > 0) return { ok: false, errors: v.errors.slice(0, 50) };
@@ -191,6 +204,28 @@ export function parseCatalog(text: string, overrides: Partial<ImportLimits> = {}
     for (const item of list) { if (seen.has(item.id)) v.errors.push(`Duplicate ${label} id "${item.id}" (after normalisation)`); seen.add(item.id); }
   }
   if (catalog.systems.length === 0) v.errors.push('catalog.systems must contain at least one system');
+  // Exception subjects must name a known id of their kind (checked after normalisation so synonyms/case do not matter).
+  // Flow subjects are `flow-id` or `flow-id/element-id`. A legacy elementId that names no element is a warning, not an
+  // error, so older files keep importing exactly as before.
+  const elementIds = new Set(catalog.elements.map((e) => e.id));
+  const flowIds = new Set(catalog.flows.map((f) => f.id));
+  catalog.exceptions.forEach((x, i) => {
+    const path = `catalog.exceptions[${i}]`;
+    if (x.subject) {
+      const shown = x.subject.id.slice(0, 60);
+      if (x.subject.kind === 'element') {
+        if (!elementIds.has(x.subject.id)) v.errors.push(`${path}.subject.id "${shown}" is not a known element`);
+      } else {
+        const slash = x.subject.id.indexOf('/');
+        const flowId = slash === -1 ? x.subject.id : x.subject.id.slice(0, slash);
+        const elId = slash === -1 ? undefined : x.subject.id.slice(slash + 1);
+        if (!flowIds.has(flowId)) v.errors.push(`${path}.subject.id "${shown}" does not name a known flow`);
+        else if (elId !== undefined && !elementIds.has(elId)) v.errors.push(`${path}.subject.id "${shown}" names a known flow but an unknown element after the slash`);
+      }
+    } else if (x.elementId !== undefined && !elementIds.has(x.elementId)) {
+      v.warnings.push(`${path}.elementId "${x.elementId.slice(0, 60)}" is not a known element; this exception cannot accept any finding`);
+    }
+  });
   if (v.errors.length > 0) return { ok: false, errors: v.errors.slice(0, 50) };
   return { ok: true, catalog, notes, warnings: v.warnings };
 }

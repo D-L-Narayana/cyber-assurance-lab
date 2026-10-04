@@ -112,6 +112,8 @@ export interface ClockState {
   note: string;
 }
 
+export type Band = 'low' | 'medium' | 'high' | 'very-high';
+
 export interface SeverityBreakdown {
   dpcBase: number;
   dpcAdjusted: number;
@@ -119,8 +121,23 @@ export interface SeverityBreakdown {
   ei: number;
   cb: { confidentiality: number; integrity: number; availability: number; malicious: number; total: number };
   se: number;
-  band: 'low' | 'medium' | 'high' | 'very-high';
+  band: Band;
   rationale: string[];
+}
+
+/**
+ * One single-field change that would move the severity band. `field` is the circumstance field
+ * (`confidentialityLoss`, `integrityLoss`, `availabilityLoss`, `easeOfIdentification`, `maliciousIntent`,
+ * `dpcAdjustment`) or `dataScope.highestClass`; `from`/`to` are the values as strings; `seDelta` is the
+ * change in SE the flip produces.
+ */
+export interface Flip {
+  field: string;
+  from: string;
+  to: string;
+  bandFrom: Band;
+  bandTo: Band;
+  seDelta: number;
 }
 
 export interface ScopeSummary {

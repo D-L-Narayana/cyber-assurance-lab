@@ -1,0 +1,35 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/defense/hashledger
+# 2026-10-04T20:52:26.489Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/defense/hashledger
+
+ ✓ src/engine/engine.test.ts > hashing > matches the SHA-256 test vector for "abc" 6ms
+ ✓ src/engine/engine.test.ts > snapshots > hashes every entry and chains to the previous snapshot 2ms
+ ✓ src/engine/engine.test.ts > snapshots > diffs added, removed, modified and permission-only changes 9ms
+ ✓ src/engine/engine.test.ts > snapshots > detects a tampered entry hash in the chain 1ms
+ ✓ src/engine/engine.test.ts > snapshots > binds takenAt and id into the chain so forged metadata fails verification 3ms
+ ✓ src/engine/engine.test.ts > snapshots > rejects "." path segments as well as ".." 1ms
+ ✓ src/engine/engine.test.ts > snapshots > bounds manifest size and rejects traversal paths 9ms
+ ✓ src/engine/engine.test.ts > classification > validates card-like numbers with Luhn so order numbers are not false positives 0ms
+ ✓ src/engine/engine.test.ts > classification > labels payroll data restricted, a private-key header restricted, source internal and a README public 2ms
+ ✓ src/engine/engine.test.ts > classification > does not treat Luhn-invalid 16-digit order numbers as payment data (false-positive fixture) 0ms
+ ✓ src/engine/engine.test.ts > classification > treats an explicit CONFIDENTIAL marker as confidential 0ms
+ ✓ src/engine/engine.test.ts > DLP decisions > blocks restricted data on USB and external email 0ms
+ ✓ src/engine/engine.test.ts > DLP decisions > allows confidential mail to an allowlisted partner domain but quarantines other external domains 0ms
+ ✓ src/engine/engine.test.ts > DLP decisions > allows public files anywhere and internal files on internal channels 0ms
+ ✓ src/engine/engine.test.ts > ledger > ignores a replayed event id and opens one case per blocked egress with hash evidence 1ms
+ ✓ src/engine/engine.test.ts > ledger > does not open a case for allowed egress 0ms
+ ✓ src/engine/engine.test.ts > fixtures > ship synthetic content only and validate 0ms
+ ✓ src/engine/manifest.test.ts > manifest hardening > requires owner to be a printable string of 1–64 characters 3ms
+ ✓ src/engine/manifest.test.ts > manifest hardening > allows only [A-Za-z0-9._/-] in paths, after the existing segment checks 0ms
+ ✓ src/engine/manifest.test.ts > manifest hardening > rejects non-array manifests and non-object rows without throwing 1ms
+ ✓ src/engine/manifest.test.ts > manifest hardening > keeps the shipped fixture valid under the new rules 0ms
+
+ Test Files  2 passed (2)
+      Tests  21 passed (21)
+   Start at  20:52:30
+   Duration  553ms (transform 146ms, setup 0ms, import 177ms, tests 49ms, environment 0ms)
+

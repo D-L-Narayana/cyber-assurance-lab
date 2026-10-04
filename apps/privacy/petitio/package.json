@@ -5,6 +5,7 @@
   "description": "Educational privacy-rights request desk: deterministic deadline clock, request workflow state machine, duplicate detection, multi-system reconciliation with redaction and a hash-chained audit log. Browser-local synthetic data only.",
   "license": "MIT",
   "type": "module",
+  "engines": { "node": ">=20.19" },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

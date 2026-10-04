@@ -6,7 +6,7 @@ export interface CatalogEntry { id: string; title: string; request: LabRequest; 
 
 const marker = makeMarker('assay-catalog');
 
-/** The four authorised lab test cases. Every request is relative to the in-browser application. */
+/** The five authorised lab test cases. Every request is relative to the in-browser application. */
 export const CATALOG: CatalogEntry[] = [
   {
     id: 'TC-01', title: 'Search reflects the query heading',
@@ -27,5 +27,10 @@ export const CATALOG: CatalogEntry[] = [
     id: 'TC-04', title: 'Malformed receipt id error handling',
     request: { method: 'GET', path: '/receipts/not-a-receipt', session: 'alice' }, oracle: { kind: 'stack-trace-disclosed' },
     steps: ['Sign in as alice.', 'Request a receipt id that does not match the expected pattern.', 'Check the status and body for stack frames or connection strings.'],
+  },
+  {
+    id: 'TC-05', title: 'Account page security headers',
+    request: { method: 'GET', path: '/account', session: 'alice' }, oracle: { kind: 'security-headers-missing' },
+    steps: ['Sign in as alice.', 'Request the account page (an HTML response).', 'Read the response headers, case-insensitively, for Content-Security-Policy and X-Content-Type-Options.'],
   },
 ];

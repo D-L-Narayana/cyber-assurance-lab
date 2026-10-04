@@ -1,4 +1,12 @@
+import { compareRuns } from './compare';
+import type { FindingSummary, PersistedFinding, RunDiff } from './compare';
 import type { CaseResult, Contract, Coverage, Finding, SuiteRun, Verdict } from './types';
+
+/** Present only when the report was built with a previous run to compare against (additive, optional). */
+export interface ReportComparison extends RunDiff {
+  beforeBuild: string;
+  afterBuild: string;
+}
 
 export interface Report {
   schema: 'permitmatrix.report/1';
@@ -8,6 +16,7 @@ export interface Report {
   build: { id: string; label: string; flaws: { endpoint: string; kind: string }[] };
   summary: { cases: number; findings: number; byVerdict: Record<Verdict, number>; bySeverity: Record<Finding['severity'], number> };
   findings: Finding[];
+  comparison?: ReportComparison;
   coverage: Coverage;
   cases: CaseResult[];
   dataNote: string;
@@ -19,6 +28,9 @@ export const DATA_NOTE =
 
 export const DISCLAIMER =
   'Educational prototype. Results describe a deterministic in-browser mock of the supplied contract, not a live system. This is not a penetration test, security certification or compliance opinion.';
+
+/** Markdown keeps the retest readable; the JSON report carries every case change. */
+const MAX_CASE_CHANGE_ROWS = 500;
 
 export function redactHeaders(headers: Record<string, string>): Record<string, string> {
   const out: Record<string, string> = {};
@@ -33,12 +45,15 @@ export function redactHeaders(headers: Record<string, string>): Record<string, s
   return out;
 }
 
-export function buildReport(contract: Contract, run: SuiteRun, options: { build: string; generatedAt?: string }): Report {
+export function buildReport(contract: Contract, run: SuiteRun, options: { build: string; generatedAt?: string; previous?: { run: SuiteRun; build: string } }): Report {
   const build = contract.builds[options.build] ?? { label: options.build, flaws: [] };
   const byVerdict: Record<Verdict, number> = { pass: 0, bypass: 0, 'over-deny': 0, exposure: 0, 'mass-assignment': 0, error: 0 };
   for (const r of run.results) byVerdict[r.verdict] += 1;
   const bySeverity: Record<Finding['severity'], number> = { high: 0, medium: 0, low: 0 };
   for (const f of run.findings) bySeverity[f.severity] += 1;
+  const comparison: ReportComparison | undefined = options.previous
+    ? { ...compareRuns(options.previous.run, run), beforeBuild: options.previous.build, afterBuild: options.build }
+    : undefined;
   return {
     schema: 'permitmatrix.report/1',
     generatedAt: options.generatedAt ?? new Date().toISOString(),
@@ -47,11 +62,18 @@ export function buildReport(contract: Contract, run: SuiteRun, options: { build:
     build: { id: options.build, label: build.label, flaws: build.flaws.map((f) => ({ ...f })) },
     summary: { cases: run.results.length, findings: run.findings.length, byVerdict, bySeverity },
     findings: run.findings.map((f) => ({ ...f, evidenceCases: [...f.evidenceCases] })),
+    ...(comparison ? { comparison } : {}),
     coverage: run.coverage,
     cases: run.results.map((r) => ({ ...r, request: { ...r.request, headers: redactHeaders(r.request.headers) } })),
     dataNote: DATA_NOTE,
     disclaimer: DISCLAIMER,
   };
+}
+
+function findingLine(f: FindingSummary | PersistedFinding): string {
+  const severity = 'severityBefore' in f && f.severityBefore !== f.severity ? `${f.severityBefore.toUpperCase()} → ${f.severity.toUpperCase()}` : f.severity.toUpperCase();
+  const evidence = 'evidenceCasesBefore' in f && f.evidenceCasesBefore !== f.evidenceCases ? `${f.evidenceCasesBefore} → ${f.evidenceCases}` : `${f.evidenceCases}`;
+  return `- \`${f.key}\` — ${severity} ${f.title} (${f.owaspApi}), ${evidence} evidence case(s)`;
 }
 
 export function reportToMarkdown(report: Report): string {
@@ -70,6 +92,29 @@ export function reportToMarkdown(report: Report): string {
     lines.push('');
     lines.push(`### ${f.severity.toUpperCase()} · ${f.title} (${f.owaspApi}) — \`${f.endpoint}\``);
     lines.push(`Evidence cases: ${f.evidenceCases.length}. ${f.remediation}`);
+  }
+  if (report.comparison) {
+    const c = report.comparison;
+    const s = c.summary;
+    lines.push('');
+    lines.push(`## Retest — compared with the previous run (${c.beforeBuild} → ${c.afterBuild})`);
+    lines.push('');
+    lines.push(`Closed: ${s.closed} · Opened: ${s.opened} · Persisted: ${s.persisted} · Case verdict changes: ${s.caseChanges} (${s.casesCompared} cases compared${s.casesOnlyBefore || s.casesOnlyAfter ? `; ${s.casesOnlyBefore} only in the previous run, ${s.casesOnlyAfter} only in this run` : ''})`);
+    if (s.identical) { lines.push(''); lines.push('The two runs are identical.'); }
+    const section = (title: string, items: (FindingSummary | PersistedFinding)[]) => {
+      lines.push('');
+      lines.push(`### ${title} (${items.length})`);
+      if (items.length === 0) lines.push('- none');
+      for (const f of items) lines.push(findingLine(f));
+    };
+    section('Closed — in the previous run, absent now', c.closed);
+    section('Opened — new in this run', c.opened);
+    section('Persisted — in both runs', c.persisted);
+    lines.push('');
+    lines.push(`### Case verdict changes (${c.caseChanges.length})`);
+    if (c.caseChanges.length === 0) lines.push('- none');
+    for (const ch of c.caseChanges.slice(0, MAX_CASE_CHANGE_ROWS)) lines.push(`- \`${ch.caseId}\`: ${ch.from} → ${ch.to}`);
+    if (c.caseChanges.length > MAX_CASE_CHANGE_ROWS) lines.push(`- … ${c.caseChanges.length - MAX_CASE_CHANGE_ROWS} more in the JSON report`);
   }
   lines.push('');
   lines.push('## Coverage (cases per endpoint × role: passed / total)');

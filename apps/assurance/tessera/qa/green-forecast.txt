@@ -1,0 +1,116 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/assurance/tessera
+# 2026-10-04T20:37:15.722Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/assurance/tessera
+
+ ✓ tests/forecast.test.ts > forecast — dates and horizons > addDays rolls over months, years and leap days in UTC 2ms
+ ✓ tests/forecast.test.ts > forecast — dates and horizons > sorts horizons ascending, merges duplicates and drops non-positive, fractional or non-finite values 2ms
+ ✓ tests/forecast.test.ts > forecast — dates and horizons > bounds the projection: at most MAX_HORIZONS horizons, none longer than MAX_HORIZON_DAYS 6ms
+ ✓ tests/forecast.test.ts > forecast — dates and horizons > defaults to 30/90/180 days and emits one row per subcategory per horizon, ordered by horizon then catalog order 1ms
+ ✓ tests/forecast.test.ts > forecast — freshness boundaries > fresh → aging exactly one day after validDays: partial becomes weak with the artifact as the only driver 3ms
+ ✓ tests/forecast.test.ts > forecast — freshness boundaries > aging → stale exactly one day after 1.5 × validDays: weak becomes none 1ms
+ ✓ tests/forecast.test.ts > forecast — freshness boundaries > a future-dated artifact (stale by rule today) is projected as current once the horizon passes its date — an improvement, never a degradation 1ms
+ ✓ tests/forecast.test.ts > forecast — decision lapse > a valid override lapses exactly one day after DECISION_VALID_DAYS: sufficient reverts to the computed weak status 1ms
+ ✓ tests/forecast.test.ts > forecast — decision lapse > accepted-risk lapses to none and a not-applicable scoping lapses to the computed status 1ms
+ ✓ tests/forecast.test.ts > forecast — decision lapse > a decision that is already stale today is not "currently applied", so it never lapses 1ms
+ ✓ tests/forecast.test.ts > forecast — decision lapse > a decision dated after asOf (ignored today) starts applying once the horizon passes its date; that is a degradation, not a lapse 1ms
+ ✓ tests/forecast.test.ts > forecast — no false degradation > reports no degradation, no drivers and no lapse when nothing in the pack changes within the horizons 1ms
+ ✓ tests/forecast.test.ts > forecast — no false degradation > empty pack: every outcome is none now and later; nothing degrades; the summary is all zeros 3ms
+ ✓ tests/forecast.test.ts > forecast — no false degradation > a status change at equal exposure (contradicted → refuted) is reported but is not a degradation 1ms
+ ✓ tests/forecast.test.ts > forecast — no false degradation > a refutation going stale improves the outcome; improvements are never degradations 0ms
+ ✓ tests/forecast.test.ts > forecast — determinism, summary and exports > is deterministic and order-stable: identical packs give byte-identical rows; horizon input order does not matter 5ms
+ ✓ tests/forecast.test.ts > forecast — determinism, summary and exports > lists drivers sorted by evidence id regardless of pack order 0ms
+ ✓ tests/forecast.test.ts > forecast — determinism, summary and exports > summarises degrading outcomes per horizon and ranks the evidence driving them 1ms
+ ✓ tests/forecast.test.ts > forecast — determinism, summary and exports > degradingIds collects the outcomes that degrade at any horizon up to the given day, sorted 1ms
+ ✓ tests/forecast.test.ts > forecast — determinism, summary and exports > forecast CSV rows go through the same formula-neutralising writer as the report 2ms
+ ✓ tests/forecast.test.ts > forecast — determinism, summary and exports > buildReportWithForecast adds an additive, optional forecast block and leaves the base report byte-identical 13ms
+ ✓ tests/forecast.test.ts > forecast — bundled fixture > Harbourline: one outcome degrades within 30 days and five within 90 if no new evidence arrives 12ms
+ ✓ tests/forecast.test.ts > forecast — bundled fixture > Harbourline: the quarter-old acceptances lapse at the 365-day boundary, turning accepted-risk back into none 2ms
+ ✓ tests/engine.test.ts > catalog > contains exactly 25 unique CSF 2.0 subcategories across all six functions 4ms
+ ✓ tests/engine.test.ts > freshness > is fresh within validDays, aging up to 1.5x, stale beyond 0ms
+ ✓ tests/engine.test.ts > freshness > treats the exact validDays boundary as fresh and one day over as aging 0ms
+ ✓ tests/engine.test.ts > freshness > flags evidence dated in the future as stale with a negative age 0ms
+ ✓ tests/engine.test.ts > subcategory evaluation > reports none when there is no evidence 1ms
+ ✓ tests/engine.test.ts > subcategory evaluation > requires two distinct evidence types for sufficiency even when coverage is high 1ms
+ ✓ tests/engine.test.ts > subcategory evaluation > is sufficient with coverage >= 1 from two types 0ms
+ ✓ tests/engine.test.ts > subcategory evaluation > gives stale evidence zero weight and aging evidence half weight 1ms
+ ✓ tests/engine.test.ts > subcategory evaluation > is contradicted when current evidence both supports and refutes 1ms
+ ✓ tests/engine.test.ts > subcategory evaluation > is refuted when the only current evidence refutes the outcome 0ms
+ ✓ tests/engine.test.ts > subcategory evaluation > ignores a stale refutation when deciding contradiction 1ms
+ ✓ tests/engine.test.ts > subcategory evaluation > ignores evidence that does not reference the subcategory 0ms
+ ✓ tests/engine.test.ts > reviewer overlay > marks an accepted-but-weak result as an override that needs a substantive rationale 3ms
+ ✓ tests/engine.test.ts > reviewer overlay > applies a valid override and keeps the trace 1ms
+ ✓ tests/engine.test.ts > reviewer overlay > never lets a reviewer accept a contradicted outcome 0ms
+ ✓ tests/engine.test.ts > reviewer overlay > respects a not-applicable verdict and zeroes residual 0ms
+ ✓ tests/engine.test.ts > reviewer overlay > a gap verdict forces the status down even if evidence looks sufficient 0ms
+ ✓ tests/engine.test.ts > residual risk > scales exposure by priority and status 0ms
+ ✓ tests/engine.test.ts > residual risk > bands residual into low (<0.75), moderate (<1.75), high (>=1.75) 1ms
+ ✓ tests/engine.test.ts > pack evaluation and report > evaluates every catalog subcategory exactly once and rolls up per function 0ms
+ ✓ tests/engine.test.ts > pack evaluation and report > orders gaps by residual descending and excludes sufficient and n/a outcomes 9ms
+ ✓ tests/engine.test.ts > pack evaluation and report > is deterministic: same pack produces byte-identical report JSON 1ms
+ ✓ tests/engine.test.ts > pack evaluation and report > labels the framework version and the subset honestly in the report 0ms
+ ✓ tests/engine.test.ts > CSV export > neutralises spreadsheet formula injection and quotes fields 0ms
+ ✓ tests/engine.test.ts > pack validation > accepts a well-formed pack 1ms
+ ✓ tests/engine.test.ts > pack validation > rejects malformed JSON without throwing 0ms
+ ✓ tests/engine.test.ts > pack validation > rejects oversized input before parsing 0ms
+ ✓ tests/engine.test.ts > pack validation > rejects unknown subcategory ids and bad dates with paths 0ms
+ ✓ tests/engine.test.ts > pack validation > rejects validDays outside 1..3650, duplicate ids and wrong schema tag 0ms
+ ✓ tests/engine.test.ts > pack validation > rejects more than 500 evidence items 2ms
+ ✓ tests/engine.test.ts > pack validation > rejects a decision rationale over 2000 characters and strips unknown keys 0ms
+ ✓ tests/engine.test.ts > pack validation — parent review regressions > measures the size limit in UTF-8 bytes, not UTF-16 code units 1ms
+ ✓ tests/engine.test.ts > pack validation — parent review regressions > rejects evidence that references more than 25 subcategories instead of truncating 0ms
+ ✓ tests/engine.test.ts > pack validation — parent review regressions > rejects more than 25 priority entries instead of truncating 0ms
+ ✓ tests/engine.test.ts > pack validation — parent review regressions > deduplicates repeated subcategory ids within one evidence item 0ms
+ ✓ tests/engine.test.ts > not-applicable guardrails — parent review regressions > rejects a not-applicable verdict whose rationale is not substantive and keeps the computed status 0ms
+ ✓ tests/engine.test.ts > not-applicable guardrails — parent review regressions > never lets not-applicable hide a contradiction or refutation 1ms
+ ✓ tests/engine.test.ts > not-applicable guardrails — parent review regressions > accepts a substantive not-applicable scope rationale and records it as a scoping decision 0ms
+ ✓ tests/engine.test.ts > not-applicable guardrails — parent review regressions > rolls up an all-not-applicable function as not-assessed rather than low risk 1ms
+ ✓ tests/engine.test.ts > not-applicable guardrails — parent review regressions > labels residual scoring as a custom educational heuristic in the report 1ms
+ ✓ tests/engine.test.ts > CSV export — leading whitespace formula cases > neutralises formulas hidden behind leading spaces, tabs or carriage returns 0ms
+ ✓ tests/engine.test.ts > bundled fixture > validates against the subset and exercises every status at least once 13ms
+ ✓ tests/engine.test.ts > sixth-review regressions — decision freshness and zero-evidence overrides > an accepted override with zero current evidence becomes accepted-risk, not sufficient, and stays in the gap register 2ms
+ ✓ tests/engine.test.ts > sixth-review regressions — decision freshness and zero-evidence overrides > a stale accepted decision (older than the decision validity window) is ignored with a warning 0ms
+ ✓ tests/engine.test.ts > sixth-review regressions — decision freshness and zero-evidence overrides > decision freshness boundary: exactly DECISION_VALID_DAYS old still applies; one day older does not 0ms
+ ✓ tests/engine.test.ts > sixth-review regressions — decision freshness and zero-evidence overrides > a decision dated after the evaluation date is treated as stale (data-entry error), not as fresh 0ms
+ ✓ tests/engine.test.ts > sixth-review regressions — decision freshness and zero-evidence overrides > a stale gap verdict is also ignored (decisions age symmetrically) 0ms
+ ✓ tests/engine.test.ts > sixth-review regressions — decision freshness and zero-evidence overrides > accepted-risk has a documented exposure and residual band and appears in the report scoring note 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --paper ≥ 4.5 2ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --gv on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --gv on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --id on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --id on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --pr on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --pr on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --de-text on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --de-text on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --rs on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --rs on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --rc on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --rc on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --good on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --good on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --bad on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --bad on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --warn-text on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --warn-text on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --focus on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --focus on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > text-role rules use the text-safe warn/ochre tokens, not the tile fill token 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > the contrast helper agrees with a known pair (black on white = 21) 0ms
+ ✓ tests/contrast.test.ts > forecast UI (October 2026) reuses guarded tokens only > the inverted pair used by solid buttons, including "Export forecast CSV" (paper on ink), is ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > forecast UI (October 2026) reuses guarded tokens only > the forecast tile marker is a glyph that inherits the tile text colour (no colour-only meaning, no new token) 0ms
+ ✓ tests/contrast.test.ts > forecast UI (October 2026) reuses guarded tokens only > horizon selector labels use the ink text token on the paper surface 0ms
+
+ Test Files  3 passed (3)
+      Tests  102 passed (102)
+   Start at  20:37:16
+   Duration  783ms (transform 187ms, setup 0ms, import 240ms, tests 126ms, environment 0ms)
+

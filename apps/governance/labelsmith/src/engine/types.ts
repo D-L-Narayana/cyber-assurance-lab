@@ -27,13 +27,20 @@ export interface Field {
 
 export type ValueCheck =
   | 'luhn' | 'email' | 'iban' | 'phone' | 'dob' | 'apikey' | 'jwt' | 'ipv4'
-  | 'national-id' | 'icd10' | 'password-hash' | 'geo' | 'money';
+  | 'national-id' | 'icd10' | 'password-hash' | 'geo' | 'money' | 'hex-digest';
+
+/** How `nameTokens` are compared with the normalised field name (October 2026 round). */
+export type NameMatchMode = 'token' | 'substring';
 
 export interface Rule {
   id: string;
   name: string;
-  /** Lower-case substring tokens matched against the normalised field name. Not regex: user-supplied rules stay safe. */
+  /** Lower-case keywords matched against the normalised field name. Not regex: user-supplied rules stay safe. */
   nameTokens?: string[];
+  /** `token` (default): a keyword must equal a whole underscore token or a contiguous token sequence of the field name. `substring`: legacy containment. */
+  match?: NameMatchMode;
+  /** Field-name tokens (or token sequences) whose presence vetoes this rule entirely, in either match mode. */
+  exceptTokens?: string[];
   /** Built-in value shape check applied to samples. */
   valueCheck?: ValueCheck;
   /** Fraction of non-empty samples that must satisfy the value check (default 0.6). */
@@ -50,7 +57,8 @@ export interface RuleTrace {
   ruleId: string;
   name: string;
   class: DataClass;
-  outcome: 'matched' | 'not-matched' | 'skipped';
+  /** `suppressed`: the rule would have matched on the name but an exception token or an allow-list token discounted it. */
+  outcome: 'matched' | 'not-matched' | 'skipped' | 'suppressed';
   reason: string;
   weight: number;
 }

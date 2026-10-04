@@ -1,12 +1,14 @@
 import { EVENT_KINDS, TAMPER_KINDS } from './types';
 import type { CatalogItem, EventKind, OrderItem, Payload, Scalar, Scenario, Step, Tamper, TamperKind, User } from './types';
 
-export const LIMITS = { maxBytes: 96 * 1024, maxSteps: 60, maxUsers: 12, maxCatalog: 40, maxItemsPerOrder: 10, maxPayloadKeys: 12, maxStringLength: 120, maxOffsetSeconds: 86_400, maxDepth: 8, maxListLength: 500 } as const;
+export const LIMITS = { maxBytes: 96 * 1024, maxSteps: 60, maxUsers: 12, maxCatalog: 40, maxItemsPerOrder: 10, maxPayloadKeys: 12, maxStringLength: 120, maxOffsetSeconds: 86_400, maxDepth: 8, maxListLength: 500, maxMaxQty: 10_000, maxQuantityMagnitude: 1_000_000 } as const;
 
 const ID = /^[a-z0-9][a-z0-9._-]{0,63}$/i;
 const isObj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v);
 const str = (v: unknown): v is string => typeof v === 'string' && v.length <= LIMITS.maxStringLength;
 const money = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= 1_000_000;
+/** Client-stated quantities are untrusted input: the schema only bounds their magnitude; whether they are valid (positive integer ≤ maxQty) is the server's call. */
+const quantity = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v) && Math.abs(v) <= LIMITS.maxQuantityMagnitude;
 const isoDate = (v: unknown): v is string => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(v) && Number.isFinite(Date.parse(v));
 export const byteLength = (t: string) => new TextEncoder().encode(t).length;
 
@@ -53,8 +55,8 @@ function validatePayload(event: EventKind, raw: unknown, catalog: Map<string, Ca
       if (!Array.isArray(v) || v.length === 0 || v.length > LIMITS.maxItemsPerOrder) { errors.push(`${where}: items must hold 1–${LIMITS.maxItemsPerOrder} lines.`); continue; }
       const items: OrderItem[] = [];
       for (const it of v) {
-        if (!isObj(it) || !str(it.sku) || !catalog.has(it.sku) || !Number.isInteger(it.qty) || (it.qty as number) < 1 || (it.qty as number) > 99 || !money(it.unitPrice)) { errors.push(`${where}: malformed order line.`); continue; }
-        items.push({ sku: it.sku, qty: it.qty as number, unitPrice: it.unitPrice as number });
+        if (!isObj(it) || !str(it.sku) || !catalog.has(it.sku) || !quantity(it.qty) || !money(it.unitPrice)) { errors.push(`${where}: malformed order line (known sku, finite qty with |qty| ≤ ${LIMITS.maxQuantityMagnitude}, non-negative unitPrice).`); continue; }
+        items.push({ sku: it.sku, qty: it.qty, unitPrice: it.unitPrice });
       }
       out.items = items;
     } else if (['total', 'discountPercent', 'orderTotal', 'points'].includes(k)) {
@@ -93,7 +95,11 @@ export function validateScenario(input: unknown): ScenarioResult {
   for (const c of rawCatalog.slice(0, LIMITS.maxCatalog)) {
     if (!isObj(c) || !str(c.sku) || !ID.test(c.sku) || !str(c.name) || !money(c.price)) { errors.push('catalog entries need sku, name and a finite non-negative price.'); continue; }
     if (catalogMap.has(c.sku)) errors.push(`duplicate sku ${c.sku}.`);
-    const item = { sku: c.sku, name: c.name, price: c.price };
+    const item: CatalogItem = { sku: c.sku, name: c.name, price: c.price };
+    if (c.maxQty !== undefined) {
+      if (typeof c.maxQty !== 'number' || !Number.isInteger(c.maxQty) || c.maxQty < 1 || c.maxQty > LIMITS.maxMaxQty) { errors.push(`catalog ${c.sku}: maxQty must be an integer 1–${LIMITS.maxMaxQty}.`); continue; }
+      item.maxQty = c.maxQty;
+    }
     catalog.push(item); catalogMap.set(c.sku, item);
   }
 
@@ -146,6 +152,13 @@ export function validateScenario(input: unknown): ScenarioResult {
         }
         if (tamper.kind === 'other-user-object' && c.event !== 'view-order') errors.push(`${where}: other-user-object applies to view-order only.`);
         if (tamper.kind === 'price-rewrite' && c.event !== 'place-order') errors.push(`${where}: price-rewrite applies to place-order only.`);
+        if (tamper.kind === 'quantity-rewrite') {
+          if (c.event !== 'place-order') errors.push(`${where}: quantity-rewrite applies to place-order only.`);
+          if (s.tamper.value !== undefined) {
+            if (!quantity(s.tamper.value)) errors.push(`${where}: tamper.value must be a finite number with |value| ≤ ${LIMITS.maxQuantityMagnitude}.`);
+            else tamper.value = s.tamper.value;
+          }
+        }
       }
     }
     stepIds.add(s.id);

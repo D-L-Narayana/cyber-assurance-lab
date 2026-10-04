@@ -1,0 +1,104 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/assurance/graceline
+# 2026-10-04T19:41:30.881Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/assurance/graceline
+
+ ✓ tests/engine.test.ts > policy > has stricter duration, compensating-control and quorum rules for higher risk 2ms
+ ✓ tests/engine.test.ts > submit guardrails > submits a well-formed request and records history 1ms
+ ✓ tests/engine.test.ts > submit guardrails > refuses durations beyond the policy maximum for the risk level, listing every violated guardrail 0ms
+ ✓ tests/engine.test.ts > submit guardrails > requires a compensating control for high and critical, not for moderate 1ms
+ ✓ tests/engine.test.ts > submit guardrails > requires a substantive justification, an owner, and a remediation plan due before expiry 1ms
+ ✓ tests/engine.test.ts > submit guardrails > only the requester can submit; expiry must be after start 0ms
+ ✓ tests/engine.test.ts > approval quorum and separation of duties > high risk needs two approvals including a risk-owner; one approval keeps it under review 21ms
+ ✓ tests/engine.test.ts > approval quorum and separation of duties > two approvals without the required role do not activate 1ms
+ ✓ tests/engine.test.ts > approval quorum and separation of duties > critical needs both ciso and risk-owner; low needs one approval of any role 0ms
+ ✓ tests/engine.test.ts > approval quorum and separation of duties > refuses approvals by the requester or the risk owner (separation of duties) and duplicate approvers 1ms
+ ✓ tests/engine.test.ts > approval quorum and separation of duties > rejection needs a note and is terminal; withdrawal is allowed before activation only 1ms
+ ✓ tests/engine.test.ts > time: expiry, escalation, renewal > tick moves active past expiry to expired, and expired past the grace window to escalated 15ms
+ ✓ tests/engine.test.ts > time: expiry, escalation, renewal > tick is idempotent and never touches terminal or pre-approval states 0ms
+ ✓ tests/engine.test.ts > time: expiry, escalation, renewal > derive flags expiring within the warning window and counts overdue days 0ms
+ ✓ tests/engine.test.ts > time: expiry, escalation, renewal > renewal request resets approvals and parks the new date as pending; the counter moves only on approval 1ms
+ ✓ tests/engine.test.ts > time: expiry, escalation, renewal > renewal cannot extend beyond the policy maximum from the current expiry nor into the past 1ms
+ ✓ tests/engine.test.ts > time: expiry, escalation, renewal > an expired exception can be renewed; an escalated one can be closed but not renewed 4ms
+ ✓ tests/engine.test.ts > closure and remediation > closure requires substantive evidence 1ms
+ ✓ tests/engine.test.ts > closure and remediation > remediation status can be updated while active and is recorded in history 0ms
+ ✓ tests/engine.test.ts > closure and remediation > history is append-only and the input is never mutated 0ms
+ ✓ tests/engine.test.ts > prioritisation > ranks escalated critical above expiring high above active low; compensating controls reduce priority 1ms
+ ✓ tests/engine.test.ts > prioritisation > derive reports live guardrail violations on existing records (e.g. imported over-long active exceptions) 0ms
+ ✓ tests/engine.test.ts > validation > accepts a valid board 1ms
+ ✓ tests/engine.test.ts > validation > rejects oversized (UTF-8), malformed and wrong-schema input 12ms
+ ✓ tests/engine.test.ts > validation > rejects unknown states, roles and risk levels, bad dates, negative renewals and duplicate ids with paths 1ms
+ ✓ tests/engine.test.ts > validation > rejects more than 300 exceptions 6ms
+ ✓ tests/engine.test.ts > bundled fixture > validates and covers every lifecycle state after ticking to the board date 31ms
+ ✓ tests/engine.test.ts > sixth review regressions — renewal governance > only the requester or the risk owner may request a renewal 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — renewal governance > a renewal request keeps the current term: state and expiry are unchanged until the renewal is approved 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — renewal governance > an unapproved renewal still expires and escalates on schedule and stays overdue (repro gl-adverse) 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — renewal governance > approving a pending renewal to quorum applies the new expiry, increments renewals and reactivates 1ms
+ ✓ tests/engine.test.ts > sixth review regressions — renewal governance > rejecting a pending renewal clears it and leaves the record in its current state (not terminal) 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — renewal governance > approve/reject are refused on active records without a pending renewal; a second renew while one is pending is refused 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — renewal governance > the renewal cap counts approved renewals only 0ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > accepts the fully populated record as a baseline 6ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects 2026-02-30 at asOf with that exact path 1ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects 2026-02-30 at exceptions[0].requestedOn with that exact path 0ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects 2026-02-30 at exceptions[0].startOn with that exact path 0ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects 2026-02-30 at exceptions[0].expiresOn with that exact path 0ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects 2026-02-30 at exceptions[0].remediation.dueOn with that exact path 0ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects 2026-02-30 at exceptions[0].approvals[0].decidedOn with that exact path 0ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects 2026-02-30 at exceptions[0].approvals[1].decidedOn with that exact path 0ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects 2026-02-30 at exceptions[0].history[0].at with that exact path 1ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects 2026-02-30 at exceptions[0].history[3].at with that exact path 0ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects 2026-02-30 at exceptions[0].closure.closedOn with that exact path 0ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects 2026-02-30 at exceptions[0].pendingRenewal.newExpiresOn with that exact path 0ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects 2026-02-30 at exceptions[0].pendingRenewal.requestedOn with that exact path 0ms
+ ✓ tests/validation.test.ts > strict calendar dates on every date field > rejects other non-calendar or non-canonical forms and accepts real leap days only 16ms
+ ✓ tests/validation.test.ts > hostile structure > survives 20 000-deep nesting at the root, in the exceptions list and inside a record without throwing 52ms
+ ✓ tests/validation.test.ts > hostile structure > rejects non-finite numbers that JSON can smuggle in (1e400 parses to Infinity) and non-integers 1ms
+ ✓ tests/validation.test.ts > hostile structure > drops unknown keys and rebuilds records with known fields only 1ms
+ ✓ tests/properties.test.ts > tick properties over 200 seeded random (expiresOn, at) pairs > covers all three outcomes in the sample (sanity check on the generator) 4ms
+ ✓ tests/properties.test.ts > tick properties over 200 seeded random (expiresOn, at) pairs > matches the policy oracle: active until expiry, expired within the grace window, escalated after it 20ms
+ ✓ tests/properties.test.ts > tick properties over 200 seeded random (expiresOn, at) pairs > is idempotent: tick(tick(e, at), at) deep-equals tick(e, at) and returns the very same object 7ms
+ ✓ tests/properties.test.ts > tick properties over 200 seeded random (expiresOn, at) pairs > is monotone: ticking at a later date never moves a record backwards or shortens its history 19ms
+ ✓ tests/properties.test.ts > tick properties over 200 seeded random (expiresOn, at) pairs > is order-independent in its final state: ticking at two dates in either order ends where a single tick at the later date ends 25ms
+ ✓ tests/properties.test.ts > tick properties over 200 seeded random (expiresOn, at) pairs > changes nothing but state and history, appends only system ticks dated at `at`, and returns the input untouched when nothing moves 51ms
+ ✓ tests/properties.test.ts > tick properties over 200 seeded random (expiresOn, at) pairs > leaves pre-approval and terminal states alone at every random date 24ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --panel ≥ 4.5 2ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --plum on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --plum on --bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --amber on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --amber on --bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --brick on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --brick on --bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --moss on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --moss on --bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --plum-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --plum-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --plum-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --plum on --plum-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --brick on --plum-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --moss on --plum-2 ≥ 4.5 8ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on #eef1ec ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on #eef1ec ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --moss on --moss-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --slate on #e5e9f3 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --amber on --amber-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --brick on --brick-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --plum on --plum-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --brick-2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --plum ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --ink ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > the chip and surface rules use the guarded tokens 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > the contrast helper agrees with a known pair (black on white = 21) 0ms
+
+ Test Files  4 passed (4)
+      Tests  90 passed (90)
+   Start at  19:41:34
+   Duration  1.87s (transform 322ms, setup 0ms, import 407ms, tests 366ms, environment 0ms)
+

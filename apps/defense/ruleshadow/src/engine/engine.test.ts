@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { parseCidr, parsePorts, addressCount, subtractIntervals } from './net';
 import { parseRuleCsv, type Rule } from './rules';
-import { analyzeRules } from './analyze';
+import { analyzeRules, analyzeCoverage, KIND_META } from './analyze';
 import { proposeChange, applyProposals, diffRuleSets } from './change';
 import { explainRule } from './explain';
-import { toCsv, buildReport } from './report';
+import { toCsv, buildReport, findingRows } from './report';
 import { SAMPLE_RULES_CSV } from './fixtures';
 
 describe('network primitives', () => {
@@ -127,7 +127,7 @@ describe('CSV import', () => {
   it('parses the shipped fixture and bounds rule count', () => {
     const r = parseRuleCsv(SAMPLE_RULES_CSV);
     expect(r.errors).toEqual([]);
-    expect(r.rules.length).toBe(40);
+    expect(r.rules.length).toBe(41);
     const big = ['seq,id,action,src,dst,proto,ports,zoneFrom,zoneTo,enabled,owner,expires,lastHit,comment', ...Array.from({ length: 501 }, (_, i) => `${i},r${i},allow,any,any,tcp,80,a,b,true,o,,,`)].join('\n');
     expect(parseRuleCsv(big).errors.map(e => e.reason).join(' ')).toMatch(/500/);
   });
@@ -145,11 +145,32 @@ describe('CSV import', () => {
     expect(r.errors[0].reason).toMatch(/expires/);
     expect(r.errors[1].reason).toMatch(/lastHit/);
   });
-  it('golden counts for the shipped 40-rule fixture', () => {
+  it('golden counts for the shipped 41-rule fixture: the 17 original findings are unchanged and the new kind is counted separately', () => {
     const f = analyzeRules(parseRuleCsv(SAMPLE_RULES_CSV).rules, { now: NOW });
-    const kinds = new Set(f.map(x => x.kind));
-    for (const k of ['redundant', 'conflict', 'overbroad', 'expired', 'stale', 'vpn-management'] as const) expect(kinds.has(k), k).toBe(true);
-    expect(f.length).toBeGreaterThanOrEqual(8);
+    const original = f.filter(x => x.kind !== 'partially-shadowed');
+    const kinds = new Set(original.map(x => x.kind));
+    for (const k of ['redundant', 'conflict', 'overbroad', 'expired', 'stale', 'vpn-management', 'no-final-deny'] as const) expect(kinds.has(k), k).toBe(true);
+    expect(original.length).toBe(17);
+    expect((['critical', 'high', 'medium', 'low'] as const).map(s => original.filter(x => x.severity === s).length)).toEqual([1, 4, 3, 9]);
+    expect(original.filter(x => x.kind === 'redundant').map(x => x.ruleId).sort()).toEqual(['CORP-TELNET-LEGACY', 'FIN-ERP-DUP', 'ICMP-MON', 'PARTNER-SFTP', 'PARTNER-SFTP-OLD']);
+    expect(original.filter(x => x.kind === 'conflict').map(x => x.ruleId).sort()).toEqual(['DENY-DMZ-TO-CORP', 'DENY-TELNET', 'DMZ-DB-LEGACY']);
+    const partial = f.filter(x => x.kind === 'partially-shadowed');
+    expect(partial.map(x => x.ruleId)).toEqual(['FIN-ERP-WIDE']);
+    expect(partial[0]).toMatchObject({ severity: 'info', relatedRuleIds: ['FIN-ERP'], id: 'partially-shadowed:FIN-ERP-WIDE' });
+    expect(partial[0].detail).toMatch(/50%/);
+    expect(partial[0].detail).toMatch(/FIN-ERP/);
+    expect(partial[0].detail).not.toMatch(/approximate/i);
+    expect(f.length).toBe(18);
+    expect(f[f.length - 1].kind, 'info sorts last').toBe('partially-shadowed');
+    // The two safe fixture proposals (HR-PAYROLL disable, VPN-RDP-ALL narrowing to a supplied jump host) still remove
+    // exactly two findings; the info finding is manual-review and stays.
+    const rules = parseRuleCsv(SAMPLE_RULES_CSV).rules;
+    const safe = f.filter(x => (x.kind === 'expired' && x.ruleId === 'HR-PAYROLL') || (x.kind === 'vpn-management' && x.ruleId === 'VPN-RDP-ALL'))
+      .map(x => ({ ...proposeChange(rules, x, { now: NOW, jumpHost: '10.0.5.10/32' }), approved: true }));
+    expect(safe.map(p => p.op).sort()).toEqual(['disable', 'narrow']);
+    const afterFindings = analyzeRules(applyProposals(rules, safe), { now: NOW });
+    expect(afterFindings).toHaveLength(16);
+    expect(afterFindings.filter(x => x.kind !== 'partially-shadowed')).toHaveLength(15);
   });
 });
 
@@ -228,7 +249,102 @@ describe('explanations and export', () => {
     const rep = buildReport({ rules, findings: analyzeRules(rules, { now: NOW }), proposals: [], generatedAt: '2026-10-01T00:00:00Z', now: NOW });
     expect(rep.summary.manualReview).toBe(0);
     expect(rep.schema).toBe('ruleshadow.report/1');
-    expect(rep.summary.rules).toBe(40);
+    expect(rep.summary.rules).toBe(41);
     expect(rep.dataNotice).toMatch(/synthetic/i);
+  });
+  it('report and findings CSV carry per-rule coverage (additive fields)', () => {
+    const rules = parseRuleCsv(SAMPLE_RULES_CSV).rules;
+    const findings = analyzeRules(rules, { now: NOW });
+    const rep = buildReport({ rules, findings, proposals: [], generatedAt: '2026-10-01T00:00:00Z', now: NOW });
+    expect(rep.schema).toBe('ruleshadow.report/1');
+    expect(rep.coverage).toHaveLength(41);
+    expect(rep.coverage.map(c => c.ruleId)).toEqual(rules.map(r => r.id));
+    expect(rep.coverage.find(c => c.ruleId === 'FIN-ERP-WIDE')).toEqual({ ruleId: 'FIN-ERP-WIDE', enabled: true, fraction: 0.5, percent: '50%', coveringRuleIds: ['FIN-ERP'], approximate: false });
+    expect(rep.coverage.find(c => c.ruleId === 'PARTNER-SFTP-OLD')).toMatchObject({ fraction: 1, percent: '100%', coveringRuleIds: ['TEMP-ANY'] });
+    expect(rep.coverage.find(c => c.ruleId === 'CORP-DNS')).toMatchObject({ fraction: 0, percent: '0%', coveringRuleIds: [] });
+    expect(rep.coverage.find(c => c.ruleId === 'DISABLED-OLD')).toEqual({ ruleId: 'DISABLED-OLD', enabled: false, fraction: null, percent: '', coveringRuleIds: [], approximate: false });
+    expect(rep.summary.byKind['partially-shadowed']).toBe(1);
+    expect(() => JSON.stringify(rep)).not.toThrow();
+    const rows = findingRows(findings, [], {}, analyzeCoverage(rules));
+    const csv = toCsv(rows);
+    expect(csv.split('\n')[0]).toBe('"severity","kind","ruleId","relatedRuleIds","title","detail","proposal","approved","coverage"');
+    expect(rows.find(r => r.ruleId === 'FIN-ERP-WIDE')?.coverage).toBe('50%');
+    expect(rows.find(r => r.ruleId === 'PARTNER-SFTP-OLD')?.coverage).toBe('100%');
+    expect(rows.find(r => r.kind === 'no-final-deny')?.coverage).toBe('');
+  });
+});
+
+describe('partial-shadow coverage findings', () => {
+  it('raises partially-shadowed (info) when two half-space earlier rules cover a later rule that neither contains', () => {
+    const rules = [base({ id: 'A', seq: 1, src: '10.0.0.0/9' }), base({ id: 'B', seq: 2, src: '10.128.0.0/9' }), base({ id: 'R', seq: 3 })];
+    const f = analyzeRules(rules, { now: NOW });
+    expect(f.filter(x => x.ruleId === 'R' && (x.kind === 'redundant' || x.kind === 'conflict'))).toEqual([]);
+    const p = f.find(x => x.kind === 'partially-shadowed')!;
+    expect(p).toMatchObject({ id: 'partially-shadowed:R', ruleId: 'R', severity: 'info', relatedRuleIds: ['A', 'B'] });
+    expect(p.detail).toMatch(/100%/);
+    expect(p.detail).toMatch(/A.*B/);
+    expect(p.detail).not.toMatch(/approximate/i);
+    expect(KIND_META['partially-shadowed']).toMatchObject({ label: 'Partially shadowed', severity: 'info' });
+    expect(KIND_META['partially-shadowed'].explain.length).toBeGreaterThan(20);
+  });
+  it('reports coverage below the threshold without a finding, and honours a custom threshold', () => {
+    const rules = [base({ id: 'A', seq: 1, src: '10.0.0.0/10' }), base({ id: 'R', seq: 2 })];
+    expect(analyzeRules(rules, { now: NOW }).filter(x => x.kind === 'partially-shadowed')).toEqual([]);
+    expect(analyzeCoverage(rules).R).toEqual({ fraction: 0.25, coveringRuleIds: ['A'], approximate: false });
+    expect(analyzeCoverage(rules).A).toEqual({ fraction: 0, coveringRuleIds: [], approximate: false });
+    const low = analyzeRules(rules, { now: NOW, partialShadowThreshold: 0.25 }).find(x => x.kind === 'partially-shadowed')!;
+    expect(low.ruleId).toBe('R');
+    expect(low.detail).toMatch(/25%/);
+    const threeQuarters = [base({ id: 'A', seq: 1, src: '10.0.0.0/9' }), base({ id: 'B', seq: 2, src: '10.128.0.0/10' }), base({ id: 'R', seq: 3 })];
+    const p = analyzeRules(threeQuarters, { now: NOW }).find(x => x.kind === 'partially-shadowed')!;
+    expect(p.relatedRuleIds).toEqual(['A', 'B']);
+    expect(p.detail).toMatch(/75%/);
+  });
+  it('does not duplicate redundant/conflict findings and ignores zone-mismatched earlier rules', () => {
+    const contained = [base({ id: 'A', seq: 1, ports: 'any' }), base({ id: 'B', seq: 2 })];
+    const f = analyzeRules(contained, { now: NOW });
+    expect(f.find(x => x.ruleId === 'B' && x.kind === 'redundant')).toBeTruthy();
+    expect(f.filter(x => x.kind === 'partially-shadowed')).toEqual([]);
+    expect(analyzeCoverage(contained).B.fraction).toBe(1);
+    const zoned = [base({ id: 'A', seq: 1, src: '10.0.0.0/9', zoneFrom: 'guest' }), base({ id: 'B', seq: 2, src: '10.128.0.0/9', zoneFrom: 'guest' }), base({ id: 'R', seq: 3 })];
+    expect(analyzeRules(zoned, { now: NOW }).filter(x => x.kind === 'partially-shadowed')).toEqual([]);
+    expect(analyzeCoverage(zoned).R.fraction).toBe(0);
+  });
+  it('detects per-protocol assembly (tcp + udp + icmp earlier rules covering a later proto-any rule)', () => {
+    const rules = [base({ id: 'T', seq: 1, proto: 'tcp' }), base({ id: 'U', seq: 2, proto: 'udp' }), base({ id: 'C', seq: 3, proto: 'icmp', ports: 'any' }), base({ id: 'X', seq: 4, proto: 'any' })];
+    const f = analyzeRules(rules, { now: NOW });
+    expect(f.filter(x => x.ruleId === 'X' && (x.kind === 'redundant' || x.kind === 'conflict'))).toEqual([]);
+    expect(f.find(x => x.kind === 'partially-shadowed')).toMatchObject({ ruleId: 'X', relatedRuleIds: ['T', 'U', 'C'] });
+  });
+  it('flags the approximation on a hostile 300-rule slab set and stays exact on the fixture', () => {
+    const slab = (id: string, seq: number, over: Partial<Rule>) => base({ id, seq, src: 'any', dst: 'any', ports: 'any', zoneFrom: 'any', zoneTo: 'any', ...over });
+    const rules = [
+      ...Array.from({ length: 100 }, (_, i) => slab(`S${i}`, i + 1, { src: `${2 * i + 1}.0.0.0/8` })),
+      ...Array.from({ length: 100 }, (_, i) => slab(`D${i}`, 101 + i, { dst: `${2 * i + 1}.0.0.0/8` })),
+      ...Array.from({ length: 100 }, (_, i) => slab(`P${i}`, 201 + i, { ports: `${200 * i + 100}-${200 * i + 199}` })),
+      base({ id: 'T', seq: 1000, src: 'any', dst: 'any', ports: 'any' }),
+    ];
+    const started = Date.now();
+    const cov = analyzeCoverage(rules);
+    expect(Date.now() - started, 'hostile 301-rule coverage pass completes quickly').toBeLessThan(10_000);
+    expect(Object.keys(cov)).toHaveLength(301);
+    expect(cov.T.approximate).toBe(true);
+    expect(cov.T.fraction).toBeGreaterThan(0.3);
+    expect(cov.T.fraction).toBeLessThan(1);
+    expect(cov.S0, 'first slab has nothing earlier').toEqual({ fraction: 0, coveringRuleIds: [], approximate: false });
+    const f = analyzeRules(rules, { now: NOW, partialShadowThreshold: 0.25, coverage: cov });
+    const p = f.find(x => x.kind === 'partially-shadowed' && x.ruleId === 'T')!;
+    expect(p.detail).toMatch(/approximate/i);
+    expect(p.detail).toMatch(/\d+%/);
+    const fixture = parseRuleCsv(SAMPLE_RULES_CSV).rules;
+    expect(Object.values(analyzeCoverage(fixture)).every(c => !c.approximate)).toBe(true);
+  }, 20_000);
+  it('proposes manual review (no automatic change) for partially shadowed rules', () => {
+    const rules = [base({ id: 'A', seq: 1, src: '10.0.0.0/9' }), base({ id: 'B', seq: 2, src: '10.128.0.0/9' }), base({ id: 'R', seq: 3 })];
+    const f = analyzeRules(rules, { now: NOW }).find(x => x.kind === 'partially-shadowed')!;
+    const p = proposeChange(rules, f, { now: NOW });
+    expect(p).toMatchObject({ op: 'review', manualReview: true, after: null, ruleId: 'R', findingId: 'partially-shadowed:R' });
+    expect(p.rationale).toMatch(/A, B/);
+    expect(applyProposals(rules, [{ ...p, approved: true }])).toEqual(rules);
   });
 });

@@ -1,4 +1,6 @@
-/* 40 synthetic rules with known defects. Zones: corp, dmz, vpn, mgmt, internet. All addresses RFC 1918 / TEST-NET. */
+/* 41 synthetic rules with known defects. Zones: corp, dmz, vpn, mgmt, guest, internet. All addresses RFC 1918 / TEST-NET.
+ * FIN-ERP-WIDE (seq 75, added in the October 2026 round) is a /23 whose lower /24 half is already granted by FIN-ERP:
+ * no earlier rule contains it, so the containment analysis stays silent and the box-coverage pass reports exactly 50%. */
 export const SAMPLE_RULES_CSV = `seq,id,action,src,dst,proto,ports,zoneFrom,zoneTo,enabled,owner,expires,lastHit,comment
 10,CORP-DNS,allow,10.0.0.0/8,10.0.9.53/32,udp,53,corp,dmz,true,netops,,2026-09-30,Internal resolver
 20,CORP-WEB-OUT,allow,10.0.0.0/8,any,tcp,"80,443",corp,internet,true,netops,,2026-09-30,Outbound web via proxy bypass
@@ -7,6 +9,7 @@ export const SAMPLE_RULES_CSV = `seq,id,action,src,dst,proto,ports,zoneFrom,zone
 50,CORP-NTP,allow,10.0.0.0/8,10.0.9.123/32,udp,123,corp,dmz,true,netops,,2026-09-30,Time
 60,FIN-ERP,allow,10.0.4.0/24,10.0.20.15/32,tcp,8443,corp,dmz,true,finance-it,,2026-09-30,ERP front end
 70,FIN-ERP-DUP,allow,10.0.4.0/25,10.0.20.15/32,tcp,8443,corp,dmz,true,finance-it,,,Duplicate of FIN-ERP (shadowed)
+75,FIN-ERP-WIDE,allow,10.0.4.0/23,10.0.20.15/32,tcp,8443,corp,dmz,true,finance-it,,2026-09-30,Wider ERP access; the lower half is already granted by FIN-ERP (partially shadowed)
 80,HR-PAYROLL,allow,10.0.6.0/24,10.0.20.40/32,tcp,443,corp,dmz,true,hr-it,2026-06-30,2026-09-28,Temporary access for migration (expired)
 90,DEV-GIT,allow,10.0.12.0/22,10.0.30.5/32,tcp,"22,443",corp,dmz,true,platform,,2026-09-30,Git server
 100,DEV-CI,allow,10.0.12.0/22,10.0.30.6/32,tcp,8080,corp,dmz,true,platform,,2026-09-30,CI

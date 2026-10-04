@@ -125,7 +125,7 @@ describe('strict dates (review finding)', () => {
   });
 });
 
-describe('imported extensions obey the same guards as requestExtension (sixth-Fable finding)', () => {
+describe('imported extensions obey the same guards as requestExtension (sixth-review finding)', () => {
   const withExt = (ext: Record<string, unknown>, pick?: (r: typeof demo.requests[number]) => boolean) => {
     const file = JSON.parse(JSON.stringify(demo)) as typeof demo;
     const r = file.requests.find(pick ?? ((x) => x.jurisdiction === 'EU-GDPR' && !x.extension && x.stage !== 'closed'))!;
@@ -150,6 +150,18 @@ describe('imported extensions obey the same guards as requestExtension (sixth-Fa
     const res = parseCaseFile(withExt({ days: 30, reason: 'complex request', notifiedOn: base.receivedOn }).text);
     expect(res.ok).toBe(true);
     if (res.ok) expect(parseCaseFile(serializeCaseFile(res.file)).ok).toBe(true);
+  });
+});
+
+describe('imported extensions on terminal requests (historical files, documented behaviour)', () => {
+  it('still accepts a historical extension on a request that is now closed when the statutory guards hold', () => {
+    const file = JSON.parse(JSON.stringify(demo)) as typeof demo;
+    const closed = file.requests.find((r) => r.stage === 'closed')!;
+    expect(closed.jurisdiction).toBe('US-CA-CCPA'); // received 2026-08-10 → initial window ends 2026-09-24
+    (closed as unknown as Record<string, unknown>)['extension'] = { days: 20, reason: 'archived billing exports (historical record)', notifiedOn: '2026-08-20' };
+    const res = parseCaseFile(JSON.stringify(file));
+    expect(res.ok).toBe(true);
+    if (res.ok) expect(res.file.requests.find((r) => r.id === closed.id)?.extension?.days).toBe(20);
   });
 });
 

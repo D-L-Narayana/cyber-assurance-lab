@@ -19,6 +19,10 @@ The one heuristic to be upfront about: **retention inflation** matches a downstr
 - The demo fixture's seeded defects are asserted so documentation claims ("the demo shows X") are executable.
 - CSV escaping is tested with a `=HYPERLINK` payload because exports are the most likely place for a spreadsheet-side injection.
 
+## Q: Why could a purpose-drift finding not be accepted before, and what changed?
+
+A: Exceptions originally had a single `elementId`, so the acceptance step only ever compared element-subject findings; `PURPOSE_DRIFT`, `UNMAPPED_TRANSFER` and `DANGLING_FLOW` are raised against flows and simply had no route — the README listed it as a limitation. In October 2026 `RetentionException` gained an optional `subject: { kind: 'element' | 'flow', id }`; the legacy `elementId` still works and means `{ kind: 'element', id }`, so every older catalog imports unchanged. The matching rule is deliberately exact: code, kind and id must all agree. That matters for purpose drift, which is reported per flow/element pair with the subject `flow-id/element-id` — an exception for the whole flow does not blanket-accept every element it carries; you accept one element on one flow, with a rationale, an active approver and a term of at most 365 days, exactly as for element findings. The importer checks that a subject names a known element, a known flow, or a known flow *and* a known element after the slash, after normalisation, and rejects anything else with the path of the offending exception. The fixture now ships one such exception (`ex-004`, customer id flowing from the CRM to billing) and a test asserts it accepts precisely that finding and nothing else. What remains unmodelled: system-subject findings (owners, cycles) still cannot be accepted.
+
 ## Production next steps
 
 - Lineage keys on flows; column-level inventory with discovery connectors feeding the same catalog schema.

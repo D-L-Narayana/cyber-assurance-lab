@@ -46,6 +46,14 @@ describe('Firstlight app (integration, added after the UI)', () => {
     expect(screen.getByText(/Escalated to the incident lead Priya Oduya/)).toBeInTheDocument();
   });
 
+  it('lists, in text, which single changes would move the severity band', () => {
+    render(<App />);
+    const region = screen.getByRole('region', { name: /What would change the band/ });
+    expect(within(region).getAllByRole('listitem').length).toBeGreaterThan(0);
+    expect(region).toHaveTextContent(/Ease of identification/);
+    expect(region).toHaveTextContent(/→ low/);
+  });
+
   it('a containment task needs an evidence reference to be marked done', async () => {
     const user = userEvent.setup();
     render(<App />);

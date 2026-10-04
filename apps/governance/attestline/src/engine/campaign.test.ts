@@ -248,7 +248,7 @@ describe('campaign-owner routing of unrouted items', () => {
   });
 });
 
-describe('self-review guards (sixth-Fable review)', () => {
+describe('self-review guards (sixth review)', () => {
   const fresh = () => buildCampaign(base, { dormantAfterDays: 90, asOf: '2026-10-01' });
   const idOf = (c: ReturnType<typeof fresh>, eid: string) => c.items.find((i) => i.entitlement.id === eid)!.id;
   it('rejects delegation to the identity under review', () => {

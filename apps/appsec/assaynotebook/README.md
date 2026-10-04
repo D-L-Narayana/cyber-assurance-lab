@@ -8,8 +8,8 @@ Junior assessors learn payloads before they learn discipline: which observation 
 
 ## Key workflows
 
-1. **Probe by hand.** Choose one of four lab routes, set parameters and a session, send. The exchange is shown as text (never rendered) with its evidence hash. Applicable oracles report *fired* or *quiet* with a one-line reason; a fired oracle offers **Record as finding**.
-2. **Run the catalog.** Four authorised test cases execute against the selected build (v1 initial, v2 partial fix, v3 remediated). On v1 they open four findings; on v2 two; on v3 none.
+1. **Probe by hand.** Choose one of four lab routes, set parameters and a session, send. The exchange is shown as text (never rendered) with its evidence hash. Applicable oracles report *fired* or *quiet* with a one-line reason; a fired oracle offers **Record as finding**. Any HTML page — the search results or the account page — now also gets the security-headers oracle offered.
+2. **Run the catalog.** Five authorised test cases execute against the selected build (v1 initial, v2 partial fix, v3 remediated). On v1 they open five findings; on v2 three (cookie flags, stack trace, missing headers); on v3 none.
 3. **Rate and justify.** Impact × likelihood toggles drive the severity through a published matrix; the rationale is free text.
 4. **Retest.** *Request retest*, switch the lab build, *Retest now*. The original request is replayed; the oracle decides **fixed** or **still open** and the rubber stamp changes. Attempting to set those states manually is refused. *Won't fix* requires a written rationale.
 5. **Export** the notebook (`assaynotebook.report/1` JSON, session cookie values redacted) or a Markdown write-up with reproduction steps, evidence hashes, retests and remediation.
@@ -18,12 +18,12 @@ Junior assessors learn payloads before they learn discipline: which observation 
 
 ```bash
 npm ci
-npm test        # vitest, 19 engine tests
+npm test        # vitest, 24 engine tests
 npm run build   # tsc --noEmit + vite build → dist/
 npm run dev     # http://localhost:6112
 ```
 
-Node 20+. No environment variables, backend or storage APIs; refresh resets the notebook (export first).
+Node 20.19+. No environment variables, backend or storage APIs; refresh resets the notebook (export first).
 
 ## The lab application
 
@@ -35,8 +35,9 @@ Node 20+. No environment variables, backend or storage APIs; refresh resets the 
 | TC-02 | Receipt returned to a non-owner (IDOR) | v1 | 200 with `owner` ≠ session |
 | TC-03 | Session cookie without HttpOnly/Secure/SameSite | v1, v2 | Set-Cookie lacks any of the three |
 | TC-04 | Malformed id → 500 with stack trace and internal connection string | v1, v2 | 5xx body matches stack-frame pattern |
+| TC-05 | HTML page served without baseline security headers (`GET /account` as alice) | v1, v2 | rendered HTML response (`text/html`, not a redirect, non-empty body) lacks `Content-Security-Policy` or `X-Content-Type-Options`; header names matched case-insensitively |
 
-Probes are harmless by construction: the marker is a bracketed hex tag, never a script or handler. `validateLabRequest` refuses absolute URLs and protocol-relative paths with `External target refused`, bounds parameters (≤ 8, ≤ 512 printable ASCII chars) and rejects `..`.
+Probes are harmless by construction: the marker is a bracketed hex tag, never a script or handler, and the header oracle sends nothing at all — it only reads response headers. `validateLabRequest` refuses absolute URLs and protocol-relative paths with `External target refused`, bounds parameters (≤ 8, ≤ 512 printable-ASCII chars) and rejects `..`. Build v3 sends `Content-Security-Policy: default-src 'self'`, `X-Content-Type-Options: nosniff` and `Referrer-Policy: no-referrer` on every response; v1 and v2 send neither of the two the oracle requires. These are strings inside the simulated response, never real HTTP headers of this page.
 
 ## Notebook engine
 
@@ -49,16 +50,22 @@ Probes are harmless by construction: the marker is a bracketed hex tag, never a 
 * **States**: `open → retest-requested → fixed | still-open`, `open|still-open → wont-fix` (rationale ≥ 10 chars), any terminal state → `retest-requested`. `fixed`/`still-open` are reachable only through `retest()`, which replays the first evidence request on a chosen build and appends a new observation.
 * **Bounds**: 500 observations, 100 findings per notebook.
 
+## Oracles
+
+`src/engine/oracles.ts` — five declarative checks, each with its CWE/OWASP Top 10:2021 mapping, default impact/likelihood and remediation text: `reflects-unencoded` (CWE-79, A03), `cross-user-object` (CWE-639, A01), `cookie-missing-flags` (CWE-1004, A05), `stack-trace-disclosed` (CWE-209, A05) and, since October 2026, `security-headers-missing` (CWE-693 Protection Mechanism Failure, A05:2021 Security Misconfiguration, impact low, likelihood high). The header oracle applies only to *rendered* HTML (`isRenderedHtml`: `text/html` content type, status not 3xx, non-empty body) so JSON APIs and the login redirect are never flagged; it looks headers up case-insensitively (`headerValue`), because HTTP header names are case-insensitive and recorded exchanges may use any casing. `suggestOracles` offers it for every HTML page, next to the route-specific oracles.
+
 ## Architecture
 
 ```
-src/engine/  lab (target) · oracles (declarative checks + CWE/OWASP mapping) · catalog (4 cases) · notebook (state machine, hashing) · report (export, redaction)
+src/engine/  lab (target) · oracles (5 declarative checks + CWE/OWASP mapping) · catalog (5 cases) · notebook (state machine, hashing) · report (export, redaction)
 src/App.tsx  bench page + notebook page
 ```
 
 ## Tests
 
-`src/engine/__tests__/notebook.test.ts` — 20 tests (one added after the sixth-Fable review: re-rating history): each lab weakness present in the affected builds and absent in v3; refusal of external targets and oversized/traversal inputs; deterministic harmless markers; every oracle fires on v1 and is silent on v3; severity matrix; SHA-256 determinism; dedup/merge; refusal when the oracle is quiet; retest state trail (`open → retest-requested → still-open → retest-requested → fixed`); transition guards; catalog counts 4/2/0; notebook size limit; report schema, CWE ids and cookie redaction. See `EVIDENCE.md` for RED/GREEN records.
+24 tests in one file — `npx vitest run` prints `Tests  24 passed (24)`.
+
+`src/engine/__tests__/notebook.test.ts` (four tests added in the October 2026 round, one after the sixth review): each lab weakness present in the affected builds and absent in v3, including the account page's headers per build; refusal of external targets and oversized/traversal inputs; deterministic harmless markers; every oracle (`it.each` over `ORACLES`) fires on v1 and is silent on v3; the header oracle's semantics (fires when either header is missing, names the missing ones, quiet with mixed-case headers present, quiet on JSON and on redirects) and its CWE-693 metadata; `suggestOracles` offering it for HTML and not for JSON, plus the TC-05 catalog contract; severity matrix; SHA-256 determinism; dedup/merge; refusal when the oracle is quiet; retest state trail (`open → retest-requested → still-open → retest-requested → fixed`); transition guards; catalog counts 5/3/0 with the clean-case ids per build; notebook size limit; report schema, CWE ids (now including CWE-693) and cookie redaction. See `EVIDENCE.md` for RED/GREEN records.
 
 ## Data handling and safety
 
@@ -69,8 +76,9 @@ src/App.tsx  bench page + notebook page
 
 ## Limitations and unsupported cases
 
-* Four fixed weaknesses, four routes, three builds. The notebook does not discover anything; it records what the oracles check. Adding a weakness means adding an oracle and a lab behaviour.
+* Five fixed weaknesses, four routes, three builds. The notebook does not discover anything; it records what the oracles check. Adding a weakness means adding an oracle and a lab behaviour.
 * The reflection oracle detects *unencoded reflection* (a precondition for XSS), not exploitability. No payloads are generated.
+* The header oracle is a presence check for two headers on rendered HTML. It does not judge the policy's quality (a `Content-Security-Policy: default-src *` would satisfy it) and does not cover other hardening headers (frame-ancestors, Referrer-Policy, HSTS).
 * Severity is a teaching rubric; real programmes use CVSS or organisation-specific schemes.
 * No attachments, screenshots or multi-user collaboration; one notebook per tab, in memory.
 
@@ -84,7 +92,7 @@ Built in October 2026 with AI assistance for code drafting under a human-directe
 
 ## References
 
-* CWE-79, CWE-639, CWE-1004, CWE-209 (CWE 4.20): https://cwe.mitre.org/data/definitions/79.html · /639.html · /1004.html · /209.html
+* CWE-79, CWE-639, CWE-1004, CWE-209, CWE-693 (CWE 4.20): https://cwe.mitre.org/data/definitions/79.html · /639.html · /1004.html · /209.html · /693.html
 * OWASP Top 10:2021: https://owasp.org/Top10/
 
 License: MIT. Third-party notices in `THIRD_PARTY_NOTICES.md`.

@@ -163,10 +163,18 @@ export function normaliseCatalog(raw: Catalog): { catalog: Catalog; notes: Norma
   const exceptions = raw.exceptions.map((x, i) => {
     const id = normId(x.id);
     idNote(`exceptions[${i}].id`, x.id, id);
-    const elementId = normId(x.elementId);
-    idNote(`exceptions[${i}].elementId`, x.elementId, elementId);
+    const elementId = x.elementId !== undefined ? normId(x.elementId) : undefined;
+    if (x.elementId !== undefined) idNote(`exceptions[${i}].elementId`, x.elementId, elementId!);
+    const subjectId = x.subject !== undefined ? normId(x.subject.id) : undefined;
+    if (x.subject !== undefined) idNote(`exceptions[${i}].subject.id`, x.subject.id, subjectId!);
     const approvedBy = x.approvedBy !== undefined ? normId(x.approvedBy) : undefined;
-    return { ...x, id, elementId, ...(approvedBy !== undefined ? { approvedBy } : {}) };
+    return {
+      ...x,
+      id,
+      ...(elementId !== undefined ? { elementId } : {}),
+      ...(x.subject !== undefined ? { subject: { kind: x.subject.kind, id: subjectId! } } : {}),
+      ...(approvedBy !== undefined ? { approvedBy } : {}),
+    };
   });
 
   return { catalog: { ...raw, owners, systems, schedules, elements, flows, exceptions }, notes };

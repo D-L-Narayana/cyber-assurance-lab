@@ -1,6 +1,6 @@
 // Tierline decision engine: scoring, tiering, sensitivity, evidence coverage, cadence and queue. Pure.
 import { COVERAGE_RELIEF, EXCEPTION_CREDIT, EXPIRING_WINDOW_DAYS, MAX_EXCEPTION_DAYS, HARD_TRIGGERS, QUESTIONS, REQUIREMENTS, REVIEW_MONTHS, TIER_THRESHOLDS, TIER_WEIGHT } from './model';
-import type { Flip, QueueItem, QueueKind, Register, RequirementResult, Tier, Vendor, VendorAssessment } from './types';
+import type { Flip, ForecastItem, ForecastKind, QueueItem, QueueKind, Register, Requirement, RequirementResult, Tier, Vendor, VendorAssessment } from './types';
 
 const DAY = 86_400_000;
 const r2 = (n: number) => Math.round(n * 100) / 100;
@@ -100,31 +100,34 @@ export function sensitivity(answers: Record<string, string>): Flip[] {
   return flips.sort((a, b) => Math.abs(a.deltaScore) - Math.abs(b.deltaScore) || a.questionId.localeCompare(b.questionId) || a.toOptionId.localeCompare(b.toOptionId));
 }
 
-export function requirementResults(vendor: Vendor, tier: Tier, asOf: string): RequirementResult[] {
-  return REQUIREMENTS[tier].map((req) => {
-    const items = vendor.evidence.filter((e) => e.type === req.type).sort((a, b) => b.issuedOn.localeCompare(a.issuedOn));
-    // Evidence dated after the assessment date cannot be relied on (data-entry error or not yet issued).
-    const future = items.filter((e) => e.issuedOn > asOf);
-    const usable = items.filter((e) => e.issuedOn <= asOf);
-    const newest = usable[0];
-    if (newest) {
-      const months = Math.min(newest.validMonths, req.validMonths);
-      const expiresOn = addMonths(newest.issuedOn, months);
-      const daysLeft = daysBetween(asOf, expiresOn);
-      if (daysLeft >= 0) {
-        return { type: req.type, state: daysLeft <= EXPIRING_WINDOW_DAYS ? 'expiring' : 'valid', evidenceId: newest.id, expiresOn, daysLeft, credit: 1 };
-      }
-      const exc = exceptionResult(vendor, req.type, asOf);
-      if (exc) return exc;
-      return { type: req.type, state: 'expired', evidenceId: newest.id, expiresOn, daysLeft, credit: 0 };
+/** One requirement's state for a vendor on a given date: newest usable item wins; the requirement's validity caps the item's. */
+function requirementResult(vendor: Vendor, req: Requirement, asOf: string): RequirementResult {
+  const items = vendor.evidence.filter((e) => e.type === req.type).sort((a, b) => b.issuedOn.localeCompare(a.issuedOn));
+  // Evidence dated after the assessment date cannot be relied on (data-entry error or not yet issued).
+  const future = items.filter((e) => e.issuedOn > asOf);
+  const usable = items.filter((e) => e.issuedOn <= asOf);
+  const newest = usable[0];
+  if (newest) {
+    const months = Math.min(newest.validMonths, req.validMonths);
+    const expiresOn = addMonths(newest.issuedOn, months);
+    const daysLeft = daysBetween(asOf, expiresOn);
+    if (daysLeft >= 0) {
+      return { type: req.type, state: daysLeft <= EXPIRING_WINDOW_DAYS ? 'expiring' : 'valid', evidenceId: newest.id, expiresOn, daysLeft, credit: 1 };
     }
     const exc = exceptionResult(vendor, req.type, asOf);
     if (exc) return exc;
-    if (future.length) return { type: req.type, state: 'future-dated', evidenceId: future[future.length - 1].id, expiresOn: future[future.length - 1].issuedOn, daysLeft: daysBetween(asOf, future[future.length - 1].issuedOn), credit: 0 };
-    const expiredExc = vendor.exceptions.filter((x) => x.evidenceType === req.type).sort((a, b) => b.expiresOn.localeCompare(a.expiresOn))[0];
-    if (expiredExc) return { type: req.type, state: 'exception-expired', exceptionId: expiredExc.id, expiresOn: expiredExc.expiresOn, daysLeft: daysBetween(asOf, expiredExc.expiresOn), credit: 0 };
-    return { type: req.type, state: 'missing', credit: 0 };
-  });
+    return { type: req.type, state: 'expired', evidenceId: newest.id, expiresOn, daysLeft, credit: 0 };
+  }
+  const exc = exceptionResult(vendor, req.type, asOf);
+  if (exc) return exc;
+  if (future.length) return { type: req.type, state: 'future-dated', evidenceId: future[future.length - 1].id, expiresOn: future[future.length - 1].issuedOn, daysLeft: daysBetween(asOf, future[future.length - 1].issuedOn), credit: 0 };
+  const expiredExc = vendor.exceptions.filter((x) => x.evidenceType === req.type).sort((a, b) => b.expiresOn.localeCompare(a.expiresOn))[0];
+  if (expiredExc) return { type: req.type, state: 'exception-expired', exceptionId: expiredExc.id, expiresOn: expiredExc.expiresOn, daysLeft: daysBetween(asOf, expiredExc.expiresOn), credit: 0 };
+  return { type: req.type, state: 'missing', credit: 0 };
+}
+
+export function requirementResults(vendor: Vendor, tier: Tier, asOf: string): RequirementResult[] {
+  return REQUIREMENTS[tier].map((req) => requirementResult(vendor, req, asOf));
 }
 
 /** Active exception → half credit; an exception running past the policy cap → no credit, reported. */
@@ -211,6 +214,81 @@ export function buildQueue(register: Register): QueueItem[] {
     else if (a.reviewDueOn && daysBetween(asOf, a.reviewDueOn) <= EXPIRING_WINDOW_DAYS) push(v, a.tier, 'review-due-soon', `Periodic review due ${a.reviewDueOn}.`, a.reviewDueOn);
   }
   return items.sort((x, y) => y.priority - x.priority || x.vendorName.localeCompare(y.vendorName) || x.kind.localeCompare(y.kind));
+}
+
+// ---- Forecast (October 2026 round) ----
+
+export const DEFAULT_FORECAST_DAYS = 180;
+export const FORECAST_HORIZONS: readonly number[] = [90, 180, 365];
+
+/**
+ * Dates on which a requirement's state can change: evidence becomes usable (its issuedOn) or its credit ends (expiry + 1);
+ * an exception ends (expiresOn + 1) or comes within the policy cap (expiresOn − MAX_EXCEPTION_DAYS). Every date comparison
+ * in `requirementResult` flips on one of these, so the state is constant between them and walking them is an exact
+ * simulation with no per-day cost (≤ 2 dates per evidence item + 2 per exception, both capped by the validator).
+ */
+function changeDates(vendor: Vendor, req: Requirement): string[] {
+  const dates = new Set<string>();
+  for (const e of vendor.evidence) {
+    if (e.type !== req.type) continue;
+    dates.add(e.issuedOn);
+    dates.add(addDays(addMonths(e.issuedOn, Math.min(e.validMonths, req.validMonths)), 1));
+  }
+  for (const x of vendor.exceptions) {
+    if (x.evidenceType !== req.type) continue;
+    dates.add(addDays(x.expiresOn, 1));
+    dates.add(addDays(x.expiresOn, -MAX_EXCEPTION_DAYS));
+  }
+  return [...dates].sort();
+}
+
+const FORECAST_ORDER: Record<ForecastKind, number> = { 'evidence-lapses': 0, 'exception-expires': 1, 'review-due': 2 };
+
+/**
+ * What will lapse within `horizonDays` of `asOf` if nothing new is filed and no review is held: for every requirement that
+ * earns credit on `asOf`, the first date on which that credit falls below today's level (evidence credit ending → kind
+ * `evidence-lapses`; an active exception ending → `exception-expires`), plus periodic reviews falling due (`review-due`).
+ * Items that have already lapsed belong to the live queue (`buildQueue`) and never appear here; items the live queue
+ * already flags as expiring / due soon do appear, with their date. `lapsesOn` is the last credited day (or the review due
+ * date) and `daysUntil` counts from `asOf`; both are inclusive of the horizon. The forecast uses the `asOf` argument, not
+ * `register.asOf`. Sorted by lapsesOn, then vendor name, then kind (deterministic for any input order). A non-finite or
+ * negative horizon falls back to DEFAULT_FORECAST_DAYS; fractions are floored.
+ */
+export function forecastQueue(register: Register, asOf: string, horizonDays: number = DEFAULT_FORECAST_DAYS): ForecastItem[] {
+  const horizon = Number.isFinite(horizonDays) && horizonDays >= 0 ? Math.floor(horizonDays) : DEFAULT_FORECAST_DAYS;
+  const end = addDays(asOf, horizon);
+  const items: ForecastItem[] = [];
+  for (const v of register.vendors) {
+    const a = assessVendor(v, asOf);
+    const push = (kind: ForecastKind, detail: string, lapsesOn: string) => items.push({ vendorId: v.id, vendorName: v.name, tier: a.tier, kind, detail, lapsesOn, daysUntil: daysBetween(asOf, lapsesOn) });
+    for (const req of REQUIREMENTS[a.tier]) {
+      const now = requirementResult(v, req, asOf);
+      if (now.credit <= 0) continue; // nothing is held today, so nothing can lapse; the live queue already lists it
+      for (const d of changeDates(v, req)) {
+        if (d <= asOf) continue;
+        const lapsesOn = addDays(d, -1);
+        if (lapsesOn > end) break;
+        const then = requirementResult(v, req, d);
+        if (then.credit >= now.credit) continue;
+        const before = lapsesOn === asOf ? now : requirementResult(v, req, lapsesOn);
+        const after = then.state === 'exception' ? `exception ${then.exceptionId} (half credit)` : then.state;
+        if (before.state === 'exception') push('exception-expires', `Exception ${before.exceptionId} for ${req.type} ends ${lapsesOn}; from ${d} the requirement is ${after}.`, lapsesOn);
+        else push('evidence-lapses', `${req.type} (${before.evidenceId}) is credited through ${lapsesOn}; from ${d} the requirement is ${after}.`, lapsesOn);
+        break;
+      }
+    }
+    if (a.reviewDueOn && !a.reviewOverdue && a.reviewDueOn <= end) {
+      push('review-due', `Periodic review due ${a.reviewDueOn} (${REVIEW_MONTHS[a.tier]}-month cadence for tier ${a.tier}; last review ${v.lastReviewOn}).`, a.reviewDueOn);
+    }
+  }
+  return items.sort((x, y) => x.lapsesOn.localeCompare(y.lapsesOn) || x.vendorName.localeCompare(y.vendorName) || FORECAST_ORDER[x.kind] - FORECAST_ORDER[y.kind] || x.detail.localeCompare(y.detail));
+}
+
+export function forecastToCsvRows(items: ForecastItem[]): (string | number)[][] {
+  return [
+    ['vendorId', 'vendor', 'tier', 'kind', 'detail', 'lapsesOn', 'daysUntil'],
+    ...items.map((i) => [i.vendorId, i.vendorName, i.tier, i.kind, i.detail, i.lapsesOn, i.daysUntil]),
+  ];
 }
 
 export function toCsv(rows: (string | number)[][]): string {

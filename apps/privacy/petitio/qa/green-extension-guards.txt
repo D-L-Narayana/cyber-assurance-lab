@@ -1,0 +1,93 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/privacy/petitio
+# 2026-10-04T19:31:16.786Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/privacy/petitio
+
+ ✓ src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > loads the demo docket sorted by urgency with the overdue request first 753ms
+ ✓ src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > explains why sending to review is blocked and lets the analyst record the missing lookup 2187ms
+ ✓ src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > surfaces the refusal when an unjustified hold blocks the response 956ms
+ ✓ src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > rejects an invalid pasted case file with a readable error and keeps the session 1763ms
+ ✓ src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > marks the duplicate access request in the docket 293ms
+ ✓ src/App.test.tsx > Petitio app (integration, written after the UI as regression coverage) > refuses an extension whose notice date is after the as-of date and shows the engine message 1825ms
+ ✓ src/engine/audit.test.ts > hash-chained audit log > links each entry to the previous hash and verifies 54ms
+ ✓ src/engine/audit.test.ts > hash-chained audit log > detects a tampered detail field 27ms
+ ✓ src/engine/audit.test.ts > hash-chained audit log > detects a removed entry in the middle 3ms
+ ✓ src/engine/audit.test.ts > hash-chained audit log > is deterministic for identical inputs 4ms
+ ✓ src/engine/audit.test.ts > case file import > accepts the bundled demo fixture and round-trips through serialize 26ms
+ ✓ src/engine/audit.test.ts > case file import > rejects invalid JSON with a readable error 0ms
+ ✓ src/engine/audit.test.ts > case file import > rejects files above the byte limit before parsing 61ms
+ ✓ src/engine/audit.test.ts > case file import > rejects the wrong schema marker and unknown enum values 1ms
+ ✓ src/engine/audit.test.ts > case file import > rejects too many requests and excessive nesting 79ms
+ ✓ src/engine/audit.test.ts > case file import > rejects duplicate request ids and malformed dates 1ms
+ ✓ src/engine/audit.test.ts > case file import > strips unknown top-level and request-level properties instead of carrying them along 1ms
+ ✓ src/engine/audit.test.ts > hostile nesting (review finding) > returns a validation error, not a RangeError, for 20,000 nested arrays inside the byte limit 20ms
+ ✓ src/engine/audit.test.ts > strict dates (review finding) > rejects impossible calendar dates that match the YYYY-MM-DD pattern 30ms
+ ✓ src/engine/audit.test.ts > imported extensions obey the same guards as requestExtension (sixth-review finding) > rejects a 300-day extension on a GDPR request and names the field and the maximum 9ms
+ ✓ src/engine/audit.test.ts > imported extensions obey the same guards as requestExtension (sixth-review finding) > rejects a notice dated before receipt, after the initial window, a blank reason and a non-integer day count 2ms
+ ✓ src/engine/audit.test.ts > imported extensions obey the same guards as requestExtension (sixth-review finding) > still accepts an extension within the profile maximum and round-trips it 1ms
+ ✓ src/engine/audit.test.ts > imported extensions on terminal requests (historical files, documented behaviour) > still accepts a historical extension on a request that is now closed when the statutory guards hold 1ms
+ ✓ src/engine/audit.test.ts > cross-field extension arithmetic only runs on valid inputs (regression) > an invalid jurisdiction with an extension returns ok:false instead of throwing 1ms
+ ✓ src/engine/audit.test.ts > cross-field extension arithmetic only runs on valid inputs (regression) > an inherited object-property name as jurisdiction (constructor, toString, __proto__) returns ok:false instead of throwing 30ms
+ ✓ src/engine/audit.test.ts > cross-field extension arithmetic only runs on valid inputs (regression) > a malformed receivedOn or notifiedOn with an extension returns ok:false instead of throwing 2ms
+ ✓ src/engine/reconcile.test.ts > findDuplicates > flags a later request of the same type from the same pseudonym within the window 26ms
+ ✓ src/engine/reconcile.test.ts > findDuplicates > matches on normalised email when pseudonyms differ 5ms
+ ✓ src/engine/reconcile.test.ts > findDuplicates > ignores different request types, rejected originals and requests outside the window 0ms
+ ✓ src/engine/reconcile.test.ts > findDuplicates > is order independent 0ms
+ ✓ src/engine/reconcile.test.ts > buildResponsePacket > redacts third-party fields and keeps the rest 1ms
+ ✓ src/engine/reconcile.test.ts > buildResponsePacket > withholds a whole system when its subject email conflicts with the requester 0ms
+ ✓ src/engine/reconcile.test.ts > buildResponsePacket > omits systems where nothing was found and marks the packet partial when anything was withheld 0ms
+ ✓ src/engine/reconcile.test.ts > buildResponsePacket > turns active holds into exclusions but ignores released holds 0ms
+ ✓ src/engine/reconcile.test.ts > buildResponsePacket > is complete when nothing is redacted, excluded or in conflict 0ms
+ ✓ src/engine/deadline.test.ts > calendar arithmetic > adds calendar days across a month boundary 2ms
+ ✓ src/engine/deadline.test.ts > calendar arithmetic > adds a calendar month to the corresponding date 0ms
+ ✓ src/engine/deadline.test.ts > calendar arithmetic > falls back to the last day when the next month is shorter (ICO-style rule) 0ms
+ ✓ src/engine/deadline.test.ts > calendar arithmetic > counts whole days between two dates, signed 0ms
+ ✓ src/engine/deadline.test.ts > calendar arithmetic > day arithmetic round-trips for any date and offset (property) 32ms
+ ✓ src/engine/deadline.test.ts > jurisdiction profiles > encodes the GDPR one-month window with a two-month extension 1ms
+ ✓ src/engine/deadline.test.ts > jurisdiction profiles > encodes the CCPA 45-day window with a single 45-day extension 0ms
+ ✓ src/engine/deadline.test.ts > assessDeadline > computes a GDPR statutory due date one month after receipt 0ms
+ ✓ src/engine/deadline.test.ts > assessDeadline > computes a CCPA due date 45 days after receipt 0ms
+ ✓ src/engine/deadline.test.ts > assessDeadline > marks a request at-risk inside the final five days 0ms
+ ✓ src/engine/deadline.test.ts > assessDeadline > marks a request overdue after the effective due date 0ms
+ ✓ src/engine/deadline.test.ts > assessDeadline > reports closed and rejected requests without a live clock 0ms
+ ✓ src/engine/deadline.test.ts > assessDeadline > uses the extended due date once an extension is recorded 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension input validation (review finding) > rejects non-finite or non-integer day counts 1ms
+ ✓ src/engine/deadline.test.ts > requestExtension input validation (review finding) > rejects a blank reason 12ms
+ ✓ src/engine/deadline.test.ts > requestExtension input validation (review finding) > rejects a malformed notice date or one before the request was received 1ms
+ ✓ src/engine/deadline.test.ts > requestExtension > rejects a GDPR extension notified after the first month has ended 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension > rejects a second extension 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension > rejects a CCPA extension longer than 45 days 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension > allows a shorter CCPA extension and records the days 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension stage and as-of guards (October 2026 upgrade round) > refuses to extend a closed request with INVALID_TRANSITION 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension stage and as-of guards (October 2026 upgrade round) > refuses to extend a rejected request with INVALID_TRANSITION 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension stage and as-of guards (October 2026 upgrade round) > reports the terminal stage before the already-extended guard 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension stage and as-of guards (October 2026 upgrade round) > refuses a notice dated after the as-of date with INVALID_EXTENSION_INPUT 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension stage and as-of guards (October 2026 upgrade round) > accepts a notice dated on or before the as-of date 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension stage and as-of guards (October 2026 upgrade round) > keeps the previous behaviour when no as-of date is supplied (a future notice is not checked) 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension stage and as-of guards (October 2026 upgrade round) > refuses a malformed as-of date as INVALID_EXTENSION_INPUT instead of throwing a RangeError 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension stage and as-of guards (October 2026 upgrade round) > still reports the statutory refusal first when the notice is both after the initial window and after the as-of date 0ms
+ ✓ src/engine/deadline.test.ts > requestExtension stage and as-of guards (October 2026 upgrade round) > every notice inside the initial window but after the as-of date is refused, every earlier one accepted (property) 33ms
+ ✓ src/engine/workflow.test.ts > transition > moves received -> identity-check and records history 39ms
+ ✓ src/engine/workflow.test.ts > transition > does not mutate the input request 1ms
+ ✓ src/engine/workflow.test.ts > transition > rejects an action that is not valid for the current stage 9ms
+ ✓ src/engine/workflow.test.ts > transition > a failed identity attempt stays in identity-check and counts the attempt 0ms
+ ✓ src/engine/workflow.test.ts > transition > exhausting identity attempts rejects the request with identity-unverified 0ms
+ ✓ src/engine/workflow.test.ts > transition > cannot begin collection without a verified identity 0ms
+ ✓ src/engine/workflow.test.ts > transition > records a system result and replaces a previous result for the same system 13ms
+ ✓ src/engine/workflow.test.ts > transition > refuses to send to review until every system of record has been looked up 1ms
+ ✓ src/engine/workflow.test.ts > transition > a hold without a written justification blocks the response 1ms
+ ✓ src/engine/workflow.test.ts > transition > a justified hold allows a (partial) response 0ms
+ ✓ src/engine/workflow.test.ts > transition > releasing an unknown hold fails loudly 0ms
+ ✓ src/engine/workflow.test.ts > transition > closing sets closedOn from the context timestamp 0ms
+ ✓ src/engine/workflow.test.ts > transition > reject requires a reason and is terminal 0ms
+ ✓ src/engine/workflow.test.ts > availableActions > explains why blocked actions are blocked 16ms
+ ✓ src/engine/workflow.test.ts > availableActions > offers nothing for terminal stages 0ms
+
+ Test Files  5 passed (5)
+      Tests  79 passed (79)
+   Start at  19:31:19
+   Duration  28.11s (transform 1.54s, setup 1.89s, import 1.86s, tests 8.35s, environment 12.66s)
+

@@ -4,6 +4,10 @@ export const SEVERITIES: Severity[] = ['critical', 'high', 'medium', 'low'];
 export interface PackageRecord { name: string; version: string; license: string; dependencies: Record<string, string>; deprecated?: boolean; hasInstallScript?: boolean }
 export interface Advisory { id: string; package: string; vulnerable: string; patched: string; severity: Severity; title: string; cwe?: string }
 export interface Policy { licenses: { allow: string[]; review: string[]; deny: string[] }; blockSeverity: Severity; flagInstallScripts: boolean; flagDeprecated: boolean }
+/** A declared dependency whose range the semver subset cannot parse (npm: alias, file:, link:, git, tag…); kept as an unresolved edge, never matched. */
+export interface UnparsableEdge { from: string; name: string; range: string }
+/** Provenance of a snapshot produced by the offline package-lock.json converter. */
+export interface LockSource { kind: 'package-lock.json'; lockfileVersion: 2 | 3; includeDev: boolean; notes: string[] }
 export interface Lockgraph {
   schema: 'rootstock.lockgraph/1';
   name: string;
@@ -14,11 +18,19 @@ export interface Lockgraph {
   registry: Record<string, string[]>;
   advisories: Advisory[];
   policy: Policy;
+  unparsable?: UnparsableEdge[];
+  source?: LockSource;
 }
 
-export interface Edge { from: string; name: string; range: string }
-export interface GraphNode { id: string; pkg: PackageRecord; parents: Edge[]; children: { to: string; range: string }[]; paths: string[][]; depth: number; isDirect: boolean }
-export interface Graph { nodes: Map<string, GraphNode>; unresolved: Edge[]; directIds: string[] }
+export interface Edge { from: string; name: string; range: string; reason?: string }
+export interface GraphNode { id: string; pkg: PackageRecord; parents: Edge[]; children: { to: string; range: string }[]; paths: string[][]; roots: string[]; depth: number; isDirect: boolean }
+export interface Graph { nodes: Map<string, GraphNode>; unresolved: Edge[]; directIds: string[]; truncated: boolean; expansions: number }
+
+/** Splits `name@version` (scoped names included: `@scope/name@1.2.3`). */
+export function splitId(id: string): { name: string; version: string } {
+  const at = id.lastIndexOf('@');
+  return at <= 0 ? { name: id, version: '' } : { name: id.slice(0, at), version: id.slice(at + 1) };
+}
 
 export type Reachability = 'known' | 'inferred' | 'unknown';
 export type LicenseVerdict = 'allow' | 'review' | 'deny' | 'unknown';
@@ -41,5 +53,6 @@ export interface Review {
   rows: ReviewRow[];
   unresolved: Edge[];
   summary: { packages: number; vulnerable: number; blocking: number; licenseDeny: number; licenseReview: number; unknownLicense: number; unresolvedEdges: number; reachabilityUnknown: number; flagged: number };
-  notes: { reachability: string; severity: string; data: string };
+  notes: { reachability: string; severity: string; data: string; traversal: string };
+  truncated: boolean;
 }

@@ -6,11 +6,11 @@
  * Hashes use SHA-256 via Web Crypto (available in modern browsers and Node 20).
  */
 import type {
-  ChainVerification, DisposalAction, DueItem, Fixture, Hold, Plan, PlanItem, Receipt, Reconciliation, RecordRow, Schedule,
+  ChainVerification, DisposalAction, DueItem, Fixture, Hold, HoldAction, HoldEvent, Plan, PlanItem, Receipt, Reconciliation, RecordRow, Schedule,
 } from './types';
 import { addDays, daysBetween, isIsoDate, toCsv } from './safe';
 
-export const LIMITS = { systems: 50, schedules: 100, records: 5000, holds: 200, holdRecordIds: 500 };
+export const LIMITS = { systems: 50, schedules: 100, records: 5000, holds: 200, holdRecordIds: 500, holdHistory: 2000 };
 export const GENESIS = '0'.repeat(64);
 
 export async function sha256Hex(text: string): Promise<string> {
@@ -35,6 +35,65 @@ export function holdIsActive(h: Hold, asOf: string): boolean {
 
 export function activeHoldsFor(r: RecordRow, holds: Hold[], asOf: string): Hold[] {
   return holds.filter((h) => holdIsActive(h, asOf) && holdApplies(h, r));
+}
+
+/* ----------------------------- guarded hold release / reinstatement ----------------------------- */
+
+export interface HoldActionInput { holdId: string; on: string; actor: string; reason: string }
+export type HoldActionResult = { ok: true; fixture: Fixture } | { ok: false; error: string };
+export const HOLD_ACTOR_MAX = 120;
+export const HOLD_REASON_MIN = 10;
+
+type HoldActionChecked =
+  | { ok: true; hold: Hold; on: string; actor: string; reason: string; history: HoldEvent[] }
+  | { ok: false; error: string };
+
+/** Shared guards: strict date, actor 1–120 chars, reason ≥ 10 chars, trail cap, known hold. Never throws. */
+function checkHoldAction(fixture: Fixture, input: HoldActionInput): HoldActionChecked {
+  const on = typeof input.on === 'string' ? input.on.trim() : '';
+  if (!isIsoDate(on)) return { ok: false, error: `Effective date must be a real calendar date (YYYY-MM-DD); got "${String(input.on).slice(0, 30)}".` };
+  const actor = typeof input.actor === 'string' ? input.actor.trim() : '';
+  if (actor.length < 1 || actor.length > HOLD_ACTOR_MAX) return { ok: false, error: `Actor is required (1–${HOLD_ACTOR_MAX} characters, who is asking for this change).` };
+  const reason = typeof input.reason === 'string' ? input.reason.trim() : '';
+  if (reason.length < HOLD_REASON_MIN) return { ok: false, error: `Reason must be at least ${HOLD_REASON_MIN} characters (got ${reason.length}); say why the hold changes.` };
+  const history = fixture.holdHistory ?? [];
+  if (history.length >= LIMITS.holdHistory) return { ok: false, error: `Hold history is full: the fixture limit is ${LIMITS.holdHistory} events. Export the audit bundle and start a new fixture.` };
+  const hold = fixture.holds.find((h) => h.id === input.holdId);
+  if (!hold) return { ok: false, error: `Unknown hold "${String(input.holdId).slice(0, 60)}".` };
+  return { ok: true, hold, on, actor, reason, history };
+}
+
+function withHoldEvent(fixture: Fixture, c: Extract<HoldActionChecked, { ok: true }>, action: HoldAction, holds: Hold[]): Fixture {
+  const event: HoldEvent = { seq: c.history.length + 1, holdId: c.hold.id, action, on: c.on, actor: c.actor, reason: c.reason };
+  return { ...fixture, holds, holdHistory: [...c.history, event] };
+}
+
+/**
+ * Release a hold as of `on`. Refuses unknown holds, holds that already carry a release date (reinstate first if the
+ * date must change), and dates before the hold was placed. Returns a new fixture (input untouched) with
+ * `releasedOn = on` and a `release` event appended to `holdHistory`.
+ */
+export function releaseHold(fixture: Fixture, input: HoldActionInput): HoldActionResult {
+  const c = checkHoldAction(fixture, input);
+  if (!c.ok) return c;
+  if (c.hold.releasedOn !== null) return { ok: false, error: `Hold ${c.hold.id} is already released (on ${c.hold.releasedOn}); reinstate it first if the release date must change.` };
+  if (Date.parse(c.on) < Date.parse(c.hold.placedOn)) return { ok: false, error: `Hold ${c.hold.id} cannot be released on ${c.on}, before it was placed (${c.hold.placedOn}).` };
+  const holds = fixture.holds.map((h) => (h.id === c.hold.id ? { ...h, releasedOn: c.on } : h));
+  return { ok: true, fixture: withHoldEvent(fixture, c, 'release', holds) };
+}
+
+/**
+ * Reinstate a released hold as of `on`. Refuses holds that are not released and dates before the release date.
+ * Clears `releasedOn` (the original `placedOn` is preserved; the trail records when the hold came back) and appends a
+ * `reinstate` event. Reinstating on the release day itself is allowed.
+ */
+export function reinstateHold(fixture: Fixture, input: HoldActionInput): HoldActionResult {
+  const c = checkHoldAction(fixture, input);
+  if (!c.ok) return c;
+  if (c.hold.releasedOn === null) return { ok: false, error: `Hold ${c.hold.id} is not released; there is nothing to reinstate.` };
+  if (Date.parse(c.on) < Date.parse(c.hold.releasedOn)) return { ok: false, error: `Hold ${c.hold.id} cannot be reinstated on ${c.on}, before its release date (${c.hold.releasedOn}).` };
+  const holds = fixture.holds.map((h) => (h.id === c.hold.id ? { ...h, releasedOn: null } : h));
+  return { ok: true, fixture: withHoldEvent(fixture, c, 'reinstate', holds) };
 }
 
 /* ----------------------------- due dates ----------------------------- */
@@ -199,8 +258,34 @@ export function validateFixture(input: unknown): FixtureValidation {
       if (sc.recordIds !== undefined && (!Array.isArray(sc.recordIds) || sc.recordIds.length > LIMITS.holdRecordIds || !sc.recordIds.every((x) => typeof x === 'string'))) errors.push(`hold ${h.id}: recordIds must be up to ${LIMITS.holdRecordIds} strings`);
     }
   }
+  // holdHistory (October 2026, additive): absent in legacy fixtures; when present every event is checked and rebuilt
+  // field by field so unknown keys are dropped. seq must run 1..n without gaps.
+  let holdHistory: HoldEvent[] | undefined;
+  if (f.holdHistory !== undefined) {
+    const hh = f.holdHistory;
+    if (!Array.isArray(hh)) errors.push('holdHistory must be an array when present.');
+    else if (hh.length > LIMITS.holdHistory) errors.push(`holdHistory has ${hh.length} events; limit is ${LIMITS.holdHistory}.`);
+    else {
+      const holdIds = new Set(holds.map((h) => h.id).filter((x): x is string => typeof x === 'string'));
+      const clean: HoldEvent[] = [];
+      hh.forEach((e, i) => {
+        const p = `holdHistory[${i}]`;
+        if (!isRow(e)) { errors.push(`${p} is not an object.`); return; }
+        if (e.seq !== i + 1) errors.push(`${p}: seq must be ${i + 1} (contiguous from 1).`);
+        if (!str(e.holdId) || !holdIds.has(e.holdId)) errors.push(`${p}: hold ${String(e.holdId)} is unknown.`);
+        if (e.action !== 'release' && e.action !== 'reinstate') errors.push(`${p}: action must be release or reinstate.`);
+        if (!isIsoDate(e.on)) errors.push(`${p}: on must be a real calendar date.`);
+        if (!str(e.actor, HOLD_ACTOR_MAX)) errors.push(`${p}: actor must be 1–${HOLD_ACTOR_MAX} characters.`);
+        if (!str(e.reason, 1000)) errors.push(`${p}: reason must be a string of 1–1000 characters.`);
+        clean.push({ seq: e.seq as number, holdId: e.holdId as string, action: e.action as HoldAction, on: e.on as string, actor: e.actor as string, reason: e.reason as string });
+      });
+      holdHistory = clean;
+    }
+  }
   if (errors.length > 25) errors.splice(25, errors.length - 25, `… ${errors.length - 25} more`);
-  return errors.length ? { ok: false, errors } : { ok: true, fixture: f as unknown as Fixture };
+  if (errors.length) return { ok: false, errors };
+  const fixture = f as unknown as Fixture;
+  return { ok: true, fixture: holdHistory ? { ...fixture, holdHistory } : fixture };
 }
 
 /* ----------------------------- export ----------------------------- */
@@ -214,6 +299,8 @@ export interface AuditExport {
   receipts: Receipt[];
   chain: { ok: boolean; note: string };
   holds: Fixture['holds'];
+  /** Release/reinstatement trail (additive, October 2026); `[]` for fixtures that never changed a hold. */
+  holdHistory: HoldEvent[];
   disclaimer: string;
 }
 
@@ -228,6 +315,7 @@ export async function exportAudit(fixture: Fixture, plans: Plan[], receipts: Rec
     receipts,
     chain: { ok: chain.ok, note: chain.reason ?? `${chain.checked} receipts verified at export time` },
     holds: fixture.holds,
+    holdHistory: fixture.holdHistory ?? [],
     disclaimer: 'Simulated disposal of synthetic records. No system was modified. Not legal advice.',
   };
   const csv = toCsv(['seq', 'plan_id', 'record_id', 'system', 'action', 'executed_on', 'record_hash', 'prev_hash', 'receipt_hash'],

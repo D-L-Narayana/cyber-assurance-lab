@@ -5,6 +5,7 @@
   "description": "Educational data inventory and retention graph: normalises a synthetic data catalog, builds a system-to-system lineage graph, detects orphaned elements, stale owners, retention inflation, purpose drift and unmapped transfers, and schedules retention reviews. Browser-local synthetic data only.",
   "license": "MIT",
   "type": "module",
+  "engines": { "node": ">=20.19" },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

@@ -5,7 +5,7 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import { buildBaselines, scoreRecords, applyFeedback, removeFeedback, DEFAULT_CONFIG, FEATURES, type ActivityRecord, type Config, type ReasonCode, type ScoredDay } from './engine/ueba';
 import { generateActivity, type Injected } from './engine/synth';
 import { evaluateDetections } from './engine/evaluate';
-import { validateRecords, LIMITS } from './engine/validate';
+import { parseRecords, LIMITS } from './engine/validate';
 import { buildReport, type Disposition } from './engine/report';
 import { BandChart } from './ui/BandChart';
 
@@ -55,10 +55,10 @@ export function App() {
     setStatus(`Generated 30 users × 28 days with seed ${seed}.`);
   }
   function doImport() {
-    if (importText.length > LIMITS.maxBytes) { setImportErrors([`Input is ${importText.length.toLocaleString()} characters; limit ${LIMITS.maxBytes.toLocaleString()}.`]); return; }
-    let parsed: unknown;
-    try { parsed = JSON.parse(importText); } catch { setImportErrors(['Not valid JSON.']); return; }
-    const v = validateRecords(parsed);
+    // parseRecords enforces the UTF-8 byte cap before JSON.parse, scans depth/value counts iteratively and applies
+    // every row rule (strict calendar days, printable names, finite numbers, no duplicate (user, day) rows);
+    // it never throws and reports path-addressed errors (at most LIMITS.maxErrors).
+    const v = parseRecords(importText);
     if (!v.ok) { setImportErrors(v.errors); return; }
     setDataset({ records: v.records, injected: [], source: `imported JSON (${v.records.length} records)` });
     setImportErrors([]); setImportOpen(false); setSelected(null); setDispositions({});
@@ -254,7 +254,7 @@ export function App() {
           <div className="modal-backdrop" role="presentation" onClick={() => setImportOpen(false)}>
             <div className="modal" role="dialog" aria-modal="true" aria-labelledby="import-h" onClick={e => e.stopPropagation()}>
               <h2 id="import-h">Import activity records</h2>
-              <p className="muted">JSON array of <code>{'{user, dept, day, logins, uploadMB, distinctHosts, afterHoursPct}'}</code>. Up to {LIMITS.maxRecords.toLocaleString()} records. Use synthetic or aggregated data only — this tool is not for monitoring real people.</p>
+              <p className="muted">JSON array of <code>{'{user, dept, day, logins, uploadMB, distinctHosts, afterHoursPct}'}</code>. Up to {LIMITS.maxRecords.toLocaleString()} records and {LIMITS.maxBytes.toLocaleString()} bytes; one row per (user, day); <code>day</code> must be a real calendar date; names printable, ≤ {LIMITS.maxName} characters. Errors are reported by path (at most {LIMITS.maxErrors}). Use synthetic or aggregated data only — this tool is not for monitoring real people.</p>
               <label htmlFor="import-area" className="visually-hidden">Records JSON</label>
               <textarea id="import-area" rows={10} value={importText} onChange={e => setImportText(e.target.value)} spellCheck={false} />
               {importErrors.length > 0 && <ul role="alert" className="errors">{importErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>}

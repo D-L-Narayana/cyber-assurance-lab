@@ -5,6 +5,8 @@
 **/coverage/
 **/test-results/
 **/playwright-report/
+verify-report.json
+*.tsbuildinfo
 .env
 .env.*
 *.log

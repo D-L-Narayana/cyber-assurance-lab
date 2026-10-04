@@ -1,0 +1,264 @@
+$ npx vitest run --reporter=verbose tests/csv.test.ts
+# cwd apps/assurance/weft
+# 2026-10-04T19:07:08.541Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/assurance/weft
+
+ × tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > quotes every cell, joins rows with CRLF and renders numbers as text 46ms
+   → expected '' to be '"a","b"\r\n"1","2"' // Object.is equality
+ × tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > prefixes cells starting with = + - @ with an apostrophe 1ms
+   → expected '' to be '"\'=1+1","\'+cmd","\'-x","\'@SUM(A1)"…' // Object.is equality
+ × tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > neutralises formulas hidden behind leading spaces, tabs, carriage returns, newlines or NUL bytes 10ms
+   → expected false to be true // Object.is equality
+ × tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > also prefixes cells that merely start with a tab or carriage return (spreadsheet field-separator tricks) 9ms
+   → expected '' to be '"\'\tplain","\'\rplain"," plain"' // Object.is equality
+ × tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > escapes embedded quotes by doubling and keeps commas and newlines inside the quoted cell 1ms
+   → expected '' to be '"say ""hi""","a,b","line1\nline2"' // Object.is equality
+ × tests/csv.test.ts > findings ledger CSV > has the documented header and one row per finding in ledger order (severity, kind, refs) 110ms
+   → expected undefined to deeply equal [ 'kind', 'severity', 'refs', …(1) ]
+ × tests/csv.test.ts > findings ledger CSV > joins several refs with "; " and neutralises hostile ids that reach refs and messages 1ms
+   → expected '' to be '"kind","severity","refs","message"' // Object.is equality
+ × tests/csv.test.ts > findings ledger CSV > fixture: every planted finding appears once, in ledger order, and the CSV line count matches 167ms
+   → expected [] to have a length of 12 but got +0
+ × tests/csv.test.ts > artifact table CSV > has the documented header, one row per artifact sorted by id, and yes / no / none declared for the hash check 2ms
+   → expected undefined to deeply equal [ 'id', 'name', 'kind', …(6) ]
+ × tests/csv.test.ts > artifact table CSV > neutralises hostile ids and names and sorts by id regardless of bundle order 1ms
+   → Cannot read properties of undefined (reading 'startsWith')
+ × tests/csv.test.ts > artifact table CSV > fixture: ten rows in manifest order with the planted mismatch, duplicate and orphan visible; deterministic 67ms
+   → expected [] to deeply equal [ 'AR-01', 'AR-02', 'AR-03', …(7) ]
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > quotes every cell, joins rows with CRLF and renders numbers as text
+AssertionError: expected '' to be '"a","b"\r\n"1","2"' // Object.is equality
+
+- Expected
++ Received
+
+- "a","b"
+- "1","2"
+
+ ❯ tests/csv.test.ts:27:43
+     25| describe('toCsv — RFC 4180 with formula neutralisation', () => {
+     26|   it('quotes every cell, joins rows with CRLF and renders numbers as t…
+     27|     expect(toCsv([['a', 'b'], ['1', 2]])).toBe('"a","b"\r\n"1","2"');
+       |                                           ^
+     28|     expect(toCsv([])).toBe('');
+     29|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > prefixes cells starting with = + - @ with an apostrophe
+AssertionError: expected '' to be '"\'=1+1","\'+cmd","\'-x","\'@SUM(A1)"…' // Object.is equality
+
+- Expected
++ Received
+
+- "'=1+1","'+cmd","'-x","'@SUM(A1)","safe"
+
+ ❯ tests/csv.test.ts:31:65
+     29|   });
+     30|   it("prefixes cells starting with = + - @ with an apostrophe", () => {
+     31|     expect(toCsv([['=1+1', '+cmd', '-x', '@SUM(A1)', 'safe']])).toBe(`…
+       |                                                                 ^
+     32|   });
+     33|   it('neutralises formulas hidden behind leading spaces, tabs, carriag…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+ FAIL  tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > neutralises formulas hidden behind leading spaces, tabs, carriage returns, newlines or NUL bytes
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/csv.test.ts:34:139
+     32|   });
+     33|   it('neutralises formulas hidden behind leading spaces, tabs, carriag…
+     34|     for (const c of cells(toCsv([[' =HYPERLINK("x")', '\t=1+1', '\r=cm…
+       |                                                                                                                                           ^
+     35|   });
+     36|   it('also prefixes cells that merely start with a tab or carriage ret…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > also prefixes cells that merely start with a tab or carriage return (spreadsheet field-separator tricks)
+AssertionError: expected '' to be '"\'\tplain","\'\rplain"," plain"' // Object.is equality
+
+- Expected
++ Received
+
+- "'	plain","'plain"," plain"
+
+ ❯ tests/csv.test.ts:37:55
+     35|   });
+     36|   it('also prefixes cells that merely start with a tab or carriage ret…
+     37|     expect(toCsv([['\tplain', '\rplain', ' plain']])).toBe(`"'\tplain"…
+       |                                                       ^
+     38|   });
+     39|   it('escapes embedded quotes by doubling and keeps commas and newline…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+ FAIL  tests/csv.test.ts > toCsv — RFC 4180 with formula neutralisation > escapes embedded quotes by doubling and keeps commas and newlines inside the quoted cell
+AssertionError: expected '' to be '"say ""hi""","a,b","line1\nline2"' // Object.is equality
+
+- Expected
++ Received
+
+- "say ""hi""","a,b","line1
+- line2"
+
+ ❯ tests/csv.test.ts:40:58
+     38|   });
+     39|   it('escapes embedded quotes by doubling and keeps commas and newline…
+     40|     expect(toCsv([['say "hi"', 'a,b', 'line1\nline2']])).toBe(`"say ""…
+       |                                                          ^
+     41|   });
+     42| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯
+
+ FAIL  tests/csv.test.ts > findings ledger CSV > has the documented header and one row per finding in ledger order (severity, kind, refs)
+AssertionError: expected undefined to deeply equal [ 'kind', 'severity', 'refs', …(1) ]
+
+- Expected:
+[
+  "kind",
+  "severity",
+  "refs",
+  "message",
+]
+
++ Received:
+undefined
+
+ ❯ tests/csv.test.ts:49:21
+     47|     const issues = analyze(b).issues;
+     48|     const rows = findingsToCsvRows(issues);
+     49|     expect(rows[0]).toEqual(['kind', 'severity', 'refs', 'message']);
+       |                     ^
+     50|     expect(rows).toHaveLength(issues.length + 1);
+     51|     expect(rows.slice(1).map((r) => [r[0], r[1], r[2]])).toEqual([
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯
+
+ FAIL  tests/csv.test.ts > findings ledger CSV > joins several refs with "; " and neutralises hostile ids that reach refs and messages
+AssertionError: expected '' to be '"kind","severity","refs","message"' // Object.is equality
+
+- Expected
++ Received
+
+- "kind","severity","refs","message"
+
+ ❯ tests/csv.test.ts:61:22
+     59|     const b = bundle({ artifacts: [artifact({ id: '=cmd', name: '-evil…
+     60|     const lines = toCsv(findingsToCsvRows(analyze(b).issues)).split('\…
+     61|     expect(lines[0]).toBe('"kind","severity","refs","message"');
+       |                      ^
+     62|     expect(lines[1].startsWith(`"duplicate-content","medium","'=cmd; +…
+     63|     expect(lines.filter((l) => l.startsWith('"orphan-artifact"')).map(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯
+
+ FAIL  tests/csv.test.ts > findings ledger CSV > fixture: every planted finding appears once, in ledger order, and the CSV line count matches
+AssertionError: expected [] to have a length of 12 but got +0
+
+- Expected
++ Received
+
+- 12
++ 0
+
+ ❯ tests/csv.test.ts:72:18
+     70|     const issues = analyze(r.value).issues;
+     71|     const rows = findingsToCsvRows(issues);
+     72|     expect(rows).toHaveLength(issues.length + 1);
+       |                  ^
+     73|     expect(rows.slice(1).map((x) => x[0])).toEqual(issues.map((i) => i…
+     74|     expect(toCsv(rows).split('\r\n')).toHaveLength(issues.length + 1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯
+
+ FAIL  tests/csv.test.ts > artifact table CSV > has the documented header, one row per artifact sorted by id, and yes / no / none declared for the hash check
+AssertionError: expected undefined to deeply equal [ 'id', 'name', 'kind', …(6) ]
+
+- Expected:
+[
+  "id",
+  "name",
+  "kind",
+  "capturedOn",
+  "sha256",
+  "bytes",
+  "declaredMatches",
+  "duplicateOf",
+  "linkedAssertions",
+]
+
++ Received:
+undefined
+
+ ❯ tests/csv.test.ts:86:21
+     84|     });
+     85|     const rows = artifactsToCsvRows(b, analyze(b));
+     86|     expect(rows[0]).toEqual(['id', 'name', 'kind', 'capturedOn', 'sha2…
+       |                     ^
+     87|     expect(rows.slice(1).map((r) => r[0])).toEqual(['A', 'B', 'C']);
+     88|     const byId = (id: string) => rows.find((r) => r[0] === id)!;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯
+
+ FAIL  tests/csv.test.ts > artifact table CSV > neutralises hostile ids and names and sorts by id regardless of bundle order
+TypeError: Cannot read properties of undefined (reading 'startsWith')
+ ❯ tests/csv.test.ts:96:21
+     94|     const b = bundle({ artifacts: [artifact({ id: 'Z', name: '=HYPERLI…
+     95|     const lines = toCsv(artifactsToCsvRows(b, analyze(b))).split('\r\n…
+     96|     expect(lines[1].startsWith(`"'-A","ok","log"`)).toBe(true);
+       |                     ^
+     97|     expect(lines[2].startsWith(`"Z","'=HYPERLINK(""x"")","log"`)).toBe…
+     98|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯
+
+ FAIL  tests/csv.test.ts > artifact table CSV > fixture: ten rows in manifest order with the planted mismatch, duplicate and orphan visible; deterministic
+AssertionError: expected [] to deeply equal [ 'AR-01', 'AR-02', 'AR-03', …(7) ]
+
+- Expected
++ Received
+
+- [
+-   "AR-01",
+-   "AR-02",
+-   "AR-03",
+-   "AR-04",
+-   "AR-05",
+-   "AR-06",
+-   "AR-07",
+-   "AR-08",
+-   "AR-09",
+-   "AR-10",
+- ]
++ []
+
+ ❯ tests/csv.test.ts:104:44
+    102|     if (!r.ok) throw new Error('fixture invalid');
+    103|     const rows = artifactsToCsvRows(r.value, analyze(r.value));
+    104|     expect(rows.slice(1).map((x) => x[0])).toEqual(Array.from({ length…
+       |                                            ^
+    105|     const byId = (id: string) => rows.find((x) => x[0] === id)!;
+    106|     expect(byId('AR-05')[6]).toBe('no');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  11 failed (11)
+   Start at  19:07:12
+   Duration  2.02s (transform 586ms, setup 0ms, import 575ms, tests 417ms, environment 0ms)
+

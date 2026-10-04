@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import fc from 'fast-check';
 import { band, score, visibleQuestions } from './scoring';
-import { signOffBlockers, signOff, contentHash, snapshot, applyAnswer } from './approval';
+import { signOffBlockers, signOff, contentHash, snapshot, applyAnswer, canonicalContent, fromCanonical } from './approval';
 import { executiveSummary } from './narrative';
 import { parseAssessment, serializeAssessment } from './assessmentIO';
 import { QUESTIONS, MITIGATIONS } from './rubric';
@@ -214,6 +214,117 @@ describe('versioning', () => {
     const a = await snapshot(load(demo), '2026-10-01T09:00:00Z');
     const again = await snapshot(a, '2026-10-01T09:05:00Z');
     expect(again.versions.at(-1)?.changeSummary).toEqual(['No content changes since the previous version.']);
+  });
+});
+
+describe('version content persistence (October 2026 upgrade round)', () => {
+  const T1 = '2026-10-01T09:00:00Z';
+  const T2 = '2026-10-02T09:00:00Z';
+
+  it('snapshot stores the canonical content on the version', async () => {
+    const a = load(demo);
+    const v1 = await snapshot(a, T1);
+    expect(v1.versions.at(-1)?.content).toBe(canonicalContent(a));
+  });
+
+  it('export → import → snapshot yields a field-level diff (answer change and mitigation status change)', async () => {
+    const v1 = await snapshot(load(demo), T1);
+    const imported = parseAssessment(serializeAssessment(v1));
+    expect(imported.ok).toBe(true);
+    if (!imported.ok) return;
+    const edited = applyAnswer(imported.assessment, 'q-volume', 'over-1m');
+    const withMitigation: Assessment = { ...edited, mitigations: edited.mitigations.map((m) => (m.mitigationId === 'm-human-review' ? { ...m, status: 'verified' as const, evidenceRef: 'review-log-2026-10 (synthetic)' } : m)) };
+    const v2 = await snapshot(withMitigation, T2);
+    const summary = v2.versions.at(-1)!.changeSummary.join(' | ');
+    expect(summary).toMatch(/Answer q-volume: 100k-1m → over-1m/);
+    expect(summary).toMatch(/Mitigation m-human-review: implemented → verified/);
+    expect(summary).not.toMatch(/unavailable/);
+  });
+
+  it('legacy files whose versions carry no content still import; the next summary says the previous content is unavailable', async () => {
+    const legacy = parseAssessment(JSON.stringify({ ...demo, versions: [{ number: 1, at: '2026-09-30T09:00:00Z', contentHash: 'a'.repeat(64), changeSummary: ['Initial version.'] }] }));
+    expect(legacy.ok).toBe(true);
+    if (!legacy.ok) return;
+    const next = await snapshot(applyAnswer(legacy.assessment, 'q-volume', 'over-1m'), T1);
+    expect(next.versions.at(-1)?.number).toBe(2);
+    expect(next.versions.at(-1)?.changeSummary.join(' ')).toMatch(/previous snapshot content unavailable/);
+    const same = parseAssessment(JSON.stringify({ ...demo, versions: [{ number: 1, at: '2026-09-30T09:00:00Z', contentHash: await contentHash(load(demo)), changeSummary: ['Initial version.'] }] }));
+    if (same.ok) expect((await snapshot(same.assessment, T1)).versions.at(-1)?.changeSummary).toEqual(['No content changes since the previous version.']);
+  });
+
+  it('omits content above 64 KiB and says so; the following snapshot then has no field-level basis', async () => {
+    const big: Assessment = { ...load(demo), description: 'x'.repeat(70_000) };
+    const v1 = await snapshot(big, T1);
+    expect(v1.versions.at(-1)?.content).toBeUndefined();
+    expect(v1.versions.at(-1)?.changeSummary.join(' ')).toMatch(/content too large to retain/);
+    const v2 = await snapshot(applyAnswer(v1, 'q-volume', 'over-1m'), T2);
+    expect(v2.versions.at(-1)?.changeSummary.join(' ')).toMatch(/previous snapshot content unavailable/);
+  });
+
+  it('does not leak snapshot content across assessments that share a content hash', async () => {
+    const a = await snapshot(load(demo), T1);
+    const sharedHash = a.versions.at(-1)!.contentHash;
+    const other: Assessment = { ...load(demo), id: 'PIA-OTHER', versions: [{ number: 1, at: T1, contentHash: sharedHash, changeSummary: ['Initial version.'] }] };
+    const next = await snapshot(applyAnswer(other, 'q-volume', 'over-1m'), T2);
+    const summary = next.versions.at(-1)!.changeSummary.join(' ');
+    expect(summary).toMatch(/previous snapshot content unavailable/);
+    expect(summary).not.toMatch(/Answer q-volume/);
+  });
+
+  it('ignores retained content whose hash does not match the version it sits on', async () => {
+    const a = load(demo);
+    const planted: Assessment = { ...a, versions: [{ number: 1, at: T1, contentHash: 'f'.repeat(64), changeSummary: ['Initial version.'], content: canonicalContent({ ...a, title: 'Planted title' }) }] };
+    const next = await snapshot(applyAnswer(planted, 'q-volume', 'over-1m'), T2);
+    const summary = next.versions.at(-1)!.changeSummary.join(' ');
+    expect(summary).toMatch(/previous snapshot content unavailable.*does not match/);
+    expect(summary).not.toMatch(/title changed/);
+  });
+
+  it('fromCanonical reconstructs the assessable content and round-trips through canonicalContent', () => {
+    const a = load(demo);
+    const back = fromCanonical(canonicalContent(a));
+    expect(back).toBeDefined();
+    if (!back) return;
+    expect(back.title).toBe(a.title);
+    expect(back.owner).toBe(a.owner);
+    expect(back.description).toBe(a.description);
+    expect(back.dpoConsulted).toBe(a.dpoConsulted);
+    expect(back.answers).toEqual(a.answers);
+    expect(back.mitigations.map((m) => m.mitigationId).sort()).toEqual(a.mitigations.map((m) => m.mitigationId).sort());
+    expect(back.flows.map((f) => f.id).sort()).toEqual(a.flows.map((f) => f.id).sort());
+    expect(back.acceptances).toHaveLength(a.acceptances.length);
+    expect(canonicalContent({ ...a, ...back })).toBe(canonicalContent(a));
+    expect(fromCanonical('not json')).toBeUndefined();
+    expect(fromCanonical(JSON.stringify({ answers: 5 }))).toBeUndefined();
+    expect(fromCanonical(JSON.stringify([]))).toBeUndefined();
+  });
+});
+
+describe('version content import (October 2026 upgrade round)', () => {
+  const base = demo as unknown as Record<string, unknown>;
+  const version = (extra: Record<string, unknown>) => ({ number: 1, at: '2026-10-01T09:00:00Z', contentHash: 'h'.repeat(64), changeSummary: ['Initial version.'], ...extra });
+
+  it('accepts and round-trips a version with canonical content', () => {
+    const content = canonicalContent(load(demo));
+    const r = parseAssessment(JSON.stringify({ ...base, versions: [version({ content })] }));
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.assessment.versions[0]?.content).toBe(content);
+    expect(parseAssessment(serializeAssessment(r.assessment)).ok).toBe(true);
+  });
+
+  it('still imports legacy files whose versions have no content', () => {
+    const r = parseAssessment(JSON.stringify({ ...base, versions: [version({})] }));
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(r.assessment.versions[0]?.content).toBeUndefined();
+  });
+
+  it('rejects content that is not a string, is above 64 KiB, or is not canonical content JSON, naming the path', () => {
+    for (const bad of [42, 'x'.repeat(65_537), 'not json', JSON.stringify({ answers: 5 })]) {
+      const r = parseAssessment(JSON.stringify({ ...base, versions: [version({ content: bad })] }));
+      expect(r.ok, String(bad).slice(0, 20)).toBe(false);
+      if (!r.ok) expect(r.errors.join(' ')).toMatch(/versions\[0\]\.content/);
+    }
   });
 });
 

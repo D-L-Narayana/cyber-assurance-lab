@@ -19,7 +19,8 @@ h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; letter-sp
 .mast h1 small { display: block; font-family: var(--body); font-size: 13px; color: var(--parch-dim); margin-top: 8px; letter-spacing: 0.02em; }
 .mast .ctl { margin-left: auto; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
 .field { display: grid; gap: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--parch-dim); }
-.field input, .field select { padding: 7px 9px; background: var(--vault-2); border: 1px solid var(--line); border-radius: 3px; color: var(--parch); font-family: var(--mono); font-size: 13px; text-transform: none; letter-spacing: 0; }
+.field input, .field select, .field textarea { padding: 7px 9px; background: var(--vault-2); border: 1px solid var(--line); border-radius: 3px; color: var(--parch); font-family: var(--mono); font-size: 13px; text-transform: none; letter-spacing: 0; }
+.field textarea { font-family: var(--body); resize: vertical; min-height: 44px; }
 .btn { padding: 8px 13px; border-radius: 3px; border: 1px solid var(--brass); background: var(--brass); color: var(--vault); font-weight: 600; font-size: 13px; cursor: pointer; }
 .btn.ghost { background: transparent; color: var(--brass); }
 .btn.teal { background: var(--teal); border-color: var(--teal); }
@@ -64,6 +65,17 @@ details.fallback summary { cursor: pointer; font-size: 13px; color: var(--brass)
 .holds li { border: 1px solid var(--line); border-left: 4px solid var(--hold); border-radius: 3px; padding: 8px 12px; display: grid; gap: 4px; font-size: 13px; background: var(--vault-2); }
 .holds li.released { border-left-color: var(--line); opacity: 0.7; }
 .holds li .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+/* Guarded release/reinstate form (October 2026): labelled fields, inline refusal, no motion. Text tokens reuse
+   --parch (12.26:1) and --parch-dim (7.17:1) on --vault-2; refusal text #f6c9bd on --vault-2 is 10.10:1. */
+.hold-form { display: grid; gap: 8px; margin-top: 6px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.hold-form .field { font-size: 11px; }
+.hold-form .verdict { margin: 0; }
+.hold-form .actions { margin: 0; }
+h3.sub { font-size: 20px; margin: 18px 0 6px; }
+h3.sub .mono { color: var(--parch-dim); margin-left: 8px; }
+.trail { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; }
+.trail li { border-left: 3px solid var(--brass-dim); padding: 3px 10px; background: var(--vault-2); border-radius: 0 3px 3px 0; }
+.trail li strong { color: var(--brass); font-weight: 600; }
 .foot { padding: 14px 32px 26px; border-top: 1px solid var(--line); font-size: 12px; color: var(--parch-dim); }
 .actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
 @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } .col.right { border-left: 0; border-top: 1px solid var(--line); } }

@@ -1,0 +1,236 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/governance/outflow-register
+# 2026-10-04T18:55:57.849Z v20.20.1
+# exit 1
+# note: test-name label neutralised after capture (review-round wording only); result lines and counts unchanged
+
+
+ RUN  v4.1.11 <repo>/apps/governance/outflow-register
+
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects oversized input 17ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects invalid JSON and non-object roots 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects deep nesting 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects __proto__ keys 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > accepts a small object 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes hidden behind whitespace or control characters 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > quotes commas, quotes and newlines 0ms
+ ✓ src/engine/safe.test.ts > date helpers > rejects calendar-invalid dates that Date.parse would normalise 1ms
+ ✓ src/engine/safe.test.ts > date helpers > adds and diffs days 0ms
+ ✓ src/fixtures/validate-demo.test.ts > demo register > validates and exhibits every issue kind the engine knows 12ms
+ × src/fixtures/validate-demo.test.ts > demo register > PayCo's breach-window contradiction is stated in mixed units (24h vs 3 days) and still fires 5ms
+   → expected undefined to be defined
+ ✓ src/engine/register.test.ts > effectiveStatus and issue detection > treats an active agreement past its end date as expired 5ms
+ ✓ src/engine/register.test.ts > effectiveStatus and issue detection > flags missing or departed owners 0ms
+ ✓ src/engine/register.test.ts > effectiveStatus and issue detection > opens the renewal window noticeDays before the end date 0ms
+ ✓ src/engine/register.test.ts > effectiveStatus and issue detection > flags flows without an agreement, with uncovered categories, after agreement end, stale, and vendor mismatches 2ms
+ ✓ src/engine/register.test.ts > effectiveStatus and issue detection > flags obligations without evidence and unmet deletion obligations after end 1ms
+ ✓ src/engine/register.test.ts > effectiveStatus and issue detection > detects contradictory breach-notification windows for the same vendor 2ms
+ ✓ src/engine/register.test.ts > effectiveStatus and issue detection > assigns stable ids and sorts by severity 1ms
+ ✓ src/engine/register.test.ts > renewal priority > scores closer expiry, restricted categories, active flows, open obligations and missing owner with an explained breakdown 2ms
+ ✓ src/engine/register.test.ts > renewal priority > excludes drafts and terminated agreements from the queue 1ms
+ ✓ src/engine/register.test.ts > transition guards > draft → active requires an owner, categories and a later end date 1ms
+ ✓ src/engine/register.test.ts > transition guards > termination with active flows requires explicit acknowledgement and records it 1ms
+ ✓ src/engine/register.test.ts > transition guards > renewing → active needs a new end date after the old one and resets the renewal window 2ms
+ ✓ src/engine/register.test.ts > transition guards > rejects undefined transitions and empty reasons 0ms
+ ✓ src/engine/register.test.ts > evidence packet, validation, export > builds a packet with agreement, vendor, owner, flows, obligations, issues, priority and markdown 2ms
+ ✓ src/engine/register.test.ts > evidence packet, validation, export > validates malformed registers without throwing 3ms
+ ✓ src/engine/register.test.ts > evidence packet, validation, export > exports issues as formula-safe CSV and a stable JSON schema 1ms
+ ✓ src/engine/register.test.ts > review follow-ups (2026-10-01) > flags an active flow that references a draft (unsigned) agreement 0ms
+ ✓ src/engine/register.test.ts > review follow-ups (2026-10-01) > rejects obligation kinds outside the enum (typos cannot silently escape contradiction checks) 0ms
+ ✓ src/engine/register.test.ts > review follow-ups (2026-10-01) > renewal end date must be after the as-of date, not only after the old end date 0ms
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "72h" as 72 hours 8ms
+   → expected null to be 72 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "72 h" as 72 hours 1ms
+   → expected null to be 72 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "72 hours" as 72 hours 0ms
+   → expected null to be 72 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "72hrs" as 72 hours 0ms
+   → expected null to be 72 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "72 hr" as 72 hours 0ms
+   → expected null to be 72 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "24 hour" as 24 hours 0ms
+   → expected null to be 24 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "3 days" as 72 hours 1ms
+   → expected null to be 72 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "3d" as 72 hours 0ms
+   → expected null to be 72 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "1 day" as 24 hours 1ms
+   → expected null to be 24 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "1 week" as 168 hours 1ms
+   → expected null to be 168 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "1w" as 168 hours 0ms
+   → expected null to be 168 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "2 weeks" as 336 hours 0ms
+   → expected null to be 336 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "2 wks" as 336 hours 0ms
+   → expected null to be 336 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "within 72 hours" as 72 hours 0ms
+   → expected null to be 72 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "no later than 3 days" as 72 hours 0ms
+   → expected null to be 72 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "Within 48 Hours of becoming aware" as 48 hours 0ms
+   → expected null to be 48 // Object.is equality
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "notify in 72h; weekly summary" as 72 hours 0ms
+   → expected null to be 72 // Object.is equality
+ ✓ src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > returns null for unparseable "without undue delay" 0ms
+ ✓ src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > returns null for unparseable "immediately" 0ms
+ ✓ src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > returns null for unparseable "two days" 0ms
+ ✓ src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > returns null for unparseable "" 0ms
+ ✓ src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > returns null for unparseable "   " 0ms
+ ✓ src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > returns null for unparseable "ASAP" 0ms
+ ✓ src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > returns null for unparseable "24 business hours" 0ms
+ ✓ src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > returns null for unparseable "quarterly" 0ms
+ ✓ src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > returns null for unparseable "72" 0ms
+ ✓ src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > returns null for unparseable "h72" 0ms
+ ✓ src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > does not report a contradiction between 72h and 3 days (same window, different units) 1ms
+ × src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > reports a contradiction across units and lists unparseable requirements as "not compared" 2ms
+   → expected [] to have a length of 1 but got +0
+ ✓ src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > never raises a contradiction from unparseable text alone 1ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 19 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "72h" as 72 hours
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "72 h" as 72 hours
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "72 hours" as 72 hours
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "72hrs" as 72 hours
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "72 hr" as 72 hours
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "3 days" as 72 hours
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "3d" as 72 hours
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "within 72 hours" as 72 hours
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "no later than 3 days" as 72 hours
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "notify in 72h; weekly summary" as 72 hours
+AssertionError: expected null to be 72 // Object.is equality
+
+- Expected:
+72
+
++ Received:
+null
+
+ ❯ src/engine/register.test.ts:184:35
+    182|     ['within 72 hours', 72], ['no later than 3 days', 72], ['Within 48…
+    183|   ])('parses %j as %i hours', (raw, hours) => {
+    184|     expect(parseWindowHours(raw)).toBe(hours);
+       |                                   ^
+    185|   });
+    186|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/19]⎯
+
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "24 hour" as 24 hours
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "1 day" as 24 hours
+AssertionError: expected null to be 24 // Object.is equality
+
+- Expected:
+24
+
++ Received:
+null
+
+ ❯ src/engine/register.test.ts:184:35
+    182|     ['within 72 hours', 72], ['no later than 3 days', 72], ['Within 48…
+    183|   ])('parses %j as %i hours', (raw, hours) => {
+    184|     expect(parseWindowHours(raw)).toBe(hours);
+       |                                   ^
+    185|   });
+    186|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/19]⎯
+
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "1 week" as 168 hours
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "1w" as 168 hours
+AssertionError: expected null to be 168 // Object.is equality
+
+- Expected:
+168
+
++ Received:
+null
+
+ ❯ src/engine/register.test.ts:184:35
+    182|     ['within 72 hours', 72], ['no later than 3 days', 72], ['Within 48…
+    183|   ])('parses %j as %i hours', (raw, hours) => {
+    184|     expect(parseWindowHours(raw)).toBe(hours);
+       |                                   ^
+    185|   });
+    186|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/19]⎯
+
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "2 weeks" as 336 hours
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "2 wks" as 336 hours
+AssertionError: expected null to be 336 // Object.is equality
+
+- Expected:
+336
+
++ Received:
+null
+
+ ❯ src/engine/register.test.ts:184:35
+    182|     ['within 72 hours', 72], ['no later than 3 days', 72], ['Within 48…
+    183|   ])('parses %j as %i hours', (raw, hours) => {
+    184|     expect(parseWindowHours(raw)).toBe(hours);
+       |                                   ^
+    185|   });
+    186|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/19]⎯
+
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > parses "Within 48 Hours of becoming aware" as 48 hours
+AssertionError: expected null to be 48 // Object.is equality
+
+- Expected:
+48
+
++ Received:
+null
+
+ ❯ src/engine/register.test.ts:184:35
+    182|     ['within 72 hours', 72], ['no later than 3 days', 72], ['Within 48…
+    183|   ])('parses %j as %i hours', (raw, hours) => {
+    184|     expect(parseWindowHours(raw)).toBe(hours);
+       |                                   ^
+    185|   });
+    186|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/19]⎯
+
+ FAIL  src/engine/register.test.ts > breach-window normalisation (October 2026 upgrade round) > reports a contradiction across units and lists unparseable requirements as "not compared"
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/engine/register.test.ts:207:15
+    205|   it('reports a contradiction across units and lists unparseable requi…
+    206|     const c = contradictions(withWindows('24h', '3 days', 'without und…
+    207|     expect(c).toHaveLength(1);
+       |               ^
+    208|     expect(c[0]!.detail).toMatch(/24h \(24 h\)/);
+    209|     expect(c[0]!.detail).toMatch(/3 days \(72 h\)/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/19]⎯
+
+ FAIL  src/fixtures/validate-demo.test.ts > demo register > PayCo's breach-window contradiction is stated in mixed units (24h vs 3 days) and still fires
+AssertionError: expected undefined to be defined
+ ❯ src/fixtures/validate-demo.test.ts:24:15
+     22|     expect(payco).toEqual(expect.arrayContaining(['24h', '3 days']));
+     23|     const c = findIssues(v.register, v.register.asOf).find((i) => i.ki…
+     24|     expect(c).toBeDefined();
+       |               ^
+     25|     expect(c!.detail).toMatch(/24h/);
+     26|     expect(c!.detail).toMatch(/3 days/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/19]⎯
+
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  19 failed | 42 passed (61)
+   Start at  18:55:59
+   Duration  823ms (transform 149ms, setup 0ms, import 318ms, tests 86ms, environment 0ms)
+

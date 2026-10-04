@@ -10,7 +10,7 @@ import { Locker } from './Locker';
 import { Gate } from './Gate';
 import { MemoView } from './MemoView';
 
-export type Notice = { kind: 'info' | 'error' | 'success'; text: string; details?: string[] } | null;
+export type Notice = { kind: 'info' | 'error' | 'success' | 'warning'; text: string; details?: string[] } | null;
 
 function loadDemo(): Packet {
   const r = validatePacketObject(demo);
@@ -88,7 +88,8 @@ export default function App() {
       }
       setPacket(r.packet);
       if (r.packet.selectedControls[0]) select(r.packet.selectedControls[0]);
-      setNotice({ kind: 'success', text: `Imported packet for ${r.packet.meta.systemName} (${r.packet.state}).` });
+      if (r.warnings.length) setNotice({ kind: 'warning', text: `Imported packet for ${r.packet.meta.systemName} (${r.packet.state}) with ${r.warnings.length} warning${r.warnings.length === 1 ? '' : 's'}.`, details: r.warnings });
+      else setNotice({ kind: 'success', text: `Imported packet for ${r.packet.meta.systemName} (${r.packet.state})${r.packet.history.length ? '; history chain verified' : ''}.` });
     } catch (e) {
       setNotice({ kind: 'error', text: e instanceof Error ? e.message : 'Import failed.' });
     } finally {

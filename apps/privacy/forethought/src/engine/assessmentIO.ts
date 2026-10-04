@@ -1,6 +1,7 @@
 import type { AppliedMitigation, Assessment, DataFlow, RiskAcceptance, Signature, Version } from './types';
 import { THEMES } from './types';
 import { MITIGATIONS, QUESTIONS } from './rubric';
+import { fromCanonical, MAX_VERSION_CONTENT_BYTES } from './approval';
 
 export interface ImportLimits { maxBytes: number; maxDepth: number; maxItems: number; maxString: number }
 export const DEFAULT_LIMITS: ImportLimits = { maxBytes: 500_000, maxDepth: 6, maxItems: 200, maxString: 4_000 };
@@ -147,8 +148,18 @@ export function parseAssessment(text: string, overrides: Partial<ImportLimits> =
     const number = v['number']; const at = str('at', {}, v, path); const contentHash = str('contentHash', {}, v, path);
     const changeSummary = strList(v, 'changeSummary', path, 100);
     if (typeof number !== 'number' || !Number.isInteger(number) || number < 1) errors.push(`${path}.number must be a positive integer`);
+    // Optional retained canonical content (October 2026): absent in legacy files; when present it must be a string
+    // within the retention cap that reconstructs as canonical content, otherwise the file is rejected (not silently stripped).
+    let content: string | undefined;
+    const rawContent = v['content'];
+    if (rawContent !== undefined) {
+      if (typeof rawContent !== 'string') errors.push(`${path}.content must be a string`);
+      else if (new TextEncoder().encode(rawContent).length > MAX_VERSION_CONTENT_BYTES) errors.push(`${path}.content exceeds ${MAX_VERSION_CONTENT_BYTES.toLocaleString('en-US')} bytes`);
+      else if (!fromCanonical(rawContent)) errors.push(`${path}.content is not canonical assessment content`);
+      else content = rawContent;
+    }
     if (typeof number !== 'number' || !at || !contentHash) return undefined;
-    return { number, at, contentHash, changeSummary };
+    return { number, at, contentHash, changeSummary, ...(content !== undefined ? { content } : {}) };
   }).filter((x): x is Version => Boolean(x));
 
   const dupCheck = <T,>(label: string, list: T[], key: (t: T) => string) => {

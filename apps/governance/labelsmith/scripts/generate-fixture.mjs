@@ -1,5 +1,8 @@
-// Deterministic synthetic catalog generator for Labelsmith. node scripts/generate-fixture.mjs > src/fixtures/demo.json
+// Deterministic synthetic catalog generator for Labelsmith.
+//   node scripts/generate-fixture.mjs --out src/fixtures/demo.json      (or omit --out to print to stdout)
 // Every sample value is generated here; nothing is copied from a real dataset. Card/IBAN values are made Luhn/mod-97 valid synthetically.
+import fs from 'node:fs';
+import path from 'node:path';
 function mulberry32(seed) { return () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
 const rnd = mulberry32(777);
 const int = (a, b) => a + Math.floor(rnd() * (b - a + 1));
@@ -61,9 +64,21 @@ add('catalog.example', 'products', 'public_description', 'string', ['A kettle.',
 add('catalog.example', 'products', 'margin_pct', 'number', many(5, () => `${int(5, 60)}.${digits(1)}`));
 add('catalog.example', 'reviews', 'reviewer_email', 'string', many(5, () => `${pick(names).toLowerCase()}@example.test`));
 add('catalog.example', 'reviews', 'is_verified', 'boolean', ['true', 'false']);
+// October 2026 — false-positive regression fields for token-boundary matching. Appended last so every earlier id and
+// random draw is unchanged (the first 40 fields are byte-identical to the previous fixture).
+const hex = (n) => Array.from({ length: n }, () => '0123456789abcdef'[int(0, 15)]).join('');
+add('platform.example', 'ml_models', 'tokenizer_version', 'string', ['v2', 'v3', 'v3.1'], { description: 'FP regression: “tokenizer” is not the token “token”; a version is operational metadata.' });
+add('platform.example', 'services', 'healthcheck_status', 'string', ['ok', 'degraded', 'ok', 'ok'], { description: 'FP regression: a service health check is not health data.' });
+add('payments.example', 'cards', 'expiry_warning_days', 'number', ['30', '14', '7'], { description: 'FP regression: a notification setting about expiry, not a card expiry.' });
+add('platform.example', 'telemetry', 'velocity', 'number', many(5, () => `${int(0, 120)}.${digits(1)}`), { description: 'FP regression: “velocity” must not match the token “city”.' });
+add('platform.example', 'artifacts', 'content_md5', 'string', many(4, () => hex(32)), { description: 'FP regression: a content digest is Confidential via val-hex-digest (review), not a credential.' });
+add('platform.example', 'deployments', 'commit_sha', 'string', many(4, () => hex(40)), { description: 'FP regression: git commit ids are hex digests, not secrets.' });
 
 const exceptions = [
   { id: 'exc-001', fieldId: 'fld-011', fromClass: 'restricted-financial', toClass: 'confidential', justification: 'Column holds provider tokens in production; samples here are synthetic PAN-shaped values for the demo. Tokenisation evidence: PAY-2026-014.', approvedBy: 'dpo@example.test', grantedOn: '2026-07-01', expiresOn: '2027-03-31' },
   { id: 'exc-002', fieldId: 'fld-020', fromClass: 'restricted-pii', toClass: 'confidential', justification: 'Legacy exception from the HR migration; should have been renewed and was not.', approvedBy: 'hr-lead@example.test', grantedOn: '2025-06-01', expiresOn: '2026-05-31' },
 ];
-process.stdout.write(JSON.stringify({ schemaVersion: 1, label: 'Synthetic catalog — five example systems', asOf: '2026-10-01', fields, exceptions }, null, 2) + '\n');
+const output = JSON.stringify({ schemaVersion: 1, label: 'Synthetic catalog — five example systems', asOf: '2026-10-01', fields, exceptions }, null, 2) + '\n';
+const outFlag = process.argv.indexOf('--out');
+if (outFlag !== -1 && process.argv[outFlag + 1]) fs.writeFileSync(path.resolve(process.argv[outFlag + 1]), output);
+else process.stdout.write(output);

@@ -1,0 +1,143 @@
+$ npx vitest run --reporter=verbose src/engine/validate.test.ts
+# cwd apps/defense/peerline
+# 2026-10-04T18:34:10.641Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/defense/peerline
+
+ × src/engine/validate.test.ts > bounded record import > parseRecords enforces the byte cap before JSON.parse and reports invalid JSON 7ms
+   → expected 'not implemented' to match /JSON/
+ × src/engine/validate.test.ts > bounded record import > rejects nesting deeper than the record shape and oversized value counts without recursing 7ms
+   → expected 'not implemented' to match /depth/i
+ × src/engine/validate.test.ts > bounded record import > rejects impossible calendar days such as 2026-02-30 and accepts a real leap day 18ms
+   → expected true to be false // Object.is equality
+ × src/engine/validate.test.ts > bounded record import > rejects duplicate (user, day) rows naming both row indices 1ms
+   → expected true to be false // Object.is equality
+ × src/engine/validate.test.ts > bounded record import > restricts user and dept to printable characters 1ms
+   → expected true to be false // Object.is equality
+ × src/engine/validate.test.ts > bounded record import > addresses every error by path, requires finite numbers, drops unknown keys and caps the list at 20 18ms
+   → expected '#0: logins must be a number ≥ 0' to match /records\[0\]\.logins/
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/validate.test.ts > bounded record import > parseRecords enforces the byte cap before JSON.parse and reports invalid JSON
+AssertionError: expected 'not implemented' to match /JSON/
+
+- Expected:
+/JSON/
+
++ Received:
+"not implemented"
+
+ ❯ src/engine/validate.test.ts:12:27
+     10|     const bad = parseRecords('[');
+     11|     expect(bad.ok).toBe(false);
+     12|     expect(errorsOf(bad)).toMatch(/JSON/);
+       |                           ^
+     13|     const multibyte = '"' + 'é'.repeat(LIMITS.maxBytes / 2 + 16) + '"'…
+     14|     expect(multibyte.length).toBeLessThan(LIMITS.maxBytes);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  src/engine/validate.test.ts > bounded record import > rejects nesting deeper than the record shape and oversized value counts without recursing
+AssertionError: expected 'not implemented' to match /depth/i
+
+- Expected:
+/depth/i
+
++ Received:
+"not implemented"
+
+ ❯ src/engine/validate.test.ts:27:28
+     25|     const deep = parseRecords('['.repeat(4000) + ']'.repeat(4000));
+     26|     expect(deep.ok).toBe(false);
+     27|     expect(errorsOf(deep)).toMatch(/depth/i);
+       |                            ^
+     28|     const nestedField = [{ ...rec('u', '2026-09-01'), extra: { a: { b:…
+     29|     expect(validateRecords(nestedField).ok).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/engine/validate.test.ts > bounded record import > rejects impossible calendar days such as 2026-02-30 and accepts a real leap day
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/engine/validate.test.ts:35:22
+     33|   it('rejects impossible calendar days such as 2026-02-30 and accepts …
+     34|     const feb30 = validateRecords([rec('u', '2026-02-30')]);
+     35|     expect(feb30.ok).toBe(false);
+       |                      ^
+     36|     expect(errorsOf(feb30)).toMatch(/records\[0\]\.day/);
+     37|     expect(validateRecords([rec('u', '2026-04-31')]).ok).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/engine/validate.test.ts > bounded record import > rejects duplicate (user, day) rows naming both row indices
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/engine/validate.test.ts:45:18
+     43|   it('rejects duplicate (user, day) rows naming both row indices', () …
+     44|     const v = validateRecords([rec('ada.example', '2026-09-01'), rec('…
+     45|     expect(v.ok).toBe(false);
+       |                  ^
+     46|     expect(errorsOf(v)).toMatch(/records\[2\].*records\[0\]/);
+     47|     expect(errorsOf(v)).toMatch(/duplicate/i);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/engine/validate.test.ts > bounded record import > restricts user and dept to printable characters
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/engine/validate.test.ts:52:74
+     50|
+     51|   it('restricts user and dept to printable characters', () => {
+     52|     expect(validateRecords([rec('ada\u0000.example', '2026-09-01')]).o…
+       |                                                                          ^
+     53|     expect(validateRecords([rec('ada​.example', '2026-09-01')]).ok).to…
+     54|     const dept = validateRecords([rec('ada.example', '2026-09-01', { d…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  src/engine/validate.test.ts > bounded record import > addresses every error by path, requires finite numbers, drops unknown keys and caps the list at 20
+AssertionError: expected '#0: logins must be a number ≥ 0' to match /records\[0\]\.logins/
+
+- Expected:
+/records\[0\]\.logins/
+
++ Received:
+"#0: logins must be a number ≥ 0"
+
+ ❯ src/engine/validate.test.ts:63:25
+     61|     const v = validateRecords([{ ...rec('u', '2026-09-01'), logins: Nu…
+     62|     expect(v.ok).toBe(false);
+     63|     expect(errorsOf(v)).toMatch(/records\[0\]\.logins/);
+       |                         ^
+     64|     expect(errorsOf(v)).toMatch(/records\[0\]\.afterHoursPct/);
+     65|     const clean = validateRecords([{ ...rec('u', '2026-09-01'), extra:…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed (6)
+   Start at  18:34:12
+   Duration  574ms (transform 130ms, setup 0ms, import 146ms, tests 53ms, environment 0ms)
+

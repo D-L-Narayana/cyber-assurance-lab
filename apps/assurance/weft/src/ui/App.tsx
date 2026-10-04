@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { artifactsToCsvRows, findingsToCsvRows, toCsv } from '../engine/csv';
 import { analyze, buildManifest, diffBundles, signOff, SignoffError, verifyManifest } from '../engine/lineage';
 import { MAX_BUNDLE_BYTES, validateBundle, validateBundleObject, validateManifest } from '../engine/validate';
 import type { Artifact, Assertion, Bundle, BundleDiff, Link, VerifyResult } from '../engine/types';
@@ -133,6 +134,7 @@ export default function App() {
             <button type="button" onClick={() => diffRef.current?.click()}>Diff with another bundle</button>
             <input ref={diffRef} type="file" accept="application/json,.json" hidden aria-hidden="true" tabIndex={-1} onChange={(e) => void importFile(e.target.files?.[0], 'diff')} />
             <button type="button" onClick={() => downloadText(`weft-analysis-${stamp}.json`, JSON.stringify({ schema: 'weft.analysis/1', bundle: bundle.name, asOf: bundle.asOf, ...analysis }, null, 2))}>Export analysis</button>
+            <button type="button" onClick={() => downloadText(`weft-artifacts-${stamp}.csv`, toCsv(artifactsToCsvRows(bundle, analysis)), 'text/csv')}>Export artifacts CSV</button>
           </div>
         </div>
       </header>
@@ -178,7 +180,12 @@ export default function App() {
         </main>
 
         <aside className="side">
-          <Ledger issues={analysis.issues} high={high} onJump={(ref) => select(bundle.assertions.some((a) => a.id === ref) ? { type: 'assertion', id: ref } : bundle.artifacts.some((a) => a.id === ref) ? { type: 'artifact', id: ref } : null)} />
+          <Ledger
+            issues={analysis.issues}
+            high={high}
+            onJump={(ref) => select(bundle.assertions.some((a) => a.id === ref) ? { type: 'assertion', id: ref } : bundle.artifacts.some((a) => a.id === ref) ? { type: 'artifact', id: ref } : null)}
+            onExport={() => downloadText(`weft-findings-${stamp}.csv`, toCsv(findingsToCsvRows(analysis.issues)), 'text/csv')}
+          />
           {verify && (
             <section className="tool" aria-labelledby="verify-h">
               <h2 id="verify-h">Manifest verification</h2>

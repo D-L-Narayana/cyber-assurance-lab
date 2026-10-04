@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Browser-local web-assessment notebook: a deterministic in-tab lab application with four seeded flaws, declarative oracles, finding dedup, severity rationale, SHA-256 evidence hashes and a retest state machine.",
+  "description": "Browser-local web-assessment notebook: a deterministic in-tab lab application with five seeded flaws, declarative oracles, finding dedup, severity rationale, SHA-256 evidence hashes and a retest state machine.",
   "license": "MIT",
   "scripts": {
     "dev": "vite --port 6112 --strictPort",
@@ -27,5 +27,5 @@
     "vite": "7.3.6",
     "vitest": "4.1.11"
   },
-  "engines": { "node": ">=20" }
+  "engines": { "node": ">=20.19" }
 }

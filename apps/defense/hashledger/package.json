@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Hashledger — file-integrity and DLP policy simulator (educational prototype, synthetic data only)",
   "license": "MIT",
+  "engines": { "node": ">=20.19" },
   "scripts": {
     "dev": "vite --port 6132 --strictPort",
     "build": "tsc -p tsconfig.json && vite build",

@@ -87,7 +87,12 @@ label > span { display: block; font-size: 0.8rem; color: var(--ink-2); margin-bo
 .tile__id { position: relative; z-index: 1; }
 .tile__prio { position: absolute; left: 5px; bottom: 3px; font-size: 0.45rem; letter-spacing: 1px; color: var(--ink-2); }
 .tile__warn { position: absolute; right: 4px; top: 1px; font-size: 0.8rem; font-weight: 700; color: var(--bad); }
+/* Forecast marker: a glyph in the lower-right corner, inheriting the tile's own text colour (pattern + shape, never colour alone). */
+.tile__fc { position: absolute; right: 3px; bottom: 1px; font-size: 0.8rem; line-height: 1; font-weight: 700; font-family: var(--body); color: inherit; }
+.tile.will-degrade { border-bottom: 3px double currentColor; }
 .tile--legend { width: 30px; height: 30px; font-size: 0; --fnc: var(--id); }
+.tile--legend-fc { background: var(--paper); border-bottom: 3px double var(--ink); }
+.tile--legend-fc .tile__fc { font-size: 0.8rem; right: 2px; bottom: 0; }
 
 /* Status patterns. fnc = function hue. */
 .pat--sufficient { background: color-mix(in srgb, var(--fnc) 72%, white); }
@@ -153,6 +158,19 @@ th, td { text-align: left; padding: 0.55rem 0.7rem; border-bottom: 1px solid var
 th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
 tr.is-selected td { background: #eef2f8; }
 td.remed { max-width: 48ch; color: var(--ink-2); }
+
+/* Forecast */
+.forecast { margin-top: 2rem; }
+.forecast__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 1.5rem; align-items: start; }
+.forecast__head .pane-help { max-width: 70ch; }
+.forecast__controls { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: end; }
+.horizons { display: flex; gap: 0.75rem; align-items: center; margin: 0; padding: 0.35rem 0.75rem; border: 1px solid var(--line); background: var(--paper); }
+.horizons legend { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); padding: 0 0.3rem; }
+.horizons label { display: inline-flex; gap: 0.3rem; align-items: center; cursor: pointer; }
+.horizons label > span { display: inline; margin: 0; font-size: 0.9rem; color: var(--ink); }
+.horizons input { width: auto; margin: 0; accent-color: var(--ink); }
+.drivers { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; font-size: 0.88rem; }
+td.fc-drivers { max-width: 40ch; color: var(--ink-2); }
 .foot { margin-top: 2rem; color: var(--ink-3); font-size: 0.82rem; border-top: 1px solid var(--line); padding-top: 0.75rem; }
 
 @media (max-width: 1000px) {

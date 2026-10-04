@@ -16,9 +16,23 @@ Date: 2026-10-01. Scope: this repository only. Educational prototype; not a secu
 | Prototype pollution via `__proto__` keys | Rejected at parse time; engine never spreads untrusted objects into prototypes | Nested `__proto__` keys below the root are not scanned; the engine reads only known fields |
 | CSV formula injection in exported reports | `csvCell` prefixes any cell whose first non-whitespace/non-control char is `= + - @` (or starts with tab/CR) and quotes delimiters | Users who strip the apostrophe themselves re-expose the risk |
 | XSS through fixture strings | React escapes all text; no `dangerouslySetInnerHTML`, no `eval`, no `new Function` | None known |
-| Clickjacking / sniffing / referrer leakage on deployment | `vercel.json`: CSP `default-src 'self'`, `frame-ancestors 'none'`, `X-Frame-Options DENY`, `nosniff`, `Referrer-Policy no-referrer`, restrictive Permissions-Policy | CSP allows `style-src 'unsafe-inline'` because React inline styles set the progress-bar width and risk colour; no inline scripts are needed |
-| Wrong reviewer deciding, self-review (actor or delegate = holder), delegation to leavers, self-manager fixtures, silent SoD acceptance | Enforced in `buildCampaign` routing, `applyDecision`, `routeItem`, `validateFixture`; covered by tests (added after sixth-Fable review) | Reviewer identity is a dropdown — there is no authentication by design |
+| Clickjacking / sniffing / referrer leakage on deployment | `vercel.json` canonical lab-wide set (see "Security headers" below): CSP `default-src 'none'` with explicit `'self'` sources, `base-uri 'none'`, `form-action 'none'`, `frame-ancestors 'none'`, `object-src 'none'`; `X-Frame-Options DENY`, `nosniff`, `Referrer-Policy no-referrer`, restrictive Permissions-Policy, COOP/CORP `same-origin`, HSTS | CSP allows `style-src 'unsafe-inline'` because React inline styles set the progress-bar width and risk colour; no inline scripts are needed. Headers apply to the Vercel deployment only, not to `vite preview` |
+| Wrong reviewer deciding, self-review (actor or delegate = holder), delegation to leavers, self-manager fixtures, silent SoD acceptance | Enforced in `buildCampaign` routing, `applyDecision`, `routeItem`, `validateFixture`; covered by tests (added after sixth review) | Reviewer identity is a dropdown — there is no authentication by design |
 | Data persistence in restricted environments | No storage APIs; state resets on refresh | Users lose work if they do not export |
+| Decisions changed after a campaign was declared complete (October 2026) | `closeCampaign` guard: note ≥ 10 chars, pending items refused unless acknowledged and counted; `applyDecision`/`routeItem`/`bulkDecision` refuse on a closed campaign; UI disables the controls and shows the closing record | In-memory only; "Reset decisions" starts a new open campaign by design |
+| Edited export passed off as the original | `digest` = SHA-256 (Web Crypto) over canonical JSON of items, decisions, config and closing record, shown in the UI and written into the JSON | Tamper-*evident*, not tamper-proof: no key, so an editor can recompute; the CSV carries no digest |
+
+## Security headers
+
+`vercel.json` (updated in the October 2026 lab-wide round to the canonical set shared by all 25 apps) sends, for every path:
+
+- `Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'` — `style-src 'unsafe-inline'` stays for the inline progress-bar widths and risk colours; `form-action 'none'` is compatible because the only `<form>` (the decision drawer) calls `preventDefault()` and never navigates; fonts are self-hosted Fontsource packages, so `font-src 'self'` suffices.
+- `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`.
+- `Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()`.
+- `Cross-Origin-Opener-Policy: same-origin`, `Cross-Origin-Resource-Policy: same-origin`.
+- `Strict-Transport-Security: max-age=63072000; includeSubDomains`.
+
+Previously the CSP used `default-src 'self'`, `base-uri 'self'`, `form-action 'self'` and omitted CORP and HSTS.
 
 ## Data flow
 
@@ -26,12 +40,12 @@ Date: 2026-10-01. Scope: this repository only. Educational prototype; not a secu
 demo.json (bundled) ──┐
 user file (optional) ─┴─> parseBoundedJson -> validateFixture -> buildCampaign -> React state
                                                                      │
-                                            applyDecision / routeItem / bulkDecision (pure, returns new campaign)
+                                            applyDecision / routeItem / bulkDecision / closeCampaign (pure, returns new campaign)
                                                                      │
-                                            exportCertification -> Blob -> browser download (JSON / CSV)
+                                            exportCertificationWithDigest (SHA-256 via crypto.subtle) -> Blob -> browser download (JSON / CSV)
 ```
 
-Nothing leaves the tab. `URL.createObjectURL` blobs are revoked after download.
+Nothing leaves the tab. `URL.createObjectURL` blobs are revoked after download. No new import path was added in the October 2026 round; the digest is computed, never read back.
 
 ## Dependency findings
 
@@ -47,5 +61,5 @@ Axe-core (wcag2a/aa/21aa) was run via `../_qa/audit.mjs` at 1440/768/375 px. One
 
 - Risk weights are heuristics; see README.
 - `validateFixture` does not check that `managerId` chains are acyclic (not needed by the engine but would matter for org-chart views).
-- No campaign lock: decisions can be changed until the user exports; a real system would freeze a closed campaign.
+- Campaign lock exists since October 2026 (`closeCampaign`), but only in memory and without a signature; a real system would persist the closure and sign the export.
 - Browser QA is scripted for Chromium only.

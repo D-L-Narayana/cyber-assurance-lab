@@ -1,0 +1,910 @@
+$ npx vitest run --reporter=verbose tests/forecast.test.ts tests/contrast.test.ts
+# cwd apps/assurance/tessera
+# 2026-10-04T18:41:28.301Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/assurance/tessera
+
+ × tests/forecast.test.ts > forecast — dates and horizons > addDays rolls over months, years and leap days in UTC 9ms
+   → expected '2026-10-01' to be '2026-10-31' // Object.is equality
+ × tests/forecast.test.ts > forecast — dates and horizons > sorts horizons ascending, merges duplicates and drops non-positive, fractional or non-finite values 3ms
+   → expected [] to deeply equal [ 30, 90 ]
+ × tests/forecast.test.ts > forecast — dates and horizons > bounds the projection: at most MAX_HORIZONS horizons, none longer than MAX_HORIZON_DAYS 4ms
+   → expected [] to deeply equal [ Array(12) ]
+ × tests/forecast.test.ts > forecast — dates and horizons > defaults to 30/90/180 days and emits one row per subcategory per horizon, ordered by horizon then catalog order 2ms
+   → expected [] to have a length of 75 but got +0
+ × tests/forecast.test.ts > forecast — freshness boundaries > fresh → aging exactly one day after validDays: partial becomes weak with the artifact as the only driver 1ms
+   → row for PR.AA-05 at +90 days: expected undefined to be defined
+ × tests/forecast.test.ts > forecast — freshness boundaries > aging → stale exactly one day after 1.5 × validDays: weak becomes none 1ms
+   → row for PR.AA-05 at +35 days: expected undefined to be defined
+ × tests/forecast.test.ts > forecast — freshness boundaries > a future-dated artifact (stale by rule today) is projected as current once the horizon passes its date — an improvement, never a degradation 1ms
+   → row for PR.AA-05 at +30 days: expected undefined to be defined
+ × tests/forecast.test.ts > forecast — decision lapse > a valid override lapses exactly one day after DECISION_VALID_DAYS: sufficient reverts to the computed weak status 1ms
+   → row for PR.AA-05 at +65 days: expected undefined to be defined
+ × tests/forecast.test.ts > forecast — decision lapse > accepted-risk lapses to none and a not-applicable scoping lapses to the computed status 1ms
+   → row for PR.AA-05 at +365 days: expected undefined to be defined
+ × tests/forecast.test.ts > forecast — decision lapse > a decision that is already stale today is not "currently applied", so it never lapses 1ms
+   → expected [] to have a length of 3 but got +0
+ × tests/forecast.test.ts > forecast — decision lapse > a decision dated after asOf (ignored today) starts applying once the horizon passes its date; that is a degradation, not a lapse 1ms
+   → row for PR.AA-05 at +30 days: expected undefined to be defined
+ × tests/forecast.test.ts > forecast — no false degradation > reports no degradation, no drivers and no lapse when nothing in the pack changes within the horizons 1ms
+   → expected [] to have a length of 75 but got +0
+ × tests/forecast.test.ts > forecast — no false degradation > empty pack: every outcome is none now and later; nothing degrades; the summary is all zeros 1ms
+   → expected [] to have a length of 75 but got +0
+ × tests/forecast.test.ts > forecast — no false degradation > a status change at equal exposure (contradicted → refuted) is reported but is not a degradation 1ms
+   → row for PR.AA-05 at +36 days: expected undefined to be defined
+ × tests/forecast.test.ts > forecast — no false degradation > a refutation going stale improves the outcome; improvements are never degradations 1ms
+   → row for PR.AA-05 at +36 days: expected undefined to be defined
+ × tests/forecast.test.ts > forecast — determinism, summary and exports > is deterministic and order-stable: identical packs give byte-identical rows; horizon input order does not matter 1ms
+   → expected [] to have a length of 75 but got +0
+ × tests/forecast.test.ts > forecast — determinism, summary and exports > lists drivers sorted by evidence id regardless of pack order 1ms
+   → row for PR.AA-05 at +36 days: expected undefined to be defined
+ × tests/forecast.test.ts > forecast — determinism, summary and exports > summarises degrading outcomes per horizon and ranks the evidence driving them 1ms
+   → expected [] to deeply equal [ [ 30, '2026-10-31', +0 ], …(3) ]
+ × tests/forecast.test.ts > forecast — determinism, summary and exports > degradingIds collects the outcomes that degrade at any horizon up to the given day, sorted 1ms
+   → expected [] to deeply equal [ 'GV.PO-01', 'PR.AA-05', 'PR.DS-01' ]
+ × tests/forecast.test.ts > forecast — determinism, summary and exports > forecast CSV rows go through the same formula-neutralising writer as the report 1ms
+   → expected undefined to deeply equal [ 'horizonDays', 'asOf', …(12) ]
+ × tests/forecast.test.ts > forecast — determinism, summary and exports > buildReportWithForecast adds an additive, optional forecast block and leaves the base report byte-identical 10ms
+   → expected undefined to deeply equal [ 30, 91 ]
+ × tests/forecast.test.ts > forecast — bundled fixture > Harbourline: one outcome degrades within 30 days and five within 90 if no new evidence arrives 16ms
+   → expected [] to deeply equal [ 'PR.AA-05' ]
+ × tests/forecast.test.ts > forecast — bundled fixture > Harbourline: the quarter-old acceptances lapse at the 365-day boundary, turning accepted-risk back into none 1ms
+   → row for RC.CO-03 at +365 days: expected undefined to be defined
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --paper ≥ 4.5 2ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --gv on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --gv on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --id on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --id on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --pr on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --pr on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --de-text on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --de-text on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --rs on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --rs on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --rc on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --rc on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --good on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --good on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --bad on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --bad on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --warn-text on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --warn-text on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --focus on --paper ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --focus on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > text-role rules use the text-safe warn/ochre tokens, not the tile fill token 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > the contrast helper agrees with a known pair (black on white = 21) 0ms
+ ✓ tests/contrast.test.ts > forecast UI (October 2026) reuses guarded tokens only > the inverted pair used by solid buttons, including "Export forecast CSV" (paper on ink), is ≥ 4.5 0ms
+ × tests/contrast.test.ts > forecast UI (October 2026) reuses guarded tokens only > the forecast tile marker is a glyph that inherits the tile text colour (no colour-only meaning, no new token) 4ms
+   → expected '/* Tessera — mosaic workbench. Palett…' to match /\.tile__fc \{[^}]*color: inherit;/
+ × tests/contrast.test.ts > forecast UI (October 2026) reuses guarded tokens only > horizon selector labels use the ink text token on the paper surface 1ms
+   → expected '/* Tessera — mosaic workbench. Palett…' to match /\.horizons label > span \{[^}]*color:…/
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 25 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/contrast.test.ts > forecast UI (October 2026) reuses guarded tokens only > the forecast tile marker is a glyph that inherits the tile text colour (no colour-only meaning, no new token)
+AssertionError: expected '/* Tessera — mosaic workbench. Palett…' to match /\.tile__fc \{[^}]*color: inherit;/
+
+- Expected:
+/\.tile__fc \{[^}]*color: inherit;/
+
++ Received:
+"/* Tessera — mosaic workbench. Palette: cool mineral ground, ink, six muted function hues.
+   Status is encoded by pattern (not colour alone); function by hue. */
+:root {
+  --ground: #e9ecef;
+  --paper: #f7f8f9;
+  --ink: #121a26;
+  --ink-2: #44506a;
+  --ink-3: #56627a;
+  --line: #c9d0d9;
+  --stone: #cbd2da;
+  --stone-2: #b4bcc7;
+  --focus: #1f5fbf;
+  --gv: #5b4b8a;
+  --id: #2d5f8b;
+  --pr: #276b5c;
+  --de: #b07a1f; /* tile fill only */
+  --de-text: #8a5a10; /* text-safe ochre (≥ 4.5:1 on paper and ground) */
+  --rs: #8e3b46;
+  --rc: #4f6a2c;
+  --bad: #8e3b46;
+  --warn: #b07a1f; /* borders/fills only */
+  --warn-text: #8a5a10;
+  --good: #276b5c;
+  --display: 'Fraunces', Georgia, serif;
+  --body: 'Public Sans', system-ui, sans-serif;
+  --tile: 62px;
+}
+* { box-sizing: border-box; }
+html { background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.45; }
+body { margin: 0; }
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+h1 { font-size: 2.4rem; line-height: 1; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.05rem; }
+h4 { font-size: 0.95rem; }
+p { margin: 0.25rem 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: var(--ink); color: var(--paper); border: 1px solid var(--ink); border-radius: 4px; padding: 0.45rem 0.8rem; cursor: pointer; }
+button:hover { background: #22304a; }
+button.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+button.ghost:hover { background: var(--paper); }
+button.small { padding: 0.25rem 0.5rem; font-size: 0.85rem; }
+button.linkish { background: none; border: 0; padding: 0; color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+input, select, textarea { background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 0.4rem 0.5rem; width: 100%; }
+label > span { display: block; font-size: 0.8rem; color: var(--ink-2); margin-bottom: 0.15rem; }
+.skip { position: absolute; left: 0.5rem; top: 0.5rem; transform: translateY(-300%); background: var(--ink); color: var(--paper); padding: 0.5rem; z-index: 10; }
+.skip:focus { transform: none; }
+.muted { color: var(--ink-3); }
+.small { font-size: 0.82rem; }
+.eyebrow { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-2); }
+.empty { color: var(--ink-2); font-style: italic; }
+
+.app { max-width: 1440px; margin: 0 auto; padding: 1.25rem clamp(0.75rem, 2vw, 2rem) 3rem; }
+.masthead { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(0, 2fr); gap: 1.5rem; align-items: start; padding-bottom: 1rem; border-bottom: 2px solid var(--ink); }
+.masthead__sub { color: var(--ink-2); max-width: 46ch; margin-top: 0.5rem; }
+.profile { display: grid; grid-template-columns: 1fr 180px; gap: 0.75rem; align-content: start; }
+.profile__actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.profile__actions button { font-size: 0.85rem; padding: 0.4rem 0.65rem; }
+
+.notice { margin: 1rem 0 0; padding: 0.7rem 1rem; border-left: 4px solid var(--ink-3); background: var(--paper); }
+.notice--success { border-color: var(--good); }
+.notice--error { border-color: var(--bad); }
+.notice ul { margin: 0.4rem 0 0; padding-left: 1.2rem; font-size: 0.88rem; }
+
+.workbench { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.9fr); gap: 1.5rem; margin-top: 1.5rem; align-items: start; }
+.pane-head { margin-bottom: 0.75rem; }
+.pane-help { color: var(--ink-2); font-size: 0.9rem; }
+
+/* Mosaic */
+.mosaic { display: grid; gap: 0.9rem; }
+.row { background: var(--paper); border: 1px solid var(--line); border-left: 6px solid var(--fnc); padding: 0.7rem 0.9rem; }
+.row--GV { --fnc: var(--gv); } .row--ID { --fnc: var(--id); } .row--PR { --fnc: var(--pr); }
+.row--DE { --fnc: var(--de); --fnt: var(--de-text); } .row--RS { --fnc: var(--rs); } .row--RC { --fnc: var(--rc); }
+.row__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; align-items: baseline; margin-bottom: 0.5rem; }
+.row__code { font-family: var(--display); color: var(--fnt, var(--fnc)); margin-right: 0.25rem; }
+.row__roll { font-size: 0.85rem; color: var(--ink-2); margin: 0; }
+.row__cats { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; }
+.cat__label { font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-3); margin-bottom: 0.25rem; }
+.cat__tiles { display: flex; gap: 6px; }
+
+.tile { position: relative; width: var(--tile); height: var(--tile); border: 1px solid rgba(18, 26, 38, 0.25); border-radius: 3px; padding: 0; color: var(--ink);
+  display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 1.05rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+  transition: transform 160ms ease, box-shadow 160ms ease; }
+.tile:hover { background-color: unset; }
+.tile.is-selected { transform: translateY(-3px); box-shadow: 0 6px 0 -2px var(--fnc), 0 8px 14px rgba(18, 26, 38, 0.25); outline: 2px solid var(--ink); outline-offset: 1px; }
+.tile__id { position: relative; z-index: 1; }
+.tile__prio { position: absolute; left: 5px; bottom: 3px; font-size: 0.45rem; letter-spacing: 1px; color: var(--ink-2); }
+.tile__warn { position: absolute; right: 4px; top: 1px; font-size: 0.8rem; font-weight: 700; color: var(--bad); }
+.tile--legend { width: 30px; height: 30px; font-size: 0; --fnc: var(--id); }
+
+/* Status patterns. fnc = function hue. */
+.pat--sufficient { background: color-mix(in srgb, var(--fnc) 72%, white); }
+.pat--partial { background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--fnc) 62%, white) 0 7px, color-mix(in srgb, var(--fnc) 25%, white) 7px 14px); }
+.pat--weak { background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--fnc) 45%, white) 0 3px, var(--paper) 3px 9px); }
+.pat--none { background: radial-gradient(circle at 50% 50%, var(--stone-2) 1.4px, transparent 1.6px) 0 0 / 8px 8px, var(--ground); color: var(--ink-2); }
+.pat--contradicted { background: repeating-linear-gradient(45deg, var(--bad) 0 3px, transparent 3px 10px), repeating-linear-gradient(-45deg, var(--bad) 0 3px, #f3d9dc 3px 10px); color: #fff; text-shadow: 0 0 3px var(--ink); }
+.pat--refuted { background: var(--bad); color: #fff; }
+.pat--accepted-risk { background: repeating-linear-gradient(135deg, var(--warn) 0 4px, var(--paper) 4px 12px); color: var(--ink); }
+.pat--not-applicable { background: repeating-linear-gradient(0deg, var(--stone) 0 2px, var(--paper) 2px 10px); color: var(--ink-3); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin: 0.9rem 0 0; font-size: 0.82rem; color: var(--ink-2); }
+.legend__item { display: flex; gap: 0.5rem; align-items: center; }
+.legend dt, .legend dd { margin: 0; }
+
+/* Drawer */
+.drawer { background: var(--paper); border: 1px solid var(--line); padding: 1rem 1.1rem 1.25rem; display: grid; gap: 1rem; position: sticky; top: 0.75rem; max-height: calc(100vh - 1.5rem); overflow: auto; }
+.drawer--empty { color: var(--ink-2); }
+.drawer__top { display: flex; justify-content: space-between; gap: 1rem; align-items: start; }
+.drawer__id { font-size: 2rem; line-height: 1; margin: 0.2rem 0 0.4rem; }
+.drawer__statement { color: var(--ink-2); max-width: 60ch; }
+.fn { font-weight: 600; color: var(--fnc, var(--ink)); }
+.fn--GV { --fnc: var(--gv); } .fn--ID { --fnc: var(--id); } .fn--PR { --fnc: var(--pr); }
+.fn--DE { --fnc: var(--de-text); } .fn--RS { --fnc: var(--rs); } .fn--RC { --fnc: var(--rc); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; margin: 0; padding: 0.7rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.facts dt { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+.facts dd { margin: 0.15rem 0 0; }
+.status { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.82rem; font-weight: 600; border: 1px solid currentColor; }
+.status--sufficient { color: var(--good); }
+.status--partial, .status--weak { color: var(--warn-text); }
+.status--none { color: var(--ink-3); } .status--accepted-risk { color: var(--warn-text); border-style: double; } .status--contradicted, .status--refuted { color: var(--bad); } .status--not-applicable { color: var(--ink-3); border-style: dashed; }
+.band { font-weight: 700; }
+.band--low { color: var(--good); }
+.band--moderate { color: var(--warn-text); }
+.band--high { color: var(--bad); } .band--not-assessed { color: var(--ink-3); font-weight: 500; }
+.warnbox { background: #f8e9eb; border-left: 4px solid var(--bad); padding: 0.6rem 0.8rem; }
+.warnbox ul { margin: 0.25rem 0 0; padding-left: 1.2rem; }
+.remediation { background: #f1ebdc; border-left: 4px solid var(--warn); padding: 0.6rem 0.8rem; }
+.trace summary { cursor: pointer; font-weight: 600; }
+.trace ol { margin: 0.5rem 0 0; padding-left: 1.3rem; font-size: 0.88rem; color: var(--ink-2); }
+.trace li { margin-bottom: 0.2rem; }
+.evlist { list-style: none; margin: 0.5rem 0 0; padding: 0; display: grid; gap: 0.5rem; }
+.ev { border: 1px solid var(--line); border-left-width: 4px; padding: 0.55rem 0.7rem; display: grid; gap: 0.2rem; }
+.ev--fresh { border-left-color: var(--good); } .ev--aging { border-left-color: var(--warn); } .ev--stale { border-left-color: var(--stone-2); }
+.ev--refutes { border-left-color: var(--bad); background: #fbf3f4; }
+.ev__head { display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: center; }
+.ev__id { font-family: var(--display); font-weight: 700; }
+.ev__note { font-size: 0.85rem; color: var(--ink-2); font-style: italic; }
+.chip { font-size: 0.72rem; padding: 0.05rem 0.45rem; border-radius: 999px; background: var(--ground); color: var(--ink-2); }
+.chip--fresh { background: #dcebe6; color: var(--good); } .chip--aging { background: #f1e6cf; color: var(--warn-text); } .chip--stale { background: var(--stone); color: var(--ink-2); }
+.chip--refutes { background: #f3d9dc; color: var(--bad); } .chip--supports { background: #dde6f0; color: var(--id); }
+.addform, .decision { border-top: 1px dashed var(--line); padding-top: 0.8rem; display: grid; gap: 0.6rem; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem; }
+.field-error { color: var(--bad); font-size: 0.88rem; }
+.counter { color: var(--ink-3); font-weight: 400; } .counter--short { color: var(--bad); }
+.btnrow { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+/* Gaps */
+.gaps { margin-top: 2rem; }
+.table-wrap { overflow-x: auto; background: var(--paper); border: 1px solid var(--line); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { text-align: left; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+tr.is-selected td { background: #eef2f8; }
+td.remed { max-width: 48ch; color: var(--ink-2); }
+.foot { margin-top: 2rem; color: var(--ink-3); font-size: 0.82rem; border-top: 1px solid var(--line); padding-top: 0.75rem; }
+
+@media (max-width: 1000px) {
+  .workbench { grid-template-columns: 1fr; }
+  .drawer { position: static; max-height: none; }
+  .masthead { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  :root { --tile: 52px; }
+  h1 { font-size: 2rem; }
+  .profile { grid-template-columns: 1fr; }
+  .tile { font-size: 0.95rem; }
+  .drawer__id { font-size: 1.6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tile { transition: none; }
+  .tile.is-selected { transform: none; }
+}
+"
+
+ ❯ tests/contrast.test.ts:49:17
+     47|   });
+     48|   it('the forecast tile marker is a glyph that inherits the tile text …
+     49|     expect(css).toMatch(/\.tile__fc \{[^}]*color: inherit;/);
+       |                 ^
+     50|   });
+     51|   it('horizon selector labels use the ink text token on the paper surf…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/25]⎯
+
+ FAIL  tests/contrast.test.ts > forecast UI (October 2026) reuses guarded tokens only > horizon selector labels use the ink text token on the paper surface
+AssertionError: expected '/* Tessera — mosaic workbench. Palett…' to match /\.horizons label > span \{[^}]*color:…/
+
+- Expected:
+/\.horizons label > span \{[^}]*color: var\(--ink\)/
+
++ Received:
+"/* Tessera — mosaic workbench. Palette: cool mineral ground, ink, six muted function hues.
+   Status is encoded by pattern (not colour alone); function by hue. */
+:root {
+  --ground: #e9ecef;
+  --paper: #f7f8f9;
+  --ink: #121a26;
+  --ink-2: #44506a;
+  --ink-3: #56627a;
+  --line: #c9d0d9;
+  --stone: #cbd2da;
+  --stone-2: #b4bcc7;
+  --focus: #1f5fbf;
+  --gv: #5b4b8a;
+  --id: #2d5f8b;
+  --pr: #276b5c;
+  --de: #b07a1f; /* tile fill only */
+  --de-text: #8a5a10; /* text-safe ochre (≥ 4.5:1 on paper and ground) */
+  --rs: #8e3b46;
+  --rc: #4f6a2c;
+  --bad: #8e3b46;
+  --warn: #b07a1f; /* borders/fills only */
+  --warn-text: #8a5a10;
+  --good: #276b5c;
+  --display: 'Fraunces', Georgia, serif;
+  --body: 'Public Sans', system-ui, sans-serif;
+  --tile: 62px;
+}
+* { box-sizing: border-box; }
+html { background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.45; }
+body { margin: 0; }
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+h1 { font-size: 2.4rem; line-height: 1; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.05rem; }
+h4 { font-size: 0.95rem; }
+p { margin: 0.25rem 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: var(--ink); color: var(--paper); border: 1px solid var(--ink); border-radius: 4px; padding: 0.45rem 0.8rem; cursor: pointer; }
+button:hover { background: #22304a; }
+button.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+button.ghost:hover { background: var(--paper); }
+button.small { padding: 0.25rem 0.5rem; font-size: 0.85rem; }
+button.linkish { background: none; border: 0; padding: 0; color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+input, select, textarea { background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 0.4rem 0.5rem; width: 100%; }
+label > span { display: block; font-size: 0.8rem; color: var(--ink-2); margin-bottom: 0.15rem; }
+.skip { position: absolute; left: 0.5rem; top: 0.5rem; transform: translateY(-300%); background: var(--ink); color: var(--paper); padding: 0.5rem; z-index: 10; }
+.skip:focus { transform: none; }
+.muted { color: var(--ink-3); }
+.small { font-size: 0.82rem; }
+.eyebrow { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-2); }
+.empty { color: var(--ink-2); font-style: italic; }
+
+.app { max-width: 1440px; margin: 0 auto; padding: 1.25rem clamp(0.75rem, 2vw, 2rem) 3rem; }
+.masthead { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(0, 2fr); gap: 1.5rem; align-items: start; padding-bottom: 1rem; border-bottom: 2px solid var(--ink); }
+.masthead__sub { color: var(--ink-2); max-width: 46ch; margin-top: 0.5rem; }
+.profile { display: grid; grid-template-columns: 1fr 180px; gap: 0.75rem; align-content: start; }
+.profile__actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.profile__actions button { font-size: 0.85rem; padding: 0.4rem 0.65rem; }
+
+.notice { margin: 1rem 0 0; padding: 0.7rem 1rem; border-left: 4px solid var(--ink-3); background: var(--paper); }
+.notice--success { border-color: var(--good); }
+.notice--error { border-color: var(--bad); }
+.notice ul { margin: 0.4rem 0 0; padding-left: 1.2rem; font-size: 0.88rem; }
+
+.workbench { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.9fr); gap: 1.5rem; margin-top: 1.5rem; align-items: start; }
+.pane-head { margin-bottom: 0.75rem; }
+.pane-help { color: var(--ink-2); font-size: 0.9rem; }
+
+/* Mosaic */
+.mosaic { display: grid; gap: 0.9rem; }
+.row { background: var(--paper); border: 1px solid var(--line); border-left: 6px solid var(--fnc); padding: 0.7rem 0.9rem; }
+.row--GV { --fnc: var(--gv); } .row--ID { --fnc: var(--id); } .row--PR { --fnc: var(--pr); }
+.row--DE { --fnc: var(--de); --fnt: var(--de-text); } .row--RS { --fnc: var(--rs); } .row--RC { --fnc: var(--rc); }
+.row__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; align-items: baseline; margin-bottom: 0.5rem; }
+.row__code { font-family: var(--display); color: var(--fnt, var(--fnc)); margin-right: 0.25rem; }
+.row__roll { font-size: 0.85rem; color: var(--ink-2); margin: 0; }
+.row__cats { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; }
+.cat__label { font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-3); margin-bottom: 0.25rem; }
+.cat__tiles { display: flex; gap: 6px; }
+
+.tile { position: relative; width: var(--tile); height: var(--tile); border: 1px solid rgba(18, 26, 38, 0.25); border-radius: 3px; padding: 0; color: var(--ink);
+  display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 1.05rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+  transition: transform 160ms ease, box-shadow 160ms ease; }
+.tile:hover { background-color: unset; }
+.tile.is-selected { transform: translateY(-3px); box-shadow: 0 6px 0 -2px var(--fnc), 0 8px 14px rgba(18, 26, 38, 0.25); outline: 2px solid var(--ink); outline-offset: 1px; }
+.tile__id { position: relative; z-index: 1; }
+.tile__prio { position: absolute; left: 5px; bottom: 3px; font-size: 0.45rem; letter-spacing: 1px; color: var(--ink-2); }
+.tile__warn { position: absolute; right: 4px; top: 1px; font-size: 0.8rem; font-weight: 700; color: var(--bad); }
+.tile--legend { width: 30px; height: 30px; font-size: 0; --fnc: var(--id); }
+
+/* Status patterns. fnc = function hue. */
+.pat--sufficient { background: color-mix(in srgb, var(--fnc) 72%, white); }
+.pat--partial { background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--fnc) 62%, white) 0 7px, color-mix(in srgb, var(--fnc) 25%, white) 7px 14px); }
+.pat--weak { background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--fnc) 45%, white) 0 3px, var(--paper) 3px 9px); }
+.pat--none { background: radial-gradient(circle at 50% 50%, var(--stone-2) 1.4px, transparent 1.6px) 0 0 / 8px 8px, var(--ground); color: var(--ink-2); }
+.pat--contradicted { background: repeating-linear-gradient(45deg, var(--bad) 0 3px, transparent 3px 10px), repeating-linear-gradient(-45deg, var(--bad) 0 3px, #f3d9dc 3px 10px); color: #fff; text-shadow: 0 0 3px var(--ink); }
+.pat--refuted { background: var(--bad); color: #fff; }
+.pat--accepted-risk { background: repeating-linear-gradient(135deg, var(--warn) 0 4px, var(--paper) 4px 12px); color: var(--ink); }
+.pat--not-applicable { background: repeating-linear-gradient(0deg, var(--stone) 0 2px, var(--paper) 2px 10px); color: var(--ink-3); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin: 0.9rem 0 0; font-size: 0.82rem; color: var(--ink-2); }
+.legend__item { display: flex; gap: 0.5rem; align-items: center; }
+.legend dt, .legend dd { margin: 0; }
+
+/* Drawer */
+.drawer { background: var(--paper); border: 1px solid var(--line); padding: 1rem 1.1rem 1.25rem; display: grid; gap: 1rem; position: sticky; top: 0.75rem; max-height: calc(100vh - 1.5rem); overflow: auto; }
+.drawer--empty { color: var(--ink-2); }
+.drawer__top { display: flex; justify-content: space-between; gap: 1rem; align-items: start; }
+.drawer__id { font-size: 2rem; line-height: 1; margin: 0.2rem 0 0.4rem; }
+.drawer__statement { color: var(--ink-2); max-width: 60ch; }
+.fn { font-weight: 600; color: var(--fnc, var(--ink)); }
+.fn--GV { --fnc: var(--gv); } .fn--ID { --fnc: var(--id); } .fn--PR { --fnc: var(--pr); }
+.fn--DE { --fnc: var(--de-text); } .fn--RS { --fnc: var(--rs); } .fn--RC { --fnc: var(--rc); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; margin: 0; padding: 0.7rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.facts dt { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+.facts dd { margin: 0.15rem 0 0; }
+.status { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.82rem; font-weight: 600; border: 1px solid currentColor; }
+.status--sufficient { color: var(--good); }
+.status--partial, .status--weak { color: var(--warn-text); }
+.status--none { color: var(--ink-3); } .status--accepted-risk { color: var(--warn-text); border-style: double; } .status--contradicted, .status--refuted { color: var(--bad); } .status--not-applicable { color: var(--ink-3); border-style: dashed; }
+.band { font-weight: 700; }
+.band--low { color: var(--good); }
+.band--moderate { color: var(--warn-text); }
+.band--high { color: var(--bad); } .band--not-assessed { color: var(--ink-3); font-weight: 500; }
+.warnbox { background: #f8e9eb; border-left: 4px solid var(--bad); padding: 0.6rem 0.8rem; }
+.warnbox ul { margin: 0.25rem 0 0; padding-left: 1.2rem; }
+.remediation { background: #f1ebdc; border-left: 4px solid var(--warn); padding: 0.6rem 0.8rem; }
+.trace summary { cursor: pointer; font-weight: 600; }
+.trace ol { margin: 0.5rem 0 0; padding-left: 1.3rem; font-size: 0.88rem; color: var(--ink-2); }
+.trace li { margin-bottom: 0.2rem; }
+.evlist { list-style: none; margin: 0.5rem 0 0; padding: 0; display: grid; gap: 0.5rem; }
+.ev { border: 1px solid var(--line); border-left-width: 4px; padding: 0.55rem 0.7rem; display: grid; gap: 0.2rem; }
+.ev--fresh { border-left-color: var(--good); } .ev--aging { border-left-color: var(--warn); } .ev--stale { border-left-color: var(--stone-2); }
+.ev--refutes { border-left-color: var(--bad); background: #fbf3f4; }
+.ev__head { display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: center; }
+.ev__id { font-family: var(--display); font-weight: 700; }
+.ev__note { font-size: 0.85rem; color: var(--ink-2); font-style: italic; }
+.chip { font-size: 0.72rem; padding: 0.05rem 0.45rem; border-radius: 999px; background: var(--ground); color: var(--ink-2); }
+.chip--fresh { background: #dcebe6; color: var(--good); } .chip--aging { background: #f1e6cf; color: var(--warn-text); } .chip--stale { background: var(--stone); color: var(--ink-2); }
+.chip--refutes { background: #f3d9dc; color: var(--bad); } .chip--supports { background: #dde6f0; color: var(--id); }
+.addform, .decision { border-top: 1px dashed var(--line); padding-top: 0.8rem; display: grid; gap: 0.6rem; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem; }
+.field-error { color: var(--bad); font-size: 0.88rem; }
+.counter { color: var(--ink-3); font-weight: 400; } .counter--short { color: var(--bad); }
+.btnrow { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+/* Gaps */
+.gaps { margin-top: 2rem; }
+.table-wrap { overflow-x: auto; background: var(--paper); border: 1px solid var(--line); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { text-align: left; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+tr.is-selected td { background: #eef2f8; }
+td.remed { max-width: 48ch; color: var(--ink-2); }
+.foot { margin-top: 2rem; color: var(--ink-3); font-size: 0.82rem; border-top: 1px solid var(--line); padding-top: 0.75rem; }
+
+@media (max-width: 1000px) {
+  .workbench { grid-template-columns: 1fr; }
+  .drawer { position: static; max-height: none; }
+  .masthead { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  :root { --tile: 52px; }
+  h1 { font-size: 2rem; }
+  .profile { grid-template-columns: 1fr; }
+  .tile { font-size: 0.95rem; }
+  .drawer__id { font-size: 1.6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tile { transition: none; }
+  .tile.is-selected { transform: none; }
+}
+"
+
+ ❯ tests/contrast.test.ts:52:17
+     50|   });
+     51|   it('horizon selector labels use the ink text token on the paper surf…
+     52|     expect(css).toMatch(/\.horizons label > span \{[^}]*color: var\(--…
+       |                 ^
+     53|   });
+     54| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — dates and horizons > addDays rolls over months, years and leap days in UTC
+AssertionError: expected '2026-10-01' to be '2026-10-31' // Object.is equality
+
+Expected: "2026-10-31"
+Received: "2026-10-01"
+
+ ❯ tests/forecast.test.ts:59:39
+     57|   it('addDays rolls over months, years and leap days in UTC', () => {
+     58|     expect(addDays('2026-10-01', 0)).toBe('2026-10-01');
+     59|     expect(addDays('2026-10-01', 30)).toBe('2026-10-31');
+       |                                       ^
+     60|     expect(addDays('2026-10-01', 92)).toBe('2027-01-01');
+     61|     expect(addDays('2026-10-01', 180)).toBe('2027-03-30');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — dates and horizons > sorts horizons ascending, merges duplicates and drops non-positive, fractional or non-finite values
+AssertionError: expected [] to deeply equal [ 30, 90 ]
+
+- Expected
++ Received
+
+- [
+-   30,
+-   90,
+- ]
++ []
+
+ ❯ tests/forecast.test.ts:68:24
+     66|   it('sorts horizons ascending, merges duplicates and drops non-positi…
+     67|     const n = normaliseHorizons([90, 30, 30, 0, -5, Number.NaN, 30.5, …
+     68|     expect(n.horizons).toEqual([30, 90]);
+       |                        ^
+     69|     expect(n.dropped).toHaveLength(5);
+     70|     expect(forecastPack(pack([]), [])).toEqual([]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — dates and horizons > bounds the projection: at most MAX_HORIZONS horizons, none longer than MAX_HORIZON_DAYS
+AssertionError: expected [] to deeply equal [ Array(12) ]
+
+- Expected
++ Received
+
+- [
+-   10,
+-   20,
+-   30,
+-   40,
+-   50,
+-   60,
+-   70,
+-   80,
+-   90,
+-   100,
+-   110,
+-   120,
+- ]
++ []
+
+ ❯ tests/forecast.test.ts:78:27
+     76|     expect(MAX_HORIZON_DAYS).toBe(3650);
+     77|     const many = normaliseHorizons(Array.from({ length: 20 }, (_, i) =…
+     78|     expect(many.horizons).toEqual(Array.from({ length: 12 }, (_, i) =>…
+       |                           ^
+     79|     expect(many.dropped).toHaveLength(8);
+     80|     const far = normaliseHorizons([MAX_HORIZON_DAYS, MAX_HORIZON_DAYS …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — dates and horizons > defaults to 30/90/180 days and emits one row per subcategory per horizon, ordered by horizon then catalog order
+AssertionError: expected [] to have a length of 75 but got +0
+
+- Expected
++ Received
+
+- 75
++ 0
+
+ ❯ tests/forecast.test.ts:89:18
+     87|     expect([...DEFAULT_HORIZONS]).toEqual([30, 90, 180]);
+     88|     const rows = forecastPack(pack([ev({ id: 'E1' })]));
+     89|     expect(rows).toHaveLength(75);
+       |                  ^
+     90|     expect([...new Set(rows.map((r) => r.horizonDays))]).toEqual([30, …
+     91|     expect(rows.slice(0, 25).map((r) => r.subcategoryId)).toEqual(CATA…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — freshness boundaries > fresh → aging exactly one day after validDays: partial becomes weak with the artifact as the only driver
+AssertionError: row for PR.AA-05 at +90 days: expected undefined to be defined
+ ❯ row tests/forecast.test.ts:52:54
+     50| function row(rows: ForecastRow[], horizonDays: number, id = SUB): Fore…
+     51|   const r = rows.find((x) => x.horizonDays === horizonDays && x.subcat…
+     52|   expect(r, `row for ${id} at +${horizonDays} days`).toBeDefined();
+       |                                                      ^
+     53|   return r!;
+     54| }
+ ❯ tests/forecast.test.ts:101:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — freshness boundaries > aging → stale exactly one day after 1.5 × validDays: weak becomes none
+AssertionError: row for PR.AA-05 at +35 days: expected undefined to be defined
+ ❯ row tests/forecast.test.ts:52:54
+     50| function row(rows: ForecastRow[], horizonDays: number, id = SUB): Fore…
+     51|   const r = rows.find((x) => x.horizonDays === horizonDays && x.subcat…
+     52|   expect(r, `row for ${id} at +${horizonDays} days`).toBeDefined();
+       |                                                      ^
+     53|   return r!;
+     54| }
+ ❯ tests/forecast.test.ts:110:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — freshness boundaries > a future-dated artifact (stale by rule today) is projected as current once the horizon passes its date — an improvement, never a degradation
+AssertionError: row for PR.AA-05 at +30 days: expected undefined to be defined
+ ❯ row tests/forecast.test.ts:52:54
+     50| function row(rows: ForecastRow[], horizonDays: number, id = SUB): Fore…
+     51|   const r = rows.find((x) => x.horizonDays === horizonDays && x.subcat…
+     52|   expect(r, `row for ${id} at +${horizonDays} days`).toBeDefined();
+       |                                                      ^
+     53|   return r!;
+     54| }
+ ❯ tests/forecast.test.ts:117:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — decision lapse > a valid override lapses exactly one day after DECISION_VALID_DAYS: sufficient reverts to the computed weak status
+AssertionError: row for PR.AA-05 at +65 days: expected undefined to be defined
+ ❯ row tests/forecast.test.ts:52:54
+     50| function row(rows: ForecastRow[], horizonDays: number, id = SUB): Fore…
+     51|   const r = rows.find((x) => x.horizonDays === horizonDays && x.subcat…
+     52|   expect(r, `row for ${id} at +${horizonDays} days`).toBeDefined();
+       |                                                      ^
+     53|   return r!;
+     54| }
+ ❯ tests/forecast.test.ts:126:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — decision lapse > accepted-risk lapses to none and a not-applicable scoping lapses to the computed status
+AssertionError: row for PR.AA-05 at +365 days: expected undefined to be defined
+ ❯ row tests/forecast.test.ts:52:54
+     50| function row(rows: ForecastRow[], horizonDays: number, id = SUB): Fore…
+     51|   const r = rows.find((x) => x.horizonDays === horizonDays && x.subcat…
+     52|   expect(r, `row for ${id} at +${horizonDays} days`).toBeDefined();
+       |                                                      ^
+     53|   return r!;
+     54| }
+ ❯ tests/forecast.test.ts:132:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — decision lapse > a decision that is already stale today is not "currently applied", so it never lapses
+AssertionError: expected [] to have a length of 3 but got +0
+
+- Expected
++ Received
+
+- 3
++ 0
+
+ ❯ tests/forecast.test.ts:140:18
+    138|   it('a decision that is already stale today is not "currently applied…
+    139|     const mine = forecastPack(pack([], [dec('accepted', LONG, '2020-01…
+    140|     expect(mine).toHaveLength(3);
+       |                  ^
+    141|     expect(mine.every((r) => r.statusNow === 'none' && r.statusThen ==…
+    142|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — decision lapse > a decision dated after asOf (ignored today) starts applying once the horizon passes its date; that is a degradation, not a lapse
+AssertionError: row for PR.AA-05 at +30 days: expected undefined to be defined
+ ❯ row tests/forecast.test.ts:52:54
+     50| function row(rows: ForecastRow[], horizonDays: number, id = SUB): Fore…
+     51|   const r = rows.find((x) => x.horizonDays === horizonDays && x.subcat…
+     52|   expect(r, `row for ${id} at +${horizonDays} days`).toBeDefined();
+       |                                                      ^
+     53|   return r!;
+     54| }
+ ❯ tests/forecast.test.ts:147:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — no false degradation > reports no degradation, no drivers and no lapse when nothing in the pack changes within the horizons
+AssertionError: expected [] to have a length of 75 but got +0
+
+- Expected
++ Received
+
+- 75
++ 0
+
+ ❯ tests/forecast.test.ts:156:18
+    154|     const p = pack([ev({ id: 'E1', validDays: 3650 }), ev({ id: 'E2', …
+    155|     const rows = forecastPack(p);
+    156|     expect(rows).toHaveLength(75);
+       |                  ^
+    157|     expect(rows.every((r) => r.statusThen === r.statusNow && r.residua…
+    158|     expect(row(rows, 180).statusNow).toBe('sufficient');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — no false degradation > empty pack: every outcome is none now and later; nothing degrades; the summary is all zeros
+AssertionError: expected [] to have a length of 75 but got +0
+
+- Expected
++ Received
+
+- 75
++ 0
+
+ ❯ tests/forecast.test.ts:163:18
+    161|   it('empty pack: every outcome is none now and later; nothing degrade…
+    162|     const rows = forecastPack(pack([]));
+    163|     expect(rows).toHaveLength(75);
+       |                  ^
+    164|     expect(rows.every((r) => r.statusNow === 'none' && r.statusThen ==…
+    165|     const summary = forecastSummary(rows);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — no false degradation > a status change at equal exposure (contradicted → refuted) is reported but is not a degradation
+AssertionError: row for PR.AA-05 at +36 days: expected undefined to be defined
+ ❯ row tests/forecast.test.ts:52:54
+     50| function row(rows: ForecastRow[], horizonDays: number, id = SUB): Fore…
+     51|   const r = rows.find((x) => x.horizonDays === horizonDays && x.subcat…
+     52|   expect(r, `row for ${id} at +${horizonDays} days`).toBeDefined();
+       |                                                      ^
+     53|   return r!;
+     54| }
+ ❯ tests/forecast.test.ts:173:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — no false degradation > a refutation going stale improves the outcome; improvements are never degradations
+AssertionError: row for PR.AA-05 at +36 days: expected undefined to be defined
+ ❯ row tests/forecast.test.ts:52:54
+     50| function row(rows: ForecastRow[], horizonDays: number, id = SUB): Fore…
+     51|   const r = rows.find((x) => x.horizonDays === horizonDays && x.subcat…
+     52|   expect(r, `row for ${id} at +${horizonDays} days`).toBeDefined();
+       |                                                      ^
+     53|   return r!;
+     54| }
+ ❯ tests/forecast.test.ts:179:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — determinism, summary and exports > is deterministic and order-stable: identical packs give byte-identical rows; horizon input order does not matter
+AssertionError: expected [] to have a length of 75 but got +0
+
+- Expected
++ Received
+
+- 75
++ 0
+
+ ❯ tests/forecast.test.ts:190:18
+    188|     expect(JSON.stringify(forecastPack(p, [180, 30]))).toBe(JSON.strin…
+    189|     const rows = forecastPack(p);
+    190|     expect(rows).toHaveLength(75);
+       |                  ^
+    191|     for (let i = 1; i < rows.length; i++) expect(rows[i - 1].horizonDa…
+    192|     expect(forecastSummary(rows)).toHaveLength(3);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — determinism, summary and exports > lists drivers sorted by evidence id regardless of pack order
+AssertionError: row for PR.AA-05 at +36 days: expected undefined to be defined
+ ❯ row tests/forecast.test.ts:52:54
+     50| function row(rows: ForecastRow[], horizonDays: number, id = SUB): Fore…
+     51|   const r = rows.find((x) => x.horizonDays === horizonDays && x.subcat…
+     52|   expect(r, `row for ${id} at +${horizonDays} days`).toBeDefined();
+       |                                                      ^
+     53|   return r!;
+     54| }
+ ❯ tests/forecast.test.ts:198:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — determinism, summary and exports > summarises degrading outcomes per horizon and ranks the evidence driving them
+AssertionError: expected [] to deeply equal [ [ 30, '2026-10-31', +0 ], …(3) ]
+
+- Expected
++ Received
+
+- [
+-   [
+-     30,
+-     "2026-10-31",
+-     0,
+-   ],
+-   [
+-     90,
+-     "2026-12-30",
+-     0,
+-   ],
+-   [
+-     91,
+-     "2026-12-31",
+-     3,
+-   ],
+-   [
+-     180,
+-     "2027-03-30",
+-     3,
+-   ],
+- ]
++ []
+
+ ❯ tests/forecast.test.ts:208:70
+    206|     const rows = forecastPack(p, [30, 90, 91, 180]);
+    207|     const summary = forecastSummary(rows);
+    208|     expect(summary.map((s) => [s.horizonDays, s.asOf, s.degrading])).t…
+       |                                                                      ^
+    209|     expect(summary[2].topDrivers).toEqual([
+    210|       { evidenceId: 'E1', from: 'fresh', to: 'aging', outcomes: 3 },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — determinism, summary and exports > degradingIds collects the outcomes that degrade at any horizon up to the given day, sorted
+AssertionError: expected [] to deeply equal [ 'GV.PO-01', 'PR.AA-05', 'PR.DS-01' ]
+
+- Expected
++ Received
+
+- [
+-   "GV.PO-01",
+-   "PR.AA-05",
+-   "PR.DS-01",
+- ]
++ []
+
+ ❯ tests/forecast.test.ts:221:36
+    219|     const rows = forecastPack(p, [30, 91, 180]);
+    220|     expect(degradingIds(rows, 90)).toEqual([]);
+    221|     expect(degradingIds(rows, 91)).toEqual(['GV.PO-01', 'PR.AA-05', 'P…
+       |                                    ^
+    222|     expect(degradingIds(rows, 180)).toEqual(['GV.PO-01', 'PR.AA-05', '…
+    223|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — determinism, summary and exports > forecast CSV rows go through the same formula-neutralising writer as the report
+AssertionError: expected undefined to deeply equal [ 'horizonDays', 'asOf', …(12) ]
+
+- Expected:
+[
+  "horizonDays",
+  "asOf",
+  "subcategory",
+  "function",
+  "category",
+  "statusNow",
+  "statusThen",
+  "residualNow",
+  "residualThen",
+  "bandNow",
+  "bandThen",
+  "degrades",
+  "decisionLapses",
+  "drivers",
+]
+
++ Received:
+undefined
+
+ ❯ tests/forecast.test.ts:229:24
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — determinism, summary and exports > buildReportWithForecast adds an additive, optional forecast block and leaves the base report byte-identical
+AssertionError: expected undefined to deeply equal [ 30, 91 ]
+
+- Expected:
+[
+  30,
+  91,
+]
+
++ Received:
+undefined
+
+ ❯ tests/forecast.test.ts:244:45
+    242|     const withForecast = buildReportWithForecast(p, [30, 91]);
+    243|     expect(withForecast.schema).toBe('tessera.report/1');
+    244|     expect(withForecast.forecast?.horizons).toEqual([30, 91]);
+       |                                             ^
+    245|     expect(withForecast.forecast?.rows).toHaveLength(50);
+    246|     expect(withForecast.forecast?.note).toMatch(/no new evidence/i);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — bundled fixture > Harbourline: one outcome degrades within 30 days and five within 90 if no new evidence arrives
+AssertionError: expected [] to deeply equal [ 'PR.AA-05' ]
+
+- Expected
++ Received
+
+- [
+-   "PR.AA-05",
+- ]
++ []
+
+ ❯ tests/forecast.test.ts:261:36
+    259|     if (!v.ok) return;
+    260|     const rows = forecastPack(v.pack);
+    261|     expect(degradingIds(rows, 30)).toEqual(['PR.AA-05']);
+       |                                    ^
+    262|     expect(degradingIds(rows, 90)).toEqual(['GV.OC-03', 'ID.AM-01', 'P…
+    263|     expect(row(rows, 30, 'PR.AA-05')).toMatchObject({ statusNow: 'suff…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/25]⎯
+
+ FAIL  tests/forecast.test.ts > forecast — bundled fixture > Harbourline: the quarter-old acceptances lapse at the 365-day boundary, turning accepted-risk back into none
+AssertionError: row for RC.CO-03 at +365 days: expected undefined to be defined
+ ❯ row tests/forecast.test.ts:52:54
+     50| function row(rows: ForecastRow[], horizonDays: number, id = SUB): Fore…
+     51|   const r = rows.find((x) => x.horizonDays === horizonDays && x.subcat…
+     52|   expect(r, `row for ${id} at +${horizonDays} days`).toBeDefined();
+       |                                                      ^
+     53|   return r!;
+     54| }
+ ❯ tests/forecast.test.ts:275:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/25]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  25 failed | 29 passed (54)
+   Start at  18:41:31
+   Duration  708ms (transform 268ms, setup 0ms, import 296ms, tests 75ms, environment 0ms)
+

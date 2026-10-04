@@ -1,0 +1,30 @@
+$ npm run build
+# cwd apps/governance/pathcaster
+# 2026-10-04T20:42:24.940Z v20.20.1
+# exit 0
+
+
+> pathcaster@0.1.0 build
+> tsc --noEmit -p tsconfig.json && vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 36 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                       0.61 kB │ gzip:  0.34 kB
+dist/assets/jetbrains-mono-cyrillic-ext-wght-normal-EocZY2iu.woff2    2.03 kB
+dist/assets/jetbrains-mono-vietnamese-wght-normal-Bt-aOZkq.woff2      7.50 kB
+dist/assets/jetbrains-mono-greek-wght-normal-Bw9x6K1M.woff2           9.00 kB
+dist/assets/syne-greek-wght-normal-5tOOQDeJ.woff2                    11.20 kB
+dist/assets/jetbrains-mono-cyrillic-wght-normal-D73BlboJ.woff2       12.11 kB
+dist/assets/archivo-vietnamese-wght-normal-XAtsl5Q_.woff2            13.24 kB
+dist/assets/syne-latin-ext-wght-normal-JjI8ZrW1.woff2                14.72 kB
+dist/assets/jetbrains-mono-latin-ext-wght-normal-DBQx-q_a.woff2      15.20 kB
+dist/assets/archivo-latin-ext-wght-normal-C4zznr8T.woff2             32.61 kB
+dist/assets/syne-latin-wght-normal-BVsvWWA4.woff2                    34.61 kB
+dist/assets/archivo-latin-wght-normal-E0tuGl4L.woff2                 34.93 kB
+dist/assets/jetbrains-mono-latin-wght-normal-B9CIFXIH.woff2          40.40 kB
+dist/assets/index-CFJe3VxR.css                                       10.41 kB │ gzip:  2.65 kB
+dist/assets/index-BVbfQWh9.js                                       265.04 kB │ gzip: 81.09 kB
+✓ built in 2.26s

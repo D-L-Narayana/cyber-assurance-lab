@@ -66,9 +66,20 @@ export interface Flow {
 
 export type ExceptionStatus = 'proposed' | 'approved' | 'expired' | 'rejected';
 
+export type ExceptionSubjectKind = 'element' | 'flow';
+
+/**
+ * What an exception accepts: an element (`element-id`), a whole flow (`flow-id`, for UNMAPPED_TRANSFER /
+ * DANGLING_FLOW) or one element carried by a flow (`flow-id/element-id`, for PURPOSE_DRIFT). Matching is exact.
+ */
+export interface ExceptionSubject { kind: ExceptionSubjectKind; id: string }
+
 export interface RetentionException {
   id: string;
-  elementId: string;
+  /** Legacy subject (element id). Honoured when `subject` is absent; kept populated for element exceptions so older exports stay readable. */
+  elementId?: string;
+  /** October 2026 (additive, optional): explicit subject; when present it takes precedence over `elementId`. */
+  subject?: ExceptionSubject;
   /** Finding code this exception accepts, e.g. RETENTION_INFLATION. */
   acceptsFinding: FindingCode;
   rationale: string;

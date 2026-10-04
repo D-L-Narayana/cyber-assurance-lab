@@ -28,6 +28,7 @@ const PROTECTIVE_RULES = new Map<string, string>([
   ['R06-gpc-signal', 'Global Privacy Control opt-out'],
   ['R07-opt-out-on-record', 'recorded opt-out / withdrawal'],
   ['R08-objection', 'recorded objection'],
+  ['R09a-record-regime', 'record-regime consistency check (routes cross-regime grants to review)'],
 ]);
 const BASES = new Set(['consent', 'legitimate-interest', 'contract', 'notice-and-opt-out']);
 const CATEGORIES = new Set(['essential', 'operations', 'analytics', 'personalisation', 'marketing', 'sale-or-share', 'research']);

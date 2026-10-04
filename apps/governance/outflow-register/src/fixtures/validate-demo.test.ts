@@ -13,4 +13,16 @@ describe('demo register', () => {
     const q = renewalQueue(v.register, v.register.asOf);
     expect(q[0]!.agreementId).toBe('ag-07'); // expired backup agreement with four categories and an active flow
   });
+
+  it("PayCo's breach-window contradiction is stated in mixed units (24h vs 3 days) and still fires", () => {
+    const v = validateRegister(demo);
+    expect(v.ok).toBe(true);
+    if (!v.ok) return;
+    const payco = v.register.agreements.filter((a) => a.vendorId === 'v-payco').flatMap((a) => a.obligations).filter((o) => o.kind === 'breach_notification').map((o) => o.requirement);
+    expect(payco).toEqual(expect.arrayContaining(['24h', '3 days']));
+    const c = findIssues(v.register, v.register.asOf).find((i) => i.kind === 'contradictory_breach_window' && i.vendorId === 'v-payco');
+    expect(c).toBeDefined();
+    expect(c!.detail).toMatch(/24h/);
+    expect(c!.detail).toMatch(/3 days/);
+  });
 });

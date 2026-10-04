@@ -1,0 +1,61 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/privacy/forethought
+# 2026-10-04T19:15:46.983Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/privacy/forethought
+
+ ✓ src/App.test.tsx > Forethought app (integration, added after the UI) > shows the demo as high inherent risk with no sign-off blockers 778ms
+ ✓ src/App.test.tsx > Forethought app (integration, added after the UI) > changing an answer reveals a follow-up question and can introduce a blocker 2711ms
+ ✓ src/App.test.tsx > Forethought app (integration, added after the UI) > signing binds a hash; editing afterwards marks the signature stale 2375ms
+ ✓ src/App.test.tsx > Forethought app (integration, added after the UI) > refuses to sign while blockers exist and explains why 1334ms
+ ✓ src/App.test.tsx > Forethought app (integration, added after the UI) > switching audience shows the executive summary 988ms
+ ✓ src/App.test.tsx > Forethought app (integration, added after the UI) > marking an evidence-required mitigation verified without a reference does not count and blocks 318ms
+ ✓ src/engine/engine.test.ts > band > maps a 5x5 likelihood x impact product to four bands 3ms
+ ✓ src/engine/engine.test.ts > rubric > has ten top-level questions plus follow-ups, and every question has at least one option that moves a theme 2ms
+ ✓ src/engine/engine.test.ts > rubric > reveals follow-up questions only when their trigger answer is chosen 2ms
+ ✓ src/engine/engine.test.ts > rubric > every mitigation references real themes 1ms
+ ✓ src/engine/engine.test.ts > score > starts every theme at likelihood 1 x impact 1 when nothing is answered 1ms
+ ✓ src/engine/engine.test.ts > score > clamps likelihood and impact to the 1..5 range 1ms
+ ✓ src/engine/engine.test.ts > score > lists the answers that contributed to each theme 1ms
+ ✓ src/engine/engine.test.ts > score > only implemented or verified mitigations reduce residual risk; planned ones affect the projection 1ms
+ ✓ src/engine/engine.test.ts > score > a mitigation that requires evidence counts only when verified with an evidence reference 1ms
+ ✓ src/engine/engine.test.ts > score > residual never exceeds inherent and projected never exceeds residual (property over random mitigation sets) 40ms
+ ✓ src/engine/engine.test.ts > score > calibration: the low fixture scores low overall, the demo scores high, the children-and-profiling fixture scores very high 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > blocks when visible questions are unanswered 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > blocks a high residual theme without a recorded acceptance and clears it with one 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > a very-high residual theme cannot be accepted by the product owner alone 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > blocks when a flow leaves the origin region with no mechanism 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > requires DPO consultation when the inherent risk is DPIA-scale 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > blocks when a verified mitigation lacks its evidence reference 0ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > the demo fixture is signable as shipped 3ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > signOff refuses while blockers exist and records the content hash when clear 11ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > changing an answer after sign-off makes the signature stale 1ms
+ ✓ src/engine/engine.test.ts > sign-off invariants > content hash ignores signatures and versions but changes with answers, mitigations, flows and acceptances 4ms
+ ✓ src/engine/engine.test.ts > versioning > snapshot increments the version and summarises what changed since the last snapshot 2ms
+ ✓ src/engine/engine.test.ts > versioning > snapshotting without changes records no-change 1ms
+ ✓ src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > snapshot stores the canonical content on the version 0ms
+ ✓ src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > export → import → snapshot yields a field-level diff (answer change and mitigation status change) 1ms
+ ✓ src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > legacy files whose versions carry no content still import; the next summary says the previous content is unavailable 1ms
+ ✓ src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > omits content above 64 KiB and says so; the following snapshot then has no field-level basis 8ms
+ ✓ src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > does not leak snapshot content across assessments that share a content hash 1ms
+ ✓ src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > ignores retained content whose hash does not match the version it sits on 1ms
+ ✓ src/engine/engine.test.ts > version content persistence (October 2026 upgrade round) > fromCanonical reconstructs the assessable content and round-trips through canonicalContent 2ms
+ ✓ src/engine/engine.test.ts > version content import (October 2026 upgrade round) > accepts and round-trips a version with canonical content 1ms
+ ✓ src/engine/engine.test.ts > version content import (October 2026 upgrade round) > still imports legacy files whose versions have no content 0ms
+ ✓ src/engine/engine.test.ts > version content import (October 2026 upgrade round) > rejects content that is not a string, is above 64 KiB, or is not canonical content JSON, naming the path 1ms
+ ✓ src/engine/engine.test.ts > narrative > produces a deterministic executive summary naming the overall band and the top themes 1ms
+ ✓ src/engine/engine.test.ts > import/export > round-trips and rejects unknown question/option/mitigation ids 1ms
+ ✓ src/engine/engine.test.ts > import/export > bounds size and nesting and validates enums 0ms
+ ✓ src/engine/engine.test.ts > hostile nesting (review finding) > returns a validation error, not a RangeError, for 20,000 nested arrays inside the byte limit 2ms
+ ✓ src/engine/engine.test.ts > strict import (review findings) > rejects impossible calendar dates even when they match the pattern 0ms
+ ✓ src/engine/engine.test.ts > strict import (review findings) > rejects malformed or oversized list fields instead of silently filtering them 1ms
+ ✓ src/engine/engine.test.ts > strict import (review findings) > rejects duplicate mitigation ids, flow ids, acceptance themes, signature roles and version numbers 1ms
+ ✓ src/engine/engine.test.ts > strict import (review findings) > reports the offending path in the error message 0ms
+
+ Test Files  2 passed (2)
+      Tests  47 passed (47)
+   Start at  19:15:49
+   Duration  15.32s (transform 833ms, setup 1.23s, import 1.53s, tests 8.61s, environment 3.27s)
+

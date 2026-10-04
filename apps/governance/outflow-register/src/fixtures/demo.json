@@ -163,7 +163,7 @@
         {
           "id": "ob-02a",
           "kind": "breach_notification",
-          "requirement": "72h",
+          "requirement": "3 days",
           "evidence": {
             "ref": "Addendum §3",
             "on": "2026-02-01"

@@ -1,0 +1,321 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/assurance/tierline
+# 2026-10-04T19:09:02.567Z v20.20.1
+# exit 1
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
+
+
+ RUN  v4.1.11 <repo>/apps/assurance/tierline
+
+ ✓ tests/engine.test.ts > model > has 8 questions whose weights sum to 100 and whose options are unique with 0..4 points 3ms
+ ✓ tests/engine.test.ts > model > defines stricter evidence and cadence for higher tiers 0ms
+ ✓ tests/engine.test.ts > inherent score and tier > is 0 for all-minimum answers and 100 for all-maximum answers 0ms
+ ✓ tests/engine.test.ts > inherent score and tier > weights contributions: a 4-point answer on a 25-weight question contributes 25 0ms
+ ✓ tests/engine.test.ts > inherent score and tier > maps score to tiers at the documented thresholds (inclusive) 0ms
+ ✓ tests/engine.test.ts > inherent score and tier > hard trigger: regulated data with privileged access is tier 1 even at a low score 1ms
+ ✓ tests/engine.test.ts > inherent score and tier > hard trigger: unknown subprocessors with personal data is at least tier 2 1ms
+ ✓ tests/engine.test.ts > inherent score and tier > treats unanswered questions as unknown, reports them and scores them at maximum (conservative) 4ms
+ ✓ tests/engine.test.ts > sensitivity analysis > finds single-answer changes that move the tier up or down 8ms
+ ✓ tests/engine.test.ts > sensitivity analysis > reports a downward flip when a vendor sits just above a boundary 1ms
+ ✓ tests/engine.test.ts > sensitivity analysis > returns no downward flips for hard-triggered tier 1 vendors except those that remove the trigger 1ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > addMonths handles month-end clamping 1ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > tier 1 requires six evidence types; tier 3 only a questionnaire 0ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > marks evidence valid, expiring (≤ 60 days), expired or missing against asOf 1ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > uses the newest evidence of a type, and the requirement validity caps the item validity 0ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > an active exception gives half credit; an expired exception gives none 0ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > residual = inherent × (1 − 0.6 × coverage), rounded to one decimal 4ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > review cadence: due = lastReview + tier months; overdue when asOf is later; missing review is overdue 2ms
+ ✓ tests/engine.test.ts > review queue > creates items for missing/expired/expiring evidence, exceptions, review cadence, tier drift and incomplete answers 2ms
+ ✓ tests/engine.test.ts > review queue > orders by priority descending: tier-1 overdue items outrank tier-3 items; ties broken by vendor name 2ms
+ ✓ tests/engine.test.ts > review queue > produces no items for a fully covered, recently reviewed vendor with the recorded tier 0ms
+ ✓ tests/engine.test.ts > review queue > is deterministic 2ms
+ ✓ tests/engine.test.ts > review queue > exports a formula-safe CSV of the queue 1ms
+ ✓ tests/engine.test.ts > register validation > accepts a valid register 1ms
+ ✓ tests/engine.test.ts > register validation > rejects oversized input by UTF-8 bytes, malformed JSON and non-objects 2ms
+ ✓ tests/engine.test.ts > register validation > rejects unknown question ids, unknown option ids, bad dates and validMonths out of range with paths 1ms
+ ✓ tests/engine.test.ts > register validation > rejects more than 200 vendors and duplicate vendor ids 7ms
+ ✓ tests/engine.test.ts > register validation > rejects an exception for an evidence type the vendor tier does not even require? no — exceptions are validated only for type 0ms
+ ✓ tests/engine.test.ts > bundled fixture > validates, has 15 vendors, covers all three tiers and contains the planned adversarial cases 19ms
+ ✓ tests/engine.test.ts > sixth review regressions — future-dated evidence and exception validity cap > evidence issued after the assessment date gets no credit and is reported as future-dated 10ms
+ ✓ tests/engine.test.ts > sixth review regressions — future-dated evidence and exception validity cap > future-dated evidence does not shadow an older valid item of the same type 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — future-dated evidence and exception validity cap > an exception that runs longer than the policy cap gets no credit and is reported as out of policy 1ms
+ ✓ tests/engine.test.ts > sixth review regressions — future-dated evidence and exception validity cap > the exception cap is a labelled heuristic in the scoring note 0ms
+ × tests/forecast.test.ts > forecastQueue — evidence that will lapse > lists valid and expiring evidence with the lapse date and days until, naming the item 16ms
+   → expected [] to deeply equal [ { vendorId: 'V-2', …(6) }, …(1) ]
+ × tests/forecast.test.ts > forecastQueue — evidence that will lapse > includes an item lapsing exactly horizon days out and excludes one day later; today's expiry counts as 0 days 2ms
+   → expected [] to deeply equal [ 90 ]
+ ✓ tests/forecast.test.ts > forecastQueue — evidence that will lapse > excludes everything that has already lapsed — those rows belong to the live queue 11ms
+ × tests/forecast.test.ts > forecastQueue — evidence that will lapse > does not forecast a lapse when a future-dated item of the same type becomes usable in time 2ms
+   → expected +0 to be 1 // Object.is equality
+ × tests/forecast.test.ts > forecastQueue — exceptions and reviews > forecasts active exceptions that end and periodic reviews that fall due, sorted by lapse date 4ms
+   → expected [] to deeply equal [ [ 'exception-expires', …(3) ], …(1) ]
+ × tests/forecast.test.ts > forecastQueue — exceptions and reviews > moving the assessment date past a forecast lapse moves the item into the live queue and out of the forecast 1ms
+   → Cannot read properties of undefined (reading 'lapsesOn')
+ × tests/forecast.test.ts > forecastQueue — ordering, defaults, determinism, CSV > sorts by lapse date, then vendor name, and is deterministic regardless of input order 1ms
+   → expected [] to deeply equal [ …(3) ]
+ × tests/forecast.test.ts > forecastQueue — ordering, defaults, determinism, CSV > defaults to a 180-day horizon, offers 90/180/365, and tolerates a bad horizon value 1ms
+   → expected [] to deeply equal [ 'IN' ]
+ × tests/forecast.test.ts > forecastQueue — ordering, defaults, determinism, CSV > exports a formula-safe CSV through the shared writer 2ms
+   → expected '' to be '"vendorId","vendor","tier","kind","de…' // Object.is equality
+ × tests/forecast.test.ts > forecastQueue — bundled fixture > produces at least one row of every kind within 180 days, all in range, sorted, and never loses rows when the horizon widens 4ms
+   → expected Set{} to deeply equal Set{ 'evidence-lapses', …(2) }
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --panel ≥ 4.5 2ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --accent-bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --accent-bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --accent-bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --t1 on --panel ≥ 4.5 6ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --t2 on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --t3 on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --accent on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --bad on --panel ≥ 4.5 2ms
+ × tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --t2 on --accent-bg ≥ 4.5 15ms
+   → expected 4.366238607284655 to be greater than or equal to 4.5
+ × tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --accent on --accent-bg ≥ 4.5 1ms
+   → expected 4.285709082353654 to be greater than or equal to 4.5
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --bad on --accent-bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --t1 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --t2 ≥ 4.5 2ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --t3 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --ink ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > the selected-row surface and the text tokens placed on it are the ones guarded above 3ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > the contrast helper agrees with a known pair (black on white = 21) 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --t2 on --accent-bg ≥ 4.5
+AssertionError: expected 4.366238607284655 to be greater than or equal to 4.5
+ ❯ tests/contrast.test.ts:33:42
+     31|   for (const [fg, bg] of pairs) {
+     32|     it(`${fg} on ${bg} ≥ 4.5`, () => {
+     33|       expect(contrast(hex(fg), hex(bg))).toBeGreaterThanOrEqual(4.5);
+       |                                          ^
+     34|     });
+     35|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --accent on --accent-bg ≥ 4.5
+AssertionError: expected 4.285709082353654 to be greater than or equal to 4.5
+ ❯ tests/contrast.test.ts:33:42
+     31|   for (const [fg, bg] of pairs) {
+     32|     it(`${fg} on ${bg} ≥ 4.5`, () => {
+     33|       expect(contrast(hex(fg), hex(bg))).toBeGreaterThanOrEqual(4.5);
+       |                                          ^
+     34|     });
+     35|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+ FAIL  tests/forecast.test.ts > forecastQueue — evidence that will lapse > lists valid and expiring evidence with the lapse date and days until, naming the item
+AssertionError: expected [] to deeply equal [ { vendorId: 'V-2', …(6) }, …(1) ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "daysUntil": 45,
+-     "detail": StringContaining "questionnaire",
+-     "kind": "evidence-lapses",
+-     "lapsesOn": "2026-11-15",
+-     "tier": 3,
+-     "vendorId": "V-2",
+-     "vendorName": "Pier 9 Office Supplies",
+-   },
+-   {
+-     "daysUntil": 100,
+-     "detail": StringContaining "questionnaire",
+-     "kind": "evidence-lapses",
+-     "lapsesOn": "2027-01-09",
+-     "tier": 3,
+-     "vendorId": "V-1",
+-     "vendorName": "Northwind Freight Analytics",
+-   },
+- ]
++ []
+
+ ❯ tests/forecast.test.ts:43:15
+     41|     expect(requirementResults(soon, 3, AS_OF)[0].state).toBe('expiring…
+     42|     const f = forecastQueue(register([calm, soon]), AS_OF, 180);
+     43|     expect(f).toEqual([
+       |               ^
+     44|       { vendorId: 'V-2', vendorName: 'Pier 9 Office Supplies', tier: 3…
+     45|       { vendorId: 'V-1', vendorName: 'Northwind Freight Analytics', ti…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  tests/forecast.test.ts > forecastQueue — evidence that will lapse > includes an item lapsing exactly horizon days out and excludes one day later; today's expiry counts as 0 days
+AssertionError: expected [] to deeply equal [ 90 ]
+
+- Expected
++ Received
+
+- [
+-   90,
+- ]
++ []
+
+ ❯ tests/forecast.test.ts:52:80
+     50|   it('includes an item lapsing exactly horizon days out and excludes o…
+     51|     const edge = vendor({ evidence: [questionnaireExpiring('E1', addDa…
+     52|     expect(forecastQueue(register([edge]), AS_OF, 90).map((i) => i.day…
+       |                                                                                ^
+     53|     expect(forecastQueue(register([edge]), AS_OF, 89)).toEqual([]);
+     54|     const today = vendor({ evidence: [questionnaireExpiring('E0', AS_O…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+ FAIL  tests/forecast.test.ts > forecastQueue — evidence that will lapse > does not forecast a lapse when a future-dated item of the same type becomes usable in time
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/forecast.test.ts:77:131
+     75|     expect(requirementResults(v, 3, AS_OF)[0]).toMatchObject({ state: …
+     76|     expect(forecastQueue(register([v]), AS_OF, 180)).toEqual([]);
+     77|     expect(forecastQueue(register([vendor({ evidence: [questionnaireEx…
+       |                                                                                                                                   ^
+     78|   });
+     79| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯
+
+ FAIL  tests/forecast.test.ts > forecastQueue — exceptions and reviews > forecasts active exceptions that end and periodic reviews that fall due, sorted by lapse date
+AssertionError: expected [] to deeply equal [ [ 'exception-expires', …(3) ], …(1) ]
+
+- Expected
++ Received
+
+- [
+-   [
+-     "exception-expires",
+-     "2026-12-15",
+-     75,
+-     1,
+-   ],
+-   [
+-     "review-due",
+-     "2027-02-10",
+-     132,
+-     1,
+-   ],
+- ]
++ []
+
+ ❯ tests/forecast.test.ts:85:69
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯
+
+ FAIL  tests/forecast.test.ts > forecastQueue — exceptions and reviews > moving the assessment date past a forecast lapse moves the item into the live queue and out of the forecast
+TypeError: Cannot read properties of undefined (reading 'lapsesOn')
+ ❯ tests/forecast.test.ts:100:17
+     98|     const v = vendor({ evidence: [questionnaireExpiring('E1', addDays(…
+     99|     const [item] = forecastQueue(register([v]), AS_OF, 90);
+    100|     expect(item.lapsesOn).toBe(addDays(AS_OF, 30));
+       |                 ^
+    101|     const later = addDays(item.lapsesOn, 1);
+    102|     expect(forecastQueue(register([v], later), later, 90)).toEqual([]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯
+
+ FAIL  tests/forecast.test.ts > forecastQueue — ordering, defaults, determinism, CSV > sorts by lapse date, then vendor name, and is deterministic regardless of input order
+AssertionError: expected [] to deeply equal [ …(3) ]
+
+- Expected
++ Received
+
+- [
+-   "2026-10-11 Alpha Snacks review-due",
+-   "2026-10-31 Alpha Snacks evidence-lapses",
+-   "2026-10-31 Zeta Logistics evidence-lapses",
+- ]
++ []
+
+ ❯ tests/forecast.test.ts:114:69
+    112|     const alpha = vendor({ id: 'A', name: 'Alpha Snacks', evidence: [q…
+    113|     const f = forecastQueue(register([zeta, alpha]), AS_OF, 90);
+    114|     expect(f.map((i) => `${i.lapsesOn} ${i.vendorName} ${i.kind}`)).to…
+       |                                                                     ^
+    115|       `${addDays(AS_OF, 10)} Alpha Snacks review-due`,
+    116|       `${addDays(AS_OF, 30)} Alpha Snacks evidence-lapses`,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯
+
+ FAIL  tests/forecast.test.ts > forecastQueue — ordering, defaults, determinism, CSV > defaults to a 180-day horizon, offers 90/180/365, and tolerates a bad horizon value
+AssertionError: expected [] to deeply equal [ 'IN' ]
+
+- Expected
++ Received
+
+- [
+-   "IN",
+- ]
++ []
+
+ ❯ tests/forecast.test.ts:128:60
+    126|     const outside = vendor({ id: 'OUT', name: 'Outside', evidence: [qu…
+    127|     const r = register([inside, outside]);
+    128|     expect(forecastQueue(r, AS_OF).map((i) => i.vendorId)).toEqual(['I…
+       |                                                            ^
+    129|     expect(forecastQueue(r, AS_OF, 365).map((i) => i.vendorId)).toEqua…
+    130|     expect(forecastQueue(r, AS_OF, Number.NaN)).toEqual(forecastQueue(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯
+
+ FAIL  tests/forecast.test.ts > forecastQueue — ordering, defaults, determinism, CSV > exports a formula-safe CSV through the shared writer
+AssertionError: expected '' to be '"vendorId","vendor","tier","kind","de…' // Object.is equality
+
+- Expected
++ Received
+
+- "vendorId","vendor","tier","kind","detail","lapsesOn","daysUntil"
+
+ ❯ tests/forecast.test.ts:138:22
+    136|     const items = forecastQueue(register([v]), AS_OF, 90);
+    137|     const lines = toCsv(forecastToCsvRows(items)).split('\r\n');
+    138|     expect(lines[0]).toBe('"vendorId","vendor","tier","kind","detail",…
+       |                      ^
+    139|     expect(lines.length).toBe(items.length + 1);
+    140|     expect(lines[1]).toContain(`"'=HYPERLINK(""x"")"`);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯
+
+ FAIL  tests/forecast.test.ts > forecastQueue — bundled fixture > produces at least one row of every kind within 180 days, all in range, sorted, and never loses rows when the horizon widens
+AssertionError: expected Set{} to deeply equal Set{ 'evidence-lapses', …(2) }
+
+- Expected
++ Received
+
+- Set {
+-   "evidence-lapses",
+-   "exception-expires",
+-   "review-due",
+- }
++ Set {}
+
+ ❯ tests/forecast.test.ts:153:43
+    151|     if (!r.ok) return;
+    152|     const f = forecastQueue(r.register, r.register.asOf, 180);
+    153|     expect(new Set(f.map((i) => i.kind))).toEqual(new Set(['evidence-l…
+       |                                           ^
+    154|     for (const i of f) {
+    155|       expect(i.daysUntil).toBeGreaterThanOrEqual(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯
+
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  11 failed | 55 passed (66)
+   Start at  19:09:04
+   Duration  1.23s (transform 258ms, setup 0ms, import 302ms, tests 172ms, environment 0ms)
+

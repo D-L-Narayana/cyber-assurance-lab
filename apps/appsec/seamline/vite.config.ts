@@ -9,6 +9,7 @@ export default defineConfig({
   plugins: [react()],
   server: { port: 6113, strictPort: true },
   preview: { port: 6113, strictPort: true },
-  build: { sourcemap: false, target: 'es2022' },
+  // fonts must ship as files: the production CSP is font-src 'self' (no data:), so nothing may be inlined as a data: URL.
+  build: { sourcemap: false, target: 'es2022', assetsInlineLimit: 0 },
   test: { environment: 'node', include: ['src/**/*.test.ts'] },
 });

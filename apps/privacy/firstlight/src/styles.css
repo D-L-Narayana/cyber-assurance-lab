@@ -130,6 +130,15 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
 .band.very-high { background: var(--red-dim); color: var(--red-text); }
 .sev ul { margin: 8px 0 0; padding-left: 18px; font-size: 12.5px; color: var(--mute); }
 .sev ul li { margin-bottom: 3px; }
+/* "What would change the band": text-only list under the severity card; focusable so keyboard users can reach it. */
+.flips { margin-top: 10px; padding: 10px 14px; background: var(--panel-2); border: 1px solid var(--rule); border-radius: 4px; }
+.flips h3 { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); margin-bottom: 6px; }
+.flips ul { margin: 0; padding-left: 18px; font-size: 12.5px; color: var(--text); }
+.flips li { margin-bottom: 3px; }
+.flips .delta { font-family: var(--mono); color: var(--mute); }
+.flips p { margin: 0; font-size: 12.5px; color: var(--mute); }
+.flips .flips-note { margin-top: 6px; font-size: 11.5px; }
+
 .factors { display: grid; gap: 8px; margin-top: 12px; }
 .factors label { font-size: 12px; font-weight: 600; color: var(--mute); display: grid; gap: 3px; }
 .factors select, .factors input, .factors textarea { font-weight: 400; font-size: 13px; padding: 6px 8px; border: 1px solid var(--rule); border-radius: 3px; background: var(--bg); color: var(--text); color-scheme: dark; width: 100%; }

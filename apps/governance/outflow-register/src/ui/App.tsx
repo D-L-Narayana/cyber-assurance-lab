@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import demoJson from '../fixtures/demo.json';
-import { effectiveStatus, evidencePacket, exportIssues, findIssues, renewalQueue, transition, validateRegister } from '../engine/register';
+import { effectiveStatus, evidencePacket, exportIssues, findIssues, parseWindowHours, renewalQueue, transition, validateRegister } from '../engine/register';
 import type { Agreement, AgreementStatus, Register } from '../engine/types';
 import { parseBoundedJson } from '../engine/safe';
 import { downloadText } from './download';
@@ -148,7 +148,7 @@ export function App() {
                 </div>
                 <div>
                   <h3>Obligations · {sel.obligations.filter((o) => o.evidence).length}/{sel.obligations.length} evidenced</h3>
-                  {sel.obligations.length === 0 ? <p className="note">No obligations recorded.</p> : <ul className="obls">{sel.obligations.map((o) => <li key={o.id}><i className={o.evidence ? '' : 'open'} aria-hidden="true" /><span>{o.kind.replace(/_/g, ' ')} — {o.requirement}{o.evidence ? <span className="mono"> · {o.evidence.ref}, {o.evidence.on}</span> : <strong> · no evidence</strong>}</span></li>)}</ul>}
+                  {sel.obligations.length === 0 ? <p className="note">No obligations recorded.</p> : <ul className="obls">{sel.obligations.map((o) => { const hours = o.kind === 'breach_notification' ? parseWindowHours(o.requirement) : undefined; return <li key={o.id}><i className={o.evidence ? '' : 'open'} aria-hidden="true" /><span>{o.kind.replace(/_/g, ' ')} — {o.requirement}{hours !== undefined && <span className="mono"> · {hours === null ? 'window not comparable' : `= ${hours} h`}</span>}{o.evidence ? <span className="mono"> · {o.evidence.ref}, {o.evidence.on}</span> : <strong> · no evidence</strong>}</span></li>; })}</ul>}
                 </div>
                 <div>
                   <h3>Flows under this agreement · {liveFlows.length} active</h3>

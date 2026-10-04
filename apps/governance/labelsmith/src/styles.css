@@ -76,6 +76,8 @@ h1, h2, h3 { font-family: var(--display); margin: 0; }
 .waterfall li.matched { background: var(--violet-soft); }
 .waterfall li.matched i { opacity: 1; }
 .waterfall li.skipped { opacity: 0.55; }
+.waterfall li.suppressed { opacity: 0.85; } /* text column also says "suppressed", so meaning is not colour/opacity-only; slate reason text stays ≥ 5.4:1 on white */
+.waterfall li.suppressed i { opacity: 0.2; }
 .waterfall .rname { font-family: var(--display); font-weight: 600; font-size: 13px; }
 .waterfall .rreason { color: var(--slate); font-size: 12px; }
 .waterfall .w { height: 6px; background: var(--hair); border-radius: 3px; overflow: hidden; }

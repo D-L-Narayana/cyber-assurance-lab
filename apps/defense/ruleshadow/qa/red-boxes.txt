@@ -1,0 +1,352 @@
+$ npx vitest run --reporter=verbose src/engine/boxes.test.ts
+# cwd apps/defense/ruleshadow
+# 2026-10-04T18:40:39.820Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/defense/ruleshadow
+
+ × src/engine/boxes.test.ts > boxes: volumes > computes BigInt volumes: any/any/any is 2^80, a host-to-host single port is 1 27ms
+   → expected 0n to be 1208925819614629174706176n // Object.is equality
+ × src/engine/boxes.test.ts > boxes: volumes > builds per-protocol boxes: any → tcp/udp/icmp, icmp → full port interval, port lists → one box per interval 8ms
+   → expected [ 'tcp' ] to deeply equal [ 'icmp', 'tcp', 'udp' ]
+ × src/engine/boxes.test.ts > boxes: subtraction > leaves a disjoint target untouched and removes a containing or identical cover completely 3ms
+   → expected [ { …(3) } ] to deeply equal []
+ × src/engine/boxes.test.ts > boxes: subtraction > splits along src, then dst, then ports: an interior cover leaves six disjoint fragments whose volumes add up 7ms
+   → expected [ { …(3) } ] to have a length of 6 but got 1
+ × src/engine/boxes.test.ts > boxes: subtraction > two half-space covers remove the target entirely; one half leaves exactly half the volume 2ms
+   → expected [ { …(3) } ] to deeply equal []
+ × src/engine/boxes.test.ts > boxes: subtraction > is exact under the budget (10 slabs per axis → 1 331 fragments) and matches the analytic remainder volume 4ms
+   → expected [ { src: { lo: +0, …(1) }, …(2) } ] to have a length of 1331 but got 1
+ × src/engine/boxes.test.ts > boxes: subtraction > stops splitting and flags approximate on a hostile 300-slab set, never holding more fragments than the budget 5ms
+   → expected false to be true // Object.is equality
+ × src/engine/boxes.test.ts > boxes: rule coverage > two half-space earlier rules cover a later rule completely (fraction 1) although neither contains it 1ms
+   → expected { fraction: +0, …(2) } to deeply equal { fraction: 1, …(2) }
+ × src/engine/boxes.test.ts > boxes: rule coverage > a quarter-space earlier rule gives 0.25; three quarters give 0.75; disjoint rules give 0 1ms
+   → expected +0 to be 0.25 // Object.is equality
+ × src/engine/boxes.test.ts > boxes: rule coverage > does not credit an earlier rule whose volume was already removed by rules before it (first-match attribution) 1ms
+   → expected { fraction: +0, …(2) } to deeply equal { fraction: 0.5, …(2) }
+ × src/engine/boxes.test.ts > boxes: rule coverage > handles ICMP and port-any asymmetrically, as the containment analysis does 1ms
+   → expected +0 to be 1 // Object.is equality
+ × src/engine/boxes.test.ts > boxes: rule coverage > excludes earlier rules whose zones do not cover the rule, and disabled earlier rules 1ms
+   → expected +0 to be 1 // Object.is equality
+ × src/engine/boxes.test.ts > boxes: rule coverage > is exact for 30 slabs and flags approximate (lower-bound fraction) on the hostile 300-rule set 11ms
+   → expected [] to have a length of 30 but got +0
+ ✓ src/engine/boxes.test.ts > boxes: rule coverage > is deterministic: identical inputs give identical results 1ms
+ × src/engine/boxes.test.ts > boxes: rule coverage > formats coverage without rounding a partial cover up to 100% or down to 0% 1ms
+   → expected '100%' to be '>99%' // Object.is equality
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 14 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: volumes > computes BigInt volumes: any/any/any is 2^80, a host-to-host single port is 1
+AssertionError: expected 0n to be 1208925819614629174706176n // Object.is equality
+
+- Expected
++ Received
+
+- 1208925819614629174706176n
++ 0n
+
+ ❯ src/engine/boxes.test.ts:32:29
+     30| describe('boxes: volumes', () => {
+     31|   it('computes BigInt volumes: any/any/any is 2^80, a host-to-host sin…
+     32|     expect(volume(ANY_BOX)).toBe(2n ** 80n);
+       |                             ^
+     33|     expect(volume(box('10.0.0.1/32', '10.0.0.2/32', '443'))).toBe(1n);
+     34|     expect(volume(box('10.0.0.0/8', 'any', 'any'))).toBe(2n ** 72n);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: volumes > builds per-protocol boxes: any → tcp/udp/icmp, icmp → full port interval, port lists → one box per interval
+AssertionError: expected [ 'tcp' ] to deeply equal [ 'icmp', 'tcp', 'udp' ]
+
+- Expected
++ Received
+
+  [
+-   "icmp",
+    "tcp",
+-   "udp",
+  ]
+
+ ❯ src/engine/boxes.test.ts:39:41
+     37|   it('builds per-protocol boxes: any → tcp/udp/icmp, icmp → full port …
+     38|     const anyRule = ruleBoxes(rule({ proto: 'any', ports: '443' }))!;
+     39|     expect(Object.keys(anyRule).sort()).toEqual(['icmp', 'tcp', 'udp']…
+       |                                         ^
+     40|     expect(anyRule.tcp![0].ports).toEqual({ lo: 443, hi: 443 });
+     41|     expect(anyRule.icmp![0].ports).toEqual({ lo: 443, hi: 443 });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: subtraction > leaves a disjoint target untouched and removes a containing or identical cover completely
+AssertionError: expected [ { …(3) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "dst": {
++       "hi": 167773450,
++       "lo": 167773450,
++     },
++     "ports": {
++       "hi": 443,
++       "lo": 443,
++     },
++     "src": {
++       "hi": 184549375,
++       "lo": 167772160,
++     },
++   },
++ ]
+
+ ❯ src/engine/boxes.test.ts:56:45
+     54|     expect(subtractBoxes(t, [box('192.168.0.0/16', '10.0.5.10/32', '44…
+     55|     expect(subtractBoxes(t, [box('10.0.0.0/8', '10.0.5.10/32', '80')])…
+     56|     expect(subtractBoxes(t, [t]).remainder).toEqual([]);
+       |                                             ^
+     57|     expect(subtractBoxes(t, [box('any', 'any', 'any')]).remainder).toE…
+     58|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: subtraction > splits along src, then dst, then ports: an interior cover leaves six disjoint fragments whose volumes add up
+AssertionError: expected [ { …(3) } ] to have a length of 6 but got 1
+
+- Expected
++ Received
+
+- 6
++ 1
+
+ ❯ src/engine/boxes.test.ts:64:23
+     62|     const { remainder, approximate } = subtractBoxes(t, [c]);
+     63|     expect(approximate).toBe(false);
+     64|     expect(remainder).toHaveLength(6);
+       |                       ^
+     65|     expect(sum(remainder)).toBe(volume(t) - volume(c));
+     66|     // src below / src above keep the full dst and port extent of the …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: subtraction > two half-space covers remove the target entirely; one half leaves exactly half the volume
+AssertionError: expected [ { …(3) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "dst": {
++       "hi": 167773450,
++       "lo": 167773450,
++     },
++     "ports": {
++       "hi": 443,
++       "lo": 443,
++     },
++     "src": {
++       "hi": 184549375,
++       "lo": 167772160,
++     },
++   },
++ ]
+
+ ❯ src/engine/boxes.test.ts:78:56
+     76|     const t = box('10.0.0.0/8', '10.0.5.10/32', '443');
+     77|     const lower = box('10.0.0.0/9', '10.0.5.10/32', '443'), upper = bo…
+     78|     expect(subtractBoxes(t, [lower, upper]).remainder).toEqual([]);
+       |                                                        ^
+     79|     const half = subtractBoxes(t, [lower]);
+     80|     expect(half.remainder).toEqual([upper]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: subtraction > is exact under the budget (10 slabs per axis → 1 331 fragments) and matches the analytic remainder volume
+AssertionError: expected [ { src: { lo: +0, …(1) }, …(2) } ] to have a length of 1331 but got 1
+
+- Expected
++ Received
+
+- 1331
++ 1
+
+ ❯ src/engine/boxes.test.ts:86:23
+     84|     const { remainder, approximate } = subtractBoxes(ANY_BOX, slabBoxe…
+     85|     expect(approximate).toBe(false);
+     86|     expect(remainder).toHaveLength(11 * 11 * 11);
+       |                       ^
+     87|     expect(sum(remainder)).toBe(exactRemainder(10));
+     88|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: subtraction > stops splitting and flags approximate on a hostile 300-slab set, never holding more fragments than the budget
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/boxes.test.ts:91:25
+     89|   it('stops splitting and flags approximate on a hostile 300-slab set,…
+     90|     const { remainder, approximate } = subtractBoxes(ANY_BOX, slabBoxe…
+     91|     expect(approximate).toBe(true);
+       |                         ^
+     92|     expect(remainder.length).toBeLessThanOrEqual(4000);
+     93|     // The early stop only skips subtractions, so the remainder is an …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: rule coverage > two half-space earlier rules cover a later rule completely (fraction 1) although neither contains it
+AssertionError: expected { fraction: +0, …(2) } to deeply equal { fraction: 1, …(2) }
+
+- Expected
++ Received
+
+  {
+    "approximate": false,
+-   "coveringRuleIds": [
+-     "A",
+-     "B",
+-   ],
+-   "fraction": 1,
++   "coveringRuleIds": [],
++   "fraction": 0,
+  }
+
+ ❯ src/engine/boxes.test.ts:103:38
+    101|   it('two half-space earlier rules cover a later rule completely (frac…
+    102|     const a = rule({ id: 'A', seq: 1, src: '10.0.0.0/9' }), b = rule({…
+    103|     expect(coverage(target, [a, b])).toEqual({ fraction: 1, coveringRu…
+       |                                      ^
+    104|   });
+    105|   it('a quarter-space earlier rule gives 0.25; three quarters give 0.7…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: rule coverage > a quarter-space earlier rule gives 0.25; three quarters give 0.75; disjoint rules give 0
+AssertionError: expected +0 to be 0.25 // Object.is equality
+
+- Expected
++ Received
+
+- 0.25
++ 0
+
+ ❯ src/engine/boxes.test.ts:106:88
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: rule coverage > does not credit an earlier rule whose volume was already removed by rules before it (first-match attribution)
+AssertionError: expected { fraction: +0, …(2) } to deeply equal { fraction: 0.5, …(2) }
+
+- Expected
++ Received
+
+  {
+    "approximate": false,
+-   "coveringRuleIds": [
+-     "A",
+-   ],
+-   "fraction": 0.5,
++   "coveringRuleIds": [],
++   "fraction": 0,
+  }
+
+ ❯ src/engine/boxes.test.ts:114:40
+    112|   it('does not credit an earlier rule whose volume was already removed…
+    113|     const a = rule({ id: 'A', seq: 1, src: '10.0.0.0/9' }), dup = rule…
+    114|     expect(coverage(target, [a, dup])).toEqual({ fraction: 0.5, coveri…
+       |                                        ^
+    115|   });
+    116|   it('handles ICMP and port-any asymmetrically, as the containment ana…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: rule coverage > handles ICMP and port-any asymmetrically, as the containment analysis does
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/engine/boxes.test.ts:119:102
+    117|     const icmpTarget = rule({ id: 'I', seq: 10, proto: 'icmp', ports: …
+    118|     expect(coverage(icmpTarget, [rule({ id: 'T', seq: 1, proto: 'tcp',…
+    119|     expect(coverage(icmpTarget, [rule({ id: 'I0', seq: 1, proto: 'icmp…
+       |                                                                                                      ^
+    120|     expect(coverage(icmpTarget, [rule({ id: 'ANY', seq: 1, proto: 'any…
+    121|     const tiny = coverage(icmpTarget, [rule({ id: 'A443', seq: 1, prot…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: rule coverage > excludes earlier rules whose zones do not cover the rule, and disabled earlier rules
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/engine/boxes.test.ts:135:109
+    133|     expect(coverage(target, [rule({ id: 'G', seq: 1, ...full, zoneFrom…
+    134|     expect(coverage(target, [rule({ id: 'G', seq: 1, ...full, zoneTo: …
+    135|     expect(coverage(target, [rule({ id: 'Z', seq: 1, ...full, zoneFrom…
+       |                                                                                                             ^
+    136|     expect(coverage(target, [rule({ id: 'S', seq: 1, ...full })]).frac…
+    137|     expect(coverage(target, [rule({ id: 'OFF', seq: 1, ...full, enable…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: rule coverage > is exact for 30 slabs and flags approximate (lower-bound fraction) on the hostile 300-rule set
+AssertionError: expected [] to have a length of 30 but got +0
+
+- Expected
++ Received
+
+- 30
++ 0
+
+ ❯ src/engine/boxes.test.ts:146:35
+    144|     const exact = coverage(TARGET_ANY, slabs(10));
+    145|     expect(exact.approximate).toBe(false);
+    146|     expect(exact.coveringRuleIds).toHaveLength(30);
+       |                                   ^
+    147|     expect(exact.fraction).toBeCloseTo(1 - Number(exactRemainder(10)) …
+    148|     const hostile = coverage(TARGET_ANY, slabs(100), 4000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/14]⎯
+
+ FAIL  src/engine/boxes.test.ts > boxes: rule coverage > formats coverage without rounding a partial cover up to 100% or down to 0%
+AssertionError: expected '100%' to be '>99%' // Object.is equality
+
+Expected: ">99%"
+Received: "100%"
+
+ ❯ src/engine/boxes.test.ts:164:35
+    162|     expect(formatCoverage(0.5)).toBe('50%');
+    163|     expect(formatCoverage(0.25)).toBe('25%');
+    164|     expect(formatCoverage(0.996)).toBe('>99%');
+       |                                   ^
+    165|     expect(formatCoverage(1 - Number.EPSILON)).toBe('>99%');
+    166|     expect(formatCoverage(0.004)).toBe('<1%');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  14 failed | 1 passed (15)
+   Start at  18:40:41
+   Duration  748ms (transform 213ms, setup 0ms, import 230ms, tests 75ms, environment 0ms)
+

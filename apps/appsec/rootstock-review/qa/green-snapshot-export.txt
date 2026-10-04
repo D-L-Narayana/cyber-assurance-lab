@@ -1,0 +1,62 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/appsec/rootstock-review
+# 2026-10-04T20:41:09.774Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/appsec/rootstock-review
+
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > converts a lockfileVersion 3 packages map into a valid rootstock.lockgraph/1 that round-trips through the validator 6ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > accepts lockfileVersion 2 and ignores the legacy dependencies tree however deeply it nests 2ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > rejects lockfileVersion 1 and unknown versions with a clear error 0ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > checks the UTF-8 byte cap before parsing and bounds entry and dependency counts 16ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — shape and bounds > never throws on hostile or malformed input 2ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > keeps scoped names, derives names from the last node_modules segment and records alias installs honestly 1ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > keeps two versions of one package and lists both in the registry, resolved per declared range 11ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > maps licence, install scripts, deprecation and optional dependencies; absent fields stay absent 1ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > excludes dev-only packages by default, includes them with includeDev, and counts them in a note 1ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > excludes peerDependencies edges and says so 1ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > turns an npm: alias range into an unresolved edge with a note — never a crash, never a widened match 2ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > leaves file:, link:, git, workspace:, tarball-URL and dist-tag ranges unresolved with reasons 7ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > collapses the same name@version installed at two paths into one record with the union of ranges 1ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > defaults a missing root version to 0.0.0 with a note and skips entries without a version 1ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > supplies no advisories and no import evidence unless given, states it, and reachability is unknown everywhere 2ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > uses supplied import evidence and advisories, including scoped direct dependencies, and plans against the lock registry 3ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > rejects invalid import names or malformed advisories with path-addressed errors instead of guessing 0ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > uses the demo policy by default and the supplied policy otherwise 1ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > states the conversion in the review notes and the exported report 2ms
+ ✓ src/engine/__tests__/lockfile.test.ts > convertPackageLock — mapping > is deterministic and independent of the key order in the lockfile 2ms
+ ✓ src/engine/__tests__/lockfile.test.ts > graph traversal budget > exposes an explicit budget and completes the demo graph without truncation 1ms
+ ✓ src/engine/__tests__/lockfile.test.ts > graph traversal budget > completes a layered 300-package graph within the per-direct budget and flags that path lists were cut 106ms
+ ✓ src/engine/__tests__/lockfile.test.ts > graph traversal budget > flags truncation when the budget is tiny while depth and reachability stay exact 10ms
+ ✓ src/engine/__tests__/lockfile.test.ts > graph traversal budget > surfaces truncation through the review and the report 2ms
+ ✓ src/engine/__tests__/lockfile.test.ts > snapshot export — a converted lockgraph can be saved, edited offline and re-imported > serialises a converted snapshot as rootstock.lockgraph/1 JSON that re-imports identically, including source and unparsable 18ms
+ ✓ src/engine/__tests__/lockfile.test.ts > snapshot export — a converted lockgraph can be saved, edited offline and re-imported > lets an offline advisory list be added to the exported snapshot and re-imported (the documented workflow) 1ms
+ ✓ src/engine/__tests__/lockfile.test.ts > snapshot export — a converted lockgraph can be saved, edited offline and re-imported > serialises the demo snapshot without inventing fields and round-trips it unchanged 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > semver > parses and orders versions, with prereleases below their release 3ms
+ ✓ src/engine/__tests__/rootstock.test.ts > semver > implements caret, tilde, comparators, x-ranges, hyphen ranges and unions 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > lockgraph validation > accepts the synthetic snapshot 2ms
+ ✓ src/engine/__tests__/rootstock.test.ts > lockgraph validation > rejects malformed versions, unknown severities, oversized input and duplicate name@version 19ms
+ ✓ src/engine/__tests__/rootstock.test.ts > graph > resolves each range to the highest satisfying package, keeps multiple versions, tolerates cycles and marks unresolved edges 7ms
+ ✓ src/engine/__tests__/rootstock.test.ts > graph > enumerates bounded root paths and depth 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > matches advisories by semver range and ignores patched versions 10ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > plans an in-range bump, names a parent conflict, and reports no fix when none exists 2ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > labels reachability as known, inferred or unknown — never as exploitability 4ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > evaluates licence policy including OR expressions and empty licences 2ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > raises provenance flags without turning them into verdicts 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > summarises blocking items and unknown states 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > review > is deterministic 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > report > exports a stable schema and a markdown plan that states its limits 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > respects parentheses: (MIT OR Apache-2.0) AND GPL-3.0-only is deny, not allow 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > applies SPDX precedence: AND binds tighter than OR 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > handles nested groups and OR with nested AND 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > fails closed to unknown on malformed or unbalanced expressions 5ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > treats unsupported WITH exceptions and unknown identifiers conservatively 10ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > bounds tokens and nesting 1ms
+ ✓ src/engine/__tests__/rootstock.test.ts > licence expression parsing — council regressions (fail closed) > explains the decision in the detail text 1ms
+
+ Test Files  2 passed (2)
+      Tests  48 passed (48)
+   Start at  20:41:10
+   Duration  1.07s (transform 343ms, setup 0ms, import 405ms, tests 281ms, environment 0ms)
+

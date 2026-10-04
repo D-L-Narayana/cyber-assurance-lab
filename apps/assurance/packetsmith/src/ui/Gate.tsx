@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { describeChain } from '../engine/packet';
 import type { Blocker, Packet, PacketState } from '../engine/types';
 
 interface Props {
@@ -19,9 +20,12 @@ const NEXT: Record<PacketState, { to: PacketState; label: string; hint: string }
   approved: [],
 };
 
+const CHAIN_CHIP: Record<ReturnType<typeof describeChain>['kind'], string> = { verified: 'chip--ok', broken: 'chip--bad', legacy: 'chip--missing', empty: '' };
+
 export function Gate({ packet, blockers, digest, onTransition, onJump }: Props) {
   const [actor, setActor] = useState(packet.meta.assessor);
   const [note, setNote] = useState('');
+  const chain = describeChain(packet);
   const byControl = new Map<string, Blocker[]>();
   for (const b of blockers) {
     const k = b.controlId ?? 'packet';
@@ -31,10 +35,13 @@ export function Gate({ packet, blockers, digest, onTransition, onJump }: Props) 
     <section className="gate" aria-labelledby="gate-h">
       <div className="gate__head">
         <h2 id="gate-h">Packet gate</h2>
-        <span className={`state state--${packet.state}`}>{packet.state.replace(/-/g, ' ')}</span>
+        <div className="gate__badges">
+          <span className={`state state--${packet.state}`}>{packet.state.replace(/-/g, ' ')}</span>
+          {chain.kind !== 'empty' && <span className={`chip ${CHAIN_CHIP[chain.kind]}`} title={chain.detail}>{chain.label}</span>}
+        </div>
       </div>
       <p className="small">
-        Digest <code className="mono digest" title={digest}>{digest.slice(0, 16)}…</code>
+        Digest <code className="mono digest" title={digest}>{digest.slice(0, 16)}…</code> <span className="muted">(content only; excludes state and history)</span>
       </p>
       <div className={`gatecount ${blockers.length === 0 ? 'gatecount--clear' : ''}`}>
         {blockers.length === 0 ? 'No blockers — the completeness gate is satisfied.' : `${blockers.length} blocker${blockers.length === 1 ? '' : 's'} before review`}
@@ -64,11 +71,19 @@ export function Gate({ packet, blockers, digest, onTransition, onJump }: Props) 
       {packet.state === 'approved' && <p className="small">Approved packets are immutable. Export the JSON or print the memo.</p>}
       <h3>History</h3>
       {packet.history.length === 0 ? <p className="empty small">No transitions yet.</p> : (
-        <ol className="history">
-          {packet.history.map((h, i) => (
-            <li key={i}><span className="mono">{h.at}</span> {h.from} → <strong>{h.to}</strong> by {h.actor}{h.note && <> — <em>{h.note}</em></>}</li>
-          ))}
-        </ol>
+        <>
+          <p className={`small ${chain.kind === 'broken' ? 'bad' : 'muted'}`}>
+            {chain.kind === 'verified' ? 'Chain verified: ' : chain.kind === 'broken' ? 'Chain broken: ' : 'Legacy history: '}{chain.detail} Hashes make the exported record tamper-evident; they do not prove who acted.
+          </p>
+          <ol className="history">
+            {packet.history.map((h, i) => (
+              <li key={i}>
+                <span className="mono">{h.at}</span> {h.from} → <strong>{h.to}</strong> by {h.actor}{h.note && <> — <em>{h.note}</em></>}
+                {h.hash && <> <code className="mono hash" title={`hash ${h.hash} · prevHash ${h.prevHash}`}>#{i + 1} {h.hash.slice(0, 10)}…</code></>}
+              </li>
+            ))}
+          </ol>
+        </>
       )}
     </section>
   );

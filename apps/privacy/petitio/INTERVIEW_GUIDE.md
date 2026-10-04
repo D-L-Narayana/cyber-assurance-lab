@@ -19,6 +19,12 @@ Petitio separates four pure functions from the UI:
 
 Bonus: the first property test run failed because `fc.date()` can emit an invalid `Date`; the fix (`noInvalidDate: true`) was a test fix, not an engine fix. Be ready to explain why that distinction matters.
 
+## The as-of guard (October 2026 round)
+
+**Q. Why does `requestExtension(request, input, asOf?)` take an optional as-of date, and why does the importer not pass one?**
+
+A. The desk runs on a fixed as-of date so the demo is deterministic. A notice dated after that date records something that has not happened yet, so the engine refuses it with `INVALID_EXTENSION_INPUT` ("notice dated in the future relative to the as-of date …"). That check runs last, after the statutory guards, so an input that is both too late and in the future still reports `EXTENSION_TOO_LATE`; the existing tests and messages keep their meaning. Terminal stages are refused first with `INVALID_TRANSITION`, the same code the state machine uses, so the UI explains both refusals the same way. `asOf` is optional because the importer replays history: a file exported last quarter can legitimately contain an extension on a request that has since closed, so `parseCaseFile` applies the statutory guards (maximum, notice window, receipt order, reason) but deliberately not the stage or as-of guards. The tests pin both halves: engine tests for each refusal and the guard order (plus a fast-check property over every notice date in the initial window), one App test that drives the form and asserts the on-screen refusal, and an importer test that a historical extension on a closed request still imports.
+
 ## Why the tests look the way they do
 
 - Engine tests were written first and run against stubs (52 failures, see `qa/tdd-red-engine.log`) before implementation (52 passes).

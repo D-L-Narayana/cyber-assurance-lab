@@ -1,11 +1,12 @@
 /**
  * "Ledgerly" — a tiny, deterministic, in-memory web application used as the assessment target.
  * It is a pure function of (build, request). It performs no I/O and cannot be pointed at anything else.
- * Builds: v1 = all four seeded flaws; v2 = reflection and IDOR fixed; v3 = everything fixed.
+ * Builds: v1 = all five seeded flaws; v2 = reflection and IDOR fixed; v3 = everything fixed (including the
+ * baseline security headers on HTML responses, which v1 and v2 omit).
  */
 export type Build = 'v1' | 'v2' | 'v3';
 export const BUILDS: { id: Build; label: string }[] = [
-  { id: 'v1', label: 'v1 — initial (4 seeded flaws)' },
+  { id: 'v1', label: 'v1 — initial (5 seeded flaws)' },
   { id: 'v2', label: 'v2 — partial fix (reflection, IDOR)' },
   { id: 'v3', label: 'v3 — remediated' },
 ];

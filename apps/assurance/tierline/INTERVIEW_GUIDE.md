@@ -19,6 +19,7 @@ Inclusive thresholds are tested at the exact boundary and 0.01 below because an 
 - Why score unanswered questions at maximum? (Unknown ≠ zero risk; it forces the questionnaire to be completed.)
 - Why do exceptions count half rather than full or zero? (A time-boxed, approved exception is risk acceptance, not assurance; half keeps it visible in the residual.)
 - Why is "SOC 2" only an example? (It is an AICPA attestation framework; the app has no opinion on which report a vendor should hold.)
+- **How does the forecast know what will lapse without simulating every day?** (Added October 2026. Every date comparison in the requirement logic flips on a handful of known dates: an evidence item's `issuedOn` and its expiry + 1, an exception's expiry + 1 and expiry − 180 days. Between those dates the state is constant, so `forecastQueue` collects them per requirement, sorts them, and re-evaluates the requirement only at those points, reporting the first one where credit falls. That is exact, costs a few evaluations per requirement, and reuses the live `requirementResult` logic rather than a second implementation that could drift from it. It only forecasts requirements that earn credit today — anything already lapsed is the live queue's job — and a future-dated item that becomes usable before the current one expires cancels the lapse.)
 - What is missing for real TPRM? Below.
 
 ## Production next steps

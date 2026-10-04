@@ -16,6 +16,12 @@ The second was a real bug found in external review: the first binding hash cover
 
 Binding hash: order-independence (reverse the links → same hash), sensitivity to statement text and evidence content. Sign-off: invalidated by edit, by unlinking, and refused for weak/unsupported/double-signing. Verify: four separate drift classes plus a forged-manifest case. Fixture: asserts that all eight planted defect kinds are actually reported — the demo must not be a happy path.
 
+## CSV export and the validation audit (added October 2026)
+
+**Q: The findings ledger and artifact table can now be exported as CSV. What is the security concern, and how is it handled?** Spreadsheet formula injection: an artifact id or name such as `=HYPERLINK(...)` or `-2+3|cmd` ends up in a cell, and a spreadsheet client evaluates it. The ids and names are user-supplied through import, and the engine copies them into finding messages, so every column is reachable. `src/engine/csv.ts` prefixes any cell that begins with `= + - @` — even behind leading spaces, tabs, carriage returns, newlines or NUL bytes, because clients trim before interpreting — or that begins with a tab/CR with an apostrophe, double-quotes every cell, doubles embedded quotes and ends rows with CRLF (RFC 4180). The tests push hostile ids through `analyze()` and assert that no written cell starts with a formula character. The writer is the same as Tessera's so both apps behave identically.
+
+**Q: What did the validation audit check, and why was no code change needed?** Two things the lab contract requires of every import path: strict calendar dates (`2026-02-30`, `2026-04-31`, `2027-02-29` must be rejected in `asOf`, `periodStart`, `periodEnd`, `capturedOn`, `signedOn`, with the exact path, while real leap days pass) and resilience to a 20 000-deep hostile nesting. `isIsoDate` already round-trips the string through `Date.UTC`/`toISOString`, so impossible dates fail the equality check; and the validator never walks unknown structure — it reads named keys with `typeof` checks, so depth is irrelevant to it, and V8's `JSON.parse` is iterative. The tests now pin both properties so a future refactor cannot regress them silently.
+
 ## Be ready to answer
 
 - Why sort evidence hashes before hashing? (Links are a set; order must not change the binding.)

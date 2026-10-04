@@ -1,0 +1,110 @@
+$ npx vitest run --reporter=verbose src/engine/__tests__/compare.test.ts
+# cwd apps/appsec/permitmatrix
+# 2026-10-04T18:36:13.077Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/appsec/permitmatrix
+
+ × src/engine/__tests__/compare.test.ts > run comparison (retest) > closes every 1.4.0 finding when the suite is re-run on 1.4.1 and lists per-case verdict changes sorted by case id 35ms
+   → expected [] to deeply equal [ …(5) ]
+ × src/engine/__tests__/compare.test.ts > run comparison (retest) > reports opened findings in the other direction and persisted findings when both runs share them 17ms
+   → expected [] to deeply equal [ 'patch-user|mass-assignment' ]
+ × src/engine/__tests__/compare.test.ts > run comparison (retest) > yields an empty diff for identical runs 28ms
+   → expected [] to have a length of 5 but got +0
+ ✓ src/engine/__tests__/compare.test.ts > run comparison (retest) > is deterministic 23ms
+ × src/engine/__tests__/compare.test.ts > run comparison (retest) > is embedded in the report as an additive optional field and a Markdown "Retest" section 38ms
+   → expected [] to have a length of 5 but got +0
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/__tests__/compare.test.ts > run comparison (retest) > closes every 1.4.0 finding when the suite is re-run on 1.4.1 and lists per-case verdict changes sorted by case id
+AssertionError: expected [] to deeply equal [ …(5) ]
+
+- Expected
++ Received
+
+- [
+-   "create-invoice|mass-assignment",
+-   "delete-user|function-bypass",
+-   "get-invoice|object-bypass",
+-   "get-user|sensitive-exposure",
+-   "patch-user|mass-assignment",
+- ]
++ []
+
+ ❯ src/engine/__tests__/compare.test.ts:25:43
+     23|     const before = run140();
+     24|     const diff = compareRuns(before, run141());
+     25|     expect(diff.closed.map((f) => f.key)).toEqual([
+       |                                           ^
+     26|       'create-invoice|mass-assignment',
+     27|       'delete-user|function-bypass',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/engine/__tests__/compare.test.ts > run comparison (retest) > reports opened findings in the other direction and persisted findings when both runs share them
+AssertionError: expected [] to deeply equal [ 'patch-user|mass-assignment' ]
+
+- Expected
++ Received
+
+- [
+-   "patch-user|mass-assignment",
+- ]
++ []
+
+ ❯ src/engine/__tests__/compare.test.ts:44:47
+     42|     const partial = runSuite(c, cases, vulnerableFlaws().filter((f) =>…
+     43|     const fixedOne = compareRuns(run140(), partial);
+     44|     expect(fixedOne.closed.map((f) => f.key)).toEqual(['patch-user|mas…
+       |                                               ^
+     45|     expect(fixedOne.persisted.map((f) => f.key)).toEqual([
+     46|       'create-invoice|mass-assignment',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/engine/__tests__/compare.test.ts > run comparison (retest) > yields an empty diff for identical runs
+AssertionError: expected [] to have a length of 5 but got +0
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ src/engine/__tests__/compare.test.ts:64:28
+     62|     expect(diff.opened).toEqual([]);
+     63|     expect(diff.caseChanges).toEqual([]);
+     64|     expect(diff.persisted).toHaveLength(5);
+       |                            ^
+     65|     expect(diff.summary.identical).toBe(true);
+     66|     expect(diff.summary.casesOnlyBefore).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/engine/__tests__/compare.test.ts > run comparison (retest) > is embedded in the report as an additive optional field and a Markdown "Retest" section
+AssertionError: expected [] to have a length of 5 but got +0
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ src/engine/__tests__/compare.test.ts:89:39
+     87|     expect(retest.comparison?.beforeBuild).toBe('vulnerable');
+     88|     expect(retest.comparison?.afterBuild).toBe('fixed');
+     89|     expect(retest.comparison?.closed).toHaveLength(5);
+       |                                       ^
+     90|     expect(retest.comparison?.summary.identical).toBe(false);
+     91|     const md = reportToMarkdown(retest);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 1 passed (5)
+   Start at  18:36:14
+   Duration  734ms (transform 370ms, setup 0ms, import 401ms, tests 150ms, environment 0ms)
+

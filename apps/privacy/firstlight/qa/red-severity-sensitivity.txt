@@ -1,0 +1,2490 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/privacy/firstlight
+# 2026-10-04T19:02:45.580Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/privacy/firstlight
+
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > shows the 72-hour clock within window at the fixed demo time and the sequence issue for the duplicate event 735ms
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > moving "now" past the deadline flips the clock to exceeded 333ms
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > changing a circumstance factor recomputes the severity formula 402ms
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > filling a missing fact increases readiness 1663ms
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > redaction toggle hides personal tokens in the packet preview 434ms
+ × src/App.test.tsx > Firstlight app (integration, added after the UI) > lists, in text, which single changes would move the severity band 1362ms
+   → Unable to find an accessible element with the role "region" and name `/What would change the band/`
+
+Here are the accessible roles:
+
+  banner:
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"top"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Firstlight privacy incident triage & notification-readiness labINC-2026-0093 · Customer export attached to the wrong vendor ticket":
+  [36m<h1 />[39m
+
+  Name "Evidence clock · now 2026-09-22 12:00Z":
+  [36m<h2[39m
+    [33mid[39m=[32m"clock-h"[39m
+  [36m/>[39m
+
+  Name "Event stream 8 events · 1 duplicates removed":
+  [36m<h2[39m
+    [33mid[39m=[32m"ev-h"[39m
+  [36m/>[39m
+
+  Name "Affected data & severity ≥ 41,200 subjects (lower bound)":
+  [36m<h2[39m
+    [33mid[39m=[32m"sc-h"[39m
+  [36m/>[39m
+
+  Name "Notification-readiness packet 9/12 required facts":
+  [36m<h2[39m
+    [33mid[39m=[32m"rd-h"[39m
+  [36m/>[39m
+
+  Name "Containment checklist · 2 of 4 applicable tasks done":
+  [36m<h2[39m
+    [33mid[39m=[32m"ct-h"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  toolbar:
+
+  Name "Incident controls":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Incident controls"[39m
+    [33mclass[39m=[32m"tools"[39m
+    [33mrole[39m=[32m"toolbar"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Import bundle":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"btn"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Export bundle":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Export packet (redacted)":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-amber"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Reset demo":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Add event":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mtype[39m=[32m"submit"[39m
+  [36m/>[39m
+
+  Name "Reopen":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Mark done":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mtype[39m=[32m"submit"[39m
+  [36m/>[39m
+
+  Name "Reopen":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Mark done":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mtype[39m=[32m"submit"[39m
+  [36m/>[39m
+
+  Name "Start":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Reopen":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"disclaimer"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"band-note"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"band-note"[39m
+    [33mstyle[39m=[32m"margin-top: 6px;"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"sr-only"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  region:
+
+  Name "Evidence clock · now 2026-09-22 12:00Z":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"clock-h"[39m
+    [33mclass[39m=[32m"clock"[39m
+  [36m/>[39m
+
+  Name "Event stream 8 events · 1 duplicates removed":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"ev-h"[39m
+    [33mclass[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Affected data & severity ≥ 41,200 subjects (lower bound)":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"sc-h"[39m
+    [33mclass[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Affected data table":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Affected data table"[39m
+    [33mclass[39m=[32m"scroll"[39m
+    [33mrole[39m=[32m"region"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  Name "Notification-readiness packet 9/12 required facts":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"rd-h"[39m
+    [33mclass[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Containment checklist · 2 of 4 applicable tasks done":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"ct-h"[39m
+    [33mclass[39m=[32m"tasks"[39m
+  [36m/>[39m
+
+  Name "Containment tasks table":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Containment tasks table"[39m
+    [33mclass[39m=[32m"scroll"[39m
+    [33mrole[39m=[32m"region"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  list:
+
+  Name "Jurisdiction clocks":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Jurisdiction clocks"[39m
+    [33mclass[39m=[32m"clock-chips"[39m
+    [33mrole[39m=[32m"list"[39m
+  [36m/>[39m
+
+  Name "Sequence issues":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Sequence issues"[39m
+    [33mclass[39m=[32m"issues"[39m
+    [33mrole[39m=[32m"list"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<ol[39m
+    [33mclass[39m=[32m"stream"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<ul />[39m
+
+  Name "":
+  [36m<ul[39m
+    [33mclass[39m=[32m"ready"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  listitem:
+
+  Name "":
+  [36m<span[39m
+    [33mclass[39m=[32m"chip within"[39m
+    [33mrole[39m=[32m"listitem"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<span[39m
+    [33mclass[39m=[32m"chip within"[39m
+    [33mrole[39m=[32m"listitem"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<div[39m
+    [33mclass[39m=[32m"issue"[39m
+    [33mrole[39m=[32m"listitem"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"occurred"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"note"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"detected"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"aware"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"escalated"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"contained"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"evidence"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"note"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  --------------------------------------------------
+  img:
+
+  Name "Evidence clock. EU-GDPR: 23.5 hours remain; awareness 2026-09-20T11:30:00Z, deadline 2026-09-23T11:30:00Z.":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Evidence clock. EU-GDPR: 23.5 hours remain; awareness 2026-09-20T11:30:00Z, deadline 2026-09-23T11:30:00Z."[39m
+    [33mclass[39m=[32m"band-wrap"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  code:
+
+  Name "":
+  [36m<code />[39m
+
+  --------------------------------------------------
+  emphasis:
+
+  Name "":
+  [36m<em[39m
+    [33mstyle[39m=[32m"color: var(--mute);"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<em[39m
+    [33mstyle[39m=[32m"color: var(--mute);"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  form:
+
+  Name "Add an event":
+  [36m<form[39m
+    [33maria-label[39m=[32m"Add an event"[39m
+    [33mclass[39m=[32m"form"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  group:
+
+  Name "Add an event":
+  [36m<fieldset[39m
+    [33mclass[39m=[32m"form"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  combobox:
+
+  Name "Kind":
+  [36m<select />[39m
+
+  Name "Ease of identification (EI)":
+  [36m<select />[39m
+
+  Name "Confidentiality loss":
+  [36m<select />[39m
+
+  Name "Integrity loss":
+  [36m<select />[39m
+
+  Name "Availability loss":
+  [36m<select />[39m
+
+  --------------------------------------------------
+  option:
+
+  Name "occurred":
+  [36m<option[39m
+    [33mvalue[39m=[32m"occurred"[39m
+  [36m/>[39m
+
+  Name "detected":
+  [36m<option[39m
+    [33mvalue[39m=[32m"detected"[39m
+  [36m/>[39m
+
+  Name "aware":
+  [36m<option[39m
+    [33mvalue[39m=[32m"aware"[39m
+  [36m/>[39m
+
+  Name "escalated":
+  [36m<option[39m
+    [33mvalue[39m=[32m"escalated"[39m
+  [36m/>[39m
+
+  Name "contained":
+  [36m<option[39m
+    [33mvalue[39m=[32m"contained"[39m
+  [36m/>[39m
+
+  Name "evidence":
+  [36m<option[39m
+    [33mvalue[39m=[32m"evidence"[39m
+  [36m/>[39m
+
+  Name "note":
+  [36m<option[39m
+    [33mvalue[39m=[32m"note"[39m
+  [36m/>[39m
+
+  Name "negligible (0.25)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"negligible"[39m
+  [36m/>[39m
+
+  Name "limited (0.5)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"limited"[39m
+  [36m/>[39m
+
+  Name "significant (0.75)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"significant"[39m
+  [36m/>[39m
+
+  Name "maximum (1)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"maximum"[39m
+  [36m/>[39m
+
+  Name "none (0)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"none"[39m
+  [36m/>[39m
+
+  Name "known recipients (+0.25)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"known-recipients"[39m
+  [36m/>[39m
+
+  Name "unknown recipients (+0.5)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"unknown-recipients"[39m
+  [36m/>[39m
+
+  Name "none (0)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"none"[39m
+  [36m/>[39m
+
+  Name "recoverable (+0.25)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"recoverable"[39m
+  [36m/>[39m
+
+  Name "unrecoverable (+0.5)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"unrecoverable"[39m
+  [36m/>[39m
+
+  Name "none (0)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"none"[39m
+  [36m/>[39m
+
+  Name "temporary (+0.25)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"temporary"[39m
+  [36m/>[39m
+
+  Name "permanent (+0.5)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"permanent"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "At (ISO UTC)":
+  [36m<input[39m
+    [33maria-invalid[39m=[32m"false"[39m
+    [33mclass[39m=[32m"mono"[39m
+    [33mvalue[39m=[32m"2026-09-22T12:00:00Z"[39m
+  [36m/>[39m
+
+  Name "Summary":
+  [36m<input[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Source":
+  [36m<input[39m
+    [33mplaceholder[39m=[32m"analyst"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Justification":
+  [36m<textarea[39m
+    [33mrows[39m=[32m"2"[39m
+  [36m/>[39m
+
+  Name "Nature of the breach":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Categories of data subjects":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Approximate number of data subjects":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Categories of personal data records":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Approximate number of records":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "DPO or other contact point":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Likely consequences for individuals":
+  [36m<textarea[39m
+    [33mclass[39m=[32m"missing"[39m
+  [36m/>[39m
+
+  Name "Measures taken to address the breach":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Measures proposed, including mitigation of adverse effects":
+  [36m<textarea[39m
+    [33mclass[39m=[32m"missing"[39m
+  [36m/>[39m
+
+  Name "How and when the controller became aware (optional)":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Cross-border elements (lead authority, other states) (optional)":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Evidence reference for Obtain signed deletion attestation from the vendor":
+  [36m<input[39m
+    [33mid[39m=[32m"ref-ct-2"[39m
+    [33mplaceholder[39m=[32m"evidence reference (required)"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Evidence reference for Review vendor mail-archive retention for residual copies":
+  [36m<input[39m
+    [33mid[39m=[32m"ref-ct-4"[39m
+    [33mplaceholder[39m=[32m"evidence reference (required)"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  checkbox:
+
+  Name "contains personal detail":
+  [36m<input[39m
+    [33mtype[39m=[32m"checkbox"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  table:
+
+  Name "":
+  [36m<table />[39m
+
+  Name "":
+  [36m<table />[39m
+
+  --------------------------------------------------
+  rowgroup:
+
+  Name "":
+  [36m<thead />[39m
+
+  Name "":
+  [36m<tbody />[39m
+
+  Name "":
+  [36m<thead />[39m
+
+  Name "":
+  [36m<tbody />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "Category Class Subjects Records Exposure":
+  [36m<tr />[39m
+
+  Name "Email address simple 41,200 41,200 C":
+  [36m<tr />[39m
+
+  Name "Full name simple 41,200 41,200 C":
+  [36m<tr />[39m
+
+  Name "Last invoice amount financial 38,900~ 38,900 C":
+  [36m<tr />[39m
+
+  Name "Loyalty tier behavioural 41,200 41,200 C":
+  [36m<tr />[39m
+
+  Name "Task Owner Status Evidence Action":
+  [36m<tr />[39m
+
+  Name "Confirm deletion of the attachment at the recipientct-1 incident-lead done ev-06 vendor confirmation Reopen":
+  [36m<tr />[39m
+
+  Name "Obtain signed deletion attestation from the vendorct-2 legal in-progress none Evidence reference for Obtain signed deletion attestation from the vendor Mark done":
+  [36m<tr />[39m
+
+  Name "Disable the export job until the ticket-routing fix shipsct-3 platform done change CHG-2210 (synthetic) Reopen":
+  [36m<tr />[39m
+
+  Name "Review vendor mail-archive retention for residual copiesct-4 security open none Evidence reference for Review vendor mail-archive retention for residual copies Mark done Start":
+  [36m<tr />[39m
+
+  Name "Reset credentialsct-5 security not-applicable none Reopen":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "Category":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Class":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Subjects":
+  [36m<th[39m
+    [33mclass[39m=[32m"num"[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Records":
+  [36m<th[39m
+    [33mclass[39m=[32m"num"[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Exposure":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Task":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Owner":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Status":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Evidence":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Action":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  cell:
+
+  Name "Email address":
+  [36m<td />[39m
+
+  Name "simple":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+  [36m/>[39m
+
+  Name "41,200":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "41,200":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "C":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+    [33mstyle[39m=[32m"font-size: 11.5px;"[39m
+  [36m/>[39m
+
+  Name "Full name":
+  [36m<td />[39m
+
+  Name "simple":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+  [36m/>[39m
+
+  Name "41,200":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "41,200":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "C":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+    [33mstyle[39m=[32m"font-size: 11.5px;"[39m
+  [36m/>[39m
+
+  Name "Last invoice amount":
+  [36m<td />[39m
+
+  Name "financial":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+  [36m/>[39m
+
+  Name "38,900~":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "38,900":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "C":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+    [33mstyle[39m=[32m"font-size: 11.5px;"[39m
+  [36m/>[39m
+
+  Name "Loyalty tier":
+  [36m<td />[39m
+
+  Name "behavioural":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+  [36m/>[39m
+
+  Name "41,200":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "41,200":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "C":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+    [33mstyle[39m=[32m"font-size: 11.5px;"[39m
+  [36m/>[39m
+
+  Name "Confirm deletion of the attachment at the recipientct-1":
+  [36m<td />[39m
+
+  Name "incident-lead":
+  [36m<td />[39m
+
+  Name "done":
+  [36m<td />[39m
+
+  Name "ev-06 vendor confirmation":
+  [36m<td />[39m
+
+  Name "Reopen":
+  [36m<td />[39m
+
+  Name "Obtain signed deletion attestation from the vendorct-2":
+  [36m<td />[39m
+
+  Name "legal":
+  [36m<td />[39m
+
+  Name "in-progress":
+  [36m<td />[39m
+
+  Name "none":
+  [36m<td />[39m
+
+  Name "Evidence reference for Obtain signed deletion attestation from the vendor Mark done":
+  [36m<td />[39m
+
+  Name "Disable the export job until the ticket-routing fix shipsct-3":
+  [36m<td />[39m
+
+  Name "platform":
+  [36m<td />[39m
+
+  Name "done":
+  [36m<td />[39m
+
+  Name "change CHG-2210 (synthetic)":
+  [36m<td />[39m
+
+  Name "Reopen":
+  [36m<td />[39m
+
+  Name "Review vendor mail-archive retention for residual copiesct-4":
+  [36m<td />[39m
+
+  Name "security":
+  [36m<td />[39m
+
+  Name "open":
+  [36m<td />[39m
+
+  Name "none":
+  [36m<td />[39m
+
+  Name "Evidence reference for Review vendor mail-archive retention for residual copies Mark done Start":
+  [36m<td />[39m
+
+  Name "Reset credentialsct-5":
+  [36m<td />[39m
+
+  Name "security":
+  [36m<td />[39m
+
+  Name "not-applicable":
+  [36m<td />[39m
+
+  Name "none":
+  [36m<td />[39m
+
+  Name "Reopen":
+  [36m<td />[39m
+
+  --------------------------------------------------
+  switch:
+
+  Name "Malicious intent (+0.5)":
+  [36m<button[39m
+    [33maria-checked[39m=[32m"false"[39m
+    [33mclass[39m=[32m"switch"[39m
+    [33mdata-state[39m=[32m"unchecked"[39m
+    [33mid[39m=[32m"mal"[39m
+    [33mrole[39m=[32m"switch"[39m
+    [33mtype[39m=[32m"button"[39m
+    [33mvalue[39m=[32m"on"[39m
+  [36m/>[39m
+
+  Name "Redaction preview (mask names and emails)":
+  [36m<button[39m
+    [33maria-checked[39m=[32m"true"[39m
+    [33mclass[39m=[32m"switch"[39m
+    [33mdata-state[39m=[32m"checked"[39m
+    [33mid[39m=[32m"red"[39m
+    [33mrole[39m=[32m"switch"[39m
+    [33mtype[39m=[32m"button"[39m
+    [33mvalue[39m=[32m"on"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  spinbutton:
+
+  Name "Context adjustment to DPC (−3..+3)":
+  [36m<input[39m
+    [33mmax[39m=[32m"3"[39m
+    [33mmin[39m=[32m"-3"[39m
+    [33mtype[39m=[32m"number"[39m
+    [33mvalue[39m=[32m"-1"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  contentinfo:
+
+  Name "":
+  [36m<footer[39m
+    [33mclass[39m=[32m"statusline"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  status:
+
+  Name "":
+  [36m<span[39m
+    [33maria-live[39m=[32m"polite"[39m
+    [33mrole[39m=[32m"status"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<header[39m
+      [33mclass[39m=[32m"top"[39m
+    [36m>[39m
+      [36m<h1>[39m
+        [0mFirstlight [0m
+        [36m<small>[39m
+          [0mprivacy incident triage & notification-readiness lab[0m
+        [36m</small>[39m
+        [36m<br />[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"inc"[39m
+        [36m>[39m
+          [0mINC-2026-0093[0m
+          [0m · [0m
+          [0mCustomer export attached to the wrong vendor ticket[0m
+        [36m</span>[39m
+      [36m</h1>[39m
+      [36m<div[39m
+        [33maria-label[39m=[32m"Incident controls"[39m
+        [33mclass[39m=[32m"tools"[39m
+        [33mrole[39m=[32m"toolbar"[39m
+      [36m>[39m
+        [36m<label>[39m
+          [0mNow (UTC) [0m
+          [36m<input[39m
+            [33mtype[39m=[32m"datetime-local"[39m
+            [33mvalue[39m=[32m"2026-09-22T12:00"[39m
+          [36m/>[39m
+        [36m</label>[39m
+        [36m<button[39m
+          [33maria-expanded[39m=[32m"false"[39m
+          [33maria-haspopup[39m=[32m"dialog"[39m
+          [33mclass[39m=[32m"btn"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mImport bundle[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mExport bundle[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn btn-amber"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mExport packet[0m
+          [0m (redacted)[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mReset demo[0m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</header>[39m
+    [36m<p[39m
+      [33mclass[39m=[32m"disclaimer"[39m
+    [36m>[39m
+      [0mEducational prototype on a synthetic incident. It assembles and checks facts; it does not decide whether a breach must be notified, and nothing is sent to any authority or person.[0m
+    [36m</p>[39m
+    [36m<section[39m
+      [33maria-labelledby[39m=[32m"clock-h"[39m
+      [33mclass[39m=[32m"clock"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"clock-head"[39m
+      [36m>[39m
+        [36m<h2[39m
+          [33mid[39m=[32m"clock-h"[39m
+        [36m>[39m
+          [0mEvidence clock · now [0m
+          [0m2026-09-22 12:00Z[0m
+        [36m</h2>[39m
+        [36m<div[39m
+          [33maria-label[39m=[32m"Jurisdiction clocks"[39m
+          [33mclass[39m=[32m"clock-chips"[39m
+          [33mrole[39m=[32m"list"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"chip within"[39m
+            [33mrole[39m=[32m"listitem"[39m
+          [36m>[39m
+            [0mEU-GDPR[0m
+            [0m: [0m
+            [0m23.5 h left of 72 hours[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"chip within"[39m
+            [33mrole[39m=[32m"listitem"[39m
+          [36m>[39m
+            [0mUK-GDPR[0m
+            [0m: [0m
+            [0m23.5 h left of 72 hours[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33maria-label[39m=[32m"Evidence clock. EU-GDPR: 23.5 hours remain; awareness 2026-09-20T11:30:00Z, deadline 2026-09-23T11:30:00Z."[39m
+        [33mclass[39m=[32m"band-wrap"[39m
+        [33mrole[39m=[32m"img"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"band-track"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"band-window"[39m
+            [33mstyle[39m=[32m"left: 38.49%; width: calc(56.78%);"[39m
+          [36m/>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"band-elapsed"[39m
+            [33mstyle[39m=[32m"left: 38.49%; width: calc(38.25%);"[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"pin occurred"[39m
+          [33mstyle[39m=[32m"left: 4.73%;"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-label"[39m
+          [36m>[39m
+            [0moccurred[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-time"[39m
+          [36m>[39m
+            [0m2026-09-18 16:42Z[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"pin detected"[39m
+          [33mstyle[39m=[32m"left: 36.65%;"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-label"[39m
+          [36m>[39m
+            [0mdetected[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-time"[39m
+          [36m>[39m
+            [0m2026-09-20 09:10Z[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"pin aware"[39m
+          [33mstyle[39m=[32m"left: 38.49%;"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-label"[39m
+          [36m>[39m
+            [0maware[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-time"[39m
+          [36m>[39m
+            [0m2026-09-20 11:30Z[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"pin contained"[39m
+          [33mstyle[39m=[32m"left: 39.93%;"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-label"[39m
+          [36m>[39m
+            [0mcontained[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-time"[39m
+          [36m>[39m
+            [0m2026-09-20 13:20Z[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"pin now"[39m
+          [33mstyle[39m=[32m"left: 76.74%;"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-label"[39m
+          [36m>[39m
+            [0mnow[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"pin deadline"[39m
+          [33mstyle[39m=[32m"left: 95.27%;"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-label"[39m
+          [36m>[39m
+            [0m72 hours[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-time"[39m
+          [36m>[39m
+            [0m2026-09-23 11:30Z[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+...
+ ✓ src/App.test.tsx > Firstlight app (integration, added after the UI) > a containment task needs an evidence reference to be marked done 380ms
+ ✓ src/engine/engine.test.ts > buildTimeline > sorts events chronologically and removes exact duplicates (same id, or same time+kind+summary) 34ms
+ ✓ src/engine/engine.test.ts > buildTimeline > derives occurred, detected, aware and contained timestamps from the first event of each kind 19ms
+ ✓ src/engine/engine.test.ts > buildTimeline > flags a missing awareness event as a first-class unknown 3ms
+ ✓ src/engine/engine.test.ts > buildTimeline > flags containment or awareness recorded before detection 0ms
+ ✓ src/engine/engine.test.ts > buildTimeline > flags a gap of more than 7 days between occurrence and detection 0ms
+ ✓ src/engine/engine.test.ts > buildTimeline > is idempotent and order-independent (property) 82ms
+ ✓ src/engine/engine.test.ts > evidenceClock > runs a 72-hour clock from awareness for GDPR jurisdictions 1ms
+ ✓ src/engine/engine.test.ts > evidenceClock > reports the window exceeded with the overrun and the reasons-for-delay note 0ms
+ ✓ src/engine/engine.test.ts > evidenceClock > cannot start without an awareness time 0ms
+ ✓ src/engine/engine.test.ts > evidenceClock > runs a 30-calendar-day clock from discovery for California (Civ. Code 1798.82 as amended by SB 446, eff. 2026-01-01) 0ms
+ ✓ src/engine/engine.test.ts > evidenceClock > decides the phase on the unrounded timestamp, so one minute past the deadline is exceeded 0ms
+ ✓ src/engine/engine.test.ts > summariseScope and severity (ENISA-inspired SE = DPC x EI + CB) > aggregates subjects and records per data class and finds the highest class 19ms
+ ✓ src/engine/engine.test.ts > summariseScope and severity (ENISA-inspired SE = DPC x EI + CB) > uses the highest data class as the DPC base (simple 1, behavioural 2, financial 3, sensitive 4) 1ms
+ ✓ src/engine/engine.test.ts > summariseScope and severity (ENISA-inspired SE = DPC x EI + CB) > computes SE = DPC x EI + CB with the published factor values 1ms
+ ✓ src/engine/engine.test.ts > summariseScope and severity (ENISA-inspired SE = DPC x EI + CB) > adds circumstance points and applies the bands low <2, medium <3, high <4, very high >=4 17ms
+ ✓ src/engine/engine.test.ts > summariseScope and severity (ENISA-inspired SE = DPC x EI + CB) > clamps the DPC adjustment to keep DPC within 1..4 and records the justification in the rationale 1ms
+ ✓ src/engine/engine.test.ts > summariseScope and severity (ENISA-inspired SE = DPC x EI + CB) > severity is monotonic in ease of identification (property) 2ms
+ × src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > lists at least one single-field change that moves the demo band, including ease of identification 32ms
+   → expected 0 to be greater than 0
+ × src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > every flip really produces its bandTo and seDelta when applied (loop over all flips) 10ms
+   → expected 0 to be greater than 0
+ × src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > includes the highest data class moving one class up and one class down 36ms
+   → expected [] to deeply equal [ 'financial→behavioural', …(1) ]
+ × src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > moves the context adjustment by ±1 only and never beyond −3..+3 2ms
+   → expected [] to deeply equal [ '2' ]
+ ✓ src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > returns no flips when every single change keeps the band (a deep-low bundle and a clamp-saturated medium bundle) 1ms
+ ✓ src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > is deterministic and sorted by |seDelta| descending, then field 0ms
+ ✓ src/engine/engine.test.ts > readiness > lists the Art. 33(3) facts and derived checks, and scores completeness over required items 34ms
+ ✓ src/engine/engine.test.ts > readiness > completeness rises when a missing fact is supplied 1ms
+ ✓ src/engine/engine.test.ts > readiness > the timeline check fails when awareness is missing 0ms
+ ✓ src/engine/engine.test.ts > readiness > containment is complete only when every applicable task is done with evidence 1ms
+ ✓ src/engine/engine.test.ts > readiness > completeTask refuses to mark a task done without an evidence reference 19ms
+ ✓ src/engine/engine.test.ts > redaction and packet > masks every personal token case-insensitively and masks email-shaped strings 1ms
+ ✓ src/engine/engine.test.ts > redaction and packet > builds a packet whose redacted view contains no personal tokens while the full view does 2ms
+ ✓ src/engine/engine.test.ts > bundle import > round-trips the demo bundle 0ms
+ ✓ src/engine/engine.test.ts > bundle import > rejects bad enums, timestamps, negative counts and duplicate ids 12ms
+ ✓ src/engine/engine.test.ts > bundle import > rejects oversized input and hostile nesting without throwing 41ms
+ ✓ src/engine/engine.test.ts > bundle import > drops unknown keys 1ms
+ ✓ src/engine/engine.test.ts > import strictness (review findings) > rejects timestamps that match the pattern but are not real instants 4ms
+ ✓ src/engine/engine.test.ts > import strictness (review findings) > rejects malformed or oversized personalTokens instead of silently dropping redaction terms 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/App.test.tsx > Firstlight app (integration, added after the UI) > lists, in text, which single changes would move the severity band
+TestingLibraryElementError: Unable to find an accessible element with the role "region" and name `/What would change the band/`
+
+Here are the accessible roles:
+
+  banner:
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"top"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Firstlight privacy incident triage & notification-readiness labINC-2026-0093 · Customer export attached to the wrong vendor ticket":
+  [36m<h1 />[39m
+
+  Name "Evidence clock · now 2026-09-22 12:00Z":
+  [36m<h2[39m
+    [33mid[39m=[32m"clock-h"[39m
+  [36m/>[39m
+
+  Name "Event stream 8 events · 1 duplicates removed":
+  [36m<h2[39m
+    [33mid[39m=[32m"ev-h"[39m
+  [36m/>[39m
+
+  Name "Affected data & severity ≥ 41,200 subjects (lower bound)":
+  [36m<h2[39m
+    [33mid[39m=[32m"sc-h"[39m
+  [36m/>[39m
+
+  Name "Notification-readiness packet 9/12 required facts":
+  [36m<h2[39m
+    [33mid[39m=[32m"rd-h"[39m
+  [36m/>[39m
+
+  Name "Containment checklist · 2 of 4 applicable tasks done":
+  [36m<h2[39m
+    [33mid[39m=[32m"ct-h"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  toolbar:
+
+  Name "Incident controls":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Incident controls"[39m
+    [33mclass[39m=[32m"tools"[39m
+    [33mrole[39m=[32m"toolbar"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Import bundle":
+  [36m<button[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"dialog"[39m
+    [33mclass[39m=[32m"btn"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Export bundle":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Export packet (redacted)":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-amber"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Reset demo":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Add event":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mtype[39m=[32m"submit"[39m
+  [36m/>[39m
+
+  Name "Reopen":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Mark done":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mtype[39m=[32m"submit"[39m
+  [36m/>[39m
+
+  Name "Reopen":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Mark done":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mtype[39m=[32m"submit"[39m
+  [36m/>[39m
+
+  Name "Start":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Reopen":
+  [36m<button[39m
+    [33mclass[39m=[32m"btn btn-sm"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"disclaimer"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"band-note"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"band-note"[39m
+    [33mstyle[39m=[32m"margin-top: 6px;"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"sr-only"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  region:
+
+  Name "Evidence clock · now 2026-09-22 12:00Z":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"clock-h"[39m
+    [33mclass[39m=[32m"clock"[39m
+  [36m/>[39m
+
+  Name "Event stream 8 events · 1 duplicates removed":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"ev-h"[39m
+    [33mclass[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Affected data & severity ≥ 41,200 subjects (lower bound)":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"sc-h"[39m
+    [33mclass[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Affected data table":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Affected data table"[39m
+    [33mclass[39m=[32m"scroll"[39m
+    [33mrole[39m=[32m"region"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  Name "Notification-readiness packet 9/12 required facts":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"rd-h"[39m
+    [33mclass[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Containment checklist · 2 of 4 applicable tasks done":
+  [36m<section[39m
+    [33maria-labelledby[39m=[32m"ct-h"[39m
+    [33mclass[39m=[32m"tasks"[39m
+  [36m/>[39m
+
+  Name "Containment tasks table":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Containment tasks table"[39m
+    [33mclass[39m=[32m"scroll"[39m
+    [33mrole[39m=[32m"region"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  list:
+
+  Name "Jurisdiction clocks":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Jurisdiction clocks"[39m
+    [33mclass[39m=[32m"clock-chips"[39m
+    [33mrole[39m=[32m"list"[39m
+  [36m/>[39m
+
+  Name "Sequence issues":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Sequence issues"[39m
+    [33mclass[39m=[32m"issues"[39m
+    [33mrole[39m=[32m"list"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<ol[39m
+    [33mclass[39m=[32m"stream"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<ul />[39m
+
+  Name "":
+  [36m<ul[39m
+    [33mclass[39m=[32m"ready"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  listitem:
+
+  Name "":
+  [36m<span[39m
+    [33mclass[39m=[32m"chip within"[39m
+    [33mrole[39m=[32m"listitem"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<span[39m
+    [33mclass[39m=[32m"chip within"[39m
+    [33mrole[39m=[32m"listitem"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<div[39m
+    [33mclass[39m=[32m"issue"[39m
+    [33mrole[39m=[32m"listitem"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"occurred"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"note"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"detected"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"aware"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"escalated"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"contained"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"evidence"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li[39m
+    [33mclass[39m=[32m"note"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  --------------------------------------------------
+  img:
+
+  Name "Evidence clock. EU-GDPR: 23.5 hours remain; awareness 2026-09-20T11:30:00Z, deadline 2026-09-23T11:30:00Z.":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Evidence clock. EU-GDPR: 23.5 hours remain; awareness 2026-09-20T11:30:00Z, deadline 2026-09-23T11:30:00Z."[39m
+    [33mclass[39m=[32m"band-wrap"[39m
+    [33mrole[39m=[32m"img"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  code:
+
+  Name "":
+  [36m<code />[39m
+
+  --------------------------------------------------
+  emphasis:
+
+  Name "":
+  [36m<em[39m
+    [33mstyle[39m=[32m"color: var(--mute);"[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<em[39m
+    [33mstyle[39m=[32m"color: var(--mute);"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  form:
+
+  Name "Add an event":
+  [36m<form[39m
+    [33maria-label[39m=[32m"Add an event"[39m
+    [33mclass[39m=[32m"form"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  group:
+
+  Name "Add an event":
+  [36m<fieldset[39m
+    [33mclass[39m=[32m"form"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  combobox:
+
+  Name "Kind":
+  [36m<select />[39m
+
+  Name "Ease of identification (EI)":
+  [36m<select />[39m
+
+  Name "Confidentiality loss":
+  [36m<select />[39m
+
+  Name "Integrity loss":
+  [36m<select />[39m
+
+  Name "Availability loss":
+  [36m<select />[39m
+
+  --------------------------------------------------
+  option:
+
+  Name "occurred":
+  [36m<option[39m
+    [33mvalue[39m=[32m"occurred"[39m
+  [36m/>[39m
+
+  Name "detected":
+  [36m<option[39m
+    [33mvalue[39m=[32m"detected"[39m
+  [36m/>[39m
+
+  Name "aware":
+  [36m<option[39m
+    [33mvalue[39m=[32m"aware"[39m
+  [36m/>[39m
+
+  Name "escalated":
+  [36m<option[39m
+    [33mvalue[39m=[32m"escalated"[39m
+  [36m/>[39m
+
+  Name "contained":
+  [36m<option[39m
+    [33mvalue[39m=[32m"contained"[39m
+  [36m/>[39m
+
+  Name "evidence":
+  [36m<option[39m
+    [33mvalue[39m=[32m"evidence"[39m
+  [36m/>[39m
+
+  Name "note":
+  [36m<option[39m
+    [33mvalue[39m=[32m"note"[39m
+  [36m/>[39m
+
+  Name "negligible (0.25)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"negligible"[39m
+  [36m/>[39m
+
+  Name "limited (0.5)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"limited"[39m
+  [36m/>[39m
+
+  Name "significant (0.75)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"significant"[39m
+  [36m/>[39m
+
+  Name "maximum (1)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"maximum"[39m
+  [36m/>[39m
+
+  Name "none (0)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"none"[39m
+  [36m/>[39m
+
+  Name "known recipients (+0.25)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"known-recipients"[39m
+  [36m/>[39m
+
+  Name "unknown recipients (+0.5)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"unknown-recipients"[39m
+  [36m/>[39m
+
+  Name "none (0)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"none"[39m
+  [36m/>[39m
+
+  Name "recoverable (+0.25)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"recoverable"[39m
+  [36m/>[39m
+
+  Name "unrecoverable (+0.5)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"unrecoverable"[39m
+  [36m/>[39m
+
+  Name "none (0)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"none"[39m
+  [36m/>[39m
+
+  Name "temporary (+0.25)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"temporary"[39m
+  [36m/>[39m
+
+  Name "permanent (+0.5)":
+  [36m<option[39m
+    [33mvalue[39m=[32m"permanent"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "At (ISO UTC)":
+  [36m<input[39m
+    [33maria-invalid[39m=[32m"false"[39m
+    [33mclass[39m=[32m"mono"[39m
+    [33mvalue[39m=[32m"2026-09-22T12:00:00Z"[39m
+  [36m/>[39m
+
+  Name "Summary":
+  [36m<input[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Source":
+  [36m<input[39m
+    [33mplaceholder[39m=[32m"analyst"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Justification":
+  [36m<textarea[39m
+    [33mrows[39m=[32m"2"[39m
+  [36m/>[39m
+
+  Name "Nature of the breach":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Categories of data subjects":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Approximate number of data subjects":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Categories of personal data records":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Approximate number of records":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "DPO or other contact point":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Likely consequences for individuals":
+  [36m<textarea[39m
+    [33mclass[39m=[32m"missing"[39m
+  [36m/>[39m
+
+  Name "Measures taken to address the breach":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Measures proposed, including mitigation of adverse effects":
+  [36m<textarea[39m
+    [33mclass[39m=[32m"missing"[39m
+  [36m/>[39m
+
+  Name "How and when the controller became aware (optional)":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Cross-border elements (lead authority, other states) (optional)":
+  [36m<textarea[39m
+    [33mclass[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Evidence reference for Obtain signed deletion attestation from the vendor":
+  [36m<input[39m
+    [33mid[39m=[32m"ref-ct-2"[39m
+    [33mplaceholder[39m=[32m"evidence reference (required)"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "Evidence reference for Review vendor mail-archive retention for residual copies":
+  [36m<input[39m
+    [33mid[39m=[32m"ref-ct-4"[39m
+    [33mplaceholder[39m=[32m"evidence reference (required)"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  checkbox:
+
+  Name "contains personal detail":
+  [36m<input[39m
+    [33mtype[39m=[32m"checkbox"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  table:
+
+  Name "":
+  [36m<table />[39m
+
+  Name "":
+  [36m<table />[39m
+
+  --------------------------------------------------
+  rowgroup:
+
+  Name "":
+  [36m<thead />[39m
+
+  Name "":
+  [36m<tbody />[39m
+
+  Name "":
+  [36m<thead />[39m
+
+  Name "":
+  [36m<tbody />[39m
+
+  --------------------------------------------------
+  row:
+
+  Name "Category Class Subjects Records Exposure":
+  [36m<tr />[39m
+
+  Name "Email address simple 41,200 41,200 C":
+  [36m<tr />[39m
+
+  Name "Full name simple 41,200 41,200 C":
+  [36m<tr />[39m
+
+  Name "Last invoice amount financial 38,900~ 38,900 C":
+  [36m<tr />[39m
+
+  Name "Loyalty tier behavioural 41,200 41,200 C":
+  [36m<tr />[39m
+
+  Name "Task Owner Status Evidence Action":
+  [36m<tr />[39m
+
+  Name "Confirm deletion of the attachment at the recipientct-1 incident-lead done ev-06 vendor confirmation Reopen":
+  [36m<tr />[39m
+
+  Name "Obtain signed deletion attestation from the vendorct-2 legal in-progress none Evidence reference for Obtain signed deletion attestation from the vendor Mark done":
+  [36m<tr />[39m
+
+  Name "Disable the export job until the ticket-routing fix shipsct-3 platform done change CHG-2210 (synthetic) Reopen":
+  [36m<tr />[39m
+
+  Name "Review vendor mail-archive retention for residual copiesct-4 security open none Evidence reference for Review vendor mail-archive retention for residual copies Mark done Start":
+  [36m<tr />[39m
+
+  Name "Reset credentialsct-5 security not-applicable none Reopen":
+  [36m<tr />[39m
+
+  --------------------------------------------------
+  columnheader:
+
+  Name "Category":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Class":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Subjects":
+  [36m<th[39m
+    [33mclass[39m=[32m"num"[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Records":
+  [36m<th[39m
+    [33mclass[39m=[32m"num"[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Exposure":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Task":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Owner":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Status":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Evidence":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  Name "Action":
+  [36m<th[39m
+    [33mscope[39m=[32m"col"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  cell:
+
+  Name "Email address":
+  [36m<td />[39m
+
+  Name "simple":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+  [36m/>[39m
+
+  Name "41,200":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "41,200":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "C":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+    [33mstyle[39m=[32m"font-size: 11.5px;"[39m
+  [36m/>[39m
+
+  Name "Full name":
+  [36m<td />[39m
+
+  Name "simple":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+  [36m/>[39m
+
+  Name "41,200":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "41,200":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "C":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+    [33mstyle[39m=[32m"font-size: 11.5px;"[39m
+  [36m/>[39m
+
+  Name "Last invoice amount":
+  [36m<td />[39m
+
+  Name "financial":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+  [36m/>[39m
+
+  Name "38,900~":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "38,900":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "C":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+    [33mstyle[39m=[32m"font-size: 11.5px;"[39m
+  [36m/>[39m
+
+  Name "Loyalty tier":
+  [36m<td />[39m
+
+  Name "behavioural":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+  [36m/>[39m
+
+  Name "41,200":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "41,200":
+  [36m<td[39m
+    [33mclass[39m=[32m"num"[39m
+  [36m/>[39m
+
+  Name "C":
+  [36m<td[39m
+    [33mclass[39m=[32m"mono"[39m
+    [33mstyle[39m=[32m"font-size: 11.5px;"[39m
+  [36m/>[39m
+
+  Name "Confirm deletion of the attachment at the recipientct-1":
+  [36m<td />[39m
+
+  Name "incident-lead":
+  [36m<td />[39m
+
+  Name "done":
+  [36m<td />[39m
+
+  Name "ev-06 vendor confirmation":
+  [36m<td />[39m
+
+  Name "Reopen":
+  [36m<td />[39m
+
+  Name "Obtain signed deletion attestation from the vendorct-2":
+  [36m<td />[39m
+
+  Name "legal":
+  [36m<td />[39m
+
+  Name "in-progress":
+  [36m<td />[39m
+
+  Name "none":
+  [36m<td />[39m
+
+  Name "Evidence reference for Obtain signed deletion attestation from the vendor Mark done":
+  [36m<td />[39m
+
+  Name "Disable the export job until the ticket-routing fix shipsct-3":
+  [36m<td />[39m
+
+  Name "platform":
+  [36m<td />[39m
+
+  Name "done":
+  [36m<td />[39m
+
+  Name "change CHG-2210 (synthetic)":
+  [36m<td />[39m
+
+  Name "Reopen":
+  [36m<td />[39m
+
+  Name "Review vendor mail-archive retention for residual copiesct-4":
+  [36m<td />[39m
+
+  Name "security":
+  [36m<td />[39m
+
+  Name "open":
+  [36m<td />[39m
+
+  Name "none":
+  [36m<td />[39m
+
+  Name "Evidence reference for Review vendor mail-archive retention for residual copies Mark done Start":
+  [36m<td />[39m
+
+  Name "Reset credentialsct-5":
+  [36m<td />[39m
+
+  Name "security":
+  [36m<td />[39m
+
+  Name "not-applicable":
+  [36m<td />[39m
+
+  Name "none":
+  [36m<td />[39m
+
+  Name "Reopen":
+  [36m<td />[39m
+
+  --------------------------------------------------
+  switch:
+
+  Name "Malicious intent (+0.5)":
+  [36m<button[39m
+    [33maria-checked[39m=[32m"false"[39m
+    [33mclass[39m=[32m"switch"[39m
+    [33mdata-state[39m=[32m"unchecked"[39m
+    [33mid[39m=[32m"mal"[39m
+    [33mrole[39m=[32m"switch"[39m
+    [33mtype[39m=[32m"button"[39m
+    [33mvalue[39m=[32m"on"[39m
+  [36m/>[39m
+
+  Name "Redaction preview (mask names and emails)":
+  [36m<button[39m
+    [33maria-checked[39m=[32m"true"[39m
+    [33mclass[39m=[32m"switch"[39m
+    [33mdata-state[39m=[32m"checked"[39m
+    [33mid[39m=[32m"red"[39m
+    [33mrole[39m=[32m"switch"[39m
+    [33mtype[39m=[32m"button"[39m
+    [33mvalue[39m=[32m"on"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  spinbutton:
+
+  Name "Context adjustment to DPC (−3..+3)":
+  [36m<input[39m
+    [33mmax[39m=[32m"3"[39m
+    [33mmin[39m=[32m"-3"[39m
+    [33mtype[39m=[32m"number"[39m
+    [33mvalue[39m=[32m"-1"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  contentinfo:
+
+  Name "":
+  [36m<footer[39m
+    [33mclass[39m=[32m"statusline"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  status:
+
+  Name "":
+  [36m<span[39m
+    [33maria-live[39m=[32m"polite"[39m
+    [33mrole[39m=[32m"status"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<header[39m
+      [33mclass[39m=[32m"top"[39m
+    [36m>[39m
+      [36m<h1>[39m
+        [0mFirstlight [0m
+        [36m<small>[39m
+          [0mprivacy incident triage & notification-readiness lab[0m
+        [36m</small>[39m
+        [36m<br />[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"inc"[39m
+        [36m>[39m
+          [0mINC-2026-0093[0m
+          [0m · [0m
+          [0mCustomer export attached to the wrong vendor ticket[0m
+        [36m</span>[39m
+      [36m</h1>[39m
+      [36m<div[39m
+        [33maria-label[39m=[32m"Incident controls"[39m
+        [33mclass[39m=[32m"tools"[39m
+        [33mrole[39m=[32m"toolbar"[39m
+      [36m>[39m
+        [36m<label>[39m
+          [0mNow (UTC) [0m
+          [36m<input[39m
+            [33mtype[39m=[32m"datetime-local"[39m
+            [33mvalue[39m=[32m"2026-09-22T12:00"[39m
+          [36m/>[39m
+        [36m</label>[39m
+        [36m<button[39m
+          [33maria-expanded[39m=[32m"false"[39m
+          [33maria-haspopup[39m=[32m"dialog"[39m
+          [33mclass[39m=[32m"btn"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mImport bundle[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mExport bundle[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn btn-amber"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mExport packet[0m
+          [0m (redacted)[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mReset demo[0m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</header>[39m
+    [36m<p[39m
+      [33mclass[39m=[32m"disclaimer"[39m
+    [36m>[39m
+      [0mEducational prototype on a synthetic incident. It assembles and checks facts; it does not decide whether a breach must be notified, and nothing is sent to any authority or person.[0m
+    [36m</p>[39m
+    [36m<section[39m
+      [33maria-labelledby[39m=[32m"clock-h"[39m
+      [33mclass[39m=[32m"clock"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"clock-head"[39m
+      [36m>[39m
+        [36m<h2[39m
+          [33mid[39m=[32m"clock-h"[39m
+        [36m>[39m
+          [0mEvidence clock · now [0m
+          [0m2026-09-22 12:00Z[0m
+        [36m</h2>[39m
+        [36m<div[39m
+          [33maria-label[39m=[32m"Jurisdiction clocks"[39m
+          [33mclass[39m=[32m"clock-chips"[39m
+          [33mrole[39m=[32m"list"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"chip within"[39m
+            [33mrole[39m=[32m"listitem"[39m
+          [36m>[39m
+            [0mEU-GDPR[0m
+            [0m: [0m
+            [0m23.5 h left of 72 hours[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"chip within"[39m
+            [33mrole[39m=[32m"listitem"[39m
+          [36m>[39m
+            [0mUK-GDPR[0m
+            [0m: [0m
+            [0m23.5 h left of 72 hours[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33maria-label[39m=[32m"Evidence clock. EU-GDPR: 23.5 hours remain; awareness 2026-09-20T11:30:00Z, deadline 2026-09-23T11:30:00Z."[39m
+        [33mclass[39m=[32m"band-wrap"[39m
+        [33mrole[39m=[32m"img"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"band-track"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"band-window"[39m
+            [33mstyle[39m=[32m"left: 38.49%; width: calc(56.78%);"[39m
+          [36m/>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"band-elapsed"[39m
+            [33mstyle[39m=[32m"left: 38.49%; width: calc(38.25%);"[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"pin occurred"[39m
+          [33mstyle[39m=[32m"left: 4.73%;"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-label"[39m
+          [36m>[39m
+            [0moccurred[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-time"[39m
+          [36m>[39m
+            [0m2026-09-18 16:42Z[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"pin detected"[39m
+          [33mstyle[39m=[32m"left: 36.65%;"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-label"[39m
+          [36m>[39m
+            [0mdetected[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-time"[39m
+          [36m>[39m
+            [0m2026-09-20 09:10Z[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"pin aware"[39m
+          [33mstyle[39m=[32m"left: 38.49%;"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-label"[39m
+          [36m>[39m
+            [0maware[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-time"[39m
+          [36m>[39m
+            [0m2026-09-20 11:30Z[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"pin contained"[39m
+          [33mstyle[39m=[32m"left: 39.93%;"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-label"[39m
+          [36m>[39m
+            [0mcontained[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-time"[39m
+          [36m>[39m
+            [0m2026-09-20 13:20Z[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"pin now"[39m
+          [33mstyle[39m=[32m"left: 76.74%;"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-label"[39m
+          [36m>[39m
+            [0mnow[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"pin deadline"[39m
+          [33mstyle[39m=[32m"left: 95.27%;"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-label"[39m
+          [36m>[39m
+            [0m72 hours[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"pin-time"[39m
+          [36m>[39m
+            [0m2026-09-23 11:30Z[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+...
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/App.test.tsx:51:27
+     49|   it('lists, in text, which single changes would move the severity ban…
+     50|     render(<App />);
+     51|     const region = screen.getByRole('region', { name: /What would chan…
+       |                           ^
+     52|     expect(within(region).getAllByRole('listitem').length).toBeGreater…
+     53|     expect(region).toHaveTextContent(/Ease of identification/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > lists at least one single-field change that moves the demo band, including ease of identification
+AssertionError: expected 0 to be greater than 0
+ ❯ src/engine/engine.test.ts:189:26
+    187|     const b = load();
+    188|     const flips = severitySensitivity(b);
+    189|     expect(flips.length).toBeGreaterThan(0);
+       |                          ^
+    190|     // Demo: DPC 3 (financial) − 1 = 2, EI maximum (1), CB 0.25 → SE 2…
+    191|     const ei = flips.find((f) => f.field === 'easeOfIdentification' &&…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > every flip really produces its bandTo and seDelta when applied (loop over all flips)
+AssertionError: expected 0 to be greater than 0
+ ❯ src/engine/engine.test.ts:200:26
+    198|     const base = severity(b);
+    199|     const flips = severitySensitivity(b);
+    200|     expect(flips.length).toBeGreaterThan(0);
+       |                          ^
+    201|     for (const f of flips) {
+    202|       const after = severity(applyFlip(b, f));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > includes the highest data class moving one class up and one class down
+AssertionError: expected [] to deeply equal [ 'financial→behavioural', …(1) ]
+
+- Expected
++ Received
+
+- [
+-   "financial→behavioural",
+-   "financial→sensitive",
+- ]
++ []
+
+ ❯ src/engine/engine.test.ts:212:56
+    210|   it('includes the highest data class moving one class up and one clas…
+    211|     const cls = severitySensitivity(load()).filter((f) => f.field === …
+    212|     expect(cls.map((f) => `${f.from}→${f.to}`).sort()).toEqual(['finan…
+       |                                                        ^
+    213|   });
+    214|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  src/engine/engine.test.ts > severitySensitivity: what would change the band (October 2026 upgrade round) > moves the context adjustment by ±1 only and never beyond −3..+3
+AssertionError: expected [] to deeply equal [ '2' ]
+
+- Expected
++ Received
+
+- [
+-   "2",
+- ]
++ []
+
+ ❯ src/engine/engine.test.ts:220:39
+    218|     const top = severitySensitivity({ ...b, dataScope: b.dataScope.fil…
+    219|     const topMoves = top.filter((f) => f.field === 'dpcAdjustment');
+    220|     expect(topMoves.map((f) => f.to)).toEqual(['2']);
+       |                                       ^
+    221|     expect(topMoves[0]).toMatchObject({ from: '3', bandFrom: 'very-hig…
+    222|     // sensitive (4) − 3 clamps to DPC 1 → SE 1.25 low. The only in-ra…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  5 failed | 38 passed (43)
+   Start at  19:02:46
+   Duration  13.09s (transform 546ms, setup 857ms, import 819ms, tests 5.69s, environment 4.82s)
+

@@ -1,0 +1,166 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/appsec/provgate
+# 2026-10-04T18:38:49.038Z v20.20.1
+# exit 1
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
+
+
+ RUN  v4.1.11 <repo>/apps/appsec/provgate
+
+ ✓ src/engine/__tests__/gate.test.ts > schema validation > accepts both synthetic releases and the default policy 4ms
+ ✓ src/engine/__tests__/gate.test.ts > schema validation > rejects malformed JSON, oversized text and over-limit evidence lists 13ms
+ ✓ src/engine/__tests__/gate.test.ts > schema validation > rejects unknown identity references and invalid timestamps 1ms
+ ✓ src/engine/__tests__/gate.test.ts > schema validation > rejects a policy whose change class references an unknown evidence type 0ms
+ ✓ src/engine/__tests__/gate.test.ts > change classification > matches ** across segments and * within one segment 1ms
+ ✓ src/engine/__tests__/gate.test.ts > change classification > derives required evidence as baseline plus matched classes with the strictest reviewer count 8ms
+ ✓ src/engine/__tests__/gate.test.ts > gate evaluation — vulnerable release 1.4.0 > blocks and names each weak-evidence state 22ms
+ ✓ src/engine/__tests__/gate.test.ts > gate evaluation — vulnerable release 1.4.0 > treats an expired acceptance as no acceptance 1ms
+ ✓ src/engine/__tests__/gate.test.ts > gate evaluation — remediated release 1.4.1 > releases with accepted risk and no requirement problems 1ms
+ ✓ src/engine/__tests__/gate.test.ts > gate evaluation — remediated release 1.4.1 > marks evidence without an inline artifact as unverified rather than failed 1ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > rejects an acceptance approved by the release author even with the security role 1ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > rejects an acceptance longer than the policy maximum or approved by a non-security identity 7ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > counts duplicate reviewer identities once and rejects reviewers without the reviewer role 1ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > rejects evidence dated after the as-of time 1ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > prefers the strongest candidate when several pieces of evidence share a type 1ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > is sensitive to the as-of date: the same evidence goes stale 1ms
+ ✓ src/engine/__tests__/gate.test.ts > bundle export > computes SHA-256 correctly and stamps a reproducible content digest 1ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > chooses a valid acceptance regardless of list order and warns about the duplicate 1ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > reports the least-broken acceptance when none is valid 1ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > fails closed when class-required evidence omits scope 1ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > still releases 1.4.1 when scope is present on every class-required item (fixture contract) 1ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > 1.4.0 has exactly 7 blockers carrying 8 problem codes 1ms
+ × src/engine/__tests__/remediation.test.ts > remediation checklist > has a generic action for every problem and acceptance-problem code 17ms
+   → approver-is-author: expected 0 to be greater than 30
+ × src/engine/__tests__/remediation.test.ts > remediation checklist > turns every problem in the 1.4.0 evaluation into a concrete, policy-aware action 14ms
+   → self-review: expected false to be true // Object.is equality
+ × src/engine/__tests__/remediation.test.ts > remediation checklist > is empty for the clean 1.4.1 evaluation and surfaces acceptances that reference unknown findings 15ms
+   → expected [] to have a length of 1 but got +0
+ × src/engine/__tests__/remediation.test.ts > remediation checklist > is deterministic and still produces an action per problem without policy or manifest context 16ms
+   → Cannot read properties of undefined (reading 'action')
+ × src/engine/__tests__/remediation.test.ts > remediation checklist > appends a "Remediation checklist" section to the Markdown memo 7ms
+   → expected '# Release gate — Ledgerly web 1.4.0 (…' to match /\n## Remediation checklist\n/
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/__tests__/remediation.test.ts > remediation checklist > has a generic action for every problem and acceptance-problem code
+AssertionError: approver-is-author: expected 0 to be greater than 30
+ ❯ src/engine/__tests__/remediation.test.ts:51:49
+     49|     expect(Object.keys(ACTION_SUMMARY).sort()).toEqual(ALL_CODES);
+     50|     for (const code of ALL_CODES) {
+     51|       expect(ACTION_SUMMARY[code].length, code).toBeGreaterThan(30);
+       |                                                 ^
+     52|       expect(ACTION_SUMMARY[code], code).toMatch(new RegExp(EXPECTED_W…
+     53|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/engine/__tests__/remediation.test.ts > remediation checklist > turns every problem in the 1.4.0 evaluation into a concrete, policy-aware action
+AssertionError: self-review: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/__tests__/remediation.test.ts:66:131
+     64|     const unaccepted = ev.findings.filter((f) => f.blocking && !f.acce…
+     65|     expect(requirementProblems.length).toBeGreaterThanOrEqual(8);
+     66|     for (const code of new Set([...requirementProblems, ...acceptanceP…
+       |                                                                                                                                   ^
+     67|     expect(items).toHaveLength(requirementProblems.length + acceptance…
+     68|     for (const i of items) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/engine/__tests__/remediation.test.ts > remediation checklist > is empty for the clean 1.4.1 evaluation and surfaces acceptances that reference unknown findings
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/engine/__tests__/remediation.test.ts:121:19
+    119|     expect(ev.verdict).toBe('release-with-accepted-risk');
+    120|     const items = remediationFor(ev, { policy: p, manifest: ghost });
+    121|     expect(items).toHaveLength(1);
+       |                   ^
+    122|     expect(items[0].code).toBe('unknown-finding');
+    123|     expect(items[0].target).toMatch(/ra-ghost/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/engine/__tests__/remediation.test.ts > remediation checklist > is deterministic and still produces an action per problem without policy or manifest context
+TypeError: Cannot read properties of undefined (reading 'action')
+ ❯ src/engine/__tests__/remediation.test.ts:138:50
+    136|     expect(generic.map((i) => `${i.code}|${i.target}`)).toEqual(a.map(…
+    137|     for (const i of generic) expect(i.action.length).toBeGreaterThan(3…
+    138|     expect(generic.find((i) => i.code === 'stale')!.action).toMatch(/e…
+       |                                                  ^
+    139|   });
+    140|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  src/engine/__tests__/remediation.test.ts > remediation checklist > appends a "Remediation checklist" section to the Markdown memo
+AssertionError: expected '# Release gate — Ledgerly web 1.4.0 (…' to match /\n## Remediation checklist\n/
+
+- Expected:
+/\n## Remediation checklist\n/
+
++ Received:
+"# Release gate — Ledgerly web 1.4.0 (1.4.0, a1b2c3d)
+
+Verdict: **BLOCKED** · as of 2026-09-28T09:00:00Z · policy \"Default release policy (synthetic)\"
+
+> Educational prototype. The gate evaluates synthetic release metadata against a local policy. It is not a compliance attestation, audit opinion or production release control.
+
+## Change classes
+- Authentication & session code (authentication): auth/session.ts, auth/password-reset.ts
+- Dependency manifests (dependencies): package-lock.json
+
+## Evidence requirements
+| Type | Required by | Evidence | Hash | Problems |
+|---|---|---|---|---|
+| code-review | baseline | ev-cr-88 | unverified | self-review: Release author dev-priya is listed as a reviewer.<br>reviewer-role: dev-priya lack the \"reviewer\" role.<br>insufficient-reviewers: 0 eligible distinct reviewer(s); 2 required (duplicates and the author do not count). |
+| unit-tests | baseline | ev-ut-140 | mismatch | hash-mismatch: SHA-256 of the inline artifact does not match artifactHash; the artifact or the record was altered. |
+| secret-scan | baseline | ev-ss-140 | verified | none |
+| threat-model | authentication | ev-tm-3 | verified | stale: 88 days old; policy allows 30.<br>scope-gap: Scope [web/**] does not cover auth/session.ts, auth/password-reset.ts. |
+| sast | authentication | ev-sast-61 | unverified | wrong-commit: Evidence is for commit 9f8e7d6; release is a1b2c3d. |
+| security-retest | authentication | — | unverified | missing: No \"security-retest\" evidence in the manifest. |
+| dependency-review | dependencies | ev-dep-19 | unverified | none |
+
+## Findings
+- HIGH SAST-17 Reset token compared with non-constant-time equality — open; BLOCKING: Open high finding with no risk acceptance.
+- HIGH DEP-4 formatlib 2.1.0 prototype pollution (synthetic advisory) — open; BLOCKING: Acceptance ra-1 is invalid: expired.
+- LOW DEP-5 colourkit deprecated upstream — open; not blocking: Below the blocking threshold (high).
+
+## Blockers
+- code-review: self-review, reviewer-role, insufficient-reviewers
+- unit-tests: hash-mismatch
+- threat-model: stale, scope-gap
+- sast: wrong-commit
+- security-retest: missing
+- SAST-17 (high): Open high finding with no risk acceptance.
+- DEP-4 (high): Acceptance ra-1 is invalid: expired.
+
+Bundle digest (SHA-256, not a signature): `c5be135f6b8651664bb9307e831f452949efa287ba573c65d7448037303e3e29`"
+
+ ❯ src/engine/__tests__/remediation.test.ts:145:19
+    143|     const m140 = manifest(rel140);
+    144|     const md140 = bundleToMarkdown(await buildBundle(m140, p, await ev…
+    145|     expect(md140).toMatch(/\n## Remediation checklist\n/);
+       |                   ^
+    146|     expect(md140.indexOf('## Remediation checklist')).toBeGreaterThan(…
+    147|     expect(md140).toMatch(/- \[ \] \*\*stale\*\* .*threat-model.*re-ru…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  5 failed | 22 passed (27)
+   Start at  18:38:51
+   Duration  1.12s (transform 291ms, setup 0ms, import 359ms, tests 144ms, environment 0ms)
+

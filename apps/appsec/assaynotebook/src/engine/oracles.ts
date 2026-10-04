@@ -1,6 +1,6 @@
 import type { LabRequest, LabResponse } from './lab';
 
-export type OracleKind = 'reflects-unencoded' | 'cross-user-object' | 'cookie-missing-flags' | 'stack-trace-disclosed';
+export type OracleKind = 'reflects-unencoded' | 'cross-user-object' | 'cookie-missing-flags' | 'stack-trace-disclosed' | 'security-headers-missing';
 export interface OracleSpec { kind: OracleKind; marker?: string }
 export interface OracleVerdict { vulnerable: boolean; evidence: string }
 
@@ -17,6 +17,23 @@ export interface OracleDefinition {
 }
 
 const REQUIRED_FLAGS = ['HttpOnly', 'Secure', 'SameSite'];
+/** Baseline headers every rendered HTML page should carry (lower-case; lookups are case-insensitive). */
+const REQUIRED_HTML_HEADERS = ['content-security-policy', 'x-content-type-options'];
+
+/** Case-insensitive header lookup: HTTP header names are case-insensitive, and recorded exchanges may use any casing. */
+export function headerValue(headers: Record<string, string>, name: string): string | undefined {
+  const wanted = name.toLowerCase();
+  for (const [k, v] of Object.entries(headers)) if (k.toLowerCase() === wanted) return v;
+  return undefined;
+}
+
+/** A response a browser would render as a page: HTML content type, a body, and not a redirect. */
+export function isRenderedHtml(res: LabResponse): boolean {
+  const type = headerValue(res.headers, 'content-type') ?? '';
+  if (!/^\s*text\/html\s*(;|$)/i.test(type)) return false;
+  if (res.status >= 300 && res.status < 400) return false;
+  return res.body.length > 0;
+}
 
 export const ORACLES: Record<OracleKind, OracleDefinition> = {
   'reflects-unencoded': {
@@ -34,7 +51,7 @@ export const ORACLES: Record<OracleKind, OracleDefinition> = {
   },
   'cross-user-object': {
     kind: 'cross-user-object',
-    title: 'Direct object reference returns another user\u2019s record',
+    title: 'Direct object reference returns another user’s record',
     cwe: 'CWE-639', cweName: 'Authorization Bypass Through User-Controlled Key',
     owasp2021: 'A01:2021 Broken Access Control',
     defaultImpact: 'high', defaultLikelihood: 'high',
@@ -73,6 +90,25 @@ export const ORACLES: Record<OracleKind, OracleDefinition> = {
       return { vulnerable: trace, evidence: trace ? `HTTP ${res.status} body contains a stack trace${internal ? ' and an internal connection string' : ''}.` : `HTTP ${res.status} without stack-trace patterns.` };
     },
   },
+  'security-headers-missing': {
+    kind: 'security-headers-missing',
+    title: 'HTML response served without baseline security headers',
+    cwe: 'CWE-693', cweName: 'Protection Mechanism Failure',
+    owasp2021: 'A05:2021 Security Misconfiguration',
+    defaultImpact: 'low', defaultLikelihood: 'high',
+    remediation: "Send Content-Security-Policy (start from default-src 'self' and tighten) and X-Content-Type-Options: nosniff on every HTML response; set them once in the web server or framework middleware so no route can omit them.",
+    evaluate(_spec, _req, res) {
+      if (!isRenderedHtml(res)) {
+        const type = headerValue(res.headers, 'content-type');
+        return { vulnerable: false, evidence: `Not a rendered HTML page (HTTP ${res.status}, content-type ${type ?? 'absent'}); the header oracle does not apply.` };
+      }
+      const missing = REQUIRED_HTML_HEADERS.filter((h) => headerValue(res.headers, h) === undefined);
+      return {
+        vulnerable: missing.length > 0,
+        evidence: missing.length ? `HTML response lacks ${missing.join(' and ')}.` : 'HTML response carries Content-Security-Policy and X-Content-Type-Options.',
+      };
+    },
+  },
 };
 
 export function evaluateOracle(spec: OracleSpec, req: LabRequest, res: LabResponse): OracleVerdict {
@@ -86,5 +122,6 @@ export function suggestOracles(req: LabRequest, res: LabResponse): OracleSpec[] 
   if (q && /<assay-[0-9a-f]{6}>/.test(q)) out.push({ kind: 'reflects-unencoded', marker: q.match(/<assay-[0-9a-f]{6}>/)![0] });
   if (/^\/receipts\//.test(req.path)) { out.push({ kind: 'cross-user-object' }); out.push({ kind: 'stack-trace-disclosed' }); }
   if (res.headers['set-cookie']) out.push({ kind: 'cookie-missing-flags' });
+  if (isRenderedHtml(res)) out.push({ kind: 'security-headers-missing' });
   return out;
 }

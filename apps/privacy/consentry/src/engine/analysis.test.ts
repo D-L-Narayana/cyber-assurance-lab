@@ -122,7 +122,28 @@ describe('hostile nesting (review finding)', () => {
   });
 });
 
-describe('import warns when protective rules are disabled (sixth-Fable finding)', () => {
+describe('R09a record regime in the fixture and at import (October 2026 upgrade round)', () => {
+  it('the fixture exercises R09a-record-regime: disabling it changes ev-21', () => {
+    const cov = ruleCoverage(load()).find((c) => c.ruleId === 'R09a-record-regime');
+    expect(cov?.exercised).toBe(true);
+    expect(cov?.changedEventIds).toContain('ev-21');
+    expect(cov?.terminalFor).toBeGreaterThanOrEqual(1);
+  });
+
+  it('ev-21 (UK subject, grant captured under the EU notice) is expected to review with RECORD_REGIME_MISMATCH and the suite passes', () => {
+    const ws = load();
+    expect(ws.expectations.find((e) => e.eventId === 'ev-21')).toEqual({ eventId: 'ev-21', expect: 'review', reasonCode: 'RECORD_REGIME_MISMATCH' });
+    expect(runExpectations(ws).failed).toEqual([]);
+  });
+
+  it('disabling R09a-record-regime at import is called out as a protective-rule override', () => {
+    const r = parseWorkspace(JSON.stringify({ ...demo, policy: { ...demo.policy, disabledRules: ['R09a-record-regime'] } }));
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(r.warnings.join(' ')).toMatch(/R09a-record-regime.*educational override/);
+  });
+});
+
+describe('import warns when protective rules are disabled (sixth-review finding)', () => {
   it('lists each disabled protective rule as an educational-override warning', () => {
     const r = parseWorkspace(JSON.stringify({ ...demo, policy: { ...demo.policy, disabledRules: ['R05-child-consent', 'R06-gpc-signal', 'R07-opt-out-on-record'] } }));
     expect(r.ok).toBe(true);

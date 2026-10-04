@@ -5,6 +5,9 @@
   "type": "module",
   "description": "Ruleshadow — firewall and VPN rule-review simulator (educational prototype, synthetic data only)",
   "license": "MIT",
+  "engines": {
+    "node": ">=20.19"
+  },
   "scripts": {
     "dev": "vite --port 6134 --strictPort",
     "build": "tsc -p tsconfig.json && vite build",

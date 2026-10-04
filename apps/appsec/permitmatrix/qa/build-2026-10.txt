@@ -1,0 +1,28 @@
+$ npm run build
+# cwd apps/appsec/permitmatrix
+# 2026-10-04T18:50:57.185Z v20.20.1
+# exit 0
+
+
+> permitmatrix@0.1.0 build
+> tsc -p tsconfig.json --noEmit && vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 93 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                              0.67 kB │ gzip:  0.37 kB
+dist/assets/ibm-plex-mono-latin-400-normal-CvHOgSBP.woff    13.14 kB
+dist/assets/ibm-plex-mono-latin-500-normal-CB9ihrfo.woff    13.16 kB
+dist/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2   14.71 kB
+dist/assets/ibm-plex-mono-latin-500-normal-DSY6xOcd.woff2   14.89 kB
+dist/assets/ibm-plex-sans-latin-400-normal-CYLoc0-x.woff    22.10 kB
+dist/assets/ibm-plex-sans-latin-400-normal-CDDApCn2.woff2   22.59 kB
+dist/assets/ibm-plex-sans-latin-600-normal-Cu4Hd6ag.woff    23.88 kB
+dist/assets/ibm-plex-sans-latin-500-normal-BgVn5rGT.woff    23.92 kB
+dist/assets/ibm-plex-sans-latin-500-normal-6ng42L7E.woff2   24.18 kB
+dist/assets/ibm-plex-sans-latin-600-normal-CuJfVYMP.woff2   24.25 kB
+dist/assets/index-DpTovoQY.css                              13.59 kB │ gzip:  3.41 kB
+dist/assets/index-N2EDivOI.js                              312.08 kB │ gzip: 97.96 kB
+✓ built in 2.53s

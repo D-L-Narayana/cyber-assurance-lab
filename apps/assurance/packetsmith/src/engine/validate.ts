@@ -1,5 +1,6 @@
 // Bounded, path-addressed validation for imported packets. Rebuilds a clean object with known keys only.
 import { CATALOG, CONTROL_IDS, METHODS } from './catalog';
+import { verifyHistoryChain } from './packet';
 import { ARTIFACT_KINDS, type Artifact, type DeterminationResult, type Finding, type HistoryEntry, type PacketState, type Step, type ValidationIssue, type ValidationResult } from './types';
 
 export const MAX_PACKET_BYTES = 1024 * 1024;
@@ -45,6 +46,11 @@ function date(v: unknown, path: string, issues: Issues): string {
     return '2000-01-01';
   }
   return v;
+}
+function hex64(v: unknown, path: string, issues: Issues): string | null {
+  if (typeof v === 'string' && /^[0-9a-f]{64}$/i.test(v)) return v.toLowerCase();
+  issues.push({ path, message: 'must be 64 hex characters (SHA-256)' });
+  return null;
 }
 function idList(v: unknown, path: string, issues: Issues, max = 50): string[] {
   if (!Array.isArray(v)) {
@@ -174,15 +180,31 @@ export function validatePacketObject(raw: unknown): ValidationResult {
   let state: PacketState = 'drafting';
   if (typeof o.state !== 'string' || !STATES.includes(o.state as PacketState)) issues.push({ path: 'state', message: `state must be one of ${STATES.join(', ')}` });
   else state = o.state as PacketState;
+  let hashFieldsOk = true;
   const history: HistoryEntry[] = list(o.history, 'history', issues, MAX_HISTORY, (r, p) => {
     const h = obj(r);
-    return {
+    const entry: HistoryEntry = {
       at: date(h.at, p + '.at', issues),
       from: oneOf(h.from, STATES, p + '.from', issues),
       to: oneOf(h.to, STATES, p + '.to', issues),
       actor: str(h.actor, p + '.actor', issues, 80),
       note: str(h.note ?? '', p + '.note', issues, MAX_TEXT, 0),
     };
+    // Optional hash chain (additive, October 2026): both fields or neither; 64 hex characters each; the chain is verified as a whole below.
+    const hasPrev = h.prevHash !== undefined;
+    const hasHash = h.hash !== undefined;
+    if (hasPrev !== hasHash) {
+      issues.push({ path: p, message: 'prevHash and hash must be present together (chained entry) or both absent (legacy entry)' });
+      hashFieldsOk = false;
+    } else if (hasHash) {
+      const prevHash = hex64(h.prevHash, p + '.prevHash', issues);
+      const hash = hex64(h.hash, p + '.hash', issues);
+      if (prevHash && hash) {
+        entry.prevHash = prevHash;
+        entry.hash = hash;
+      } else hashFieldsOk = false;
+    }
+    return entry;
   });
 
   if (meta.assessor.trim() && meta.assessor.trim() === meta.approver.trim()) issues.push({ path: 'meta.approver', message: 'approver must differ from the assessor (separation of duties)' });
@@ -195,8 +217,16 @@ export function validatePacketObject(raw: unknown): ValidationResult {
   if (last && last.to !== state) issues.push({ path: 'state', message: `must equal the last history entry's 'to' (${last.to})` });
   if (history.some((h) => h.to === 'approved') && state !== 'approved') issues.push({ path: 'state', message: "history records an approved transition; 'approved' is terminal so state must be approved" });
 
+  // Hash chain: a chained history must verify; a legacy history without hashes is accepted with a warning (see verifyHistoryChain).
+  const warnings: string[] = [];
+  if (hashFieldsOk) {
+    const chain = verifyHistoryChain({ history });
+    if (!chain.ok) issues.push({ path: `history[${chain.brokenAt ?? 0}]`, message: `history hash chain broken: ${chain.reason}` });
+    else if (!chain.chained && history.length > 0) warnings.push('history not chained (legacy): the history entries carry no hashes, so edits to them cannot be detected; the next transition in this app will chain them as they stand now.');
+  }
+
   if (issues.length) return { ok: false, issues: issues.slice(0, 60) };
-  return { ok: true, packet: { schema: 'packetsmith.packet/1', meta, selectedControls, steps, artifacts, determinations, findings, state, history } };
+  return { ok: true, packet: { schema: 'packetsmith.packet/1', meta, selectedControls, steps, artifacts, determinations, findings, state, history }, warnings };
 }
 
 export function validatePacket(text: string): ValidationResult {

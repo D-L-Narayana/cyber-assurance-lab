@@ -1,0 +1,19 @@
+$ npx vitest run --reporter=verbose src/engine/score.test.ts
+# cwd apps/defense/injectboard
+# 2026-10-04T18:47:41.554Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/defense/injectboard
+
+ ✓ src/engine/score.test.ts > achievable score > fixture: upper bound 52, but only 48 is achievable on one path because the branch decision needs the 0-point observe option 4ms
+ ✓ src/engine/score.test.ts > achievable score > the returned path replays to exactly that score through the engine 2ms
+ ✓ src/engine/score.test.ts > achievable score > explores the branch when the branch-only decision is worth more than the option that skips it 1ms
+ ✓ src/engine/score.test.ts > achievable score > completeness and the after-action report show both numbers 5ms
+ ✓ src/engine/score.test.ts > achievable score > is deterministic and stops at the expansion budget on a dense branching scenario, flagging truncation 825ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  18:47:42
+   Duration  1.12s (transform 127ms, setup 0ms, import 146ms, tests 841ms, environment 0ms)
+

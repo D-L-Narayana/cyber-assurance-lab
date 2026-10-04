@@ -1,4 +1,5 @@
 import type { Scenario, Inject, Option } from './scenario';
+import { achievableMaxScore, upperBoundScore, type AchievableScore } from './score';
 
 export interface DecisionRecord { decisionId: string; injectId: string; optionId: string; optionLabel: string; atMinute: number; dueMinute: number; breachedSla: boolean; minutesLate: number; score: number; note: string }
 export interface Task { id: string; role: string; title: string; createdMinute: number; dueMinute: number; status: 'open' | 'done'; completedAtMinute: number | null; overdue: boolean }
@@ -73,14 +74,19 @@ export function addLesson(state: State, l: Omit<Lesson, 'atMinute'>): State {
   return { ...state, lessons: [...state.lessons, { ...l, text, atMinute: state.clockMinute }], log: [...state.log, { type: 'lesson', text, category: l.category, owner: l.owner }] };
 }
 
-export function completeness(state: State, scenario: Scenario) {
+/**
+ * Progress summary. `maxScore` is the UPPER BOUND (best option of every decision, including branch-only ones);
+ * `achievableMax` is the best total reachable on one path (see `score.ts`), with `achievableTruncated` set when the
+ * search budget stopped early. Callers that render often should pass a memoised `achievable` result.
+ */
+export function completeness(state: State, scenario: Scenario, achievable: AchievableScore = achievableMaxScore(scenario)) {
   const decisionsTotal = scenario.injects.filter(i => i.decision).length;
   const decisionsMade = state.decisions.length;
   const breaches = state.decisions.filter(d => d.breachedSla).length;
   const tasksTotal = state.tasks.length; const tasksDone = state.tasks.filter(t => t.status === 'done').length;
   const overdueOpen = state.tasks.filter(t => t.status === 'open' && state.clockMinute > t.dueMinute).length;
-  const maxScore = scenario.injects.reduce((s, i) => s + (i.decision ? Math.max(...i.decision.options.map(o => o.score)) : 0), 0);
-  return { decisionsTotal, decisionsMade, pct: decisionsTotal ? Math.round((decisionsMade / decisionsTotal) * 100) : 0, breaches, tasksTotal, tasksDone, overdueOpen, lessons: state.lessons.length, score: state.score, maxScore };
+  const maxScore = upperBoundScore(scenario);
+  return { decisionsTotal, decisionsMade, pct: decisionsTotal ? Math.round((decisionsMade / decisionsTotal) * 100) : 0, breaches, tasksTotal, tasksDone, overdueOpen, lessons: state.lessons.length, score: state.score, maxScore, achievableMax: achievable.max, achievableTruncated: achievable.truncated };
 }
 
 /** Deterministically rebuild state from an action log. Invalid actions are skipped, never throw. */

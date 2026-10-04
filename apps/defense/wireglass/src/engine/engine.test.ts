@@ -4,6 +4,7 @@ import { runRules, DEFAULT_RULE_CONFIG, correlateAlerts } from './rules';
 import { createTriage, transitionAlert } from './triage';
 import { buildReport } from './report';
 import { generateScenario } from './scenario';
+import { recordTuning } from './diff';
 
 const DNS = '2026-09-14T08:00:01Z DNS 10.0.4.21 query A www.intranet.example NOERROR';
 const HTTP = '2026-09-14T08:00:02Z HTTP 10.0.4.21 203.0.113.10 GET /index.html 200 512 "Mozilla/5.0 (X11)"';
@@ -184,5 +185,23 @@ describe('scenario generator and report', () => {
     expect(report.summary.events).toBe(events.length);
     expect(report.summary.open).toBe(alerts.length);
     expect(report.dataNotice).toMatch(/synthetic/i);
+    expect(report.tuning, 'no tuning record unless a change was applied').toBeUndefined();
+    expect(Object.keys(report)).not.toContain('tuning');
+  });
+  it('report gains an additive tuning record only when a config change was applied in the session', () => {
+    const events = parseLogs(generateScenario('cdn-noise', 7)).events;
+    const tuned = { ...DEFAULT_RULE_CONFIG, dnsSuffixAllowlist: [...DEFAULT_RULE_CONFIG.dnsSuffixAllowlist, '.edge.media.example'] };
+    const before = runRules(events, DEFAULT_RULE_CONFIG);
+    const after = runRules(events, tuned);
+    expect(before.length).toBeGreaterThan(0);
+    expect(after).toEqual([]);
+    const tuning = recordTuning(events, DEFAULT_RULE_CONFIG, tuned);
+    const report = buildReport({ events, alerts: after, triage: createTriage([]), config: tuned, generatedAt: '2026-10-04T00:00:00Z', tuning });
+    expect(report.schema).toBe('wireglass.report/1');
+    expect(report.tuning).toEqual({ from: DEFAULT_RULE_CONFIG, to: tuned, removed: before.map(a => a.id), added: [] });
+    expect(report.summary.alerts).toBe(0);
+    const roundTrip = JSON.parse(JSON.stringify(report));
+    expect(roundTrip.tuning.removed).toHaveLength(before.length);
+    expect(roundTrip.tuning.to.dnsSuffixAllowlist).toContain('.edge.media.example');
   });
 });

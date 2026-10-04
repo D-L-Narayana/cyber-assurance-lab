@@ -3,6 +3,7 @@ import fc from 'fast-check';
 import { buildTimeline } from './timeline';
 import { evidenceClock } from './clock';
 import { severity, summariseScope } from './severity';
+import { applyFlip, severitySensitivity } from './sensitivity';
 import { readiness } from './readiness';
 import { redactText, buildPacket } from './packet';
 import { parseBundle, serializeBundle, completeTask } from './bundleIO';
@@ -178,6 +179,80 @@ describe('summariseScope and severity (ENISA-inspired SE = DPC x EI + CB)', () =
       const hi = severity({ ...b, circumstances: { ...b.circumstances, easeOfIdentification: order[i + 1]! } }).se;
       return hi >= lo;
     }));
+  });
+});
+
+describe('severitySensitivity: what would change the band (October 2026 upgrade round)', () => {
+  it('lists at least one single-field change that moves the demo band, including ease of identification', () => {
+    const b = load();
+    const flips = severitySensitivity(b);
+    expect(flips.length).toBeGreaterThan(0);
+    // Demo: DPC 3 (financial) − 1 = 2, EI maximum (1), CB 0.25 → SE 2.25 medium; EI limited → 2 × 0.5 + 0.25 = 1.25 low.
+    const ei = flips.find((f) => f.field === 'easeOfIdentification' && f.to === 'limited');
+    expect(ei).toMatchObject({ from: 'maximum', bandFrom: 'medium', bandTo: 'low' });
+    expect(ei?.seDelta).toBeCloseTo(-1, 5);
+  });
+
+  it('every flip really produces its bandTo and seDelta when applied (loop over all flips)', () => {
+    const b = load();
+    const base = severity(b);
+    const flips = severitySensitivity(b);
+    expect(flips.length).toBeGreaterThan(0);
+    for (const f of flips) {
+      const after = severity(applyFlip(b, f));
+      expect(f.bandFrom, f.field).toBe(base.band);
+      expect(f.bandTo, `${f.field} ${f.from}→${f.to}`).not.toBe(f.bandFrom);
+      expect(after.band, `${f.field} ${f.from}→${f.to}`).toBe(f.bandTo);
+      expect(after.se - base.se).toBeCloseTo(f.seDelta, 5);
+    }
+  });
+
+  it('includes the highest data class moving one class up and one class down', () => {
+    const cls = severitySensitivity(load()).filter((f) => f.field === 'dataScope.highestClass');
+    expect(cls.map((f) => `${f.from}→${f.to}`).sort()).toEqual(['financial→behavioural', 'financial→sensitive']);
+  });
+
+  it('moves the context adjustment by ±1 only and never beyond −3..+3', () => {
+    const b = load();
+    // simple (1) + 3 clamps to DPC 4; EI maximum, CB 0.25 → SE 4.25 very high. The only in-range move is +2 → DPC 3 → SE 3.25 high.
+    const top = severitySensitivity({ ...b, dataScope: b.dataScope.filter((d) => d.dataClass === 'simple'), circumstances: { ...b.circumstances, dpcAdjustment: 3 } });
+    const topMoves = top.filter((f) => f.field === 'dpcAdjustment');
+    expect(topMoves.map((f) => f.to)).toEqual(['2']);
+    expect(topMoves[0]).toMatchObject({ from: '3', bandFrom: 'very-high', bandTo: 'high' });
+    // sensitive (4) − 3 clamps to DPC 1 → SE 1.25 low. The only in-range move is −2 → DPC 2 → SE 2.25 medium.
+    const sensitive = { ...b.dataScope[0]!, id: 'ds-x', category: 'Health note (synthetic)', dataClass: 'sensitive' as const };
+    const bottom = severitySensitivity({ ...b, dataScope: [...b.dataScope, sensitive], circumstances: { ...b.circumstances, dpcAdjustment: -3 } });
+    const bottomMoves = bottom.filter((f) => f.field === 'dpcAdjustment');
+    expect(bottomMoves.map((f) => f.to)).toEqual(['-2']);
+    expect(bottomMoves[0]).toMatchObject({ from: '-3', bandFrom: 'low', bandTo: 'medium' });
+    // In the demo (adjustment −1) both single steps flip: −2 → DPC 1 (low), 0 → DPC 3 (high).
+    const demoMoves = severitySensitivity(b).filter((f) => f.field === 'dpcAdjustment').map((f) => `${f.to}:${f.bandTo}`).sort();
+    expect(demoMoves).toEqual(['-2:low', '0:high']);
+  });
+
+  it('returns no flips when every single change keeps the band (a deep-low bundle and a clamp-saturated medium bundle)', () => {
+    const b = load();
+    const deepLow: IncidentBundle = { ...b, dataScope: b.dataScope.filter((d) => d.dataClass === 'simple'), circumstances: { ...b.circumstances, dpcAdjustment: 0, easeOfIdentification: 'negligible', confidentialityLoss: 'none', integrityLoss: 'none', availabilityLoss: 'none', maliciousIntent: false } };
+    expect(severity(deepLow).band).toBe('low');
+    expect(severitySensitivity(deepLow)).toEqual([]);
+    // Highest class financial (3) with adjustment −3 clamps DPC to 1 under every single move; EI 0.75 + CB 1.75 = 2.5 stays medium.
+    const mid: IncidentBundle = { ...b, circumstances: { ...b.circumstances, dpcAdjustment: -3, easeOfIdentification: 'significant', confidentialityLoss: 'unknown-recipients', integrityLoss: 'unrecoverable', availabilityLoss: 'temporary', maliciousIntent: true } };
+    expect(severity(mid).se).toBeCloseTo(2.5, 5);
+    expect(severity(mid).band).toBe('medium');
+    expect(severitySensitivity(mid)).toEqual([]);
+  });
+
+  it('is deterministic and sorted by |seDelta| descending, then field', () => {
+    const b = load();
+    const first = severitySensitivity(b);
+    expect(severitySensitivity(b)).toEqual(first);
+    for (let i = 1; i < first.length; i += 1) {
+      const p = first[i - 1]!;
+      const q = first[i]!;
+      const dp = Math.abs(p.seDelta);
+      const dq = Math.abs(q.seDelta);
+      expect(dp > dq || (Math.abs(dp - dq) < 1e-9 && p.field <= q.field), `${p.field}(${dp}) before ${q.field}(${dq})`).toBe(true);
+    }
   });
 });
 

@@ -1,0 +1,213 @@
+$ npx vitest run --reporter=verbose src/engine/engine.test.ts
+# cwd apps/defense/ruleshadow
+# 2026-10-04T18:40:55.895Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/defense/ruleshadow
+
+ ✓ src/engine/engine.test.ts > network primitives > parses CIDR blocks into inclusive 32-bit intervals 3ms
+ ✓ src/engine/engine.test.ts > network primitives > parses port expressions and rejects out-of-range or reversed values 1ms
+ ✓ src/engine/engine.test.ts > network primitives > subtracts covered intervals leaving the uncovered remainder 1ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > reports a later rule fully covered by an earlier same-action rule as redundant 1ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > reports a later rule fully covered by an earlier opposite-action rule as a conflict 1ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > does not flag partial overlap as shadowing 0ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > detects shadowing by the union of several earlier rules 1ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > does not treat an already-shadowed earlier rule as operative coverage (first-match precedence) 8ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > classifies full shadowing by mixed-action earlier rules as a conflict with a per-range trace 1ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > ignores disabled rules when computing shadows 0ms
+ ✓ src/engine/engine.test.ts > hygiene findings > flags any/any allows as overbroad and plain /8-to-host 443 as fine 0ms
+ ✓ src/engine/engine.test.ts > hygiene findings > flags expired rules and rules with no hits in 90 days 1ms
+ ✓ src/engine/engine.test.ts > hygiene findings > flags VPN-zone allows reaching management ports on broad destinations 10ms
+ ✓ src/engine/engine.test.ts > hygiene findings > reports a missing explicit final deny 3ms
+ ✓ src/engine/engine.test.ts > CSV import > parses the shipped fixture and bounds rule count 2ms
+ ✓ src/engine/engine.test.ts > CSV import > reports invalid CIDR, port and action values with line numbers 0ms
+ ✓ src/engine/engine.test.ts > CSV import > rejects calendar-invalid dates such as 2026-02-30 and 2026-99-99 1ms
+ × src/engine/engine.test.ts > CSV import > golden counts for the shipped 41-rule fixture: the 17 original findings are unchanged and the new kind is counted separately 12ms
+   → expected [] to deeply equal [ 'FIN-ERP-WIDE' ]
+ ✓ src/engine/engine.test.ts > change proposals and diff > proposes disable for expired rules, narrows VPN exposure only to a supplied jump host, and diffs before/after 2ms
+ ✓ src/engine/engine.test.ts > change proposals and diff > requires manual review for VPN narrowing when no jump host is supplied, and for overbroad allows (no automatic address scoping) 1ms
+ ✓ src/engine/engine.test.ts > change proposals and diff > only narrows VPN exposure when the supplied jump host is a strict subset of the original destination 1ms
+ ✓ src/engine/engine.test.ts > change proposals and diff > derives the stale-rule expiry from the review date instead of a hard-coded day 0ms
+ ✓ src/engine/engine.test.ts > explanations and export > translates a rule into plain language with address counts 0ms
+ ✓ src/engine/engine.test.ts > explanations and export > neutralises CSV formula injection and quotes fields 0ms
+ ✓ src/engine/engine.test.ts > explanations and export > builds a stable report schema 4ms
+ × src/engine/engine.test.ts > explanations and export > report and findings CSV carry per-rule coverage (additive fields) 4ms
+   → Target cannot be null or undefined.
+ × src/engine/engine.test.ts > partial-shadow coverage findings > raises partially-shadowed (info) when two half-space earlier rules cover a later rule that neither contains 2ms
+   → expected undefined to match object { id: 'partially-shadowed:R', …(3) }
+ × src/engine/engine.test.ts > partial-shadow coverage findings > reports coverage below the threshold without a finding, and honours a custom threshold 2ms
+   → expected undefined to deeply equal { fraction: 0.25, …(2) }
+ × src/engine/engine.test.ts > partial-shadow coverage findings > does not duplicate redundant/conflict findings and ignores zone-mismatched earlier rules 1ms
+   → Cannot read properties of undefined (reading 'fraction')
+ × src/engine/engine.test.ts > partial-shadow coverage findings > detects per-protocol assembly (tcp + udp + icmp earlier rules covering a later proto-any rule) 1ms
+   → expected undefined to match object { ruleId: 'X', …(1) }
+ × src/engine/engine.test.ts > partial-shadow coverage findings > flags the approximation on a hostile 300-rule slab set and stays exact on the fixture 1ms
+   → expected [] to have a length of 301 but got +0
+ × src/engine/engine.test.ts > partial-shadow coverage findings > proposes manual review (no automatic change) for partially shadowed rules 1ms
+   → Cannot read properties of undefined (reading 'ruleId')
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/engine.test.ts > CSV import > golden counts for the shipped 41-rule fixture: the 17 original findings are unchanged and the new kind is counted separately
+AssertionError: expected [] to deeply equal [ 'FIN-ERP-WIDE' ]
+
+- Expected
++ Received
+
+- [
+-   "FIN-ERP-WIDE",
+- ]
++ []
+
+ ❯ src/engine/engine.test.ts:158:40
+    156|     expect(original.filter(x => x.kind === 'conflict').map(x => x.rule…
+    157|     const partial = f.filter(x => x.kind === 'partially-shadowed');
+    158|     expect(partial.map(x => x.ruleId)).toEqual(['FIN-ERP-WIDE']);
+       |                                        ^
+    159|     expect(partial[0]).toMatchObject({ severity: 'info', relatedRuleId…
+    160|     expect(partial[0].detail).toMatch(/50%/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  src/engine/engine.test.ts > explanations and export > report and findings CSV carry per-rule coverage (additive fields)
+AssertionError: Target cannot be null or undefined.
+ ❯ src/engine/engine.test.ts:260:26
+    258|     const rep = buildReport({ rules, findings, proposals: [], generate…
+    259|     expect(rep.schema).toBe('ruleshadow.report/1');
+    260|     expect(rep.coverage).toHaveLength(41);
+       |                          ^
+    261|     expect(rep.coverage.map(c => c.ruleId)).toEqual(rules.map(r => r.i…
+    262|     expect(rep.coverage.find(c => c.ruleId === 'FIN-ERP-WIDE')).toEqua…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  src/engine/engine.test.ts > partial-shadow coverage findings > raises partially-shadowed (info) when two half-space earlier rules cover a later rule that neither contains
+AssertionError: expected undefined to match object { id: 'partially-shadowed:R', …(3) }
+
+- Expected:
+{
+  "id": "partially-shadowed:R",
+  "relatedRuleIds": [
+    "A",
+    "B",
+  ],
+  "ruleId": "R",
+  "severity": "info",
+}
+
++ Received:
+undefined
+
+ ❯ src/engine/engine.test.ts:283:15
+    281|     expect(f.filter(x => x.ruleId === 'R' && (x.kind === 'redundant' |…
+    282|     const p = f.find(x => x.kind === 'partially-shadowed')!;
+    283|     expect(p).toMatchObject({ id: 'partially-shadowed:R', ruleId: 'R',…
+       |               ^
+    284|     expect(p.detail).toMatch(/100%/);
+    285|     expect(p.detail).toMatch(/A.*B/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  src/engine/engine.test.ts > partial-shadow coverage findings > reports coverage below the threshold without a finding, and honours a custom threshold
+AssertionError: expected undefined to deeply equal { fraction: 0.25, …(2) }
+
+- Expected:
+{
+  "approximate": false,
+  "coveringRuleIds": [
+    "A",
+  ],
+  "fraction": 0.25,
+}
+
++ Received:
+undefined
+
+ ❯ src/engine/engine.test.ts:293:38
+    291|     const rules = [base({ id: 'A', seq: 1, src: '10.0.0.0/10' }), base…
+    292|     expect(analyzeRules(rules, { now: NOW }).filter(x => x.kind === 'p…
+    293|     expect(analyzeCoverage(rules).R).toEqual({ fraction: 0.25, coverin…
+       |                                      ^
+    294|     expect(analyzeCoverage(rules).A).toEqual({ fraction: 0, coveringRu…
+    295|     const low = analyzeRules(rules, { now: NOW, partialShadowThreshold…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  src/engine/engine.test.ts > partial-shadow coverage findings > does not duplicate redundant/conflict findings and ignores zone-mismatched earlier rules
+TypeError: Cannot read properties of undefined (reading 'fraction')
+ ❯ src/engine/engine.test.ts:308:39
+    306|     expect(f.find(x => x.ruleId === 'B' && x.kind === 'redundant')).to…
+    307|     expect(f.filter(x => x.kind === 'partially-shadowed')).toEqual([]);
+    308|     expect(analyzeCoverage(contained).B.fraction).toBe(1);
+       |                                       ^
+    309|     const zoned = [base({ id: 'A', seq: 1, src: '10.0.0.0/9', zoneFrom…
+    310|     expect(analyzeRules(zoned, { now: NOW }).filter(x => x.kind === 'p…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  src/engine/engine.test.ts > partial-shadow coverage findings > detects per-protocol assembly (tcp + udp + icmp earlier rules covering a later proto-any rule)
+AssertionError: expected undefined to match object { ruleId: 'X', …(1) }
+
+- Expected:
+{
+  "relatedRuleIds": [
+    "T",
+    "U",
+    "C",
+  ],
+  "ruleId": "X",
+}
+
++ Received:
+undefined
+
+ ❯ src/engine/engine.test.ts:317:58
+    315|     const f = analyzeRules(rules, { now: NOW });
+    316|     expect(f.filter(x => x.ruleId === 'X' && (x.kind === 'redundant' |…
+    317|     expect(f.find(x => x.kind === 'partially-shadowed')).toMatchObject…
+       |                                                          ^
+    318|   });
+    319|   it('flags the approximation on a hostile 300-rule slab set and stays…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  src/engine/engine.test.ts > partial-shadow coverage findings > flags the approximation on a hostile 300-rule slab set and stays exact on the fixture
+AssertionError: expected [] to have a length of 301 but got +0
+
+- Expected
++ Received
+
+- 301
++ 0
+
+ ❯ src/engine/engine.test.ts:330:30
+    328|     const cov = analyzeCoverage(rules);
+    329|     expect(Date.now() - started, 'hostile 301-rule coverage pass compl…
+    330|     expect(Object.keys(cov)).toHaveLength(301);
+       |                              ^
+    331|     expect(cov.T.approximate).toBe(true);
+    332|     expect(cov.T.fraction).toBeGreaterThan(0.3);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  src/engine/engine.test.ts > partial-shadow coverage findings > proposes manual review (no automatic change) for partially shadowed rules
+TypeError: Cannot read properties of undefined (reading 'ruleId')
+ ❯ src/engine/change.ts:17:43
+     15|  */
+     16| export function proposeChange(rules: Rule[], f: Finding, opts: Proposa…
+     17|   const rule = rules.find(r => r.id === f.ruleId) ?? null;
+       |                                           ^
+     18|   const base = { id: `prop:${f.id}`, ruleId: f.ruleId, findingId: f.id…
+     19|   const review = (rationale: string): Proposal => ({ ...base, op: 'rev…
+ ❯ proposeChange src/engine/change.ts:17:22
+ ❯ src/engine/engine.test.ts:345:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed | 24 passed (32)
+   Start at  18:40:56
+   Duration  426ms (transform 167ms, setup 0ms, import 195ms, tests 68ms, environment 0ms)
+

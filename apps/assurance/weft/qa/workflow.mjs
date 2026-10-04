@@ -73,7 +73,7 @@ try {
   await manifestInput.setInputFiles({ name: 'm.json', mimeType: 'application/json', buffer: Buffer.from(manifestText) });
   await page.waitForSelector('.notice--error');
   check('verify detects appended assertion', /assertion added \(unbound\): AS-07/.test((await page.locator('.notice--error').textContent()) ?? ''));
-  // Remove a sign-off that the manifest bound → reported (sixth-Fable repro A)
+  // Remove a sign-off that the manifest bound → reported (external repro A)
   await page.getByRole('button', { name: /^AS-02:/ }).click();
   await page.getByRole('button', { name: 'Clear stale sign-off' }).click();
   await manifestInput.setInputFiles({ name: 'm.json', mimeType: 'application/json', buffer: Buffer.from(manifestText) });

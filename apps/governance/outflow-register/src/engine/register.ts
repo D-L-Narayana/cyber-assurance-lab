@@ -27,9 +27,24 @@ export function effectiveStatus(a: Agreement, asOf: string): AgreementStatus {
 
 const ownerOk = (r: Register, a: Agreement) => !!a.ownerId && r.owners.some((o) => o.id === a.ownerId && o.status === 'active');
 
-function parseHours(req: string): number | null {
-  const m = /^(\d+)\s*h/i.exec(req.trim());
-  return m ? Number(m[1]) : null;
+/**
+ * First number followed by a unit of hours, days or weeks (case-insensitive, optional space, inside longer phrasing).
+ * Digits are capped at six and the number must start at a word boundary, so `h72` and `1234567h` do not match.
+ */
+const WINDOW_RE = /\b(\d{1,6})\s*(hours|hour|hrs|hr|h|days|day|d|weeks|week|wks|wk|w)\b/i;
+const UNIT_HOURS: Record<string, number> = { h: 1, hr: 1, hrs: 1, hour: 1, hours: 1, d: 24, day: 24, days: 24, w: 168, wk: 168, wks: 168, week: 168, weeks: 168 };
+
+/**
+ * Normalise a breach-notification window to hours: `72h`, `72 h`, `72 hours`, `72hrs`, `3 days`, `3d`, `1 week`, `1w`,
+ * `within 72 hours`, `no later than 3 days` → hours. `null` when no number + hours/days/weeks unit can be read
+ * (`without undue delay`, `immediately`, `two days`, `24 business hours`, a bare `72`), so callers can say
+ * "not compared" instead of guessing.
+ */
+export function parseWindowHours(req: string): number | null {
+  if (typeof req !== 'string') return null;
+  const m = WINDOW_RE.exec(req);
+  if (!m) return null;
+  return Number(m[1]) * UNIT_HOURS[m[2]!.toLowerCase()]!;
 }
 
 export function findIssues(r: Register, asOf: string): Issue[] {
@@ -68,14 +83,18 @@ export function findIssues(r: Register, asOf: string): Issue[] {
     }
     if (f.lastTransferOn && daysBetween(f.lastTransferOn, asOf) > STALE_FLOW_DAYS) push('stale_flow', f.vendorId, `Flow ${f.id} is marked active but last transferred ${f.lastTransferOn}.`, a?.id ?? null, f.id);
   }
-  // contradictions: same vendor, two live agreements with different breach-notification hours
+  // contradictions: same vendor, live agreements whose breach-notification windows normalise to different hours.
+  // Requirements that cannot be normalised are listed as "not compared" and never create a contradiction alone.
   for (const v of r.vendors) {
     const live = r.agreements.filter((a) => a.vendorId === v.id && effectiveStatus(a, asOf) === 'active');
-    const windows = live.flatMap((a) => a.obligations.filter((o) => o.kind === 'breach_notification').map((o) => ({ a, h: parseHours(o.requirement), raw: o.requirement }))).filter((w) => w.h !== null);
-    const distinct = new Set(windows.map((w) => w.h));
+    const windows = live.flatMap((a) => a.obligations.filter((o) => o.kind === 'breach_notification').map((o) => ({ a, hours: parseWindowHours(o.requirement), raw: o.requirement })));
+    const compared = windows.filter((w): w is typeof w & { hours: number } => w.hours !== null);
+    const skipped = windows.filter((w) => w.hours === null);
+    const distinct = new Set(compared.map((w) => w.hours));
     if (distinct.size > 1) {
-      const first = windows[0]!;
-      push('contradictory_breach_window', v.id, `${v.name} has conflicting breach-notification windows: ${windows.map((w) => `${w.raw} in "${w.a.title}"`).join(' vs ')}.`, first.a.id);
+      const first = compared[0]!;
+      const notCompared = skipped.length ? ` — not compared: ${skipped.map((w) => `"${w.raw}" in "${w.a.title}"`).join(', ')}` : '';
+      push('contradictory_breach_window', v.id, `${v.name} has conflicting breach-notification windows: ${compared.map((w) => `${w.raw} (${w.hours} h) in "${w.a.title}"`).join(' vs ')}${notCompared}.`, first.a.id);
     }
   }
   issues.sort((x, y) => SEVERITY_RANK[x.severity] - SEVERITY_RANK[y.severity] || x.id.localeCompare(y.id));

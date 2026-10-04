@@ -1,10 +1,11 @@
- RUN  v3.2.7 /home/user/workspace/cyber-portfolio/candidates/defense/peerline
+# note: absolute paths of the original build environment were replaced by <original-build> after capture (text only; test ids, results and counts unchanged)
+ RUN  v3.2.7 <original-build>/defense/peerline
 
 
 ⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
 
  FAIL  src/engine/engine.test.ts [ src/engine/engine.test.ts ]
-Error: Cannot find module './stats' imported from '/home/user/workspace/cyber-portfolio/candidates/defense/peerline/src/engine/engine.test.ts'
+Error: Cannot find module './stats' imported from '<original-build>/defense/peerline/src/engine/engine.test.ts'
  ❯ src/engine/engine.test.ts:2:1
       1| import { describe, it, expect } from 'vitest';
       2| import { robustStats, robustZ } from './stats';
@@ -12,7 +13,7 @@ Error: Cannot find module './stats' imported from '/home/user/workspace/cyber-po
       3| import { buildBaselines, scoreRecords, DEFAULT_CONFIG, applyFeedback, …
       4| import { generateActivity } from './synth';
 
-Caused by: Error: Failed to load url ./stats (resolved id: ./stats) in /home/user/workspace/cyber-portfolio/candidates/defense/peerline/src/engine/engine.test.ts. Does the file exist?
+Caused by: Error: Failed to load url ./stats (resolved id: ./stats) in <original-build>/defense/peerline/src/engine/engine.test.ts. Does the file exist?
  ❯ loadAndTransform node_modules/vite/dist/node/chunks/config.js:22739:33
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

@@ -130,7 +130,18 @@ function isCalendarDate(v: unknown): v is string {
   return probe.getUTCFullYear() === y && probe.getUTCMonth() === m - 1 && probe.getUTCDate() === d;
 }
 
-export function requestExtension(request: RightsRequest, input: ExtensionInput): RightsRequest {
+const TERMINAL_STAGES: ReadonlySet<RightsRequest['stage']> = new Set(['closed', 'rejected']);
+
+/**
+ * Records a single extension on an open request. Guards run in a fixed order so refusals are stable:
+ * terminal stage → already extended → input validation → statutory maximum → statutory notice window →
+ * as-of consistency. `asOf` is optional for callers that replay historical data (the importer applies the
+ * statutory guards itself and deliberately accepts extensions on requests that have since closed).
+ */
+export function requestExtension(request: RightsRequest, input: ExtensionInput, asOf?: string): RightsRequest {
+  if (TERMINAL_STAGES.has(request.stage)) {
+    throw new WorkflowError('INVALID_TRANSITION', `${request.id} is ${request.stage}; the response window of a ${request.stage} request cannot be extended.`);
+  }
   if (request.extension) {
     throw new WorkflowError('ALREADY_EXTENDED', `${request.id} has already been extended once; the profile allows a single extension.`);
   }
@@ -155,6 +166,14 @@ export function requestExtension(request: RightsRequest, input: ExtensionInput):
   }
   if (profile.extensionNoticeWithinInitialWindow && daysBetween(input.notifiedOn, statutory) < 0) {
     throw new WorkflowError('EXTENSION_TOO_LATE', `Extension notice dated ${input.notifiedOn} is after the initial due date ${statutory}; ${profile.label} requires notice within the initial window.`);
+  }
+  if (asOf !== undefined) {
+    if (!isCalendarDate(asOf)) {
+      throw new WorkflowError('INVALID_EXTENSION_INPUT', `The as-of date "${String(asOf).slice(0, 20)}" is not a real calendar date (YYYY-MM-DD), so the notice date cannot be checked against it.`);
+    }
+    if (daysBetween(asOf, input.notifiedOn) > 0) {
+      throw new WorkflowError('INVALID_EXTENSION_INPUT', `Extension notice dated in the future relative to the as-of date ${asOf} (notifiedOn ${input.notifiedOn}); the requester cannot have been told yet.`);
+    }
   }
   return {
     ...request,

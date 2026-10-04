@@ -79,7 +79,7 @@ export function ArtifactPanel({ artifact, info, onEdit, onRemove, onJump }: { ar
   );
 }
 
-export function Ledger({ issues, high, onJump }: { issues: Issue[]; high: number; onJump: (ref: string) => void }) {
+export function Ledger({ issues, high, onJump, onExport }: { issues: Issue[]; high: number; onJump: (ref: string) => void; onExport: () => void }) {
   const groups = new Map<string, Issue[]>();
   for (const i of issues) groups.set(i.kind, [...(groups.get(i.kind) ?? []), i]);
   return (
@@ -87,6 +87,7 @@ export function Ledger({ issues, high, onJump }: { issues: Issue[]; high: number
       <div className="ledger__head">
         <h2 id="ledger-h">Findings ledger</h2>
         <span className={`count ${high ? 'bad' : 'ok'}`}>{issues.length} finding{issues.length === 1 ? '' : 's'} · {high} high</span>
+        <button type="button" className="ghost" onClick={onExport} title="Formula-safe CSV: kind, severity, refs, message">Export findings CSV</button>
       </div>
       {issues.length === 0 ? <p className="ok">Clean: every artifact is explained, every assertion is supported, every sign-off binds.</p> : (
         <ul className="groups">

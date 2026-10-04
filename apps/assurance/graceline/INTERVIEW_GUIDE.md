@@ -20,6 +20,7 @@ State transitions at exact boundaries (expiry day is still active; +1 day is exp
 - Why do renewals reset approvals? (A renewal is a new risk-acceptance decision for a new term.)
 - Why escalate after 14 days instead of immediately? (A grace window separates administrative lateness from genuine neglect; both are visible.)
 - Why not block re-rating after approval? (Imported data must be representable; the engine surfaces violations instead of hiding records.)
+- **What do the property tests on `tick` prove, and why a hand-rolled random generator?** (Added October 2026, `tests/properties.test.ts`. Over 200 seeded random `(expiresOn, at)` pairs — a linear congruential generator with a fixed seed, so every run replays the same cases and a failure is reproducible by index — `tick` is checked against the policy oracle (active until expiry, expired within the 14-day grace, escalated after), for idempotence (`tick(tick(e, at), at)` is the same object as `tick(e, at)`), monotonicity (a later date never moves a record backwards or shortens its history), order independence (ticking at two dates in either order ends where a single tick at the later date ends), and for touching nothing but `state` and `history`. No property-testing library was added because the lab forbids new dependencies; a 6-line LCG is enough for reproducible sampling. One third of the dates are drawn within ±30 days of the expiry so the grace boundary is hit densely regardless of the seed.)
 
 ## Production next steps
 

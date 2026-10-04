@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Pathcaster - educational data-governance prototype with synthetic fixtures",
   "license": "MIT",
+  "engines": { "node": ">=20.19" },
   "scripts": {
     "dev": "vite --port 6143 --strictPort",
     "build": "tsc --noEmit -p tsconfig.json && vite build",

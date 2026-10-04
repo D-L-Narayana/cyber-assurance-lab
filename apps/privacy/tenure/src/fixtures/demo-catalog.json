@@ -883,6 +883,19 @@
       "rationale": "Schedule proposal drafted, awaiting owner sign-off.",
       "expiresOn": "2026-12-31",
       "status": "proposed"
+    },
+    {
+      "id": "ex-004",
+      "subject": {
+        "kind": "flow",
+        "id": "flow-crm-billing/crm.customer-id"
+      },
+      "acceptsFinding": "PURPOSE_DRIFT",
+      "rationale": "Customer id is the join key Ledgerly needs to raise invoices; the CRM element's purpose list is being extended with 'billing' (synthetic).",
+      "approvedBy": "own-sofia",
+      "approvedOn": "2026-04-15",
+      "expiresOn": "2027-04-15",
+      "status": "approved"
     }
   ]
 }

@@ -170,7 +170,7 @@ describe('bundle export', () => {
   });
 });
 
-describe('sixth-Fable regressions — acceptance order and scope omission', () => {
+describe('sixth-review regressions — acceptance order and scope omission', () => {
   const expiredFirst = () => { const m = clone(rel141); m.acceptances = [{ ...m.acceptances[0], id: 'ra-old', approvedAt: '2026-01-01T00:00:00Z', expiresAt: '2026-02-01T00:00:00Z' }, ...m.acceptances]; return m; };
   const validFirst = () => { const m = clone(rel141); m.acceptances = [...m.acceptances, { ...m.acceptances[0], id: 'ra-old', approvedAt: '2026-01-01T00:00:00Z', expiresAt: '2026-02-01T00:00:00Z' }]; return m; };
   it('chooses a valid acceptance regardless of list order and warns about the duplicate', async () => {

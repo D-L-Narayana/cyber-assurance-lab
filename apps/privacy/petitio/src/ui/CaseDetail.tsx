@@ -228,7 +228,7 @@ function ExtensionPanel({ request, asOf, onExtend }: { request: RightsRequest; a
   const canSubmit = reason.trim().length >= 10;
   return (
     <section className="panel" aria-labelledby="ext-title">
-      <header><h3 id="ext-title">Extend the response window</h3><span className="hint">One extension of up to {max} days; notice must fall inside the initial window</span></header>
+      <header><h3 id="ext-title">Extend the response window</h3><span className="hint">One extension of up to {max} days; notice must fall inside the initial window and not after the as-of date ({asOf})</span></header>
       <div className="panel-body">
         <form className="form" onSubmit={(e) => { e.preventDefault(); if (canSubmit) onExtend({ reason: reason.trim(), notifiedOn, days }); }}>
           <div className="form-inline">
@@ -238,7 +238,8 @@ function ExtensionPanel({ request, asOf, onExtend }: { request: RightsRequest; a
             </div>
             <div className="form-row">
               <label htmlFor="ext-notified">Requester notified on</label>
-              <input id="ext-notified" type="date" value={notifiedOn} onChange={(e) => setNotifiedOn(e.target.value)} />
+              <input id="ext-notified" type="date" value={notifiedOn} aria-describedby="ext-notified-help" onChange={(e) => setNotifiedOn(e.target.value)} />
+              <span id="ext-notified-help" className="sr-only">The engine refuses a notice dated after the as-of date {asOf} or after the initial due date.</span>
             </div>
           </div>
           <div className="form-row">

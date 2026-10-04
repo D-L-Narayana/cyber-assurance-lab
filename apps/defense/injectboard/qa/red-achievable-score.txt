@@ -1,0 +1,115 @@
+$ npx vitest run --reporter=verbose src/engine/score.test.ts
+# cwd apps/defense/injectboard
+# 2026-10-04T18:34:07.508Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/defense/injectboard
+
+ × src/engine/score.test.ts > achievable score > fixture: upper bound 52, but only 48 is achievable on one path because the branch decision needs the 0-point observe option 10ms
+   → expected +0 to be 52 // Object.is equality
+ × src/engine/score.test.ts > achievable score > the returned path replays to exactly that score through the engine 1ms
+   → expected 0 to be greater than 0
+ × src/engine/score.test.ts > achievable score > explores the branch when the branch-only decision is worth more than the option that skips it 1ms
+   → expected +0 to be 40 // Object.is equality
+ × src/engine/score.test.ts > achievable score > completeness and the after-action report show both numbers 1ms
+   → expected undefined to be 48 // Object.is equality
+ × src/engine/score.test.ts > achievable score > is deterministic and stops at the expansion budget on a dense branching scenario, flagging truncation 2ms
+   → expected false to be true // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/score.test.ts > achievable score > fixture: upper bound 52, but only 48 is achievable on one path because the branch decision needs the 0-point observe option
+AssertionError: expected +0 to be 52 // Object.is equality
+
+- Expected
++ Received
+
+- 52
++ 0
+
+ ❯ src/engine/score.test.ts:61:50
+     59| describe('achievable score', () => {
+     60|   it('fixture: upper bound 52, but only 48 is achievable on one path b…
+     61|     expect(upperBoundScore(RANSOMWARE_TABLETOP)).toBe(52);
+       |                                                  ^
+     62|     const r = achievableMaxScore(RANSOMWARE_TABLETOP);
+     63|     expect(r.max).toBe(48);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/engine/score.test.ts > achievable score > the returned path replays to exactly that score through the engine
+AssertionError: expected 0 to be greater than 0
+ ❯ src/engine/score.test.ts:72:27
+     70|   it('the returned path replays to exactly that score through the engi…
+     71|     const r = achievableMaxScore(RANSOMWARE_TABLETOP);
+     72|     expect(r.path.length).toBeGreaterThan(0);
+       |                           ^
+     73|     const driven = drive(RANSOMWARE_TABLETOP, r.path);
+     74|     expect(driven.score).toBe(r.max);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/engine/score.test.ts > achievable score > explores the branch when the branch-only decision is worth more than the option that skips it
+AssertionError: expected +0 to be 40 // Object.is equality
+
+- Expected
++ Received
+
+- 40
++ 0
+
+ ❯ src/engine/score.test.ts:82:38
+     80|   it('explores the branch when the branch-only decision is worth more …
+     81|     expect(validateScenario(branchy).ok).toBe(true);
+     82|     expect(upperBoundScore(branchy)).toBe(40);
+       |                                      ^
+     83|     const r = achievableMaxScore(branchy);
+     84|     expect(r.max).toBe(30);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/engine/score.test.ts > achievable score > completeness and the after-action report show both numbers
+AssertionError: expected undefined to be 48 // Object.is equality
+
+- Expected:
+48
+
++ Received:
+undefined
+
+ ❯ src/engine/score.test.ts:93:29
+     91|     const c = completeness(s, RANSOMWARE_TABLETOP);
+     92|     expect(c.maxScore).toBe(52);
+     93|     expect(c.achievableMax).toBe(48);
+       |                             ^
+     94|     expect(c.achievableTruncated).toBe(false);
+     95|     const rep = afterActionReport(s, RANSOMWARE_TABLETOP, '2026-10-04T…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  src/engine/score.test.ts > achievable score > is deterministic and stops at the expansion budget on a dense branching scenario, flagging truncation
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/score.test.ts:110:25
+    108|     const b = achievableMaxScore(hostile);
+    109|     expect(a).toEqual(b);
+    110|     expect(a.truncated).toBe(true);
+       |                         ^
+    111|     expect(a.expansions).toBeLessThanOrEqual(SEARCH_BUDGET);
+    112|     expect(a.max).toBeGreaterThan(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  18:34:08
+   Duration  1.52s (transform 722ms, setup 0ms, import 754ms, tests 17ms, environment 0ms)
+

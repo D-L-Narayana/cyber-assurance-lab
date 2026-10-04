@@ -1,0 +1,61 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/defense/ruleshadow
+# 2026-10-04T18:55:04.103Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/defense/ruleshadow
+
+ ✓ src/engine/engine.test.ts > network primitives > parses CIDR blocks into inclusive 32-bit intervals 8ms
+ ✓ src/engine/engine.test.ts > network primitives > parses port expressions and rejects out-of-range or reversed values 1ms
+ ✓ src/engine/engine.test.ts > network primitives > subtracts covered intervals leaving the uncovered remainder 0ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > reports a later rule fully covered by an earlier same-action rule as redundant 2ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > reports a later rule fully covered by an earlier opposite-action rule as a conflict 0ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > does not flag partial overlap as shadowing 0ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > detects shadowing by the union of several earlier rules 1ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > does not treat an already-shadowed earlier rule as operative coverage (first-match precedence) 16ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > classifies full shadowing by mixed-action earlier rules as a conflict with a per-range trace 10ms
+ ✓ src/engine/engine.test.ts > shadow and conflict analysis > ignores disabled rules when computing shadows 0ms
+ ✓ src/engine/engine.test.ts > hygiene findings > flags any/any allows as overbroad and plain /8-to-host 443 as fine 0ms
+ ✓ src/engine/engine.test.ts > hygiene findings > flags expired rules and rules with no hits in 90 days 1ms
+ ✓ src/engine/engine.test.ts > hygiene findings > flags VPN-zone allows reaching management ports on broad destinations 15ms
+ ✓ src/engine/engine.test.ts > hygiene findings > reports a missing explicit final deny 9ms
+ ✓ src/engine/engine.test.ts > CSV import > parses the shipped fixture and bounds rule count 2ms
+ ✓ src/engine/engine.test.ts > CSV import > reports invalid CIDR, port and action values with line numbers 0ms
+ ✓ src/engine/engine.test.ts > CSV import > rejects calendar-invalid dates such as 2026-02-30 and 2026-99-99 0ms
+ ✓ src/engine/engine.test.ts > CSV import > golden counts for the shipped 41-rule fixture: the 17 original findings are unchanged and the new kind is counted separately 21ms
+ ✓ src/engine/engine.test.ts > change proposals and diff > proposes disable for expired rules, narrows VPN exposure only to a supplied jump host, and diffs before/after 1ms
+ ✓ src/engine/engine.test.ts > change proposals and diff > requires manual review for VPN narrowing when no jump host is supplied, and for overbroad allows (no automatic address scoping) 1ms
+ ✓ src/engine/engine.test.ts > change proposals and diff > only narrows VPN exposure when the supplied jump host is a strict subset of the original destination 1ms
+ ✓ src/engine/engine.test.ts > change proposals and diff > derives the stale-rule expiry from the review date instead of a hard-coded day 0ms
+ ✓ src/engine/engine.test.ts > explanations and export > translates a rule into plain language with address counts 0ms
+ ✓ src/engine/engine.test.ts > explanations and export > neutralises CSV formula injection and quotes fields 0ms
+ ✓ src/engine/engine.test.ts > explanations and export > builds a stable report schema 9ms
+ ✓ src/engine/engine.test.ts > explanations and export > report and findings CSV carry per-rule coverage (additive fields) 7ms
+ ✓ src/engine/engine.test.ts > partial-shadow coverage findings > raises partially-shadowed (info) when two half-space earlier rules cover a later rule that neither contains 1ms
+ ✓ src/engine/engine.test.ts > partial-shadow coverage findings > reports coverage below the threshold without a finding, and honours a custom threshold 15ms
+ ✓ src/engine/engine.test.ts > partial-shadow coverage findings > does not duplicate redundant/conflict findings and ignores zone-mismatched earlier rules 1ms
+ ✓ src/engine/engine.test.ts > partial-shadow coverage findings > detects per-protocol assembly (tcp + udp + icmp earlier rules covering a later proto-any rule) 0ms
+ ✓ src/engine/engine.test.ts > partial-shadow coverage findings > flags the approximation on a hostile 300-rule slab set and stays exact on the fixture 1894ms
+ ✓ src/engine/engine.test.ts > partial-shadow coverage findings > proposes manual review (no automatic change) for partially shadowed rules 9ms
+ ✓ src/engine/boxes.test.ts > boxes: volumes > computes BigInt volumes: any/any/any is 2^80, a host-to-host single port is 1 4ms
+ ✓ src/engine/boxes.test.ts > boxes: volumes > builds per-protocol boxes: any → tcp/udp/icmp, icmp → full port interval, port lists → one box per interval 2ms
+ ✓ src/engine/boxes.test.ts > boxes: subtraction > leaves a disjoint target untouched and removes a containing or identical cover completely 1ms
+ ✓ src/engine/boxes.test.ts > boxes: subtraction > splits along src, then dst, then ports: an interior cover leaves six disjoint fragments whose volumes add up 2ms
+ ✓ src/engine/boxes.test.ts > boxes: subtraction > two half-space covers remove the target entirely; one half leaves exactly half the volume 1ms
+ ✓ src/engine/boxes.test.ts > boxes: subtraction > is exact under the budget (10 slabs per axis → 1 331 fragments) and matches the analytic remainder volume 22ms
+ ✓ src/engine/boxes.test.ts > boxes: subtraction > stops splitting and flags approximate on a hostile 300-slab set, never holding more fragments than the budget 17ms
+ ✓ src/engine/boxes.test.ts > boxes: rule coverage > two half-space earlier rules cover a later rule completely (fraction 1) although neither contains it 1ms
+ ✓ src/engine/boxes.test.ts > boxes: rule coverage > a quarter-space earlier rule gives 0.25; three quarters give 0.75; disjoint rules give 0 1ms
+ ✓ src/engine/boxes.test.ts > boxes: rule coverage > does not credit an earlier rule whose volume was already removed by rules before it (first-match attribution) 0ms
+ ✓ src/engine/boxes.test.ts > boxes: rule coverage > handles ICMP and port-any asymmetrically, as the containment analysis does 1ms
+ ✓ src/engine/boxes.test.ts > boxes: rule coverage > excludes earlier rules whose zones do not cover the rule, and disabled earlier rules 0ms
+ ✓ src/engine/boxes.test.ts > boxes: rule coverage > is exact for 30 slabs and flags approximate (lower-bound fraction) on the hostile 300-rule set 40ms
+ ✓ src/engine/boxes.test.ts > boxes: rule coverage > is deterministic: identical inputs give identical results 33ms
+ ✓ src/engine/boxes.test.ts > boxes: rule coverage > formats coverage without rounding a partial cover up to 100% or down to 0% 1ms
+
+ Test Files  2 passed (2)
+      Tests  47 passed (47)
+   Start at  18:55:05
+   Duration  3.02s (transform 289ms, setup 0ms, import 342ms, tests 2.18s, environment 0ms)
+

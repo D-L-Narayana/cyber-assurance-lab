@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { App } from './App';
 
@@ -50,5 +50,19 @@ describe('Petitio app (integration, written after the UI as regression coverage)
   it('marks the duplicate access request in the docket', () => {
     render(<App />);
     expect(screen.getByRole('button', { name: /REQ-2026-0416/ })).toHaveTextContent(/possible duplicate/);
+  });
+
+  it('refuses an extension whose notice date is after the as-of date and shows the engine message', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    // REQ-2026-0415 (EU-GDPR, received 15 Sep, due 15 Oct) is open and unextended; the demo as-of date is 2026-10-01.
+    await user.click(screen.getByRole('button', { name: /REQ-2026-0415/ }));
+    expect(screen.getByRole('heading', { level: 2, name: 'REQ-2026-0415' })).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText('Requester notified on'), { target: { value: '2026-10-10' } });
+    await user.type(screen.getByLabelText(/Why more time is necessary/), 'Archived attachments across three systems');
+    await user.click(screen.getByRole('button', { name: 'Record extension' }));
+    expect(screen.getByRole('alert')).toHaveTextContent(/INVALID_EXTENSION_INPUT/);
+    expect(screen.getByRole('alert')).toHaveTextContent(/future relative to the as-of date 2026-10-01/);
+    expect(screen.queryByText(/Extended to/)).toBeNull(); // nothing was recorded
   });
 });

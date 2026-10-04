@@ -1,0 +1,91 @@
+{
+  "schema": "packetsmith.packet/1",
+  "meta": {
+    "systemName": "Harbourline Dispatch Portal — AC-2 slice (synthetic)",
+    "assessor": "a.mensah",
+    "approver": "p.lindqvist",
+    "asOf": "2026-10-01"
+  },
+  "selectedControls": [
+    "AC-2"
+  ],
+  "steps": [
+    {
+      "id": "S-01",
+      "controlId": "AC-2",
+      "method": "examine",
+      "object": "Account management procedure",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-01"
+      ],
+      "notes": "Procedure defines account types and approval."
+    },
+    {
+      "id": "S-02",
+      "controlId": "AC-2",
+      "method": "interview",
+      "object": "Identity team lead",
+      "status": "performed",
+      "evidenceIds": [
+        "ART-01"
+      ],
+      "notes": "Confirmed the procedure is followed."
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "ART-01",
+      "name": "Account management procedure §3 excerpt",
+      "kind": "document-excerpt",
+      "content": "Section 3. Account types: individual, shared-service (prohibited except break-glass), service, emergency. Approval by application owner recorded in ticket before provisioning. Disable within 5 business days of leaver notification.",
+      "capturedOn": "2026-09-18",
+      "sha256": "a774b3084f627f8ff51d1ce6691af2016c3ac79bcda7333992a2f11173777b9e"
+    }
+  ],
+  "determinations": [
+    {
+      "controlId": "AC-2",
+      "determinationId": "AC-2.a",
+      "result": "satisfied",
+      "stepIds": [
+        "S-01",
+        "S-02"
+      ],
+      "rationale": "Documented in §3 and confirmed in interview."
+    },
+    {
+      "controlId": "AC-2",
+      "determinationId": "AC-2.d",
+      "result": "satisfied",
+      "stepIds": [
+        "S-01",
+        "S-02"
+      ],
+      "rationale": "Documented in §3 and confirmed in interview."
+    },
+    {
+      "controlId": "AC-2",
+      "determinationId": "AC-2.h",
+      "result": "satisfied",
+      "stepIds": [
+        "S-01",
+        "S-02"
+      ],
+      "rationale": "Documented in §3 and confirmed in interview."
+    }
+  ],
+  "findings": [],
+  "state": "ready-for-review",
+  "history": [
+    {
+      "at": "2026-10-01",
+      "from": "drafting",
+      "to": "ready-for-review",
+      "actor": "a.mensah",
+      "note": "AC-2 complete; submitted for review.",
+      "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hash": "cb42a8dcf77f462dba6fc28748adb2eec6f18bbe712f42087ed53fbd9f5fb0e9"
+    }
+  ]
+}

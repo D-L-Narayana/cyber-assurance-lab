@@ -1,0 +1,35 @@
+{
+  "schema": "weft.bundle/1",
+  "name": "Invalid sample — calendar-impossible dates (synthetic)",
+  "asOf": "2026-10-01",
+  "assertions": [
+    {
+      "id": "AS-01",
+      "controlRef": "CSF 2.0 PR.DS-11",
+      "statement": "Backups of the dispatch database are created nightly and a restore is tested each quarter.",
+      "owner": "platform.lead",
+      "periodStart": "2026-02-30",
+      "periodEnd": "2026-09-30"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "AR-01",
+      "name": "restore-test-Q3.md",
+      "kind": "markdown",
+      "capturedOn": "2026-04-31",
+      "content": "# Restore test Q3\nRST-01 restored 3 sampled objects; checksum PASSED 3/3."
+    }
+  ],
+  "links": [
+    { "assertionId": "AS-01", "artifactId": "AR-01" }
+  ],
+  "signoffs": [
+    {
+      "assertionId": "AS-01",
+      "reviewer": "r.kaur",
+      "signedOn": "2027-02-29",
+      "bindingHash": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ]
+}

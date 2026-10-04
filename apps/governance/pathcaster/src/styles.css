@@ -21,6 +21,8 @@ h1, h2, h3 { font-family: var(--display); margin: 0; font-weight: 700; letter-sp
 .query { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-left: auto; }
 .field { display: grid; gap: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); }
 .field select, .field input { padding: 7px 9px; border: 1.5px solid var(--ink); border-radius: 3px; background: #fff; font-family: var(--mono); font-size: 13px; color: var(--ink); text-transform: none; letter-spacing: 0; min-width: 180px; }
+.toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink); align-self: center; padding: 6px 0; cursor: pointer; }
+.toggle input { width: 16px; height: 16px; accent-color: var(--ink); margin: 0; }
 .btn { padding: 8px 12px; border: 1.5px solid var(--ink); border-radius: 3px; background: var(--ink); color: #fff; font-weight: 600; font-size: 13px; cursor: pointer; font-family: var(--display); }
 .btn.ghost { background: transparent; color: var(--ink); }
 .btn.small { padding: 4px 8px; font-size: 12px; }

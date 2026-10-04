@@ -5,6 +5,7 @@
   "description": "Educational privacy impact assessment workbench: a ten-question rubric drives a weighted likelihood-and-impact model across privacy risk themes, mitigations reduce residual risk only when implemented, approval invariants block sign-off, and every version is hashed and exportable. Browser-local synthetic data only.",
   "license": "MIT",
   "type": "module",
+  "engines": { "node": ">=20.19" },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

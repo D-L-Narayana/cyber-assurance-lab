@@ -9,6 +9,25 @@ export function probeValue(original: FieldValue | undefined): FieldValue {
   return 'tampered';
 }
 
+/**
+ * Field names seen on any record of a resource, in first-seen (contract) order, minus the endpoint's
+ * writable set. This is the attack surface of a create call: every field the server knows about but the
+ * contract says a client may not set.
+ */
+export function nonWritableFields(records: RecordRow[], writableFields: string[]): string[] {
+  const writable = new Set(writableFields);
+  const known = new Set<string>();
+  const out: string[] = [];
+  for (const record of records) {
+    for (const field of Object.keys(record.fields)) {
+      if (writable.has(field) || known.has(field)) continue;
+      known.add(field);
+      out.push(field);
+    }
+  }
+  return out;
+}
+
 function pickTargets(records: RecordRow[], principal: Principal): Partial<Record<TargetKind, RecordRow>> {
   const own = records.find((r) => r.owner === principal.id);
   const peer = records.find((r) => r.owner !== principal.id && r.tenant === principal.tenant);
@@ -28,7 +47,7 @@ function expectation(endpoint: Endpoint, principal: Principal, target: RecordRow
     return { expected: ok ? 'allow' : 'deny', category: 'object', rationale: ok ? 'Caller owns the target record.' : `Record is owned by ${target.owner}, not the caller; ownership rule is "own".` };
   }
   const ok = target.tenant === principal.tenant;
-  return { expected: ok ? 'allow' : 'deny', category: 'object', rationale: ok ? 'Target is inside the caller\u2019s tenant.' : `Record belongs to tenant ${target.tenant}; ownership rule is "same-tenant".` };
+  return { expected: ok ? 'allow' : 'deny', category: 'object', rationale: ok ? 'Target is inside the caller’s tenant.' : `Record belongs to tenant ${target.tenant}; ownership rule is "same-tenant".` };
 }
 
 /**
@@ -50,6 +69,18 @@ export function generateCases(contract: Contract): TestCase[] {
           targetKind: 'collection', category: e.category === 'function' ? 'function' : 'object',
           expected: e.expected, rationale: e.rationale,
         });
+        // Create-path property probes: a POST that declares writableFields must not persist anything else
+        // from the body. Only principals the contract expects to succeed can exercise this (a 403 proves nothing).
+        if (e.expected === 'allow' && endpoint.method === 'POST' && endpoint.writableFields) {
+          for (const field of nonWritableFields(records, endpoint.writableFields)) {
+            cases.push({
+              id: `${endpoint.id}|${principal.id}|collection|write:${field}`,
+              endpoint: endpoint.id, principal: principal.id, role: principal.role,
+              targetKind: 'collection', category: 'property', expected: 'allow', probeField: field,
+              rationale: `"${field}" is not in writableFields [${endpoint.writableFields.join(', ')}]; a create must not persist it from the request body.`,
+            });
+          }
+        }
         continue;
       }
       const targets = pickTargets(records, principal);

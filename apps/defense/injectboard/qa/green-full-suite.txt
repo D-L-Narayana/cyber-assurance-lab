@@ -1,0 +1,36 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/defense/injectboard
+# 2026-10-04T19:11:48.092Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/defense/injectboard
+
+ ✓ src/engine/score.test.ts > achievable score > fixture: upper bound 52, but only 48 is achievable on one path because the branch decision needs the 0-point observe option 8ms
+ ✓ src/engine/score.test.ts > achievable score > the returned path replays to exactly that score through the engine 2ms
+ ✓ src/engine/score.test.ts > achievable score > explores the branch when the branch-only decision is worth more than the option that skips it 1ms
+ ✓ src/engine/score.test.ts > achievable score > completeness and the after-action report show both numbers 7ms
+ ✓ src/engine/score.test.ts > achievable score > is deterministic and stops at the expansion budget on a dense branching scenario, flagging truncation 2098ms
+ ✓ src/engine/scenario.test.ts > scenario validation — shape and bounds > accepts the shipped fixture and the mini scenario and returns a copy without unknown keys 10ms
+ ✓ src/engine/scenario.test.ts > scenario validation — shape and bounds > parseScenario rejects invalid JSON and anything over the 512 KiB byte cap before parsing 39ms
+ ✓ src/engine/scenario.test.ts > scenario validation — shape and bounds > bounds nesting depth (≤ 8 containers) and total value count with an iterative scan 41ms
+ ✓ src/engine/scenario.test.ts > scenario validation — shape and bounds > validates top-level fields with path-addressed errors 8ms
+ ✓ src/engine/scenario.test.ts > scenario validation — shape and bounds > validates injects, decisions, options, tasks and unlocks with exact paths 13ms
+ ✓ src/engine/scenario.test.ts > scenario validation — shape and bounds > caps the error list at 25 entries 2ms
+ ✓ src/engine/engine.test.ts > inject scheduler > delivers injects whose minute has passed, in order, and never the unlock-only ones 5ms
+ ✓ src/engine/engine.test.ts > inject scheduler > rejects negative or oversized clock steps 1ms
+ ✓ src/engine/engine.test.ts > decisions, SLA and tasks > records a timely decision, applies score, creates tasks and unlocks a follow-up inject relative to decision time 1ms
+ ✓ src/engine/engine.test.ts > decisions, SLA and tasks > flags a decision made after its SLA as breached 0ms
+ ✓ src/engine/engine.test.ts > decisions, SLA and tasks > rejects a second decision, an unknown option, and a decision whose inject is not yet delivered 0ms
+ ✓ src/engine/engine.test.ts > decisions, SLA and tasks > marks tasks completed after their due minute as overdue 0ms
+ ✓ src/engine/engine.test.ts > completeness and lessons > computes decision and task completeness from state 6ms
+ ✓ src/engine/engine.test.ts > completeness and lessons > rejects empty lessons 0ms
+ ✓ src/engine/engine.test.ts > replay and report > reproduces the same state from an action log 2ms
+ ✓ src/engine/engine.test.ts > replay and report > writes an after-action report with a timeline, breaches and lessons 1ms
+ ✓ src/engine/engine.test.ts > scenario validation > accepts the shipped ransomware tabletop and rejects duplicate ids, unknown roles and bad minutes 9ms
+
+ Test Files  3 passed (3)
+      Tests  22 passed (22)
+   Start at  19:11:49
+   Duration  3.70s (transform 345ms, setup 0ms, import 427ms, tests 2.27s, environment 0ms)
+

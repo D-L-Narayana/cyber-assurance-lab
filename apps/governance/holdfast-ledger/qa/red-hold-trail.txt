@@ -1,0 +1,207 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/governance/holdfast-ledger
+# 2026-10-04T18:35:39.401Z v20.20.1
+# exit 1
+# note: test-name label neutralised after capture (review-round wording only); result lines and counts unchanged
+
+
+ RUN  v4.1.11 <repo>/apps/governance/holdfast-ledger
+
+ ✓ src/engine/ledger.test.ts > computeDue > derives due dates from schedule trigger and retention period 2ms
+ ✓ src/engine/ledger.test.ts > computeDue > marks overdue items with days overdue 0ms
+ ✓ src/engine/ledger.test.ts > computeDue > hold takes precedence over due/overdue, released holds do not count 1ms
+ ✓ src/engine/ledger.test.ts > computeDue > reports disposed and unscheduled records explicitly 0ms
+ ✓ src/engine/ledger.test.ts > planDisposal > includes due/overdue records, skips held ones with the hold id, and ignores retained/disposed/unscheduled 15ms
+ ✓ src/engine/ledger.test.ts > planDisposal > is idempotent: same inputs give the same plan id; a released hold changes it 18ms
+ ✓ src/engine/ledger.test.ts > executePlan, verifyChain, reconcile > produces hash-chained receipts only for dispose items and updates record status 2ms
+ ✓ src/engine/ledger.test.ts > executePlan, verifyChain, reconcile > chains across executions and detects tampering, reordering and gaps 2ms
+ ✓ src/engine/ledger.test.ts > executePlan, verifyChain, reconcile > reconciles a plan against receipts and reports missing/unexpected 1ms
+ ✓ src/engine/ledger.test.ts > executePlan, verifyChain, reconcile > refuses to execute a plan twice (idempotent execution) 1ms
+ ✓ src/engine/ledger.test.ts > validation and export > rejects malformed fixtures without throwing 3ms
+ ✓ src/engine/ledger.test.ts > validation and export > exports a stable audit schema with formula-safe CSV 1ms
+ ✓ src/engine/ledger.test.ts > validation and export > sha256Hex is deterministic and 64 hex chars 0ms
+ ✓ src/engine/ledger.test.ts > stale plan rejection (review of 2026-10-01: holds were checked at planning, not execution) > refuses atomically to execute a plan whose inputs (holds/records) changed since it was generated 2ms
+ ✓ src/engine/ledger.test.ts > stale plan rejection (review of 2026-10-01: holds were checked at planning, not execution) > also rejects when a record was disposed or added since planning, and accepts an unchanged situation 1ms
+ × src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > refuses unknown holds, already-released holds, dates before placedOn and non-calendar dates 13ms
+   → expected { ok: false, error: 'not implemented' } to match object { ok: false, error: StringMatching{…} }
+ × src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > requires an actor of 1–120 characters and a reason of at least 10 characters 2ms
+   → expected { ok: false, error: 'not implemented' } to match object { ok: false, …(1) }
+ × src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > releases on the given date, appends a release event, recomputes due states and never mutates the input 1ms
+   → expected false to be true // Object.is equality
+ × src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > reinstates only released holds, not before the release date, clears releasedOn and keeps seq contiguous 1ms
+   → expected { ok: false, error: 'not implemented' } to match object { ok: false, error: StringMatching{…} }
+ × src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > is deterministic and refuses to grow the trail past the cap 2ms
+   → expected { ok: false, error: 'not implemented' } to match object { ok: false, error: StringMatching{…} }
+ × src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > validateFixture accepts legacy fixtures without holdHistory and well-formed trails, rejects malformed entries with the path 2ms
+   → expected true to be false // Object.is equality
+ × src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > a release after planning makes the plan stale, and the trail travels in the audit export 1ms
+   → expected undefined to deeply equal [ { seq: 1, holdId: 'h-old', …(4) } ]
+ ✓ src/fixtures/validate-demo.test.ts > demo fixture > validates and exercises every due state and hold scope 18ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects oversized input 19ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects invalid JSON and non-object roots 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects deep nesting 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects __proto__ keys 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > accepts a small object 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes hidden behind whitespace or control characters 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > quotes commas, quotes and newlines 0ms
+ ✓ src/engine/safe.test.ts > date helpers > rejects calendar-invalid dates that Date.parse would normalise 4ms
+ ✓ src/engine/safe.test.ts > date helpers > adds and diffs days 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > refuses unknown holds, already-released holds, dates before placedOn and non-calendar dates
+AssertionError: expected { ok: false, error: 'not implemented' } to match object { ok: false, error: StringMatching{…} }
+
+- Expected
++ Received
+
+  {
+-   "error": StringMatching /unknown/i,
++   "error": "not implemented",
+    "ok": false,
+  }
+
+ ❯ src/engine/ledger.test.ts:182:60
+    180|
+    181|   it('refuses unknown holds, already-released holds, dates before plac…
+    182|     expect(releaseHold(fx, { ...input, holdId: 'ghost' })).toMatchObje…
+       |                                                            ^
+    183|     expect(releaseHold(fx, { ...input, holdId: 'h-old' })).toMatchObje…
+    184|     expect(releaseHold(fx, { ...input, on: '2026-01-09' })).toMatchObj…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > requires an actor of 1–120 characters and a reason of at least 10 characters
+AssertionError: expected { ok: false, error: 'not implemented' } to match object { ok: false, …(1) }
+
+- Expected
++ Received
+
+  {
+-   "error": StringMatching /actor/i,
++   "error": "not implemented",
+    "ok": false,
+  }
+
+ ❯ src/engine/ledger.test.ts:190:54
+    188|
+    189|   it('requires an actor of 1–120 characters and a reason of at least 1…
+    190|     expect(releaseHold(fx, { ...input, actor: '' })).toMatchObject({ o…
+       |                                                      ^
+    191|     expect(releaseHold(fx, { ...input, actor: '   ' })).toMatchObject(…
+    192|     expect(releaseHold(fx, { ...input, actor: 'x'.repeat(121) })).toMa…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > releases on the given date, appends a release event, recomputes due states and never mutates the input
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/ledger.test.ts:201:18
+    199|     const before = JSON.stringify(fx);
+    200|     const r = releaseHold(fx, input);
+    201|     expect(r.ok).toBe(true);
+       |                  ^
+    202|     if (!r.ok) return;
+    203|     const h = r.fixture.holds.find((x) => x.id === 'h-subj1')!;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > reinstates only released holds, not before the release date, clears releasedOn and keeps seq contiguous
+AssertionError: expected { ok: false, error: 'not implemented' } to match object { ok: false, error: StringMatching{…} }
+
+- Expected
++ Received
+
+  {
+-   "error": StringMatching /not released/i,
++   "error": "not implemented",
+    "ok": false,
+  }
+
+ ❯ src/engine/ledger.test.ts:215:38
+    213|
+    214|   it('reinstates only released holds, not before the release date, cle…
+    215|     expect(reinstateHold(fx, input)).toMatchObject({ ok: false, error:…
+       |                                      ^
+    216|     const released = releaseHold(fx, input);
+    217|     expect(released.ok).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > is deterministic and refuses to grow the trail past the cap
+AssertionError: expected { ok: false, error: 'not implemented' } to match object { ok: false, error: StringMatching{…} }
+
+- Expected
++ Received
+
+  {
+-   "error": StringMatching /limit|cap|full/i,
++   "error": "not implemented",
+    "ok": false,
+  }
+
+ ❯ src/engine/ledger.test.ts:240:38
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > validateFixture accepts legacy fixtures without holdHistory and well-formed trails, rejects malformed entries with the path
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/engine/ledger.test.ts:265:21
+    263|       let v: ReturnType<typeof validateFixture> | undefined;
+    264|       expect(() => { v = validateFixture(b); }).not.toThrow();
+    265|       expect(v!.ok).toBe(false);
+       |                     ^
+    266|     }
+    267|     const v = validateFixture({ ...fx, holdHistory: [{ ...ev, holdId: …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  src/engine/ledger.test.ts > guarded hold release and reinstatement with trail (October 2026 upgrade round) > a release after planning makes the plan stale, and the trail travels in the audit export
+AssertionError: expected undefined to deeply equal [ { seq: 1, holdId: 'h-old', …(4) } ]
+
+- Expected:
+[
+  {
+    "action": "release",
+    "actor": "audit.example",
+    "holdId": "h-old",
+    "on": "2025-06-30",
+    "reason": "Audit completed; no further preservation duty.",
+    "seq": 1,
+  },
+]
+
++ Received:
+undefined
+
+ ❯ src/engine/ledger.test.ts:281:88
+    279|
+    280|   it('a release after planning makes the plan stale, and the trail tra…
+    281|     expect((await exportAudit({ ...fx, holdHistory: [ev] }, [], [])).j…
+       |                                                                                        ^
+    282|     expect((await exportAudit(fx, [], [])).json.holdHistory).toEqual([…
+    283|     const plan = await planDisposal(fx, fx.asOf);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  7 failed | 26 passed (33)
+   Start at  18:35:41
+   Duration  1.35s (transform 342ms, setup 0ms, import 412ms, tests 122ms, environment 0ms)
+

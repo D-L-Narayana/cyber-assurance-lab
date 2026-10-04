@@ -121,6 +121,21 @@ export const RULES: Rule[] = [
       : { outcome: 'pass', note: f.effectiveBasis !== 'legitimate-interest' ? 'basis is not legitimate interest' : 'no objection on record' }),
   },
   {
+    id: 'R09a-record-regime',
+    title: 'A consent grant must come from the subject’s own regime',
+    statement: 'A consent captured under one regime’s notice is not assumed valid under another: when the basis is consent and the latest record is a grant whose regime differs from the subject’s regime, a human decides (review). Withdrawals, objections and opt-outs keep their protective effect whatever regime they were recorded under.',
+    apply: (f) => {
+      if (f.effectiveBasis !== 'consent') return { outcome: 'pass', note: 'basis is not consent' };
+      const r = f.latest;
+      if (!r) return { outcome: 'pass', note: 'no record on file to compare' };
+      if (r.status !== 'granted') return { outcome: 'pass', note: `latest record is ${r.status}; protective records keep their effect whatever regime recorded them` };
+      if (r.regime !== f.subject.regime) {
+        return { outcome: 'match', decision: 'review', reasonCode: 'RECORD_REGIME_MISMATCH', note: `grant ${r.id} was captured under ${r.regime}; the subject is in ${f.subject.regime}`, recordId: r.id };
+      }
+      return { outcome: 'pass', note: `grant ${r.id} captured under the subject’s own regime (${r.regime})` };
+    },
+  },
+  {
     id: 'R09-consent',
     title: 'Consent must be present, current and for the current notice',
     statement: 'For consent-based purposes: the latest record before the event must be a grant, not expired, and captured under the current policy version when the purpose requires re-consent.',

@@ -17,10 +17,14 @@ A second case from browser QA: on a 375 px screen the page overflowed because th
 - Chain verification has three distinct negative tests — tamper, reorder, gap — because each is caught by a different check (hash, prevHash, seq).
 - A SHA-256 known-answer test (`abc`) guards the hashing helper against a silent encoding mistake.
 
+## Q: Releasing a hold used to be one click. Why is it a form now, and what does the trail actually prove?
+
+A: A hold is the veto that stops disposal, so releasing it is the single most consequential action in the ledger — and the old click left no trace of who did it or why. `releaseHold`/`reinstateHold` (October 2026) require an actor, a reason of at least ten characters and an effective date, and refuse the cases that would make the record incoherent: an unknown hold, releasing a hold that is already released, reinstating one that is not, a release dated before the hold was placed, a reinstatement dated before the release, or a date that is not a real calendar day. Each accepted change appends a `HoldEvent` (`seq`, hold, action, date, actor, reason) to `fixture.holdHistory`, which the validator checks on import (contiguous `seq`, known holds, strict dates; legacy fixtures without the field still load) and which travels in the audit export. What it proves is narrow and worth stating precisely: the trail shows *what the ledger was told* about each release — it is not an authentication or approval system (the actor is free text) and it is not hash-chained like the receipts. The property that *is* guaranteed mechanically is unchanged from before: because the plan id hashes the active hold ids, any release or reinstatement after planning makes the pending plan stale, and `executePlan` refuses it.
+
 ## Production next steps
 
 1. Anchor each chain head externally (RFC 3161 timestamp or WORM bucket) and sign receipts.
 2. Collect system-side deletion evidence (job ids, row counts) into the receipt instead of simulating.
-3. Model hold authority, approvals and release reasons; notify stewards when holds block overdue items.
+3. Bind the hold-trail actor to an authenticated identity, add second-person approval, and hash-chain the trail; notify stewards when holds block overdue items.
 4. Support multiple schedules per category by jurisdiction and event-based re-triggering.
 5. Schedule plan generation and alert on reconciliation mismatches.

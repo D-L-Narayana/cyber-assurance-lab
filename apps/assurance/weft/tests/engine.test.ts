@@ -268,7 +268,7 @@ describe('parent review regressions — binding scope and added assertions', () 
   });
 });
 
-describe('sixth-Fable review regressions — the manifest root binds sign-offs and names', () => {
+describe('sixth-review regressions — the manifest root binds sign-offs and names', () => {
   const base = () => bundle({ assertions: [assertion({ id: 'S1' })], artifacts: [artifact({ id: 'A' }), artifact({ id: 'B' })], links: [{ assertionId: 'S1', artifactId: 'A' }, { assertionId: 'S1', artifactId: 'B' }] });
   const signedBase = () => signOff(base(), 'S1', 'r.kaur', '2026-10-01');
 
@@ -281,7 +281,7 @@ describe('sixth-Fable review regressions — the manifest root binds sign-offs a
     expect(manifestRoot({ ...m, bundleName: 'other' })).not.toBe(m.root);
   });
 
-  it('deleting a sign-off after the manifest was built is reported (repro wf-adverse A)', () => {
+  it('deleting a sign-off after the manifest was built is reported (external repro A)', () => {
     const b = signedBase();
     const m = buildManifest(b, '2026-10-01');
     const r = verifyManifest({ ...b, signoffs: [] }, m);
@@ -289,7 +289,7 @@ describe('sixth-Fable review regressions — the manifest root binds sign-offs a
     expect(r.signoffsChanged).toEqual(['S1']);
   });
 
-  it('swapping the reviewer or back-dating a sign-off is reported (repro wf-adverse B)', () => {
+  it('swapping the reviewer or back-dating a sign-off is reported (external repro B)', () => {
     const b = signedBase();
     const m = buildManifest(b, '2026-10-01');
     const swapped = { ...b, signoffs: b.signoffs.map((s) => ({ ...s, reviewer: 'mallory' })) };
@@ -306,7 +306,7 @@ describe('sixth-Fable review regressions — the manifest root binds sign-offs a
     expect(r.signoffsChanged).toEqual(['S1']);
   });
 
-  it('renaming an artifact display name after the manifest was built is reported (repro wf-adverse C)', () => {
+  it('renaming an artifact display name after the manifest was built is reported (external repro C)', () => {
     const b = signedBase();
     const m = buildManifest(b, '2026-10-01');
     const renamed = { ...b, artifacts: b.artifacts.map((a) => (a.id === 'A' ? { ...a, name: 'renamed-evidence.txt' } : a)) };

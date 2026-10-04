@@ -1,0 +1,80 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/assurance/tierline
+# 2026-10-04T19:38:33.453Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/assurance/tierline
+
+ ✓ tests/forecast.test.ts > forecastQueue — evidence that will lapse > lists valid and expiring evidence with the lapse date and days until, naming the item 20ms
+ ✓ tests/forecast.test.ts > forecastQueue — evidence that will lapse > includes an item lapsing exactly horizon days out and excludes one day later; today's expiry counts as 0 days 11ms
+ ✓ tests/forecast.test.ts > forecastQueue — evidence that will lapse > excludes everything that has already lapsed — those rows belong to the live queue 6ms
+ ✓ tests/forecast.test.ts > forecastQueue — evidence that will lapse > does not forecast a lapse when a future-dated item of the same type becomes usable in time 1ms
+ ✓ tests/forecast.test.ts > forecastQueue — exceptions and reviews > forecasts active exceptions that end and periodic reviews that fall due, sorted by lapse date 2ms
+ ✓ tests/forecast.test.ts > forecastQueue — exceptions and reviews > moving the assessment date past a forecast lapse moves the item into the live queue and out of the forecast 3ms
+ ✓ tests/forecast.test.ts > forecastQueue — ordering, defaults, determinism, CSV > sorts by lapse date, then vendor name, and is deterministic regardless of input order 3ms
+ ✓ tests/forecast.test.ts > forecastQueue — ordering, defaults, determinism, CSV > defaults to a 180-day horizon, offers 90/180/365, and tolerates a bad horizon value 7ms
+ ✓ tests/forecast.test.ts > forecastQueue — ordering, defaults, determinism, CSV > exports a formula-safe CSV through the shared writer 1ms
+ ✓ tests/forecast.test.ts > forecastQueue — bundled fixture > produces at least one row of every kind within 180 days, all in range, sorted, and never loses rows when the horizon widens 40ms
+ ✓ tests/engine.test.ts > model > has 8 questions whose weights sum to 100 and whose options are unique with 0..4 points 2ms
+ ✓ tests/engine.test.ts > model > defines stricter evidence and cadence for higher tiers 0ms
+ ✓ tests/engine.test.ts > inherent score and tier > is 0 for all-minimum answers and 100 for all-maximum answers 1ms
+ ✓ tests/engine.test.ts > inherent score and tier > weights contributions: a 4-point answer on a 25-weight question contributes 25 0ms
+ ✓ tests/engine.test.ts > inherent score and tier > maps score to tiers at the documented thresholds (inclusive) 0ms
+ ✓ tests/engine.test.ts > inherent score and tier > hard trigger: regulated data with privileged access is tier 1 even at a low score 1ms
+ ✓ tests/engine.test.ts > inherent score and tier > hard trigger: unknown subprocessors with personal data is at least tier 2 3ms
+ ✓ tests/engine.test.ts > inherent score and tier > treats unanswered questions as unknown, reports them and scores them at maximum (conservative) 2ms
+ ✓ tests/engine.test.ts > sensitivity analysis > finds single-answer changes that move the tier up or down 7ms
+ ✓ tests/engine.test.ts > sensitivity analysis > reports a downward flip when a vendor sits just above a boundary 0ms
+ ✓ tests/engine.test.ts > sensitivity analysis > returns no downward flips for hard-triggered tier 1 vendors except those that remove the trigger 1ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > addMonths handles month-end clamping 0ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > tier 1 requires six evidence types; tier 3 only a questionnaire 0ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > marks evidence valid, expiring (≤ 60 days), expired or missing against asOf 1ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > uses the newest evidence of a type, and the requirement validity caps the item validity 0ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > an active exception gives half credit; an expired exception gives none 0ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > residual = inherent × (1 − 0.6 × coverage), rounded to one decimal 4ms
+ ✓ tests/engine.test.ts > evidence requirements and coverage > review cadence: due = lastReview + tier months; overdue when asOf is later; missing review is overdue 2ms
+ ✓ tests/engine.test.ts > review queue > creates items for missing/expired/expiring evidence, exceptions, review cadence, tier drift and incomplete answers 2ms
+ ✓ tests/engine.test.ts > review queue > orders by priority descending: tier-1 overdue items outrank tier-3 items; ties broken by vendor name 2ms
+ ✓ tests/engine.test.ts > review queue > produces no items for a fully covered, recently reviewed vendor with the recorded tier 2ms
+ ✓ tests/engine.test.ts > review queue > is deterministic 1ms
+ ✓ tests/engine.test.ts > review queue > exports a formula-safe CSV of the queue 1ms
+ ✓ tests/engine.test.ts > register validation > accepts a valid register 1ms
+ ✓ tests/engine.test.ts > register validation > rejects oversized input by UTF-8 bytes, malformed JSON and non-objects 2ms
+ ✓ tests/engine.test.ts > register validation > rejects unknown question ids, unknown option ids, bad dates and validMonths out of range with paths 1ms
+ ✓ tests/engine.test.ts > register validation > rejects more than 200 vendors and duplicate vendor ids 1ms
+ ✓ tests/engine.test.ts > register validation > rejects an exception for an evidence type the vendor tier does not even require? no — exceptions are validated only for type 0ms
+ ✓ tests/engine.test.ts > bundled fixture > validates, has 15 vendors, covers all three tiers and contains the planned adversarial cases 11ms
+ ✓ tests/engine.test.ts > sixth review regressions — future-dated evidence and exception validity cap > evidence issued after the assessment date gets no credit and is reported as future-dated 9ms
+ ✓ tests/engine.test.ts > sixth review regressions — future-dated evidence and exception validity cap > future-dated evidence does not shadow an older valid item of the same type 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — future-dated evidence and exception validity cap > an exception that runs longer than the policy cap gets no credit and is reported as out of policy 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — future-dated evidence and exception validity cap > the exception cap is a labelled heuristic in the scoring note 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --panel ≥ 4.5 2ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink on --accent-bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-2 on --accent-bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --ground ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --ink-3 on --accent-bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --t1 on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --t2 on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --t3 on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --accent on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --bad on --panel ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --t2 on --accent-bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --accent on --accent-bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > --bad on --accent-bg ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --t1 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --t2 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --t3 ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > #ffffff on --ink ≥ 4.5 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > the selected-row surface and the text tokens placed on it are the ones guarded above 0ms
+ ✓ tests/contrast.test.ts > theme text contrast (WCAG 2.1 AA, 4.5:1) > the contrast helper agrees with a known pair (black on white = 21) 0ms
+
+ Test Files  3 passed (3)
+      Tests  66 passed (66)
+   Start at  19:38:34
+   Duration  828ms (transform 211ms, setup 0ms, import 247ms, tests 164ms, environment 0ms)
+

@@ -16,6 +16,10 @@ My first unit fixture tried to create a membership cycle by adding `All staff �
 - What-if is tested in both directions: removing an assignment loses access; removing a deny gains it.
 - Validation enumerates each structural error class separately.
 
+## Q: Why is the permission hierarchy an option rather than the default, and how do denies interact with it?
+
+Because it changes what a verdict means. Without it, "who can read the vault?" is answered by `read` permissions only — the literal graph. Real products usually treat admin as implying write and read, so a reviewer asking that question literally would miss every admin. Making it the default would silently widen every existing review and every documented test expectation, so it is an explicit query option, off by default, threaded through `reach`, `toxicCombinations`, `whatIfRemoveEdge` and the export (`query.hierarchy`) so a saved review states which semantics it used. The implementation is one predicate at the asset step of the search: a permission's action satisfies the query if it is equal, or stronger under the fixed order admin ⊃ write ⊃ read when the option is on — nothing is ever implied upwards. Denies needed no change: the path records the permission node actually used, and deny hits are computed over those permissions, so an identity whose only route to `read` is an `admin` permission with a deny on it is `deny`, not `allow`. The tests pin both directions on a four-identity graph (admin-only, write-only, read-only, denied admin), check that `any` queries and hotspots are unchanged, that what-if counts follow the option, and that on the shipped fixture the option can only widen the allowed set, never narrow it.
+
 ## Production next steps
 
 1. Import from a real IdP/IGA export read-only, with pseudonymised identities.

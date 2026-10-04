@@ -1,0 +1,172 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/governance/pathcaster
+# 2026-10-04T19:06:57.378Z v20.20.1
+# exit 1
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
+
+
+ RUN  v4.1.11 <repo>/apps/governance/pathcaster
+
+ ✓ src/engine/graph.test.ts > reach > finds access through nested groups and terminates on cycles 35ms
+ ✓ src/engine/graph.test.ts > reach > applies deny-overrides: a group deny on the asset beats any allow path 1ms
+ ✓ src/engine/graph.test.ts > reach > evaluates ABAC conditions against identity attributes and reports blocked paths 8ms
+ ✓ src/engine/graph.test.ts > reach > filters by action 1ms
+ ✓ src/engine/graph.test.ts > reach > computes transitive groups with cycle protection 1ms
+ ✓ src/engine/graph.test.ts > reach > explains a path in a sentence a screen reader can speak 1ms
+ ✓ src/engine/graph.test.ts > hotspots and toxic combinations > ranks the group/role nodes that carry the most identities to high-sensitivity assets 1ms
+ ✓ src/engine/graph.test.ts > hotspots and toxic combinations > detects identities that hold both sides of a toxic rule, respecting denies 1ms
+ ✓ src/engine/graph.test.ts > what-if remediation > reports who loses access when an edge is removed 1ms
+ ✓ src/engine/graph.test.ts > what-if remediation > removing a deny edge can grant access (reported as gainedAccess) 1ms
+ ✓ src/engine/graph.test.ts > what-if remediation > rejects unknown edges 1ms
+ ✓ src/engine/graph.test.ts > validateGraph and export > rejects dangling references, self loops, kind-incompatible edges, duplicates, and oversize graphs 22ms
+ ✓ src/engine/graph.test.ts > validateGraph and export > exports a stable review schema with a screen-reader summary and formula-safe CSV 19ms
+ ✓ src/engine/graph.test.ts > traversal budget (sixth review: blocked paths were unbounded) > caps condition-blocked paths and marks the result truncated/indeterminate instead of exhausting memory 8ms
+ ✓ src/engine/graph.test.ts > traversal budget (sixth review: blocked paths were unbounded) > stops expanding after the node-expansion budget and finishes quickly on a path-explosion graph 1ms
+ ✓ src/engine/graph.test.ts > traversal budget (sixth review: blocked paths were unbounded) > never returns a false allow or deny when truncated: deny is only definitive with a found path and an applicable deny; allow only when no deny could apply 12ms
+ ✓ src/engine/graph.test.ts > traversal budget (sixth review: blocked paths were unbounded) > completes the reviewer's 60-node / 359-edge explosion graph (8 layers × 7) in bounded time and memory 1ms
+ ✓ src/engine/graph.test.ts > traversal budget (sixth review: blocked paths were unbounded) > does not report indeterminate for ordinary graphs 0ms
+ ✓ src/engine/graph.test.ts > traversal budget (sixth review: blocked paths were unbounded) > transitive group membership honours conditions on member_of edges 0ms
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > is off by default and the explicit false form is identical, on the unit graph and on the shipped fixture 80ms
+ × src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > with hierarchy, admin satisfies write and read and write satisfies read; nothing is implied upwards 43ms
+   → expected false to be true // Object.is equality
+ × src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > a deny on the admin permission still blocks the read that the admin permission would have satisfied, and the path names that permission 8ms
+   → expected 'none' to be 'deny' // Object.is equality
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > "any" queries are unaffected by the option 1ms
+ × src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > what-if counts respect the option and record it 23ms
+   → expected { removedEdgeId: 'e-admin', …(7) } to match object { hierarchy: true, before: 3, …(3) }
+(3 matching properties omitted from actual)
+ × src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > toxic combinations: an admin-only identity holds both sides only under the hierarchy; a denied admin never does 1ms
+   → expected false to be true // Object.is equality
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > hotspots accept the option but are unchanged by it (they query every asset with "any") 39ms
+ × src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > the export records query.hierarchy (additive; schema id unchanged) and the summary says so when it was applied 8ms
+   → expected { assetId: 'a-vault', …(3) } to deeply equal { assetId: 'a-vault', …(3) }
+ ✓ src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > is deterministic with the option on, and widens but never narrows the allowed set on the shipped fixture 38ms
+ ✓ src/fixtures/validate-demo.test.ts > demo graph > validates and contains the seeded findings 127ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects oversized input 111ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects invalid JSON and non-object roots 1ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects deep nesting 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects __proto__ keys 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > accepts a small object 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes 1ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes hidden behind whitespace or control characters 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > quotes commas, quotes and newlines 0ms
+ ✓ src/engine/safe.test.ts > date helpers > rejects calendar-invalid dates that Date.parse would normalise 1ms
+ ✓ src/engine/safe.test.ts > date helpers > adds and diffs days 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > with hierarchy, admin satisfies write and read and write satisfies read; nothing is implied upwards
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/hierarchy.test.ts:60:28
+     58|   it('with hierarchy, admin satisfies write and read and write satisfi…
+     59|     const read = reach(g, 'a-vault', 'read', { hierarchy: true });
+     60|     expect(read.hierarchy).toBe(true);
+       |                            ^
+     61|     expect(decision(read, 'u-admin')).toBe('allow');
+     62|     expect(decision(read, 'u-writer')).toBe('allow');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > a deny on the admin permission still blocks the read that the admin permission would have satisfied, and the path names that permission
+AssertionError: expected 'none' to be 'deny' // Object.is equality
+
+Expected: "deny"
+Received: "none"
+
+ ❯ src/engine/hierarchy.test.ts:79:26
+     77|     const read = reach(g, 'a-vault', 'read', { hierarchy: true });
+     78|     const dax = read.identities.find((i) => i.identityId === 'u-denied…
+     79|     expect(dax.decision).toBe('deny');
+       |                          ^
+     80|     expect(dax.denies.map((d) => d.edgeId)).toEqual(['e-deny']);
+     81|     expect(dax.paths[0]!.steps.map((s) => s.nodeId)).toContain('p-admi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > what-if counts respect the option and record it
+AssertionError: expected { removedEdgeId: 'e-admin', …(7) } to match object { hierarchy: true, before: 3, …(3) }
+(3 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "after": 2,
+-   "before": 3,
++   "after": 1,
++   "before": 1,
+    "gainedAccess": [],
+-   "hierarchy": true,
+-   "lostAccess": [
+-     "u-admin",
+-   ],
++   "hierarchy": false,
++   "lostAccess": [],
+  }
+
+ ❯ src/engine/hierarchy.test.ts:98:19
+     96|     expect(plain).toMatchObject({ hierarchy: false, before: 1, after: …
+     97|     const withH = whatIfRemoveEdge(g, 'e-admin', 'a-vault', 'read', { …
+     98|     expect(withH).toMatchObject({ hierarchy: true, before: 3, after: 2…
+       |                   ^
+     99|   });
+    100|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > toxic combinations: an admin-only identity holds both sides only under the hierarchy; a denied admin never does
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/hierarchy.test.ts:104:80
+    102|     expect(toxicCombinations(g).some((t) => t.identityId === 'u-admin'…
+    103|     const withH = toxicCombinations(g, { hierarchy: true });
+    104|     expect(withH.some((t) => t.ruleId === 'tx' && t.identityId === 'u-…
+       |                                                                                ^
+    105|     expect(withH.some((t) => t.identityId === 'u-denied')).toBe(false);
+    106|     expect(withH.some((t) => t.identityId === 'u-writer')).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  src/engine/hierarchy.test.ts > permission hierarchy option (admin ⊃ write ⊃ read), October 2026 round > the export records query.hierarchy (additive; schema id unchanged) and the summary says so when it was applied
+AssertionError: expected { assetId: 'a-vault', …(3) } to deeply equal { assetId: 'a-vault', …(3) }
+
+- Expected
++ Received
+
+  {
+    "action": "read",
+    "asset": "Vault",
+    "assetId": "a-vault",
+-   "hierarchy": true,
++   "hierarchy": false,
+  }
+
+ ❯ src/engine/hierarchy.test.ts:119:22
+    117|     expect(off.summary).not.toMatch(/hierarchy/);
+    118|     const on = exportReview(g, reach(g, 'a-vault', 'read', { hierarchy…
+    119|     expect(on.query).toEqual({ assetId: 'a-vault', asset: 'Vault', act…
+       |                      ^
+    120|     expect(on.summary).toMatch(/3 identities can reach Vault \(read\)/…
+    121|     expect(on.summary).toMatch(/hierarchy/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  5 failed | 34 passed (39)
+   Start at  19:07:02
+   Duration  4.71s (transform 604ms, setup 0ms, import 721ms, tests 684ms, environment 0ms)
+

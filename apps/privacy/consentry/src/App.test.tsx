@@ -41,7 +41,7 @@ describe('Consentry app (integration, added after the UI)', () => {
     await user.click(screen.getByRole('checkbox', { name: 'Enable R06-gpc-signal' }));
     await user.click(screen.getByRole('tab', { name: /Policy regression suite/ }));
     const panel = screen.getByRole('tabpanel');
-    expect(within(panel).getByRole('status')).toHaveTextContent(/1 of 20 expectations fail/);
+    expect(within(panel).getByRole('status')).toHaveTextContent(/1 of 21 expectations fail/);
     expect(within(panel).getByRole('status')).toHaveTextContent(/ev-11/);
   });
 
@@ -52,6 +52,16 @@ describe('Consentry app (integration, added after the UI)', () => {
     await user.click(screen.getByRole('button', { name: 'Add record' }));
     const stamp = screen.getAllByRole('status').find((el) => el.classList.contains('stamp'));
     expect(stamp).toHaveTextContent('CONSENT_WITHDRAWN');
+  });
+
+  it('renders the record-regime rung: a UK subject whose grant was captured under the EU notice gets REVIEW', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.selectOptions(screen.getByLabelText('Subject'), 'sub-uk-imogen');
+    const stamp = screen.getAllByRole('status').find((el) => el.classList.contains('stamp'));
+    expect(stamp).toHaveTextContent(/REVIEW/);
+    expect(stamp).toHaveTextContent('RECORD_REGIME_MISMATCH');
+    expect(screen.getByText('R09a-record-regime · matched')).toBeInTheDocument();
   });
 
   it('rejects a malformed workspace import with field-level errors', async () => {

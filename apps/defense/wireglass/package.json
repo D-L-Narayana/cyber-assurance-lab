@@ -5,6 +5,9 @@
   "type": "module",
   "description": "Wireglass — synthetic DNS/HTTP/SMTP detection workbench (educational prototype, synthetic data only)",
   "license": "MIT",
+  "engines": {
+    "node": ">=20.19"
+  },
   "scripts": {
     "dev": "vite --port 6130 --strictPort",
     "build": "tsc -p tsconfig.json && vite build",

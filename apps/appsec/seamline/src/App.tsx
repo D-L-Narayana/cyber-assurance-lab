@@ -98,7 +98,7 @@ export default function App() {
 
         <div className="zone server">
           <h2>Server — {mode === 'enforcing' ? 'server-authoritative' : 'client-authoritative'}</h2>
-          <p className="sub">{mode === 'enforcing' ? 'Recomputes prices, discounts, points and roles from its own state; checks nonce, freshness and ownership.' : 'Believes the message as received. Fields keep the values the client (or the tamperer) chose.'}</p>
+          <p className="sub">{mode === 'enforcing' ? 'Recomputes prices, discounts, points and roles from its own state; checks nonce, freshness, ownership and quantity bounds.' : 'Believes the message as received. Fields keep the values the client (or the tamperer) chose.'}</p>
           <ul className="fields" aria-label="Message as received, with the origin of each value">
             {[...sentFlat.map(([k]) => k), ...addedKeys].map((k) => {
               const origin = step.fieldOrigins[k] ?? 'client-controlled';
@@ -194,7 +194,7 @@ export default function App() {
       </details>
 
       <footer className="foot">
-        Seamline replays a scripted sequence of client events through a tamper layer into one of two server models. A finding is raised only when a server <em>accepts</em> a message whose security-relevant claims (price, discount, points, role, object owner, nonce, timestamp) differ from what the server can establish itself; the script's tamper labels are annotations, not the oracle. The scenario is scripted — the tool illustrates known weakness classes (CWE-602, CWE-294, CWE-269, CWE-639), it does not discover arbitrary flaws. No device, network or real backend is involved; state resets on refresh.
+        Seamline replays a scripted sequence of client events through a tamper layer into one of two server models. A finding is raised only when a server <em>accepts</em> a message whose security-relevant claims (price, discount, points, role, object owner, nonce, timestamp, line quantity) differ from what the server can establish itself or allow; the script's tamper labels are annotations, not the oracle. The scenario is scripted — the tool illustrates known weakness classes (CWE-602, CWE-294, CWE-269, CWE-639, CWE-20), it does not discover arbitrary flaws. No device, network or real backend is involved; state resets on refresh.
       </footer>
     </div>
   );
@@ -209,6 +209,7 @@ function scenarioTamperNote(step: StepResult): string {
     'other-user-object': 'orderId swapped for another user\u2019s order.',
     backdate: 'Timestamp moved ten minutes into the past.',
     replay: `Nonce and payload copied from ${step.tamper?.of}; only the timestamp is new.`,
+    'quantity-rewrite': `Quantity of the first order line rewritten to ${step.tamper?.value ?? -1}; the total is recomputed from the client’s own unit prices, so only the quantity bound is violated.`,
   };
   return notes[step.tamper?.kind ?? ''] ?? '';
 }

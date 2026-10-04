@@ -1,0 +1,38 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/appsec/assaynotebook
+# 2026-10-04T20:43:24.970Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/appsec/assaynotebook
+
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > v1 reflects a search marker unencoded; v3 encodes it 2ms
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > v1 returns another user’s receipt; v2 denies it 1ms
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > v1 and v2 set the session cookie without HttpOnly/Secure/SameSite; v3 sets all three 1ms
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > v1 leaks a stack trace on malformed ids; v3 returns a generic 400 0ms
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > v1 and v2 serve the HTML account page without Content-Security-Policy or X-Content-Type-Options; v3 sends both 17ms
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > refuses anything that is not a relative lab path and bounds inputs 1ms
+ ✓ src/engine/__tests__/notebook.test.ts > lab application > generates deterministic, harmless markers 1ms
+ ✓ src/engine/__tests__/notebook.test.ts > oracles > reflects-unencoded fires on v1 and is silent on v3 0ms
+ ✓ src/engine/__tests__/notebook.test.ts > oracles > cross-user-object fires on v1 and is silent on v3 0ms
+ ✓ src/engine/__tests__/notebook.test.ts > oracles > cookie-missing-flags fires on v1 and is silent on v3 1ms
+ ✓ src/engine/__tests__/notebook.test.ts > oracles > stack-trace-disclosed fires on v1 and is silent on v3 13ms
+ ✓ src/engine/__tests__/notebook.test.ts > oracles > security-headers-missing fires on v1 and is silent on v3 0ms
+ ✓ src/engine/__tests__/notebook.test.ts > oracles > security-headers-missing fires only on HTML responses lacking CSP or X-Content-Type-Options, looking headers up case-insensitively 1ms
+ ✓ src/engine/__tests__/notebook.test.ts > oracles > suggestOracles offers security-headers-missing for HTML responses on every build and never for JSON 2ms
+ ✓ src/engine/__tests__/notebook.test.ts > severity rubric > combines impact and likelihood deterministically 0ms
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > hashes each observation with SHA-256 and is deterministic for identical exchanges 45ms
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > deduplicates findings by signature and merges evidence 39ms
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > refuses to record a finding when the oracle did not fire 10ms
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > retest replays the original request: still-open on v1, fixed on v3 12ms
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > enforces transitions: no manual fixed, wont-fix needs a rationale, retest requires a request first 7ms
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > runCatalog records 5 findings on v1, 3 on v2 and 0 on v3 28ms
+ ✓ src/engine/__tests__/notebook.test.ts > notebook > bounds the notebook size 2ms
+ ✓ src/engine/__tests__/notebook.test.ts > report > exports a stable schema with CWE ids, hashes and redacted cookie values 7ms
+ ✓ src/engine/__tests__/notebook.test.ts > sixth-review regression — severity re-ratings are part of the audit trail > logs a history entry when impact, likelihood or rationale changes, and nothing when unchanged 1ms
+
+ Test Files  1 passed (1)
+      Tests  24 passed (24)
+   Start at  20:43:27
+   Duration  1.54s (transform 482ms, setup 0ms, import 522ms, tests 193ms, environment 0ms)
+

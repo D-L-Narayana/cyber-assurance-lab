@@ -18,12 +18,18 @@ The contract declares, per endpoint, which roles may call it and how the target 
 
 An independent reviewer added a second `GET /invoices/{id}` endpoint (admin, `any`) to the fixture. Validation accepted it, the router sent every request to the first registration, and the *remediated* build reported false `function-bypass` and `over-deny` findings against the new endpoint. The fix was to reject duplicate method + path templates at validation (plus only-`{id}` parameters and literal-before-parameter routing), with regression tests written before the change. Lesson: an authorization tester that can produce findings against a flawless server is worse than none.
 
+## October 2026 upgrade: two questions worth being ready for
+
+**Q: Why did create-path mass assignment need its own probe, and how does the oracle decide?** Before this round the fixture had no `POST` endpoint and the README admitted "POST/create mass assignment … not probed". An update probe can diff the target record before and after, but a create has no "before": the record does not exist yet. The probe therefore sends a plausible create body (every writable field, values derived from a representative record) plus one non-writable field — `status` on `POST /invoices` — and then reads the record the server says it created (`inspect(resource, response.body.id)`). If that record carries the non-writable field *with the value from the body*, the verdict is `mass-assignment`; if the server discarded it, `pass`; if the server answered 2xx without identifying the record, `error`, because the case could not be judged. The non-writable set is the union of field names across the resource's records minus `writableFields`, in first-seen order, so the ids are stable and the set follows the data rather than a hand-written list. Only expected-allow principals get probes: a member's 403 says nothing about field binding. On 1.4.0 that adds exactly one finding (`create-invoice|mass-assignment`, API3:2023, high because `status` is privilege-bearing); on 1.4.1 nothing.
+
+**Q: What does "compare with previous run" prove, and what does it not?** `compareRuns(before, after)` keys findings by `endpoint|kind` and cases by id, and reports closed / opened / persisted findings plus every case whose verdict changed, all sorted so the diff is byte-identical for the same inputs. It turns a retest from "the count went from 5 to 0" into "these five closed, these 33 cases moved to pass, nothing opened". It does not prove the fix is correct — it compares two runs of the same contract against the mock, so a wrong contract yields a confidently wrong diff — and it cannot compare runs of different contracts (the UI clears the previous run on import). The comparison is additive in the report (`comparison?`), so older exports still import unchanged.
+
 ## Production next steps
 
 1. Replace the mock with an adapter that records and replays real HTTP exchanges from an **authorised** staging environment, keeping the same case generator and verdict logic.
 2. Import OpenAPI 3.1 with a vendor extension for ownership rules, instead of the bespoke schema.
 3. Add attribute-based conditions (time, status, delegated access) and multi-parameter paths.
-4. Persist runs with signed provenance so a retest can prove which build was tested.
+4. Persist runs with signed provenance so a retest can prove which build was tested (the in-memory comparison added in October 2026 is the first step: it keeps one previous run and diffs findings and verdicts, but nothing survives a refresh).
 
 ## Honest boundaries
 

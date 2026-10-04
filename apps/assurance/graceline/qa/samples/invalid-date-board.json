@@ -1,0 +1,118 @@
+{
+  "schema": "graceline.board/1",
+  "asOf": "2026-10-01",
+  "exceptions": [
+    {
+      "renewals": 0,
+      "state": "draft",
+      "approvals": [],
+      "history": [],
+      "policyRef": "SEC-POL-03 §2.1 Unique accounts",
+      "requester": "warehouse.lead",
+      "owner": "ops.director",
+      "compensatingControls": [],
+      "justification": "No per-user login.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Remediate.",
+        "dueOn": "2026-12-20",
+        "status": "planned"
+      },
+      "id": "EX-101",
+      "title": "Shared admin account on warehouse scanners",
+      "riskLevel": "high",
+      "startOn": "2026-10-05",
+      "expiresOn": "2026-02-30"
+    },
+    {
+      "renewals": 0,
+      "state": "submitted",
+      "approvals": [],
+      "history": [
+        {
+          "at": "2026-09-28",
+          "event": "submit",
+          "actor": "edi.owner",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        }
+      ],
+      "policyRef": "SEC-POL-11 §5 Encryption in transit",
+      "requester": "edi.owner",
+      "owner": "integration.lead",
+      "compensatingControls": [
+        "Network isolation"
+      ],
+      "justification": "Partner cannot upgrade before Q1; link carries order numbers only, no personal data.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Partner upgrade to TLS 1.2+ scheduled Feb.",
+        "dueOn": "2027-02-15",
+        "status": "planned"
+      },
+      "id": "EX-102",
+      "title": "TLS 1.1 on legacy EDI partner link",
+      "riskLevel": "moderate",
+      "startOn": "2026-10-01",
+      "expiresOn": "2027-02-28"
+    },
+    {
+      "renewals": 0,
+      "state": "under-review",
+      "approvals": [
+        {
+          "approver": "line.manager",
+          "role": "manager",
+          "decidedOn": "2026-09-26",
+          "note": "Fine from a delivery standpoint."
+        }
+      ],
+      "history": [
+        {
+          "at": "2026-09-25",
+          "event": "submit",
+          "actor": "app.owner",
+          "from": "draft",
+          "to": "submitted",
+          "note": ""
+        },
+        {
+          "at": "2026-09-25",
+          "event": "start-review",
+          "actor": "grc.analyst",
+          "from": "submitted",
+          "to": "under-review",
+          "note": ""
+        },
+        {
+          "at": "2026-09-26",
+          "event": "approve",
+          "actor": "line.manager",
+          "from": "under-review",
+          "to": "under-review",
+          "note": "Fine from a delivery standpoint. (1/2, still needs risk-owner)"
+        }
+      ],
+      "policyRef": "SEC-POL-07 §4.2 Patch timelines",
+      "requester": "app.owner",
+      "owner": "infra.lead",
+      "compensatingControls": [
+        "Reporting VLAN isolation",
+        "Weekly authenticated scan"
+      ],
+      "justification": "Vendor patch breaks the reporting module; replacement platform go-live in December.",
+      "requestedOn": "2026-09-01",
+      "remediation": {
+        "plan": "Migrate reports to the new platform and decommission the server.",
+        "dueOn": "2026-12-10",
+        "status": "planned"
+      },
+      "id": "EX-103",
+      "title": "Legacy report server cannot receive October patches",
+      "riskLevel": "high",
+      "startOn": "2026-10-01",
+      "expiresOn": "2026-12-15"
+    }
+  ]
+}

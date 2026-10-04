@@ -1,0 +1,41 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/defense/wireglass
+# 2026-10-04T19:02:31.242Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/defense/wireglass
+
+ ✓ src/engine/engine.test.ts > parseLogs > normalises DNS, HTTP and SMTP lines into typed events 20ms
+ ✓ src/engine/engine.test.ts > parseLogs > reports malformed lines with their line number and keeps going 17ms
+ ✓ src/engine/engine.test.ts > parseLogs > bounds input by lines and bytes and flags truncation 1ms
+ ✓ src/engine/engine.test.ts > parseLogs > rejects HTTP byte counts above the 13-digit bound instead of parsing them as huge numbers 10ms
+ ✓ src/engine/engine.test.ts > parseLogs > rejects a timestamp that cannot be parsed 0ms
+ ✓ src/engine/engine.test.ts > helpers > computes Shannon entropy in bits per symbol 0ms
+ ✓ src/engine/engine.test.ts > helpers > classifies RFC1918 addresses as internal and TEST-NET as external 0ms
+ ✓ src/engine/engine.test.ts > rules > DNS-001 flags a long high-entropy label and not an allowlisted CDN suffix (false-positive fixture) 1ms
+ ✓ src/engine/engine.test.ts > rules > DNS-002 flags an NXDOMAIN burst within the window and ignores sparse typos 1ms
+ ✓ src/engine/engine.test.ts > rules > HTTP-001 flags an auth-failure burst to one destination but not three failures 24ms
+ ✓ src/engine/engine.test.ts > rules > HTTP-002 flags a large scripted upload to an external host, not an internal backup 156ms
+ ✓ src/engine/engine.test.ts > rules > SMTP-001 flags a host mailing many external domains unless it is an allowlisted relay 3ms
+ ✓ src/engine/engine.test.ts > rules > produces deterministic alert ids for the same input 1ms
+ ✓ src/engine/engine.test.ts > rules > correlates alerts from two protocols on one source into a chain within 30 minutes 1ms
+ ✓ src/engine/engine.test.ts > triage state machine > requires a disposition and note to close, and rejects reopening a closed alert to new 21ms
+ ✓ src/engine/engine.test.ts > triage state machine > rejects unknown alert ids 5ms
+ ✓ src/engine/engine.test.ts > scenario generator and report > generates the same synthetic log for the same seed and includes the three protocols 12ms
+ ✓ src/engine/engine.test.ts > scenario generator and report > cdn-noise reliably raises DNS-001 on CDN content-hash hostnames for every seed, and the suffix allowlist silences it 399ms
+ ✓ src/engine/engine.test.ts > scenario generator and report > mixed-day CDN hostnames sit under an allowlisted suffix and only alert once that suffix is removed 3ms
+ ✓ src/engine/engine.test.ts > scenario generator and report > builds a stable report schema with counts derived from alerts 18ms
+ ✓ src/engine/engine.test.ts > scenario generator and report > report gains an additive tuning record only when a config change was applied in the session 20ms
+ ✓ src/engine/diff.test.ts > diffAlerts (tuning what-if) > identical configs produce an empty diff and keep every alert 107ms
+ ✓ src/engine/diff.test.ts > diffAlerts (tuning what-if) > adding .edge.media.example to the allowlist on cdn-noise removes exactly the DNS-001 alerts and adds none 36ms
+ ✓ src/engine/diff.test.ts > diffAlerts (tuning what-if) > raising authFailBurst above the burst size removes HTTP-001 on mixed-day and nothing else 11ms
+ ✓ src/engine/diff.test.ts > diffAlerts (tuning what-if) > alert ids are stable across identical configs and across threshold changes that do not alter the evidence 25ms
+ ✓ src/engine/diff.test.ts > diffAlerts (tuning what-if) > orders removed, added and kept by first timestamp then id regardless of input order 17ms
+ ✓ src/engine/diff.test.ts > diffAlerts (tuning what-if) > recordTuning captures from/to configs and the removed/added ids for the current events 31ms
+
+ Test Files  2 passed (2)
+      Tests  27 passed (27)
+   Start at  19:02:33
+   Duration  2.73s (transform 607ms, setup 0ms, import 696ms, tests 960ms, environment 0ms)
+

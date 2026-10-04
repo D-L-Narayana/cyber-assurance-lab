@@ -21,15 +21,31 @@ await page.screenshot({ path: out + '02-executed.png', fullPage: true });
 await page.getByRole('button', { name: /Generate plan/ }).click();
 await page.getByRole('button', { name: 'Execute plan (simulated)' }).click().catch(() => {});
 log.push('after re-plan: ' + await status());
-// stale plan: generate, then reinstate/release a hold before executing -> engine must reject
+// stale plan: generate, then release a hold through the guarded form before executing -> engine must reject.
+// The form refuses a short reason first (nothing changes), then accepts a proper actor + reason.
 await page.getByRole('button', { name: /Generate plan/ }).click();
-await page.getByRole('button', { name: /Release as of/ }).nth(1).click();
+await page.getByRole('button', { name: 'Release hold-audit-hris' }).click();
+await page.getByLabel('Actor').fill('compliance@example.test');
+await page.getByLabel('Reason').fill('too short');
+await page.getByRole('button', { name: 'Confirm release' }).click();
+log.push('release refused (short reason): ' + await status());
+await page.getByLabel('Reason').fill('Regulator inquiry closed on 2026-09-30; preservation no longer required.');
+await page.getByRole('button', { name: 'Confirm release' }).click();
+log.push('release: ' + await status());
 const execBtn = page.getByRole('button', { name: 'Execute plan (simulated)' });
 log.push('execute button after hold change disabled=' + await execBtn.isDisabled() + ' (plan invalidated in UI; engine also re-derives the plan id)');
-await page.getByRole('button', { name: 'Reinstate' }).first().click();
-// release a hold -> plan id changes, more disposals
-await page.getByRole('button', { name: /Release as of/ }).nth(1).click(); // the HR-wide hold
-log.push('release: ' + await status());
+// reinstate through the form (effective date defaults to the clock), then release again for the second plan
+await page.getByRole('button', { name: 'Reinstate hold-audit-hris' }).click();
+await page.getByLabel('Actor').fill('compliance@example.test');
+await page.getByLabel('Reason').fill('Inquiry reopened; preservation duty resumes.');
+await page.getByRole('button', { name: 'Confirm reinstatement' }).click();
+log.push('reinstate: ' + await status());
+await page.getByRole('button', { name: 'Release hold-audit-hris' }).click(); // the HR-wide hold
+await page.getByLabel('Actor').fill('compliance@example.test');
+await page.getByLabel('Reason').fill('Regulator inquiry closed; release confirmed by counsel.');
+await page.getByRole('button', { name: 'Confirm release' }).click();
+log.push('release again: ' + await status());
+log.push('hold history: ' + (await page.locator('.trail').innerText()).replace(/\n/g, ' || '));
 await page.getByRole('button', { name: /Generate plan/ }).click();
 const planId2 = (await page.locator('.plan-id').innerText()).replace('plan ', '');
 log.push('plan2 differs=' + (planId2 !== planId1) + ' ' + await status());
@@ -51,7 +67,7 @@ log.push('clock 2027: ' + (await page.locator('.states').innerText()).replace(/\
 // exports
 const [dl] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Export audit JSON' }).click()]);
 await dl.saveAs(out + 'export.json'); const j = JSON.parse(await fs.readFile(out + 'export.json', 'utf8'));
-log.push(`json schema=${j.schema} plans=${j.plans.length} receipts=${j.receipts.length} chain.ok=${j.chain.ok} reconciled=${j.plans.every((p) => p.reconciliation.ok)}`);
+log.push(`json schema=${j.schema} plans=${j.plans.length} receipts=${j.receipts.length} chain.ok=${j.chain.ok} reconciled=${j.plans.every((p) => p.reconciliation.ok)} holdHistory=${j.holdHistory.length}`);
 const [dc] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Receipts CSV' }).click()]);
 await dc.saveAs(out + 'receipts.csv'); log.push('receipts csv lines=' + (await fs.readFile(out + 'receipts.csv', 'utf8')).trim().split('\n').length);
 await page.locator('input[type=file]').setInputFiles({ name: 'bad.json', mimeType: 'application/json', buffer: Buffer.from('{"schemaVersion":1,"label":"x","asOf":"2026-10-01","systems":[],"schedules":[{"id":"s"}],"records":[null],"holds":[{"id":"h","scope":"x"}]}') });

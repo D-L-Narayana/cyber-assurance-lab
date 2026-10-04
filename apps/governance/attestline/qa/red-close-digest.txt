@@ -1,0 +1,216 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/governance/attestline
+# 2026-10-04T19:02:39.133Z v20.20.1
+# exit 1
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
+
+
+ RUN  v4.1.11 <repo>/apps/governance/attestline
+
+ ✓ src/engine/campaign.test.ts > buildCampaign risk hints > flags both sides of a separation-of-duties conflict 2ms
+ ✓ src/engine/campaign.test.ts > buildCampaign risk hints > flags dormant entitlements using the configured threshold 0ms
+ ✓ src/engine/campaign.test.ts > buildCampaign risk hints > flags never-used entitlements separately from dormant 0ms
+ ✓ src/engine/campaign.test.ts > buildCampaign risk hints > routes leaver access to the resource owner as orphan 0ms
+ ✓ src/engine/campaign.test.ts > buildCampaign risk hints > routes identities without a manager to the resource owner and marks no_reviewer only when no owner exists 1ms
+ ✓ src/engine/campaign.test.ts > buildCampaign risk hints > scores risk deterministically and higher for more hints 1ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > approves a clean entitlement without a reason 1ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > requires a reason when approving a flagged entitlement 0ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > requires an explicit SoD override when approving the second side of a conflict 1ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > rejects delegation to self and to unknown reviewers 0ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > rejects decisions by someone other than the assigned reviewer 0ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > allows reversing a decision while campaign is open and records every decision 1ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > bulk decisions stop at the first invalid item and apply none 1ms
+ ✓ src/engine/campaign.test.ts > completion and export > reports pending blockers by reviewer 8ms
+ ✓ src/engine/campaign.test.ts > completion and export > exports a stable certification schema and escapes CSV formulas 1ms
+ ✓ src/engine/campaign.test.ts > validateFixture > rejects dangling references and bad dates 1ms
+ ✓ src/engine/campaign.test.ts > validateFixture > rejects oversized fixtures 3ms
+ ✓ src/engine/campaign.test.ts > validateFixture > accepts the base fixture 0ms
+ ✓ src/engine/campaign.test.ts > validateFixture malformed rows (parent review finding) > returns bounded errors instead of throwing when rows are null or wrong types 4ms
+ ✓ src/engine/campaign.test.ts > campaign-owner routing of unrouted items > lets the campaign owner assign a reviewer to an unrouted item, then that reviewer can decide 1ms
+ ✓ src/engine/campaign.test.ts > campaign-owner routing of unrouted items > rejects routing to an identity that is not in the fixture and routing items that already have a reviewer 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > rejects delegation to the identity under review 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > rejects delegation to a leaver or suspended identity 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > rejects any decision where the actor is the identity under review even if routed that way 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > routeItem refuses to route an item to the identity under review 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > validateFixture rejects an identity that is its own manager 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > never routes an entitlement to its own holder: resource owner holding access on own resource becomes unrouted with a self_review hint 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > falls back to another active resource owner when the manager would be reviewing their own access 0ms
+ × src/engine/closure.test.ts > closeCampaign > refuses to close while items are pending unless the closer acknowledges them, and then records the pending count 17ms
+   → expected 'not implemented' to match /4 items are still pending/
+ × src/engine/closure.test.ts > closeCampaign > closes cleanly when everything is decided; the closing date defaults to the campaign as-of date and no item changes 3ms
+   → expected false to be true // Object.is equality
+ × src/engine/closure.test.ts > closeCampaign > requires an actor, a note of at least 10 characters and a valid closing date not before as-of, and refuses to close twice 1ms
+   → expected 'not implemented' to match /10 characters/
+ × src/engine/closure.test.ts > a closed campaign accepts no further changes > applyDecision, bulkDecision and routeItem refuse with a "Campaign is closed" error 1ms
+   → expected true to be false // Object.is equality
+ ✓ src/engine/closure.test.ts > a closed campaign accepts no further changes > the same inputs succeed on the open campaign, so the refusal is caused by the closure alone 1ms
+ × src/engine/closure.test.ts > certification digest > canonicalJson sorts object keys at every depth and leaves arrays in order 6ms
+   → expected '{"b":1,"a":{"d":[3,{"z":1,"y":2}],"c"…' to be '{"a":{"c":null,"d":[3,{"y":2,"z":1}]}…' // Object.is equality
+ × src/engine/closure.test.ts > certification digest > is a 64-hex SHA-256 that is stable run-to-run and across key order 1ms
+   → expected '' to match /^[0-9a-f]{64}$/
+ × src/engine/closure.test.ts > certification digest > changes when covered content changes (a decision, the closure) and ignores the digest field itself 1ms
+   → expected '' not to be '' // Object.is equality
+ × src/engine/closure.test.ts > certification digest > exportCertificationWithDigest keeps the v1 schema and the CSV unchanged, adding digest and closed as additive fields 14ms
+   → expected '' to match /^[0-9a-f]{64}$/
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects oversized input 66ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects invalid JSON and non-object roots 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects deep nesting 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects __proto__ keys 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > accepts a small object 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes hidden behind whitespace or control characters 5ms
+ ✓ src/engine/safe.test.ts > CSV export safety > quotes commas, quotes and newlines 0ms
+ ✓ src/engine/safe.test.ts > date helpers > rejects calendar-invalid dates that Date.parse would normalise 1ms
+ ✓ src/engine/safe.test.ts > date helpers > adds and diffs days 0ms
+ ✓ src/fixtures/validate-demo.test.ts > demo fixture > validates and contains the seeded findings 25ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/closure.test.ts > closeCampaign > refuses to close while items are pending unless the closer acknowledges them, and then records the pending count
+AssertionError: expected 'not implemented' to match /4 items are still pending/
+
+- Expected:
+/4 items are still pending/
+
++ Received:
+"not implemented"
+
+ ❯ src/engine/closure.test.ts:55:44
+     53|     const refused = closeCampaign(c, { actor: 'm1', note: 'Closing the…
+     54|     expect(refused.ok).toBe(false);
+     55|     if (!refused.ok) expect(refused.error).toMatch(/4 items are still …
+       |                                            ^
+     56|     const ack = closeCampaign(c, { actor: 'm1', note: 'Closing the Q3 …
+     57|     expect(ack.ok).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  src/engine/closure.test.ts > closeCampaign > closes cleanly when everything is decided; the closing date defaults to the campaign as-of date and no item changes
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/closure.test.ts:64:18
+     62|     const c = decideAll(fresh());
+     63|     const r = closeCampaign(c, { actor: 'm1', note: 'All four items de…
+     64|     expect(r.ok).toBe(true);
+       |                  ^
+     65|     if (!r.ok) return;
+     66|     expect(r.campaign.closed).toEqual({ at: '2026-10-01', by: 'm1', no…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  src/engine/closure.test.ts > closeCampaign > requires an actor, a note of at least 10 characters and a valid closing date not before as-of, and refuses to close twice
+AssertionError: expected 'not implemented' to match /10 characters/
+
+- Expected:
+/10 characters/
+
++ Received:
+"not implemented"
+
+ ❯ src/engine/closure.test.ts:77:40
+     75|     const short = closeCampaign(c, { actor: 'm1', note: 'too short' });
+     76|     expect(short.ok).toBe(false);
+     77|     if (!short.ok) expect(short.error).toMatch(/10 characters/);
+       |                                        ^
+     78|     expect(closeCampaign(c, { actor: 'm1', note: 'Closing after review…
+     79|     expect(closeCampaign(c, { actor: 'm1', note: 'Closing after review…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  src/engine/closure.test.ts > a closed campaign accepts no further changes > applyDecision, bulkDecision and routeItem refuse with a "Campaign is closed" error
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/engine/closure.test.ts:96:18
+     94|     const c = closed();
+     95|     const a = applyDecision(c, { itemId: idOf(c, 'e3'), actor: 'm2', d…
+     96|     expect(a.ok).toBe(false);
+       |                  ^
+     97|     if (!a.ok) expect(a.error).toMatch(/^Campaign is closed/);
+     98|     const b = bulkDecision(c, [idOf(c, 'e3'), idOf(c, 'e4')], { actor:…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  src/engine/closure.test.ts > certification digest > canonicalJson sorts object keys at every depth and leaves arrays in order
+AssertionError: expected '{"b":1,"a":{"d":[3,{"z":1,"y":2}],"c"…' to be '{"a":{"c":null,"d":[3,{"y":2,"z":1}]}…' // Object.is equality
+
+Expected: "{"a":{"c":null,"d":[3,{"y":2,"z":1}]},"b":1}"
+Received: "{"b":1,"a":{"d":[3,{"z":1,"y":2}],"c":null}}"
+
+ ❯ src/engine/closure.test.ts:125:77
+    123| describe('certification digest', () => {
+    124|   it('canonicalJson sorts object keys at every depth and leaves arrays…
+    125|     expect(canonicalJson({ b: 1, a: { d: [3, { z: 1, y: 2 }], c: null …
+       |                                                                             ^
+    126|     expect(canonicalJson(reversed({ b: 1, a: { d: [3, { z: 1, y: 2 }],…
+    127|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  src/engine/closure.test.ts > certification digest > is a 64-hex SHA-256 that is stable run-to-run and across key order
+AssertionError: expected '' to match /^[0-9a-f]{64}$/
+
+- Expected:
+/^[0-9a-f]{64}$/
+
++ Received:
+""
+
+ ❯ src/engine/closure.test.ts:132:16
+    130|     const out = exportCertification(fresh()).json;
+    131|     const d1 = await certificationDigest(out);
+    132|     expect(d1).toMatch(/^[0-9a-f]{64}$/);
+       |                ^
+    133|     expect(await certificationDigest(out)).toBe(d1);
+    134|     expect(await certificationDigest(reversed(out) as CertificationExp…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  src/engine/closure.test.ts > certification digest > changes when covered content changes (a decision, the closure) and ignores the digest field itself
+AssertionError: expected '' not to be '' // Object.is equality
+ ❯ src/engine/closure.test.ts:143:20
+    141|     const d0 = await certificationDigest(exportCertification(fresh()).…
+    142|     const d1 = await certificationDigest(exportCertification(c).json);
+    143|     expect(d1).not.toBe(d0);
+       |                    ^
+    144|     const closedExport = exportCertification({ ...c, closed: closure }…
+    145|     const d2 = await certificationDigest(closedExport);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  src/engine/closure.test.ts > certification digest > exportCertificationWithDigest keeps the v1 schema and the CSV unchanged, adding digest and closed as additive fields
+AssertionError: expected '' to match /^[0-9a-f]{64}$/
+
+- Expected:
+/^[0-9a-f]{64}$/
+
++ Received:
+""
+
+ ❯ src/engine/closure.test.ts:158:36
+    156|     const withDigest = await exportCertificationWithDigest(open);
+    157|     expect(withDigest.json.schema).toBe('attestline.certification/v1');
+    158|     expect(withDigest.json.digest).toMatch(/^[0-9a-f]{64}$/);
+       |                                    ^
+    159|     expect(withDigest.json.digest).toBe(await certificationDigest(plai…
+    160|     expect(withDigest.csv).toBe(plain.csv);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  8 failed | 40 passed (48)
+   Start at  19:02:40
+   Duration  1.95s (transform 346ms, setup 0ms, import 470ms, tests 189ms, environment 0ms)
+

@@ -40,3 +40,15 @@ describe('theme text contrast (WCAG 2.1 AA, 4.5:1)', () => {
     expect(contrast('#000000', '#ffffff')).toBeCloseTo(21, 1);
   });
 });
+
+describe('forecast UI (October 2026) reuses guarded tokens only', () => {
+  it('the inverted pair used by solid buttons, including "Export forecast CSV" (paper on ink), is ≥ 4.5', () => {
+    expect(contrast(token('--paper'), token('--ink'))).toBeGreaterThanOrEqual(4.5);
+  });
+  it('the forecast tile marker is a glyph that inherits the tile text colour (no colour-only meaning, no new token)', () => {
+    expect(css).toMatch(/\.tile__fc \{[^}]*color: inherit;/);
+  });
+  it('horizon selector labels use the ink text token on the paper surface', () => {
+    expect(css).toMatch(/\.horizons label > span \{[^}]*color: var\(--ink\)/);
+  });
+});

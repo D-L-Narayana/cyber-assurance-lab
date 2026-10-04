@@ -16,7 +16,7 @@
 
 ## Data flow
 
-`fixture | paste/file → parseManifest/parsePolicy → classifyChanges → evaluateRelease (async, SHA-256) → React state → buildBundle → Blob download`. No persistence.
+`fixture | paste/file → parseManifest/parsePolicy → classifyChanges → evaluateRelease (async, SHA-256) → React state → remediationFor (pure derivation from evaluation + policy + manifest) → buildBundle → Blob download`. No persistence. The October 2026 remediation checklist adds no import path and no trust boundary: it reads only values the validator already accepted (ids, commits, policy numbers) and renders them as text nodes / plain Markdown.
 
 ## Dependency review (1 Oct 2026)
 
@@ -24,10 +24,10 @@ Runtime: react/react-dom 19.3.0 (MIT), @radix-ui/react-dialog 1.1.23 and @radix-
 
 ## Security headers
 
-Same `vercel.json` profile as the other candidates: CSP (`default-src 'self'`, no inline scripts, `frame-ancestors 'none'`), nosniff, DENY framing, no-referrer, restrictive Permissions-Policy, COOP. `style-src 'unsafe-inline'` is retained for Radix inline style attributes.
+`vercel.json` follows the lab-wide canonical profile adopted in the October 2026 upgrade round (`cleanUrls: true`, one rule for `/(.*)`): `Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`, `Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()`, `Cross-Origin-Opener-Policy: same-origin`, `Cross-Origin-Resource-Policy: same-origin` and `Strict-Transport-Security: max-age=63072000; includeSubDomains`. `default-src 'none'` makes every permitted source explicit; `style-src 'unsafe-inline'` is retained for Radix inline style attributes (script execution is not affected); `form-action 'none'` is compatible because the app has no `<form>` element — the policy editor and import dialog are textareas and buttons handled in React; fonts are self-hosted through `@fontsource-variable`, so `font-src 'self'` suffices. Earlier rounds used `default-src 'self'`, `base-uri 'self'`, `form-action 'self'` and sent no CORP or HSTS header.
 
 ## Unresolved limitations
 
 * `unverified` evidence (no inline artifact) does not block. This is a policy choice made visible as an amber signal and a warning; a stricter policy option ("require verifiable artifacts") is a sensible next step.
 * The as-of date input is day-granular; evidence timestamps are second-granular.
-* No screen-reader session recorded; keyboard navigation was checked manually and the train signals carry `role="img"` labels.
+* No screen-reader session recorded; keyboard navigation was checked manually and the train signals carry `role="img"` labels. (October 2026: the new checklist is a native `<details>`/`<ol>` — keyboard operable by construction — but it was checked by code review and computed contrast only, not by a browser run; the earlier axe results file is not in this repository, see `EVIDENCE.md`.)

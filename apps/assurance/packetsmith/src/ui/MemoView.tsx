@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { CATALOG, CATALOG_VERSION, PROCEDURES_VERSION, SUBSET_LABEL } from '../engine/catalog';
-import { controlStatus } from '../engine/packet';
+import { controlStatus, describeChain } from '../engine/packet';
 import type { Blocker, Packet } from '../engine/types';
 
 export function MemoView({ packet, digest, blockers, onClose }: { packet: Packet; digest: string; blockers: Blocker[]; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
+  const chain = describeChain(packet);
   useEffect(() => {
     const d = ref.current;
     if (d && !d.open) d.showModal();
@@ -27,7 +28,7 @@ export function MemoView({ packet, digest, blockers, onClose }: { packet: Packet
           <dt>Scope</dt><dd>{SUBSET_LABEL}</dd>
           <dt>Assessor / approver</dt><dd>{packet.meta.assessor} / {packet.meta.approver}</dd>
           <dt>As of · state</dt><dd>{packet.meta.asOf} · {packet.state}</dd>
-          <dt>Packet digest</dt><dd><code className="mono">{digest}</code></dd>
+          <dt>Packet digest</dt><dd><code className="mono">{digest}</code> <span className="small">(content only; excludes state and history)</span></dd>
         </dl>
         <h2>Control results</h2>
         <table>
@@ -62,7 +63,12 @@ export function MemoView({ packet, digest, blockers, onClose }: { packet: Packet
         <h2>Completeness</h2>
         {blockers.length === 0 ? <p>No blockers.</p> : <ul>{blockers.map((b, i) => <li key={i}>{b.message}</li>)}</ul>}
         <h2>History</h2>
-        {packet.history.length === 0 ? <p>No transitions yet.</p> : <ul>{packet.history.map((h, i) => <li key={i}>{h.at}: {h.from} → {h.to} by {h.actor}{h.note ? ` — ${h.note}` : ''}</li>)}</ul>}
+        {packet.history.length === 0 ? <p>No transitions yet.</p> : (
+          <>
+            <p>History chain: <strong>{chain.label}</strong> — {chain.detail} The chain is tamper-evident for this exported record; it does not prove who acted.</p>
+            <ul>{packet.history.map((h, i) => <li key={i}>{h.at}: {h.from} → {h.to} by {h.actor}{h.note ? ` — ${h.note}` : ''}{h.hash ? <> · hash <code className="mono small">{h.hash.slice(0, 12)}…</code></> : null}</li>)}</ul>
+          </>
+        )}
       </article>
     </dialog>
   );

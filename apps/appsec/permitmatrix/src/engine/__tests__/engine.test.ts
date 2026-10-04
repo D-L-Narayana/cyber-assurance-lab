@@ -123,7 +123,7 @@ describe('suite runner and findings', () => {
     expect(run.results.every((r) => r.verdict === 'pass')).toBe(true);
   });
 
-  it('classifies the four seeded flaws with OWASP API Security Top 10 (2023) ids', () => {
+  it('classifies the five seeded flaws with OWASP API Security Top 10 (2023) ids', () => {
     const c = contract();
     const run = runSuite(c, generateCases(c), vulnerableFlaws());
     const kinds = new Map(run.findings.map((f) => [`${f.endpoint}:${f.kind}`, f.owaspApi]));
@@ -131,7 +131,8 @@ describe('suite runner and findings', () => {
     expect(kinds.get('delete-user:function-bypass')).toBe('API5:2023');
     expect(kinds.get('patch-user:mass-assignment')).toBe('API3:2023');
     expect(kinds.get('get-user:sensitive-exposure')).toBe('API3:2023');
-    expect(run.findings).toHaveLength(4);
+    expect(kinds.get('create-invoice:mass-assignment')).toBe('API3:2023');
+    expect(run.findings).toHaveLength(5);
   });
 
   it('flags over-denial as a functional regression rather than a security pass', () => {
@@ -154,7 +155,7 @@ describe('report export', () => {
     const run = runSuite(c, generateCases(c), vulnerableFlaws());
     const report = buildReport(c, run, { build: 'vulnerable', generatedAt: '2026-10-01T00:00:00.000Z' });
     expect(report.schema).toBe('permitmatrix.report/1');
-    expect(report.summary.findings).toBe(4);
+    expect(report.summary.findings).toBe(5);
     const text = JSON.stringify(report);
     expect(text).not.toMatch(/mock-token-/);
     expect(text).toMatch(/Bearer \[redacted:/);
@@ -206,7 +207,7 @@ describe('contract validation — review regressions', () => {
   });
 });
 
-describe('sixth-Fable regressions — routing ambiguity and export labelling', () => {
+describe('sixth-review regressions — routing ambiguity and export labelling', () => {
   it('rejects two endpoints with the same method and path template', () => {
     const dup = { ...fixture, endpoints: [...fixture.endpoints, { id: 'get-invoice-admin', method: 'GET', path: '/invoices/{id}', resource: 'invoices', access: { roles: ['admin'], ownership: 'any' } }] };
     const r = validateContract(dup);
@@ -240,12 +241,91 @@ describe('sixth-Fable regressions — routing ambiguity and export labelling', (
     const server = createMockServer(c, []);
     const listed = server.handle({ method: 'GET', path: '/invoices', principal: 'p-mem-1' }).body?.items ?? [];
     for (const row of listed) expect(server.handle({ method: 'GET', path: `/invoices/${row.id}`, principal: 'p-mem-1' }).status).toBe(200);
-    expect(generateCases(c)).toHaveLength(83);
+    expect(generateCases(c)).toHaveLength(89);
   });
   it('states in the export that response bodies carry fictional field values even though headers are redacted', () => {
     const c = contract();
     const report = buildReport(c, runSuite(c, generateCases(c), vulnerableFlaws()), { build: 'vulnerable', generatedAt: '2026-10-01T00:00:00.000Z' });
     expect(report.dataNote).toMatch(/response bodies are not redacted/i);
     expect(report.dataNote).toMatch(/fictional/i);
+  });
+});
+
+describe('create-path mass-assignment probes (October 2026 upgrade round)', () => {
+  const probeId = 'create-invoice|p-admin-1|collection|write:status';
+
+  it('generates write:<field> probes on POST collection endpoints for expected-allow principals only', () => {
+    const cases = generateCases(contract()).filter((c) => c.endpoint === 'create-invoice');
+    expect(cases).toHaveLength(6);
+    const probes = cases.filter((c) => c.category === 'property');
+    expect(probes.map((c) => c.id)).toEqual([probeId, 'create-invoice|p-mgr-1|collection|write:status']);
+    for (const p of probes) {
+      expect(p.expected).toBe('allow');
+      expect(p.targetKind).toBe('collection');
+      expect(p.targetRecord).toBeUndefined();
+      expect(p.probeField).toBe('status');
+      expect(p.rationale).toMatch(/not in writableFields \[amount, memo\]/);
+    }
+    expect(cases.filter((c) => c.role === 'member').every((c) => c.expected === 'deny' && c.category === 'function')).toBe(true);
+  });
+
+  it('derives the non-writable set as the union of field names across the resource records minus writableFields, in first-seen order', () => {
+    const c = contract();
+    const extended: Contract = {
+      ...c,
+      resources: c.resources.map((r) => (r.id === 'invoices'
+        ? { ...r, records: [...r.records, { ...r.records[0], id: 'inv-9', fields: { ...r.records[0].fields, currency: 'EUR' } }] }
+        : r)),
+    };
+    const probes = generateCases(extended).filter((x) => x.endpoint === 'create-invoice' && x.principal === 'p-admin-1' && x.probeField);
+    expect(probes.map((p) => p.probeField)).toEqual(['status', 'currency']);
+    expect(generateCases(extended)).toEqual(generateCases(extended));
+  });
+
+  it('sends the writable fields plus the probe field, inspects the created record and reports mass-assignment only when the field was persisted', () => {
+    const c = contract();
+    const cases = generateCases(c);
+    const vulnerable = runSuite(c, cases, vulnerableFlaws());
+    const probe = vulnerable.results.find((r) => r.caseId === probeId)!;
+    expect(probe.request.method).toBe('POST');
+    expect(probe.request.path).toBe('/invoices');
+    expect(Object.keys(probe.request.body ?? {}).sort()).toEqual(['amount', 'memo', 'status']);
+    expect(probe.response.status).toBe(201);
+    expect(probe.verdict).toBe('mass-assignment');
+    expect(probe.explanation).toMatch(/"status"/);
+    const fixed = runSuite(c, cases, []);
+    const clean = fixed.results.find((r) => r.caseId === probeId)!;
+    expect(clean.response.status).toBe(201);
+    expect(clean.verdict).toBe('pass');
+    expect(fixed.findings).toEqual([]);
+    expect(fixed.results.every((r) => r.verdict === 'pass')).toBe(true);
+  });
+
+  it('adds exactly one finding (mass-assignment, API3:2023) relative to the four original flaws', () => {
+    const c = contract();
+    const cases = generateCases(c);
+    const original = runSuite(c, cases, vulnerableFlaws().filter((f) => f.endpoint !== 'create-invoice'));
+    const full = runSuite(c, cases, vulnerableFlaws());
+    expect(original.findings).toHaveLength(4);
+    expect(full.findings).toHaveLength(5);
+    const added = full.findings.filter((f) => !original.findings.some((o) => o.id === f.id));
+    expect(added).toHaveLength(1);
+    expect(added[0]).toMatchObject({ endpoint: 'create-invoice', kind: 'mass-assignment', owaspApi: 'API3:2023', severity: 'high' });
+    expect([...added[0].evidenceCases].sort()).toEqual([probeId, 'create-invoice|p-mgr-1|collection|write:status']);
+  });
+
+  it('measures the demo-contract numbers quoted in the documentation', () => {
+    const c = contract();
+    const cases = generateCases(c);
+    expect(c.endpoints).toHaveLength(7);
+    expect(vulnerableFlaws()).toHaveLength(5);
+    expect(cases).toHaveLength(89);
+    const vulnerable = buildReport(c, runSuite(c, cases, vulnerableFlaws()), { build: 'vulnerable', generatedAt: '2026-10-04T00:00:00.000Z' });
+    expect(vulnerable.summary.byVerdict).toEqual({ pass: 56, bypass: 15, 'over-deny': 0, exposure: 4, 'mass-assignment': 14, error: 0 });
+    expect(vulnerable.summary.findings).toBe(5);
+    expect(vulnerable.findings.map((f) => f.owaspApi).sort()).toEqual(['API1:2023', 'API3:2023', 'API3:2023', 'API3:2023', 'API5:2023']);
+    const fixed = buildReport(c, runSuite(c, cases, []), { build: 'fixed', generatedAt: '2026-10-04T00:00:00.000Z' });
+    expect(fixed.summary.byVerdict.pass).toBe(89);
+    expect(fixed.summary.findings).toBe(0);
   });
 });

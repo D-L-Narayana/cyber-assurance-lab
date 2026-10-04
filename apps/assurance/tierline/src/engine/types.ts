@@ -122,6 +122,19 @@ export interface QueueItem {
   priority: number;
 }
 
+/** What will lapse within a forecast horizon if nothing new is filed (October 2026 round). */
+export type ForecastKind = 'evidence-lapses' | 'exception-expires' | 'review-due';
+
+export interface ForecastItem {
+  vendorId: string;
+  vendorName: string;
+  tier: Tier;
+  kind: ForecastKind;
+  detail: string;
+  lapsesOn: string; // ISO date: last day of credit (evidence/exception expiry) or the review due date
+  daysUntil: number; // daysBetween(asOf, lapsesOn); 0 = lapses after today
+}
+
 export interface ValidationIssue {
   path: string;
   message: string;

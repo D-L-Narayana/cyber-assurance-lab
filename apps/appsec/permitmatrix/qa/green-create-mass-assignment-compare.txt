@@ -1,0 +1,52 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/appsec/permitmatrix
+# 2026-10-04T19:29:04.329Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/appsec/permitmatrix
+
+ ✓ src/engine/__tests__/engine.test.ts > contract validation > accepts the synthetic Ledgerly contract 13ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation > refuses any server that is not a mock:// or localhost target 1ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation > rejects contracts above the endpoint limit 1ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation > rejects endpoints that reference unknown roles or resources 0ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation > rejects malformed JSON and oversized text 0ms
+ ✓ src/engine/__tests__/engine.test.ts > case generation > derives own / peer / cross-tenant expectations for an owner-scoped endpoint 1ms
+ ✓ src/engine/__tests__/engine.test.ts > case generation > marks role-excluded calls as function-level denials 1ms
+ ✓ src/engine/__tests__/engine.test.ts > case generation > adds property-level cases for writable and sensitive field rules 0ms
+ ✓ src/engine/__tests__/engine.test.ts > case generation > is deterministic 17ms
+ ✓ src/engine/__tests__/engine.test.ts > mock server > fixed build denies a member reading a peer invoice 19ms
+ ✓ src/engine/__tests__/engine.test.ts > mock server > vulnerable build leaks the peer invoice (BOLA) 1ms
+ ✓ src/engine/__tests__/engine.test.ts > mock server > fixed build ignores non-writable fields and strips sensitive fields 1ms
+ ✓ src/engine/__tests__/engine.test.ts > mock server > returns 401 for unknown principals and 404 for unknown routes 9ms
+ ✓ src/engine/__tests__/engine.test.ts > suite runner and findings > reports no findings against the remediated build 16ms
+ ✓ src/engine/__tests__/engine.test.ts > suite runner and findings > classifies the five seeded flaws with OWASP API Security Top 10 (2023) ids 16ms
+ ✓ src/engine/__tests__/engine.test.ts > suite runner and findings > flags over-denial as a functional regression rather than a security pass 4ms
+ ✓ src/engine/__tests__/engine.test.ts > suite runner and findings > builds a coverage matrix of endpoints by roles 4ms
+ ✓ src/engine/__tests__/engine.test.ts > report export > produces a stable schema and never includes raw bearer tokens 6ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation — review regressions > measures the byte limit in UTF-8 bytes, not UTF-16 code units 1ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation — review regressions > rejects duplicate record ids within a resource 0ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation — review regressions > rejects non-finite numeric field values such as 1e999 0ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation — review regressions > caps servers, builds and flaws per build 1ms
+ ✓ src/engine/__tests__/engine.test.ts > contract validation — review regressions > does not throw on absurdly large lists passed as objects 39ms
+ ✓ src/engine/__tests__/engine.test.ts > sixth-review regressions — routing ambiguity and export labelling > rejects two endpoints with the same method and path template 8ms
+ ✓ src/engine/__tests__/engine.test.ts > sixth-review regressions — routing ambiguity and export labelling > rejects parameter names other than {id}, more than one parameter, and templates that differ only by parameter name 3ms
+ ✓ src/engine/__tests__/engine.test.ts > sixth-review regressions — routing ambiguity and export labelling > routes a literal path to its own endpoint even when registered after a {id} sibling 30ms
+ ✓ src/engine/__tests__/engine.test.ts > sixth-review regressions — routing ambiguity and export labelling > keeps the demo contract self-consistent: list and item scope agree, and the remediated build never lists a record the item route would deny 1ms
+ ✓ src/engine/__tests__/engine.test.ts > sixth-review regressions — routing ambiguity and export labelling > states in the export that response bodies carry fictional field values even though headers are redacted 43ms
+ ✓ src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > generates write:<field> probes on POST collection endpoints for expected-allow principals only 1ms
+ ✓ src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > derives the non-writable set as the union of field names across the resource records minus writableFields, in first-seen order 2ms
+ ✓ src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > sends the writable fields plus the probe field, inspects the created record and reports mass-assignment only when the field was persisted 5ms
+ ✓ src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > adds exactly one finding (mass-assignment, API3:2023) relative to the four original flaws 11ms
+ ✓ src/engine/__tests__/engine.test.ts > create-path mass-assignment probes (October 2026 upgrade round) > measures the demo-contract numbers quoted in the documentation 34ms
+ ✓ src/engine/__tests__/compare.test.ts > run comparison (retest) > closes every 1.4.0 finding when the suite is re-run on 1.4.1 and lists per-case verdict changes sorted by case id 37ms
+ ✓ src/engine/__tests__/compare.test.ts > run comparison (retest) > reports opened findings in the other direction and persisted findings when both runs share them 54ms
+ ✓ src/engine/__tests__/compare.test.ts > run comparison (retest) > yields an empty diff for identical runs 12ms
+ ✓ src/engine/__tests__/compare.test.ts > run comparison (retest) > is deterministic 36ms
+ ✓ src/engine/__tests__/compare.test.ts > run comparison (retest) > is embedded in the report as an additive optional field and a Markdown "Retest" section 33ms
+
+ Test Files  2 passed (2)
+      Tests  38 passed (38)
+   Start at  19:29:06
+   Duration  1.65s (transform 482ms, setup 0ms, import 552ms, tests 482ms, environment 0ms)
+

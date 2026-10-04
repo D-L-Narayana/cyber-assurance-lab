@@ -1,0 +1,39 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/appsec/seamline
+# 2026-10-04T20:58:38.826Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/appsec/seamline
+
+ ✓ src/engine/__tests__/seamline.test.ts > scenario validation > accepts the synthetic Brewline scenario 2ms
+ ✓ src/engine/__tests__/seamline.test.ts > scenario validation > rejects unknown tamper kinds, unknown users/skus, duplicate step ids and replay of a later step 1ms
+ ✓ src/engine/__tests__/seamline.test.ts > scenario validation > bounds size, step count, nesting and numeric sanity 23ms
+ ✓ src/engine/__tests__/seamline.test.ts > tamper layer > price-rewrite lowers unit prices and total but keeps items and skus 4ms
+ ✓ src/engine/__tests__/seamline.test.ts > tamper layer > replay copies the nonce and payload of the referenced earlier message 5ms
+ ✓ src/engine/__tests__/seamline.test.ts > trusting server (client-authoritative) > accepts every step and charges the client-supplied total 0ms
+ ✓ src/engine/__tests__/seamline.test.ts > trusting server (client-authoritative) > raises one finding per tampered step with CWE mapping 0ms
+ ✓ src/engine/__tests__/seamline.test.ts > trusting server (client-authoritative) > labels price and role as client-controlled 0ms
+ ✓ src/engine/__tests__/seamline.test.ts > enforcing server (server-authoritative) > neutralizes price, coupon and role tampering by recomputing from server state 0ms
+ ✓ src/engine/__tests__/seamline.test.ts > enforcing server (server-authoritative) > rejects replay, backdated and cross-user requests with named checks 0ms
+ ✓ src/engine/__tests__/seamline.test.ts > enforcing server (server-authoritative) > accepts every untampered step and produces no findings 0ms
+ ✓ src/engine/__tests__/seamline.test.ts > enforcing server (server-authoritative) > keeps the reward balance consistent: one redemption, not two 8ms
+ ✓ src/engine/__tests__/seamline.test.ts > determinism and export > is deterministic 2ms
+ ✓ src/engine/__tests__/seamline.test.ts > determinism and export > exports a stable schema without raw session tokens 2ms
+ ✓ src/engine/__tests__/seamline.test.ts > sixth-review regression — findings must come from client/server divergence, not the tamper label > flags an untampered step whose client total disagrees with the catalog when the trusting server bills it 6ms
+ ✓ src/engine/__tests__/seamline.test.ts > sixth-review regression — findings must come from client/server divergence, not the tamper label > records divergences for every tampered step on the trusting server and none for consistent steps 1ms
+ ✓ src/engine/__tests__/seamline.test.ts > sixth-review regression — findings must come from client/server divergence, not the tamper label > a tamper label without actual divergence produces no finding 0ms
+ ✓ src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > accepts catalog maxQty as an integer 1–10 000 (optional, default 99) and rejects anything else 2ms
+ ✓ src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > validates the quantity-rewrite tamper: place-order only, with an optional finite value 11ms
+ ✓ src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > accepts client quantities outside 1–maxQty at import time (the server, not the schema, judges them) while bounding their magnitude 6ms
+ ✓ src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > quantity-rewrite sets items[0].qty to the scripted value (default -1), recomputes the total from the client’s own unit prices and leaves the original untouched 1ms
+ ✓ src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > trusting server accepts the rewritten quantity, bills a negative total and raises a CWE-20 finding keyed by the quantity-bounds invariant 1ms
+ ✓ src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > enforcing server runs quantity-valid, fails it and rejects the order without creating it; valid quantities pass the check 1ms
+ ✓ src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > flags an untampered step whose client sends qty 0 exactly like the tampered one — divergence, not label 4ms
+ ✓ src/engine/__tests__/seamline.test.ts > eighth invariant — quantity-bounds (October 2026 round) > applies the per-item maxQty (default 99), accepts in-range rewrites silently, flags fractions, and lets price outrank quantity in the finding 7ms
+
+ Test Files  1 passed (1)
+      Tests  25 passed (25)
+   Start at  20:58:40
+   Duration  731ms (transform 295ms, setup 0ms, import 333ms, tests 93ms, environment 0ms)
+

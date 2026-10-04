@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import demoJson from '../fixtures/demo.json';
-import { computeDue, executePlan, exportAudit, planDisposal, reconcile, validateFixture, verifyChain } from '../engine/ledger';
-import type { ChainVerification, DueItem, Fixture, Plan, Receipt } from '../engine/types';
+import { computeDue, executePlan, exportAudit, planDisposal, reconcile, releaseHold, reinstateHold, validateFixture, verifyChain, HOLD_ACTOR_MAX, HOLD_REASON_MIN } from '../engine/ledger';
+import type { ChainVerification, DueItem, Fixture, HoldAction, Plan, Receipt } from '../engine/types';
 import { parseBoundedJson } from '../engine/safe';
 import { downloadText } from './download';
 
@@ -19,6 +19,7 @@ export function App() {
   const [verdict, setVerdict] = useState<(ChainVerification & { on: string }) | null>(null);
   const [notice, setNotice] = useState<{ tone: 'ok' | 'bad' | 'warn'; text: string } | null>(null);
   const [focus, setFocus] = useState<string | null>(null);
+  const [holdForm, setHoldForm] = useState<{ holdId: string; action: HoldAction; actor: string; reason: string; on: string; error: string | null } | null>(null);
 
   const working = { ...fixture, asOf };
   const due = useMemo(() => computeDue(working, asOf), [fixture, asOf]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -42,9 +43,15 @@ export function App() {
   };
   const verify = async () => { const v = await verifyChain(shown); setVerdict({ ...v, on: tampered ? 'tampered copy' : 'ledger' }); };
   const tamper = () => { if (receipts.length < 2) return; const i = Math.floor(receipts.length / 2); setTampered(receipts.map((r, k) => k === i ? { ...r, action: r.action === 'delete' ? 'anonymise' : 'delete' } : r)); setVerdict(null); setNotice({ tone: 'warn', text: `Demo: flipped the action on receipt #${receipts[i]!.seq} in a copy of the ledger. Verify to see detection.` }); };
-  const toggleHold = (id: string) => {
-    setFixture({ ...fixture, holds: fixture.holds.map((h) => h.id !== id ? h : { ...h, releasedOn: h.releasedOn === null || Date.parse(h.releasedOn) > Date.parse(asOf) ? asOf : null }) });
-    setNotice({ tone: 'ok', text: `Hold ${id} toggled as of ${asOf}; due states recomputed and the next plan id will differ.` });
+  const openHoldForm = (holdId: string, action: HoldAction) => setHoldForm({ holdId, action, actor: '', reason: '', on: asOf, error: null });
+  const submitHold = () => {
+    if (!holdForm) return;
+    const fn = holdForm.action === 'release' ? releaseHold : reinstateHold;
+    const r = fn(working, { holdId: holdForm.holdId, on: holdForm.on, actor: holdForm.actor, reason: holdForm.reason });
+    if (!r.ok) { setHoldForm({ ...holdForm, error: r.error }); setNotice({ tone: 'bad', text: `Hold change refused: ${r.error}` }); return; }
+    setFixture({ ...r.fixture, asOf: fixture.asOf });
+    setHoldForm(null);
+    setNotice({ tone: 'ok', text: `Hold ${holdForm.holdId} ${holdForm.action === 'release' ? 'released' : 'reinstated'} as of ${holdForm.on} by ${holdForm.actor.trim()} (trail event #${r.fixture.holdHistory?.length ?? 0}); due states recomputed and the next plan id will differ.` });
   };
   const onImport = async (file?: File) => {
     if (!file) return;
@@ -144,14 +151,39 @@ export function App() {
         <div className="col right">
           <section aria-labelledby="hold-h">
             <h2 id="hold-h">Legal holds<span className="mono">{fixture.holds.filter((h) => h.releasedOn === null || Date.parse(h.releasedOn) > Date.parse(asOf)).length} active</span></h2>
+            <p className="note">Releasing or reinstating a hold needs an actor, a reason of at least {HOLD_REASON_MIN} characters and an effective date; the engine refuses dates before the hold was placed (or before its release) and appends every accepted change to the hold history below.</p>
             <ul className="holds">
-              {fixture.holds.map((h) => { const active = Date.parse(h.placedOn) <= Date.parse(asOf) && (h.releasedOn === null || Date.parse(h.releasedOn) > Date.parse(asOf)); return (
+              {fixture.holds.map((h) => { const active = Date.parse(h.placedOn) <= Date.parse(asOf) && (h.releasedOn === null || Date.parse(h.releasedOn) > Date.parse(asOf)); const open = holdForm?.holdId === h.id ? holdForm : null; return (
                 <li key={h.id} className={active ? '' : 'released'}>
-                  <div className="row"><strong>{h.name}</strong><button className="btn hold" onClick={() => toggleHold(h.id)}>{active ? 'Release as of ' + asOf : 'Reinstate'}</button></div>
+                  <div className="row"><strong>{h.name}</strong>
+                    {h.releasedOn === null
+                      ? <button className="btn hold" aria-label={`Release ${h.id}`} aria-expanded={open?.action === 'release'} onClick={() => openHoldForm(h.id, 'release')}>Release…</button>
+                      : <button className="btn hold" aria-label={`Reinstate ${h.id}`} aria-expanded={open?.action === 'reinstate'} onClick={() => openHoldForm(h.id, 'reinstate')}>Reinstate…</button>}
+                  </div>
                   <span className="mono">{h.id} · placed {h.placedOn}{h.releasedOn ? ` · released ${h.releasedOn}` : ''} · {h.authority}</span>
                   <span className="mono">scope {Object.entries(h.scope).map(([k, v]) => `${k}=${Array.isArray(v) ? v.join('|') : v}`).join(' ')}</span>
+                  {open && (
+                    <form className="hold-form" aria-label={`${open.action === 'release' ? 'Release' : 'Reinstate'} ${h.id}`} onSubmit={(e) => { e.preventDefault(); submitHold(); }}>
+                      <label className="field">Actor<input type="text" value={open.actor} maxLength={HOLD_ACTOR_MAX} autoComplete="off" onChange={(e) => setHoldForm({ ...open, actor: e.target.value, error: null })} /></label>
+                      <label className="field">Reason<textarea rows={2} value={open.reason} onChange={(e) => setHoldForm({ ...open, reason: e.target.value, error: null })} /></label>
+                      <label className="field">Effective date<input type="date" value={open.on} onChange={(e) => setHoldForm({ ...open, on: e.target.value, error: null })} /></label>
+                      {open.error && <p className="verdict bad" role="alert">{open.error}</p>}
+                      <div className="actions">
+                        <button type="submit" className="btn hold">{open.action === 'release' ? 'Confirm release' : 'Confirm reinstatement'}</button>
+                        <button type="button" className="btn ghost" onClick={() => setHoldForm(null)}>Cancel</button>
+                      </div>
+                    </form>
+                  )}
                 </li>); })}
             </ul>
+            <h3 className="sub">Hold history<span className="mono">{(fixture.holdHistory ?? []).length} events</span></h3>
+            {(fixture.holdHistory ?? []).length === 0
+              ? <p className="note">No releases or reinstatements recorded yet. Every accepted change is appended here with its actor and reason and travels in the audit export.</p>
+              : (
+                <ol className="trail" aria-label="Hold history">
+                  {(fixture.holdHistory ?? []).map((e) => <li key={e.seq}><span className="mono">#{e.seq} · {e.on}</span> <strong>{e.action === 'release' ? 'Released' : 'Reinstated'}</strong> <span className="mono">{e.holdId}</span> by {e.actor} — {e.reason}</li>)}
+                </ol>
+              )}
           </section>
 
           <section aria-labelledby="chain-h">

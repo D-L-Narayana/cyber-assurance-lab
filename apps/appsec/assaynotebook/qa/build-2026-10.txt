@@ -1,0 +1,31 @@
+$ npm run build
+# cwd apps/appsec/assaynotebook
+# 2026-10-04T20:45:46.307Z v20.20.1
+# exit 0
+
+
+> assaynotebook@0.1.0 build
+> tsc -p tsconfig.json --noEmit && vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 52 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                       0.69 kB │ gzip:  0.38 kB
+dist/assets/jetbrains-mono-cyrillic-ext-wght-normal-EocZY2iu.woff2    2.03 kB
+dist/assets/jetbrains-mono-vietnamese-wght-normal-Bt-aOZkq.woff2      7.50 kB
+dist/assets/jetbrains-mono-greek-wght-normal-Bw9x6K1M.woff2           9.00 kB
+dist/assets/literata-cyrillic-ext-wght-normal-CGKlZYBf.woff2          9.73 kB
+dist/assets/literata-vietnamese-wght-normal-LcSrhZ7T.woff2           11.41 kB
+dist/assets/jetbrains-mono-cyrillic-wght-normal-D73BlboJ.woff2       12.11 kB
+dist/assets/literata-greek-ext-wght-normal-e3e57Shi.woff2            12.19 kB
+dist/assets/jetbrains-mono-latin-ext-wght-normal-DBQx-q_a.woff2      15.20 kB
+dist/assets/literata-greek-wght-normal-CO1l-giJ.woff2                19.25 kB
+dist/assets/literata-cyrillic-wght-normal-DLqwHbi6.woff2             28.07 kB
+dist/assets/jetbrains-mono-latin-wght-normal-B9CIFXIH.woff2          40.40 kB
+dist/assets/literata-latin-ext-wght-normal-BnEbWgdZ.woff2            42.66 kB
+dist/assets/literata-latin-wght-normal-DLxlUchJ.woff2                52.50 kB
+dist/assets/index-stiUrtlD.css                                       12.48 kB │ gzip:  3.12 kB
+dist/assets/index-2Mss8l4k.js                                       276.72 kB │ gzip: 87.95 kB
+✓ built in 4.01s

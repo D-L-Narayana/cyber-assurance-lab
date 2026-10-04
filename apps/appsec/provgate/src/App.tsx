@@ -6,6 +6,7 @@ import rel141 from './fixtures/release-1.4.1.json';
 import policyFixture from './fixtures/policy-default.json';
 import { LIMITS, parseManifest, parsePolicy, validateManifest, validatePolicy } from './engine/schema';
 import { evaluateRelease } from './engine/gate';
+import { remediationFor } from './engine/remediation';
 import { buildBundle, bundleToMarkdown } from './engine/bundle';
 import type { Evaluation, Evidence, EvidenceType, Manifest, Policy, RequirementResult } from './engine/types';
 
@@ -71,6 +72,7 @@ export default function App() {
 
   const evidenceById = useMemo(() => new Map(manifest.evidence.map((e) => [e.id, e])), [manifest]);
   const reqByType = useMemo(() => new Map((evaluation?.requirements ?? []).map((r) => [r.type, r])), [evaluation]);
+  const remediation = useMemo(() => (evaluation ? remediationFor(evaluation, { policy, manifest }) : []), [evaluation, policy, manifest]);
   const unverified = (r: RequirementResult) => r.hashStatus === 'unverified';
 
   function applyPolicy() {
@@ -210,6 +212,20 @@ export default function App() {
               <span className={`verdict v-${evaluation?.verdict ?? ''}`}>{evaluation?.verdict.replace(/-/g, ' ') ?? '…'}</span>
               {evaluation && evaluation.blockers.length > 0 && (<><strong>Blockers</strong><ul>{evaluation.blockers.map((b) => <li key={b}>{b}</li>)}</ul></>)}
               {evaluation && evaluation.blockers.length === 0 && <span className="why">Every required evidence item is present, current, for the right commit and produced by eligible people{acceptedFindings.length ? `; ${acceptedFindings.length} finding(s) carried under a valid, time-boxed risk acceptance.` : '.'}</span>}
+              {evaluation && remediation.length > 0 && (
+                <details className="remediation" open={evaluation.verdict === 'blocked'}>
+                  <summary>Remediation checklist ({remediation.length})</summary>
+                  <ol aria-label="Remediation checklist">
+                    {remediation.map((i, idx) => (
+                      <li key={`${i.code}|${i.target}|${idx}`}>
+                        <span className="r-head"><b>{i.code}</b> <code>{i.target}</code></span>
+                        <span className="r-action">{i.action}</span>
+                      </li>
+                    ))}
+                  </ol>
+                  <span className="why">One item per problem code the gate raised; actions quote the active policy’s limits. Exported with the bundle and the memo.</span>
+                </details>
+              )}
               {evaluation && evaluation.warnings.length > 0 && (<><strong>Warnings (non-blocking)</strong><ul className="warnings">{evaluation.warnings.map((w) => <li key={w}>{w}</li>)}</ul></>)}
               {otherFindings.length > 0 && <span className="why">{otherFindings.length} finding(s) below threshold or fixed.</span>}
             </div>

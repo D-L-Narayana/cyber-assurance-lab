@@ -1,5 +1,6 @@
+# note: absolute paths of the original build environment were replaced by <original-build> after capture (text only; test ids, results and counts unchanged)
 
- RUN  v3.2.7 /home/user/workspace/cyber-portfolio/candidates/appsec/permitmatrix
+ RUN  v3.2.7 <original-build>/appsec/permitmatrix
 
  ✓ src/engine/__tests__/engine.test.ts (18 tests) 30ms
 

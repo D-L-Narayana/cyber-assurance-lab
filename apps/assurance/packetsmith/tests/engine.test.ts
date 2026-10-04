@@ -313,7 +313,7 @@ describe('bundled fixture', () => {
   });
 });
 
-describe('sixth-Fable review regressions — separation of duties up front, imported history consistency', () => {
+describe('sixth review regressions — separation of duties up front, imported history consistency', () => {
   it('the completeness gate flags assessor == approver as a blocker before anyone tries to approve', () => {
     const p = complete();
     p.meta.approver = p.meta.assessor;

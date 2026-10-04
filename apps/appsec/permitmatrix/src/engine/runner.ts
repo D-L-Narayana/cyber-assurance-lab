@@ -1,6 +1,6 @@
 import { probeValue } from './cases';
 import { createMockServer } from './mockServer';
-import type { CaseResult, Contract, Coverage, Endpoint, FieldValue, Finding, FindingKind, Flaw, MockRequest, SuiteRun, TestCase, Verdict } from './types';
+import type { CaseResult, Contract, Coverage, Endpoint, FieldValue, Finding, FindingKind, Flaw, MockRequest, RecordRow, SuiteRun, TestCase, Verdict } from './types';
 
 const SECRET_LIKE = /password|secret|token|hash|ssn|key/i;
 
@@ -23,15 +23,28 @@ const TITLES: Record<FindingKind, string> = {
 const REMEDIATION: Record<FindingKind, string> = {
   'object-bypass': 'Resolve the record first, then compare its owner/tenant to the authenticated subject before any read or write. Centralize this in one authorization helper and add a negative test per endpoint.',
   'function-bypass': 'Enforce the role list from the contract in middleware that runs before the handler; deny by default for any route without an explicit policy.',
-  'mass-assignment': 'Bind request bodies to an explicit allow-list DTO (writableFields) and discard everything else; never spread the raw body onto the entity.',
+  'mass-assignment': 'Bind request bodies to an explicit allow-list DTO (writableFields) and discard everything else; never spread the raw body onto the entity — on create as well as on update.',
   'sensitive-exposure': 'Project responses through a view model that omits sensitive fields; strip at the serializer so every endpoint inherits the rule.',
   'over-deny': 'Not a security weakness: the server denies traffic the contract says should succeed. Fix the policy or the contract so expectations agree.',
 };
 
-function buildRequest(endpoint: Endpoint, testCase: TestCase, currentFields: Record<string, FieldValue>): MockRequest {
+/** A representative value for a field: taken from the first record on the resource that carries it (contract order). */
+function representative(records: RecordRow[], field: string): FieldValue | undefined {
+  for (const r of records) if (Object.prototype.hasOwnProperty.call(r.fields, field)) return r.fields[field];
+  return undefined;
+}
+
+function buildRequest(endpoint: Endpoint, testCase: TestCase, currentFields: Record<string, FieldValue>, records: RecordRow[]): MockRequest {
   const path = testCase.targetRecord ? endpoint.path.replace('{id}', testCase.targetRecord) : endpoint.path;
   const request: MockRequest = { method: endpoint.method, path, principal: testCase.principal };
-  if (endpoint.method === 'PATCH' || endpoint.method === 'PUT' || endpoint.method === 'POST') {
+  if (endpoint.method === 'POST' && !testCase.targetRecord) {
+    // Create path: send every writable field so the request is a plausible create, plus the probed
+    // non-writable field. Values are derived from representative record values so types stay realistic.
+    const body: Record<string, FieldValue> = {};
+    for (const field of endpoint.writableFields ?? []) body[field] = probeValue(representative(records, field));
+    if (testCase.probeField) body[testCase.probeField] = probeValue(representative(records, testCase.probeField));
+    request.body = body;
+  } else if (endpoint.method === 'PATCH' || endpoint.method === 'PUT' || endpoint.method === 'POST') {
     const body: Record<string, FieldValue> = {};
     const first = endpoint.writableFields?.[0];
     if (first) body[first] = probeValue(currentFields[first]);
@@ -52,6 +65,7 @@ function severityFor(kind: FindingKind, endpoint: Endpoint, probeFields: string[
 export function runSuite(contract: Contract, cases: TestCase[], flaws: Flaw[]): SuiteRun {
   const endpoints = new Map(contract.endpoints.map((e) => [e.id, e]));
   const principals = new Map(contract.principals.map((p) => [p.id, p]));
+  const recordsByResource = new Map(contract.resources.map((r) => [r.id, r.records]));
   const results: CaseResult[] = [];
 
   for (const testCase of cases) {
@@ -59,7 +73,7 @@ export function runSuite(contract: Contract, cases: TestCase[], flaws: Flaw[]): 
     const principal = principals.get(testCase.principal)!;
     const server = createMockServer(contract, flaws);
     const before = testCase.targetRecord ? server.inspect(endpoint.resource, testCase.targetRecord) : undefined;
-    const request = buildRequest(endpoint, testCase, before?.fields ?? {});
+    const request = buildRequest(endpoint, testCase, before?.fields ?? {}, recordsByResource.get(endpoint.resource) ?? []);
     const response = server.handle(request);
     const ok = response.status >= 200 && response.status < 300;
 
@@ -74,6 +88,22 @@ export function runSuite(contract: Contract, cases: TestCase[], flaws: Flaw[]): 
     } else if (!ok) {
       verdict = 'over-deny';
       explanation = `Contract expects success but the server answered ${response.status}.`;
+    } else if (testCase.probeField && endpoint.method === 'POST' && !testCase.targetRecord) {
+      // Create-path oracle: the response alone proves nothing (201 either way), so read the record the
+      // server created, the way an integration test would query the database after the call.
+      const createdId = response.body?.id;
+      const created = createdId ? server.inspect(endpoint.resource, createdId) : undefined;
+      const sent = request.body?.[testCase.probeField];
+      if (!created) {
+        verdict = 'error';
+        explanation = `Server answered ${response.status} but did not identify the created record, so "${testCase.probeField}" could not be inspected.`;
+      } else {
+        const persisted = Object.prototype.hasOwnProperty.call(created.fields, testCase.probeField) && created.fields[testCase.probeField] === sent;
+        verdict = persisted ? 'mass-assignment' : 'pass';
+        explanation = persisted
+          ? `Server state shows the created record ${created.id} carries non-writable "${testCase.probeField}" = ${JSON.stringify(sent)} taken from the request body.`
+          : `"${testCase.probeField}" was discarded; created record ${created.id} does not carry it.`;
+      }
     } else if (testCase.probeField && (endpoint.method === 'PATCH' || endpoint.method === 'PUT')) {
       const after = server.inspect(endpoint.resource, testCase.targetRecord!);
       const changed = after && before && after.fields[testCase.probeField] !== before.fields[testCase.probeField];
@@ -90,7 +120,7 @@ export function runSuite(contract: Contract, cases: TestCase[], flaws: Flaw[]): 
         endpoint.access.ownership === 'own' ? item.owner !== principal.id : endpoint.access.ownership === 'same-tenant' ? item.tenant !== principal.tenant : false,
       );
       verdict = outOfScope.length ? 'bypass' : 'pass';
-      explanation = outOfScope.length ? `Listing returned ${outOfScope.length} record(s) outside the caller\u2019s scope: ${outOfScope.map((i) => i.id).join(', ')}.` : `All ${response.body.items.length} listed records are inside the caller\u2019s scope.`;
+      explanation = outOfScope.length ? `Listing returned ${outOfScope.length} record(s) outside the caller’s scope: ${outOfScope.map((i) => i.id).join(', ')}.` : `All ${response.body.items.length} listed records are inside the caller’s scope.`;
     } else {
       verdict = 'pass';
       explanation = `Allowed with ${response.status} as the contract requires.`;

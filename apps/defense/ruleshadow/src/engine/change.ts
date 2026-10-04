@@ -38,6 +38,7 @@ export function proposeChange(rules: Rule[], f: Finding, opts: ProposalOptions):
     }
     case 'overbroad': return review(`Manual review required: ${rule?.id} allows ${rule?.src} → ${rule?.dst} on ${rule?.ports === 'any' ? 'all ports' : `ports ${rule?.ports}`}. Replace it with rules scoped to named source and destination zones/hosts and the services they actually use; the engine cannot derive those scopes from the rule table. Disabling a troubleshooting rule may also be appropriate after confirming with ${rule?.owner || 'the (unassigned) owner'}.`);
     case 'conflict': return review(`Review ${rule?.id} vs ${f.relatedRuleIds.join(', ')} with both owners; no automatic change.`);
+    case 'partially-shadowed': return review(`Manual review required: earlier rule(s) ${f.relatedRuleIds.join(', ')} already match part or all of ${rule?.id}'s address × port space (the finding detail gives the share). Either narrow ${rule?.id} to the uncovered remainder or confirm the overlap is intentional with owner ${rule?.owner || '(unassigned)'}; the engine does not rewrite address scopes.`);
     case 'no-final-deny': {
       const maxSeq = rules.reduce((m, r) => Math.max(m, r.seq), 0);
       return { ...base, op: 'add-rule', rationale: 'Append an explicit logged deny-all (all zones, protocols and ports).', after: null, newRule: { id: 'DENY-ALL', seq: maxSeq + 1, action: 'deny', src: 'any', dst: 'any', proto: 'any', ports: 'any', zoneFrom: 'any', zoneTo: 'any', enabled: true, owner: 'netsec', expires: '', lastHit: '', comment: 'Explicit final deny with logging' } };

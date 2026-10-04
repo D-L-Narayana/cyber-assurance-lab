@@ -6,7 +6,7 @@ import { effectiveRetentionDays, MAX_EXCEPTION_TERM_DAYS, runChecks } from './ch
 import { retentionReviews } from './review';
 import { findingsToCsv, parseCatalog, serializeCatalog } from './catalogIO';
 import demo from '../fixtures/demo-catalog.json';
-import type { Catalog, DataElement, Flow, System } from './types';
+import type { Catalog, DataElement, ExceptionSubject, FindingCode, Flow, RetentionException, System } from './types';
 
 function load(): Catalog {
   const r = parseCatalog(JSON.stringify(demo));
@@ -329,7 +329,7 @@ describe('strict dates (review finding)', () => {
   });
 });
 
-describe('exception policy bounds (sixth-Fable finding)', () => {
+describe('exception policy bounds (review finding, 2026-10-01)', () => {
   const setup = () => {
     const c = load();
     const findings = runChecks(c, buildGraph(c), c.asOf);
@@ -361,5 +361,112 @@ describe('exception policy bounds (sixth-Fable finding)', () => {
     const c = load();
     const f = runChecks(c, buildGraph(c), c.asOf);
     expect(f.filter((y) => y.accepted).map((y) => y.exceptionId)).toContain('ex-001');
+  });
+});
+
+describe('flow-subject exceptions (October 2026 upgrade round)', () => {
+  const approved = (id: string, subject: ExceptionSubject, code: FindingCode, extra: Partial<RetentionException> = {}): RetentionException => ({
+    id, subject, acceptsFinding: code, rationale: 'Synthetic accepted risk with a documented compensating control.', approvedBy: 'own-a', approvedOn: '2026-09-01', expiresOn: '2027-08-31', status: 'approved', ...extra,
+  });
+  const unmapped = () => { const c = tiny(); c.systems[1]!.region = 'US'; c.flows[0]!.mechanism = 'none'; return c; };
+  const drift = () => { const c = tiny(); c.systems[1]!.purposes = ['payroll']; return c; };
+  const run = (c: Catalog) => runChecks(c, buildGraph(c), c.asOf);
+
+  it('an approved flow exception accepts UNMAPPED_TRANSFER on that flow', () => {
+    const c = unmapped();
+    c.exceptions.push(approved('exf', { kind: 'flow', id: 'f1' }, 'UNMAPPED_TRANSFER'));
+    const f = run(c).find((x) => x.code === 'UNMAPPED_TRANSFER')!;
+    expect(f.accepted).toBe(true);
+    expect(f.exceptionId).toBe('exf');
+  });
+
+  it('PURPOSE_DRIFT needs the exact flow/element subject; a flow-wide exception does not blanket-accept drift', () => {
+    const c = drift();
+    c.exceptions.push(approved('ex-wide', { kind: 'flow', id: 'f1' }, 'PURPOSE_DRIFT'));
+    expect(run(c).find((x) => x.code === 'PURPOSE_DRIFT')!.accepted).toBe(false);
+    c.exceptions.push(approved('ex-exact', { kind: 'flow', id: 'f1/crm.email' }, 'PURPOSE_DRIFT'));
+    const f = run(c).find((x) => x.code === 'PURPOSE_DRIFT')!;
+    expect(f.subject.id).toBe('f1/crm.email');
+    expect(f.accepted).toBe(true);
+    expect(f.exceptionId).toBe('ex-exact');
+  });
+
+  it('a flow exception accepts DANGLING_FLOW; an element-kind exception never accepts a flow finding', () => {
+    const c = tiny();
+    c.flows[0]!.elementIds = ['dwh.email'];
+    c.exceptions.push(approved('ex-el', { kind: 'element', id: 'f1' }, 'DANGLING_FLOW'));
+    expect(run(c).find((x) => x.code === 'DANGLING_FLOW')!.accepted).toBe(false);
+    c.exceptions.push(approved('ex-fl', { kind: 'flow', id: 'f1' }, 'DANGLING_FLOW'));
+    expect(run(c).find((x) => x.code === 'DANGLING_FLOW')!.exceptionId).toBe('ex-fl');
+  });
+
+  it('flow exceptions obey the same policy guards: expiry, approver activity and the term cap', () => {
+    const expired = unmapped();
+    expired.exceptions.push(approved('ex-old', { kind: 'flow', id: 'f1' }, 'UNMAPPED_TRANSFER', { approvedOn: '2025-01-01', expiresOn: '2026-01-01' }));
+    let f = run(expired);
+    expect(f.find((x) => x.code === 'UNMAPPED_TRANSFER')!.accepted).toBe(false);
+    expect(f.find((x) => x.code === 'EXCEPTION_EXPIRED')!.message).toMatch(/flow f1/);
+    const gone = unmapped();
+    gone.owners.push({ id: 'own-gone', name: 'Left', team: 'Data', active: false });
+    gone.exceptions.push(approved('ex-gone', { kind: 'flow', id: 'f1' }, 'UNMAPPED_TRANSFER', { approvedBy: 'own-gone' }));
+    f = run(gone);
+    expect(f.find((x) => x.code === 'UNMAPPED_TRANSFER')!.accepted).toBe(false);
+    expect(f.some((x) => x.code === 'EXCEPTION_APPROVER_INACTIVE')).toBe(true);
+    const long = unmapped();
+    long.exceptions.push(approved('ex-long', { kind: 'flow', id: 'f1' }, 'UNMAPPED_TRANSFER', { expiresOn: '2030-01-01' }));
+    f = run(long);
+    expect(f.find((x) => x.code === 'UNMAPPED_TRANSFER')!.accepted).toBe(false);
+    expect(f.find((x) => x.code === 'EXCEPTION_OUT_OF_POLICY')!.systemId).toBe('dwh'); // exception findings on a flow attach to the receiving system
+  });
+
+  it('legacy exceptions without a subject still target their elementId; when both are present the subject wins', () => {
+    const legacy = tiny();
+    legacy.elements[1]!.retentionDaysOverride = 3650;
+    legacy.exceptions.push({ id: 'ex-legacy', elementId: 'dwh.email', acceptsFinding: 'RETENTION_INFLATION', rationale: 'legacy shape', approvedBy: 'own-a', approvedOn: '2026-09-01', expiresOn: '2027-08-31', status: 'approved' });
+    expect(run(legacy).find((x) => x.code === 'RETENTION_INFLATION')!.exceptionId).toBe('ex-legacy');
+    const both = tiny();
+    both.elements[1]!.retentionDaysOverride = 3650;
+    both.exceptions.push({ id: 'ex-both', elementId: 'dwh.email', subject: { kind: 'element', id: 'crm.email' }, acceptsFinding: 'RETENTION_INFLATION', rationale: 'subject wins', approvedBy: 'own-a', approvedOn: '2026-09-01', expiresOn: '2027-08-31', status: 'approved' });
+    expect(run(both).find((x) => x.code === 'RETENTION_INFLATION')!.accepted).toBe(false);
+  });
+
+  it('parseCatalog validates subject (enum kind, known id of that kind after normalisation, unknown keys dropped) and keeps accepting legacy elementId', () => {
+    const base = unmapped();
+    const file = (ex: Record<string, unknown>) => parseCatalog(JSON.stringify({ ...base, exceptions: [ex] }));
+    const good = file({ id: 'exf', subject: { kind: 'flow', id: ' F1 ', note: 'dropped' }, acceptsFinding: 'UNMAPPED_TRANSFER', rationale: 'r', approvedBy: 'own-a', approvedOn: '2026-09-01', expiresOn: '2027-08-31', status: 'approved' });
+    expect(good.ok).toBe(true);
+    if (good.ok) {
+      expect(good.catalog.exceptions[0]!.subject).toEqual({ kind: 'flow', id: 'f1' });
+      expect(good.catalog.exceptions[0]!.elementId).toBeUndefined();
+      expect(good.notes.some((n) => n.path === 'exceptions[0].subject.id' && n.to === 'f1')).toBe(true);
+      expect(run(good.catalog).find((x) => x.code === 'UNMAPPED_TRANSFER')!.accepted).toBe(true);
+    }
+    expect(file({ id: 'exd', subject: { kind: 'flow', id: 'f1/crm.email' }, acceptsFinding: 'PURPOSE_DRIFT', rationale: 'r', expiresOn: '2027-08-31', status: 'proposed' }).ok).toBe(true);
+    const bad = [
+      { id: 'x1', subject: { kind: 'system', id: 'crm' }, acceptsFinding: 'MISSING_OWNER', rationale: 'r', expiresOn: '2027-01-01', status: 'proposed' },
+      { id: 'x2', subject: { kind: 'flow', id: 'ghost' }, acceptsFinding: 'UNMAPPED_TRANSFER', rationale: 'r', expiresOn: '2027-01-01', status: 'proposed' },
+      { id: 'x3', subject: { kind: 'flow', id: 'f1/ghost.element' }, acceptsFinding: 'PURPOSE_DRIFT', rationale: 'r', expiresOn: '2027-01-01', status: 'proposed' },
+      { id: 'x4', subject: { kind: 'element', id: 'ghost' }, acceptsFinding: 'MISSING_SCHEDULE', rationale: 'r', expiresOn: '2027-01-01', status: 'proposed' },
+      { id: 'x5', subject: 'f1', acceptsFinding: 'UNMAPPED_TRANSFER', rationale: 'r', expiresOn: '2027-01-01', status: 'proposed' },
+      { id: 'x6', acceptsFinding: 'UNMAPPED_TRANSFER', rationale: 'r', expiresOn: '2027-01-01', status: 'proposed' },
+    ];
+    for (const ex of bad) {
+      const r = file(ex);
+      expect(r.ok, ex.id).toBe(false);
+      if (!r.ok) expect(r.errors.join(' ')).toMatch(/catalog\.exceptions\[0\]/);
+    }
+    const legacy = file({ id: 'exl', elementId: 'crm.email', acceptsFinding: 'MISSING_SCHEDULE', rationale: 'r', expiresOn: '2027-01-01', status: 'proposed' });
+    expect(legacy.ok).toBe(true);
+    const legacyUnknown = file({ id: 'exu', elementId: 'ghost.element', acceptsFinding: 'MISSING_SCHEDULE', rationale: 'r', expiresOn: '2027-01-01', status: 'proposed' });
+    expect(legacyUnknown.ok).toBe(true);
+    if (legacyUnknown.ok) expect(legacyUnknown.warnings.join(' ')).toMatch(/ghost\.element/);
+  });
+
+  it('the demo fixture carries one approved flow exception that accepts a PURPOSE_DRIFT finding', () => {
+    const c = load();
+    const f = run(c).find((x) => x.id === 'PURPOSE_DRIFT:flow:flow-crm-billing/crm.customer-id');
+    expect(f?.accepted).toBe(true);
+    expect(f?.exceptionId).toBe('ex-004');
+    expect(c.exceptions.find((x) => x.id === 'ex-004')?.subject).toEqual({ kind: 'flow', id: 'flow-crm-billing/crm.customer-id' });
   });
 });

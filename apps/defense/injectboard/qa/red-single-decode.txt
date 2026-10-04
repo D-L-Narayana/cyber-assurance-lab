@@ -1,0 +1,43 @@
+$ npx vitest run --reporter=verbose src/engine/scenario.test.ts
+# cwd apps/defense/injectboard
+# 2026-10-04T19:09:19.268Z v20.20.1
+# exit 1
+
+
+ RUN  v4.1.11 <repo>/apps/defense/injectboard
+
+ ✓ src/engine/scenario.test.ts > scenario validation — shape and bounds > accepts the shipped fixture and the mini scenario and returns a copy without unknown keys 4ms
+ × src/engine/scenario.test.ts > scenario validation — shape and bounds > parseScenario rejects invalid JSON and anything over the 512 KiB byte cap before parsing 30ms
+   → expected true to be false // Object.is equality
+ ✓ src/engine/scenario.test.ts > scenario validation — shape and bounds > bounds nesting depth (≤ 8 containers) and total value count with an iterative scan 29ms
+ ✓ src/engine/scenario.test.ts > scenario validation — shape and bounds > validates top-level fields with path-addressed errors 4ms
+ ✓ src/engine/scenario.test.ts > scenario validation — shape and bounds > validates injects, decisions, options, tasks and unlocks with exact paths 9ms
+ ✓ src/engine/scenario.test.ts > scenario validation — shape and bounds > caps the error list at 25 entries 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/scenario.test.ts > scenario validation — shape and bounds > parseScenario rejects invalid JSON and anything over the 512 KiB byte cap before parsing
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/engine/scenario.test.ts:70:24
+     68|     // not parsed a second time.
+     69|     const wrapped = parseScenario(JSON.stringify(JSON.stringify(base))…
+     70|     expect(wrapped.ok).toBe(false);
+       |                        ^
+     71|     if (!wrapped.ok) expect(wrapped.errors[0]).toMatch(/object/);
+     72|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  19:09:20
+   Duration  455ms (transform 173ms, setup 0ms, import 189ms, tests 79ms, environment 0ms)
+

@@ -13,14 +13,15 @@ Control identifiers, titles and families are NIST's. The determination statement
 3. **Add artifacts** (synthetic text: config snippets, log excerpts, interview notes, screenshot descriptions). Content is hashed locally with SHA-256; the locker shows `hash ok` / `hash mismatch` on every render, so edited-after-capture content is visible immediately.
 4. **Record results** per determination (satisfied / other than satisfied / not assessed), citing performed steps. The control "stamp" rolls up: any *other than satisfied* dominates.
 5. **Raise findings** for other-than-satisfied determinations with owner, due date and corrective action; the gate refuses missing owners, past due dates and findings that point at satisfied determinations.
-6. **Move the packet**: drafting → ready-for-review (assessor only, zero blockers) → approved (named approver, never the assessor) or returned (note required) → drafting. Approved packets are immutable **within the session**: see *What approval does and does not mean* below.
-7. **Export**: packet JSON (`packetsmith.packet/1`), Markdown memo, or the print memo dialog (print stylesheet). Every memo carries a SHA-256 digest of the packet's canonical content.
+6. **Move the packet**: drafting → ready-for-review (assessor only, zero blockers) → approved (named approver, never the assessor) or returned (note required) → drafting. Every transition appends a **hash-chained history entry** (`prevHash`/`hash`, SHA-256); the gate shows `history chain verified`, `history chain broken at #n` or `legacy history (unchained)`. Approved packets are immutable **within the session**: see *What approval does and does not mean* below.
+7. **Export**: packet JSON (`packetsmith.packet/1`), Markdown memo, or the print memo dialog (print stylesheet). Every memo carries a SHA-256 digest of the packet's canonical content (excluding state and history) and the history-chain status.
+8. **Import**: a chained packet must verify or it is refused with the broken entry's path; a packet exported before history hashing existed (no `hash` fields) imports with the warning *history not chained (legacy)* and is chained from its next transition.
 
 ## Quickstart
 
 ```bash
 npm ci
-npm test          # vitest, 31 tests
+npm test          # vitest, 80 tests
 npm run build     # tsc + vite → dist/
 npm run preview   # http://127.0.0.1:6121/
 ```
@@ -32,28 +33,38 @@ npm run preview   # http://127.0.0.1:6121/
 | Artifact integrity | `sha256 = SHA-256(UTF-8(content))` via a self-contained TypeScript implementation (FIPS 180-4), verified in tests against FIPS vectors, `node:crypto` and WebCrypto. Mismatch = blocker. |
 | Control status | not-assessed (no results) → in-progress (some) → satisfied (all satisfied) ; any other-than-satisfied dominates. |
 | Completeness gate | per in-scope control: ≥ 1 performed step; every determination has a result; each result cites ≥ 1 *performed* step; cited steps carry ≥ 1 artifact; OTS results have a finding with owner and a due date ≥ packet date (unless completed); skipped steps have a reason; no dangling artifact ids; no hash mismatches; no finding against a satisfied determination. |
-| State machine | `drafting → ready-for-review` (assessor, no blockers) · `ready-for-review → approved` (approver ≠ assessor) · `ready-for-review → returned` (note) · `returned → drafting` · `approved` terminal and immutable. Every transition appends to history; inputs are never mutated. |
-| Digest | SHA-256 over canonical JSON (sorted keys) of meta, scope, steps, artifact hashes, results and findings — stable across key order, sensitive to any content change. |
+| State machine | `drafting → ready-for-review` (assessor, no blockers) · `ready-for-review → approved` (approver ≠ assessor) · `ready-for-review → returned` (note) · `returned → drafting` · `approved` terminal and immutable. Every transition appends to history; inputs are never mutated; a transition on a packet whose chain is broken is refused. |
+| History chain | Each history entry carries `prevHash` (the previous entry's `hash`; 64 zeros for the first) and `hash = SHA-256(canonical({ at, from, to, actor, note, prevHash }))`. `verifyHistoryChain` returns `{ ok, chained, brokenAt, reason }`: editing, dropping, inserting or reordering an entry breaks the chain at the first affected index (`brokenAt` is the 0-based `history[i]` index used in validation paths; the badge shows the 1-based position `#n`); a history with no hashes at all is `chained: false` (legacy, still `ok`); a mix of hashed and unhashed entries is broken. A legacy history is chained retroactively by its next transition — the chain then vouches for those entries as they stood at that moment, not for their past. |
+| Digest | SHA-256 over canonical JSON (sorted keys) of meta, scope, steps, artifact hashes, results and findings — stable across key order, sensitive to any content change. Deliberately **excludes `state` and `history`** (unchanged by the chain), so the same work has one digest wherever it sits in the workflow. |
 
-Unsupported / known limits: no sampling methodology, no control enhancements, no tailoring/parameters (organisation-defined values are shown as "defined"), no attachment of binary files (text only), single assessor/approver identities typed as strings (no authentication).
+Unsupported / known limits: no sampling methodology, no control enhancements, no tailoring/parameters (organisation-defined values are shown as "defined"), no attachment of binary files (text only), single assessor/approver identities typed as strings (no authentication). The history chain has no key material: it is tamper-*evident*, not a signature — see below.
 
 ## Architecture
 
 ```
 src/engine/catalog.ts   12 controls, paraphrased determinations, example objects per method
 src/engine/sha256.ts    pure SHA-256 (sync, UTF-8)
-src/engine/packet.ts    rollup, completeness gate, state machine, canonical digest, memo
-src/engine/validate.ts  bounded import validation (1 MiB, 400 steps, 300 artifacts, 20k chars/artifact)
-src/ui/*                React 19: App, Worksheet, Locker, Gate, MemoView (native <dialog>, print CSS)
-src/fixtures/           synthetic Dispatch Portal packet with deliberate defects (qa/make-fixture.mjs regenerates it)
-tests/engine.test.ts    31 tests
+src/engine/packet.ts    rollup, completeness gate, state machine, hash-chained history (verifyHistoryChain), canonical digest, memo
+src/engine/validate.ts  bounded import validation (1 MiB, 400 steps, 300 artifacts, 20k chars/artifact, chain verification, legacy warning)
+src/ui/*                React 19: App, Worksheet, Locker, Gate (chain badge), MemoView (native <dialog>, print CSS)
+src/fixtures/           synthetic Dispatch Portal packet with deliberate defects and a chained 3-entry history (qa/make-fixture.mjs regenerates it)
+qa/samples/             synthetic import samples for browser QA: a complete ready-for-review packet (chained) and a tampered-history packet (refused at history[1])
+tests/engine.test.ts    35 tests — engine, gate, state machine, digest, memo, validation, fixture
+tests/history-chain.test.ts  18 tests — chain construction, tamper detection, legacy/mixed handling, validator, fixture chain
+tests/contrast.test.ts  WCAG 2.1 AA guard for the text tokens on their surfaces
 ```
 
 Memory-only state; hash deep links (`#/AC-2`); self-hosted IBM Plex Sans/Mono (OFL-1.1); CSP and hardening headers in `vercel.json`.
 
 ## Tests
 
-31 vitest tests: SHA-256 vectors/oracles, catalog shape, integrity detection, rollup, every completeness rule, every state transition (including refusals and immutability), digest stability, memo content, import bounds and malformed input, and the bundled fixture's intended defects. RED/GREEN runs are recorded in `EVIDENCE.md` and `qa/`.
+80 vitest tests in three files (measured `Tests  80 passed (80)` on 2026-10-04):
+
+- `tests/engine.test.ts` (35): SHA-256 vectors/oracles, catalog shape, integrity detection, rollup, every completeness rule, every state transition (including refusals and immutability), digest stability, memo content, import bounds and malformed input, the bundled fixture's intended defects, and the sixth-review regressions (separation of duties up front, imported history consistency).
+- `tests/history-chain.test.ts` (18): chain built by transitions (genesis 64 zeros, hash formula, links), deterministic hashes, tamper detection at the right index (edited note, dropped entry, reordered entries), legacy histories reported as unchained, mixed hashed/unhashed histories broken, retroactive chaining of a legacy packet without mutation, refusal to extend a broken chain, validator paths (`history[i]`, `history[i].hash`) and the legacy warning, digest unchanged, memo chain status, and the fixture's chain.
+- `tests/contrast.test.ts` (27): WCAG 2.1 AA (≥ 4.5:1) guard for every text token on the surfaces it appears on, including the chain badge chips.
+
+RED/GREEN runs are recorded in `EVIDENCE.md` and `qa/` (`qa/red-history-chain.txt`, `qa/green-history-chain.txt`).
 
 ## Data handling
 
@@ -61,8 +72,10 @@ Synthetic system, fictional people, `.example` hosts. Nothing leaves the browser
 
 ## What approval does and does not mean
 
-- **Session-only immutability.** The `approved` state locks editing in the running app. An exported packet is plain JSON: anyone can edit it offline and re-import it. The import validator now refuses packets whose history does not chain, whose final history entry disagrees with `state`, or whose history reached `approved` while `state` says otherwise — but it cannot detect a consistent forgery (e.g. editing a step *and* removing the approval entry).
-- **Hashes are not signatures.** The packet digest covers content (controls, steps, artifacts, determinations, findings), deliberately not `state`/`history`, so the same work has one digest regardless of workflow position. Artifact SHA-256s prove content has not changed since capture, not who captured it. There is no key material, so nothing here is a signature or non-repudiable.
+- **Session-only immutability.** The `approved` state locks editing in the running app. An exported packet is plain JSON: anyone can edit it offline and re-import it. The import validator refuses packets whose history does not chain state-to-state, whose final history entry disagrees with `state`, or whose history reached `approved` while `state` says otherwise.
+- **The history chain is tamper-evident, not proof of who acted.** Since October 2026 every transition writes `prevHash`/`hash` (SHA-256 over the canonical entry, genesis 64 zeros). Changing a note, an actor or a date, dropping an entry, inserting one or reordering the list breaks the chain, the validator refuses the import and names the first broken entry, and the gate shows `history chain broken at #n`. What it cannot do: there is **no key material**, so anyone who edits the record *and recomputes every hash from the edited entry onwards* produces a chain that verifies. A consistent forgery (e.g. editing a step *and* rewriting the approval entry with fresh hashes) is still possible and undetectable from the file alone. Actor names in the chain are self-asserted strings.
+- **Legacy exports.** Packets exported before history hashing have no `hash` fields; they import with the warning *history not chained (legacy)* and show `legacy history (unchained)`. Their next transition chains the existing entries as they stand at that moment — the chain vouches for the record from then on, not for what happened before.
+- **Hashes are not signatures.** The packet digest covers content (controls, steps, artifacts, determinations, findings), deliberately not `state`/`history`, so the same work has one digest regardless of workflow position; the chain did not change this. Artifact SHA-256s prove content has not changed since capture, not who captured it. Nothing here is a signature or non-repudiable.
 - **Separation of duties is checked early.** `assessor === approver` is a completeness blocker and an import validation error, so a packet cannot be assembled into an unapprovable state unnoticed; the approve transition still independently refuses the assessor.
 - **Roles are self-asserted.** "Acting as" is a typed name; there is no directory or authentication. The guardrails demonstrate the policy logic, not an access-control system.
 

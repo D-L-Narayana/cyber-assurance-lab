@@ -1,0 +1,41 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/appsec/provgate
+# 2026-10-04T19:29:08.297Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/appsec/provgate
+
+ ✓ src/engine/__tests__/gate.test.ts > schema validation > accepts both synthetic releases and the default policy 9ms
+ ✓ src/engine/__tests__/gate.test.ts > schema validation > rejects malformed JSON, oversized text and over-limit evidence lists 9ms
+ ✓ src/engine/__tests__/gate.test.ts > schema validation > rejects unknown identity references and invalid timestamps 1ms
+ ✓ src/engine/__tests__/gate.test.ts > schema validation > rejects a policy whose change class references an unknown evidence type 0ms
+ ✓ src/engine/__tests__/gate.test.ts > change classification > matches ** across segments and * within one segment 1ms
+ ✓ src/engine/__tests__/gate.test.ts > change classification > derives required evidence as baseline plus matched classes with the strictest reviewer count 5ms
+ ✓ src/engine/__tests__/gate.test.ts > gate evaluation — vulnerable release 1.4.0 > blocks and names each weak-evidence state 31ms
+ ✓ src/engine/__tests__/gate.test.ts > gate evaluation — vulnerable release 1.4.0 > treats an expired acceptance as no acceptance 1ms
+ ✓ src/engine/__tests__/gate.test.ts > gate evaluation — remediated release 1.4.1 > releases with accepted risk and no requirement problems 1ms
+ ✓ src/engine/__tests__/gate.test.ts > gate evaluation — remediated release 1.4.1 > marks evidence without an inline artifact as unverified rather than failed 1ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > rejects an acceptance approved by the release author even with the security role 5ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > rejects an acceptance longer than the policy maximum or approved by a non-security identity 7ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > counts duplicate reviewer identities once and rejects reviewers without the reviewer role 1ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > rejects evidence dated after the as-of time 3ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > prefers the strongest candidate when several pieces of evidence share a type 1ms
+ ✓ src/engine/__tests__/gate.test.ts > bypass attempts > is sensitive to the as-of date: the same evidence goes stale 9ms
+ ✓ src/engine/__tests__/gate.test.ts > bundle export > computes SHA-256 correctly and stamps a reproducible content digest 4ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > chooses a valid acceptance regardless of list order and warns about the duplicate 4ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > reports the least-broken acceptance when none is valid 1ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > fails closed when class-required evidence omits scope 1ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > still releases 1.4.1 when scope is present on every class-required item (fixture contract) 37ms
+ ✓ src/engine/__tests__/gate.test.ts > sixth-review regressions — acceptance order and scope omission > 1.4.0 has exactly 7 blockers carrying 8 problem codes 1ms
+ ✓ src/engine/__tests__/remediation.test.ts > remediation checklist > has a generic action for every problem and acceptance-problem code 22ms
+ ✓ src/engine/__tests__/remediation.test.ts > remediation checklist > turns every problem in the 1.4.0 evaluation into a concrete, policy-aware action 51ms
+ ✓ src/engine/__tests__/remediation.test.ts > remediation checklist > is empty for the clean 1.4.1 evaluation and surfaces acceptances that reference unknown findings 23ms
+ ✓ src/engine/__tests__/remediation.test.ts > remediation checklist > is deterministic and still produces an action per problem without policy or manifest context 8ms
+ ✓ src/engine/__tests__/remediation.test.ts > remediation checklist > appends a "Remediation checklist" section to the Markdown memo 10ms
+
+ Test Files  2 passed (2)
+      Tests  27 passed (27)
+   Start at  19:29:10
+   Duration  3.00s (transform 2.02s, setup 0ms, import 2.14s, tests 251ms, environment 0ms)
+

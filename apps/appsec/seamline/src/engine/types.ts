@@ -1,7 +1,7 @@
 export type EventKind = 'place-order' | 'apply-coupon' | 'redeem-reward' | 'update-profile' | 'view-order';
 export const EVENT_KINDS: EventKind[] = ['place-order', 'apply-coupon', 'redeem-reward', 'update-profile', 'view-order'];
-export type TamperKind = 'price-rewrite' | 'coupon-inflate' | 'replay' | 'role-escalate' | 'other-user-object' | 'backdate' | 'points-inflate';
-export const TAMPER_KINDS: TamperKind[] = ['price-rewrite', 'coupon-inflate', 'replay', 'role-escalate', 'other-user-object', 'backdate', 'points-inflate'];
+export type TamperKind = 'price-rewrite' | 'coupon-inflate' | 'replay' | 'role-escalate' | 'other-user-object' | 'backdate' | 'points-inflate' | 'quantity-rewrite';
+export const TAMPER_KINDS: TamperKind[] = ['price-rewrite', 'coupon-inflate', 'replay', 'role-escalate', 'other-user-object', 'backdate', 'points-inflate', 'quantity-rewrite'];
 export type Role = 'customer' | 'staff';
 export type Mode = 'trusting' | 'enforcing';
 
@@ -10,8 +10,11 @@ export interface OrderItem { sku: string; qty: number; unitPrice: number }
 export type Payload = Record<string, Scalar | OrderItem[]>;
 
 export interface User { id: string; label: string; role: Role; token: string }
-export interface CatalogItem { sku: string; name: string; price: number }
-export interface Tamper { kind: TamperKind; of?: string }
+/** `maxQty` is the largest quantity the server allows per order line (default DEFAULT_MAX_QTY when absent). */
+export interface CatalogItem { sku: string; name: string; price: number; maxQty?: number }
+export const DEFAULT_MAX_QTY = 99;
+/** `of` names the replayed step (replay); `value` is the quantity written by quantity-rewrite (default -1). */
+export interface Tamper { kind: TamperKind; of?: string; value?: number }
 export interface Step { id: string; label: string; client: { user: string; event: EventKind; nonce: string; tOffset: number; payload: Payload }; tamper?: Tamper }
 export interface Scenario {
   schema: 'seamline.scenario/1';
@@ -34,7 +37,7 @@ export type Decision = 'accepted' | 'neutralized' | 'rejected';
 export interface Check { name: string; ran: boolean; passed: boolean; detail: string }
 export interface Finding { kind: string; cwe: string; cweName: string; title: string; detail: string; severity: 'high' | 'medium' | 'low' }
 /** A security-relevant claim in the received message that disagrees with what the server itself can establish. */
-export type Invariant = 'object-ownership' | 'role-from-session' | 'nonce-single-use' | 'timestamp-window' | 'price-from-catalog' | 'coupon-from-table' | 'points-from-table';
+export type Invariant = 'object-ownership' | 'role-from-session' | 'nonce-single-use' | 'timestamp-window' | 'price-from-catalog' | 'coupon-from-table' | 'points-from-table' | 'quantity-bounds';
 export interface Divergence { invariant: Invariant; claimed: string; truth: string }
 
 export interface StepResult {

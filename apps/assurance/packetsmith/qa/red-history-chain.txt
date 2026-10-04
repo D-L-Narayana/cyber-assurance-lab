@@ -1,0 +1,430 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/assurance/packetsmith
+# 2026-10-04T18:34:32.993Z v20.20.1
+# exit 1
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
+
+
+ RUN  v4.1.11 <repo>/apps/assurance/packetsmith
+
+ ✓ tests/engine.test.ts > sha256 > matches FIPS 180-4 test vectors 8ms
+ ✓ tests/engine.test.ts > sha256 > hashes UTF-8 bytes (multi-byte and long inputs) identically to node:crypto 9ms
+ ✓ tests/engine.test.ts > sha256 > agrees with WebCrypto when available 6ms
+ ✓ tests/engine.test.ts > catalog > has 12 unique controls with 2–3 paraphrased determinations and all three methods each 3ms
+ ✓ tests/engine.test.ts > artifacts and integrity > makeArtifact computes the hash of the content 0ms
+ ✓ tests/engine.test.ts > artifacts and integrity > verifyArtifacts reports tampered content as a mismatch 7ms
+ ✓ tests/engine.test.ts > control status rollup > is not-assessed with no results, in-progress when some are missing 0ms
+ ✓ tests/engine.test.ts > control status rollup > is satisfied only when every determination is satisfied; any other-than-satisfied dominates 4ms
+ ✓ tests/engine.test.ts > control status rollup > treats a not-assessed result as missing 0ms
+ ✓ tests/engine.test.ts > completeness gate > passes a complete packet with no blockers 1ms
+ ✓ tests/engine.test.ts > completeness gate > requires at least one performed step per selected control 0ms
+ ✓ tests/engine.test.ts > completeness gate > requires every determination to have a result that is not not-assessed 0ms
+ ✓ tests/engine.test.ts > completeness gate > requires each result to cite a performed step with evidence 6ms
+ ✓ tests/engine.test.ts > completeness gate > requires an other-than-satisfied result to have a finding with owner and a due date not in the past 1ms
+ ✓ tests/engine.test.ts > completeness gate > requires skipped steps to have a reason and flags tampered or missing artifacts 1ms
+ ✓ tests/engine.test.ts > completeness gate > flags a finding whose determination is actually satisfied as stale 1ms
+ ✓ tests/engine.test.ts > packet state machine > drafting → ready-for-review only when complete, by the assessor 1ms
+ ✓ tests/engine.test.ts > packet state machine > ready-for-review → approved requires the named approver who is not the assessor 1ms
+ ✓ tests/engine.test.ts > packet state machine > ready-for-review → returned requires a note and returned → drafting reopens editing 0ms
+ ✓ tests/engine.test.ts > packet state machine > approved packets are immutable: no edits, no transitions 0ms
+ ✓ tests/engine.test.ts > packet state machine > rejects undefined transitions and lists reasons 0ms
+ ✓ tests/engine.test.ts > packet state machine > does not mutate the input packet 0ms
+ ✓ tests/engine.test.ts > digest and memo > digest is stable across key order and changes when any artifact content changes 1ms
+ ✓ tests/engine.test.ts > digest and memo > memo lists control status, findings and the packet digest and labels the subset honestly 1ms
+ ✓ tests/engine.test.ts > import validation > accepts a complete packet round-tripped through JSON 1ms
+ ✓ tests/engine.test.ts > import validation > rejects oversized input measured in UTF-8 bytes 2ms
+ ✓ tests/engine.test.ts > import validation > rejects unknown control ids, unknown determination ids and bad methods with paths 0ms
+ ✓ tests/engine.test.ts > import validation > rejects a malformed sha256, duplicate ids and an unknown state 0ms
+ ✓ tests/engine.test.ts > import validation > rejects more than 400 steps or 300 artifacts and content over 20000 characters 3ms
+ ✓ tests/engine.test.ts > import validation > does not throw on non-object JSON 0ms
+ ✓ tests/engine.test.ts > bundled fixture > validates, is incomplete on purpose, and contains the planned adversarial defects 13ms
+ ✓ tests/engine.test.ts > sixth review regressions — separation of duties up front, imported history consistency > the completeness gate flags assessor == approver as a blocker before anyone tries to approve 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — separation of duties up front, imported history consistency > the validator refuses a packet whose assessor and approver are the same non-empty name 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — separation of duties up front, imported history consistency > the validator refuses an imported packet whose history reached approved while its state says otherwise 0ms
+ ✓ tests/engine.test.ts > sixth review regressions — separation of duties up front, imported history consistency > the validator refuses a history whose transitions do not chain (from ≠ previous to, last to ≠ state) 4ms
+ × tests/history-chain.test.ts > hash-chained history — construction by transitions > writes prevHash/hash on every transition: genesis prevHash is 64 zeros and hash = SHA-256(canonical({at, from, to, actor, note, prevHash})) 11ms
+   → expected undefined to be '0000000000000000000000000000000000000…' // Object.is equality
+ × tests/history-chain.test.ts > hash-chained history — construction by transitions > links each later entry to the previous hash so the whole chain verifies 4ms
+   → expected { ok: true, chained: false, …(2) } to deeply equal { ok: true, chained: true, …(2) }
+ × tests/history-chain.test.ts > hash-chained history — construction by transitions > is deterministic: the same transitions produce the same hashes 1ms
+   → expected undefined to be defined
+ × tests/history-chain.test.ts > hash-chained history — verification > detects an edited note at the right (0-based) index 3ms
+   → expected true to be false // Object.is equality
+ × tests/history-chain.test.ts > hash-chained history — verification > detects a dropped entry: the entry that follows no longer links to its predecessor 1ms
+   → expected true to be false // Object.is equality
+ × tests/history-chain.test.ts > hash-chained history — verification > detects reordered entries at the first displaced position 1ms
+   → expected true to be false // Object.is equality
+ × tests/history-chain.test.ts > hash-chained history — verification > treats a legacy history without any hashes as unchained but not broken 1ms
+   → expected { ok: true, chained: false, …(2) } to deeply equal { ok: true, chained: false, …(2) }
+ × tests/history-chain.test.ts > hash-chained history — verification > treats a mix of hashed and unhashed entries as broken at the first unhashed entry 2ms
+   → expected true to be false // Object.is equality
+ ✓ tests/history-chain.test.ts > hash-chained history — verification > reports an empty history as neither chained nor broken 1ms
+ × tests/history-chain.test.ts > hash-chained history — transitions on legacy and broken chains > a transition on a legacy packet chains the existing entries in order (retroactively) and appends a linked entry, without mutating the input 1ms
+   → expected undefined to be '0000000000000000000000000000000000000…' // Object.is equality
+ × tests/history-chain.test.ts > hash-chained history — transitions on legacy and broken chains > refuses to extend a broken chain and names the break 1ms
+   → expected function to throw an error, but it didn't
+ × tests/history-chain.test.ts > hash-chained history — import validation > a chained packet round-trips through JSON, keeps its hashes and imports without warnings 2ms
+   → expected undefined to deeply equal []
+ × tests/history-chain.test.ts > hash-chained history — import validation > refuses a chained packet whose history was tampered with, addressing the broken entry 1ms
+   → expected true to be false // Object.is equality
+ × tests/history-chain.test.ts > hash-chained history — import validation > imports a legacy (unhashed) history with a warning instead of refusing it 11ms
+   → Cannot read properties of undefined (reading 'some')
+ × tests/history-chain.test.ts > hash-chained history — import validation > refuses a mix of hashed and unhashed entries, and a hash that is not 64 hex characters, with paths 1ms
+   → expected true to be false // Object.is equality
+ × tests/history-chain.test.ts > hash-chained history — import validation > refuses an entry that carries only one of prevHash/hash 1ms
+   → expected true to be false // Object.is equality
+ × tests/history-chain.test.ts > hash-chained history — digest, memo and bundled fixture > the packet digest still excludes state and history; the memo states the chain status 7ms
+   → expected '# Assessment packet memo — Dispatch P…' to match /history chain.*verified/i
+ × tests/history-chain.test.ts > hash-chained history — digest, memo and bundled fixture > the bundled fixture carries a valid hash chain and still imports without warnings 3ms
+   → expected 0 to be greater than 0
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 17 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — construction by transitions > writes prevHash/hash on every transition: genesis prevHash is 64 zeros and hash = SHA-256(canonical({at, from, to, actor, note, prevHash}))
+AssertionError: expected undefined to be '0000000000000000000000000000000000000…' // Object.is equality
+
+- Expected:
+"0000000000000000000000000000000000000000000000000000000000000000"
+
++ Received:
+undefined
+
+ ❯ tests/history-chain.test.ts:44:24
+     42|     const h = p.history[0];
+     43|     expect(GENESIS_PREV_HASH).toBe('0'.repeat(64));
+     44|     expect(h.prevHash).toBe(GENESIS_PREV_HASH);
+       |                        ^
+     45|     expect(h.hash).toBe(sha256Hex(canonical({ at: h.at, from: h.from, …
+     46|     expect(h.hash).toBe(historyEntryHash(h, GENESIS_PREV_HASH));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — construction by transitions > links each later entry to the previous hash so the whole chain verifies
+AssertionError: expected { ok: true, chained: false, …(2) } to deeply equal { ok: true, chained: true, …(2) }
+
+- Expected
++ Received
+
+  {
+    "brokenAt": null,
+-   "chained": true,
++   "chained": false,
+    "ok": true,
+    "reason": null,
+  }
+
+ ❯ tests/history-chain.test.ts:54:35
+     52|     expect(p.history[1].prevHash).toBe(p.history[0].hash);
+     53|     expect(p.history[2].prevHash).toBe(p.history[1].hash);
+     54|     expect(verifyHistoryChain(p)).toEqual({ ok: true, chained: true, b…
+       |                                   ^
+     55|   });
+     56|   it('is deterministic: the same transitions produce the same hashes',…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — construction by transitions > is deterministic: the same transitions produce the same hashes
+AssertionError: expected undefined to be defined
+ ❯ tests/history-chain.test.ts:59:23
+     57|     const a = threeTransitions().history;
+     58|     const b = threeTransitions().history;
+     59|     expect(a[2].hash).toBeDefined();
+       |                       ^
+     60|     expect(JSON.stringify(a)).toBe(JSON.stringify(b));
+     61|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — verification > detects an edited note at the right (0-based) index
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/history-chain.test.ts:69:18
+     67|     p.history[1] = { ...p.history[1], note: 'Looks fine, approving soo…
+     68|     const v = verifyHistoryChain(p);
+     69|     expect(v.ok).toBe(false);
+       |                  ^
+     70|     expect(v.chained).toBe(true);
+     71|     expect(v.brokenAt).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — verification > detects a dropped entry: the entry that follows no longer links to its predecessor
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/history-chain.test.ts:78:18
+     76|     p.history = [p.history[0], p.history[2]];
+     77|     const v = verifyHistoryChain(p);
+     78|     expect(v.ok).toBe(false);
+       |                  ^
+     79|     expect(v.brokenAt).toBe(1);
+     80|     expect(v.reason).toMatch(/prevHash/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — verification > detects reordered entries at the first displaced position
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/history-chain.test.ts:86:18
+     84|     p.history = [p.history[1], p.history[0], p.history[2]];
+     85|     const v = verifyHistoryChain(p);
+     86|     expect(v.ok).toBe(false);
+       |                  ^
+     87|     expect(v.brokenAt).toBe(0);
+     88|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — verification > treats a legacy history without any hashes as unchained but not broken
+AssertionError: expected { ok: true, chained: false, …(2) } to deeply equal { ok: true, chained: false, …(2) }
+
+- Expected
++ Received
+
+  {
+    "brokenAt": null,
+    "chained": false,
+    "ok": true,
+-   "reason": "history not chained (legacy)",
++   "reason": null,
+  }
+
+ ❯ tests/history-chain.test.ts:92:35
+     90|     const p = threeTransitions();
+     91|     p.history = p.history.map(strip);
+     92|     expect(verifyHistoryChain(p)).toEqual({ ok: true, chained: false, …
+       |                                   ^
+     93|   });
+     94|   it('treats a mix of hashed and unhashed entries as broken at the fir…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — verification > treats a mix of hashed and unhashed entries as broken at the first unhashed entry
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/history-chain.test.ts:98:18
+     96|     p.history[2] = strip(p.history[2]);
+     97|     const v = verifyHistoryChain(p);
+     98|     expect(v.ok).toBe(false);
+       |                  ^
+     99|     expect(v.chained).toBe(true);
+    100|     expect(v.brokenAt).toBe(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — transitions on legacy and broken chains > a transition on a legacy packet chains the existing entries in order (retroactively) and appends a linked entry, without mutating the input
+AssertionError: expected undefined to be '0000000000000000000000000000000000000…' // Object.is equality
+
+- Expected:
+"0000000000000000000000000000000000000000000000000000000000000000"
+
++ Received:
+undefined
+
+ ❯ tests/history-chain.test.ts:115:38
+    113|     const next = transition(legacy, 'ready-for-review', 'a.mensah', 'R…
+    114|     expect(next.history.length).toBe(4);
+    115|     expect(next.history[0].prevHash).toBe(GENESIS_PREV_HASH);
+       |                                      ^
+    116|     expect(verifyHistoryChain(next)).toEqual({ ok: true, chained: true…
+    117|     // retroactive chaining adds hashes but does not rewrite what the …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — transitions on legacy and broken chains > refuses to extend a broken chain and names the break
+AssertionError: expected function to throw an error, but it didn't
+ ❯ tests/history-chain.test.ts:124:84
+    122|     const p = threeTransitions();
+    123|     p.history[1] = { ...p.history[1], note: 'edited after the fact' };
+    124|     expect(() => transition(p, 'ready-for-review', 'a.mensah', 'x', '2…
+       |                                                                                    ^
+    125|     expect(() => transition(p, 'ready-for-review', 'a.mensah', 'x', '2…
+    126|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — import validation > a chained packet round-trips through JSON, keeps its hashes and imports without warnings
+AssertionError: expected undefined to deeply equal []
+
+- Expected:
+[]
+
++ Received:
+undefined
+
+ ❯ tests/history-chain.test.ts:134:26
+    132|     expect(r.ok).toBe(true);
+    133|     if (r.ok) {
+    134|       expect(r.warnings).toEqual([]);
+       |                          ^
+    135|       expect(r.packet.history[0].hash).toBeDefined();
+    136|       expect(verifyHistoryChain(r.packet).ok).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — import validation > refuses a chained packet whose history was tampered with, addressing the broken entry
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/history-chain.test.ts:143:18
+    141|     p.history[1] = { ...p.history[1], actor: 'a.mensah' }; // the appr…
+    142|     const r = validatePacket(JSON.stringify(p));
+    143|     expect(r.ok).toBe(false);
+       |                  ^
+    144|     if (!r.ok) expect(r.issues.some((i) => i.path === 'history[1]' && …
+    145|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — import validation > imports a legacy (unhashed) history with a warning instead of refusing it
+TypeError: Cannot read properties of undefined (reading 'some')
+ ❯ tests/history-chain.test.ts:152:25
+    150|     expect(r.ok).toBe(true);
+    151|     if (r.ok) {
+    152|       expect(r.warnings.some((w) => /history not chained \(legacy\)/.t…
+       |                         ^
+    153|       expect(r.packet.history.every((h) => h.hash === undefined && h.p…
+    154|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — import validation > refuses a mix of hashed and unhashed entries, and a hash that is not 64 hex characters, with paths
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/history-chain.test.ts:160:18
+    158|     p.history[2] = strip(p.history[2]);
+    159|     const r = validatePacket(JSON.stringify(p));
+    160|     expect(r.ok).toBe(false);
+       |                  ^
+    161|     if (!r.ok) expect(r.issues.some((i) => i.path === 'history[2]')).t…
+    162|     const q = threeTransitions();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — import validation > refuses an entry that carries only one of prevHash/hash
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/history-chain.test.ts:173:18
+    171|     p.history[0] = { at: h0.at, from: h0.from, to: h0.to, actor: h0.ac…
+    172|     const r = validatePacket(JSON.stringify(p));
+    173|     expect(r.ok).toBe(false);
+       |                  ^
+    174|     if (!r.ok) expect(r.issues.some((i) => i.path.startsWith('history[…
+    175|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — digest, memo and bundled fixture > the packet digest still excludes state and history; the memo states the chain status
+AssertionError: expected '# Assessment packet memo — Dispatch P…' to match /history chain.*verified/i
+
+- Expected:
+/history chain.*verified/i
+
++ Received:
+"# Assessment packet memo — Dispatch Portal (synthetic)
+
+Educational prototype output on synthetic data. This memo is not a FedRAMP, federal authorization or any other compliance determination.
+
+- Catalog: NIST SP 800-53 Rev. 5 (Release 5.2.0, 2025-08-27)
+- Procedures: Assessment methods per NIST SP 800-53A Rev. 5 (2022-01)
+- Scope: 12 controls (educational subset; determinations paraphrased)
+- Assessor: a.mensah · Approver: p.lindqvist · As of: 2026-10-01
+- Packet state: drafting
+- Packet digest (SHA-256 over canonical content): `beb70e3190545eb0c8ccd0034cd0c156afc347bc976a64911037cc0b5d384f84`
+
+## Control results
+
+| Control | Title | Status | Determinations | Steps performed | Artifacts |
+|---|---|---|---|---|---|
+| AC-2 | Account Management | satisfied | AC-2.a: satisfied<br>AC-2.d: satisfied<br>AC-2.h: satisfied | 2/2 | 1 |
+
+## Findings and corrective actions
+
+None recorded.
+
+## Evidence artifacts
+
+| Artifact | Kind | Captured | SHA-256 |
+|---|---|---|---|
+| ART-1 — Policy excerpt | document-excerpt | 2026-09-20 | `b536d2e73b7833f48fe1b607fa69c22969d84a26e9ef9d989991a52d23d5f553` |
+
+## Completeness
+
+No blockers: the packet satisfies the completeness gate.
+
+## History
+
+- 2026-10-01: drafting → ready-for-review by a.mensah — Submitted
+- 2026-10-02: ready-for-review → returned by p.lindqvist — AC-2.h needs the test step performed.
+- 2026-10-03: returned → drafting by a.mensah — Reopened
+
+Determination statements in this packet are paraphrased for teaching and are not the authoritative SP 800-53A procedures."
+
+ ❯ tests/history-chain.test.ts:183:33
+    181|     const after = threeTransitions();
+    182|     expect(packetDigest(after)).toBe(packetDigest(before));
+    183|     expect(memoMarkdown(after)).toMatch(/history chain.*verified/i);
+       |                                 ^
+    184|     const legacy = { ...after, history: after.history.map(strip) };
+    185|     expect(memoMarkdown(legacy)).toMatch(/legacy|not chained/i);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/17]⎯
+
+ FAIL  tests/history-chain.test.ts > hash-chained history — digest, memo and bundled fixture > the bundled fixture carries a valid hash chain and still imports without warnings
+AssertionError: expected 0 to be greater than 0
+ ❯ tests/history-chain.test.ts:192:37
+    190|     expect(r.ok).toBe(true);
+    191|     if (!r.ok) return;
+    192|     expect(r.packet.history.length).toBeGreaterThan(0);
+       |                                     ^
+    193|     expect(r.warnings).toEqual([]);
+    194|     expect(verifyHistoryChain(r.packet)).toEqual({ ok: true, chained: …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/17]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  17 failed | 36 passed (53)
+   Start at  18:34:34
+   Duration  1.11s (transform 322ms, setup 0ms, import 365ms, tests 137ms, environment 0ms)
+

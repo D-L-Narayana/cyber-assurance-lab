@@ -37,6 +37,16 @@ export function applyTamper(original: Message, tamper: Tamper, scenario: Scenari
       message.ts = new Date(Date.parse(message.ts) - 10 * 60_000).toISOString().replace(/\.000Z$/, 'Z'); changed.push('ts');
       return { message, changedFields: changed, note: 'Client timestamp moved ten minutes into the past.' };
     }
+    case 'quantity-rewrite': {
+      // The attacker edits the first line's quantity (default -1: a negative quantity turns the order into a credit) and keeps
+      // the client's own unit prices, so the total is "consistent" with the lines — only the quantity bound is violated.
+      const items = (message.payload.items as OrderItem[] | undefined) ?? [];
+      const value = tamper.value ?? -1;
+      if (items.length === 0) return { message, changedFields: [], note: 'No order lines to rewrite; message sent unchanged.' };
+      items[0].qty = value; changed.push('items[0].qty');
+      message.payload.total = Number(items.reduce((s, it) => s + it.qty * it.unitPrice, 0).toFixed(2)); changed.push('total');
+      return { message, changedFields: changed, note: `Quantity of the first order line (${items[0].sku}) rewritten to ${value}; total recomputed from the client’s own unit prices.` };
+    }
     case 'replay': {
       const ref = earlier.find((e) => e.stepId === tamper.of);
       if (!ref) return { message, changedFields: [], note: `Replay target ${tamper.of} not found; message sent unchanged.` };

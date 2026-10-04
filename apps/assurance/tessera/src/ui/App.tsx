@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { CATALOG, CSF_VERSION, SUBSET_LABEL } from '../engine/catalog';
 import { buildReport, reportToCsvRows, toCsv, MIN_OVERRIDE_RATIONALE } from '../engine/evaluate';
+import { buildReportWithForecast, degradingIds, forecastPack, forecastToCsvRows } from '../engine/forecast';
 import { MAX_PACK_BYTES, validatePack, validatePackObject } from '../engine/validate';
 import type { Decision, Evidence, EvidencePack, Priority, SubcategoryResult, Verdict } from '../engine/types';
 import { EVIDENCE_TYPES } from '../engine/types';
@@ -8,6 +9,7 @@ import demoPack from '../fixtures/harbourline-pack.json';
 import { downloadText, readTextFile } from './files';
 import { Mosaic } from './Mosaic';
 import { Drawer } from './Drawer';
+import { Forecast, HORIZONS, MARKER_HORIZON, type Horizon } from './Forecast';
 
 export type Notice = { kind: 'info' | 'error' | 'success'; text: string; details?: string[] } | null;
 
@@ -35,10 +37,13 @@ export default function App() {
   const [pack, setPack] = useState<EvidencePack>(() => loadDemo());
   const [selected, setSelected] = useState<string | null>(() => readHash() ?? 'PR.DS-11');
   const [notice, setNotice] = useState<Notice>({ kind: 'info', text: 'Loaded the bundled synthetic demo pack (Harbourline Logistics). Nothing here is real evidence.' });
+  const [horizon, setHorizon] = useState<Horizon>(90);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const report = useMemo(() => buildReport(pack), [pack]);
   const byId = useMemo(() => new Map(report.results.map((r) => [r.subcategoryId, r])), [report]);
+  const forecastRows = useMemo(() => forecastPack(pack, HORIZONS), [pack]);
+  const degrading = useMemo(() => new Set(degradingIds(forecastRows, MARKER_HORIZON)), [forecastRows]);
 
   useEffect(() => {
     const onHash = () => setSelected(readHash());
@@ -129,7 +134,7 @@ export default function App() {
             <button type="button" onClick={() => fileRef.current?.click()}>Import pack JSON</button>
             <input ref={fileRef} type="file" accept="application/json,.json" hidden aria-hidden="true" tabIndex={-1} onChange={(e) => void onImport(e.target.files?.[0])} />
             <button type="button" onClick={() => downloadText(`tessera-pack-${stamp}.json`, JSON.stringify(pack, null, 2))}>Export pack</button>
-            <button type="button" onClick={() => downloadText(`tessera-report-${stamp}.json`, JSON.stringify(report, null, 2))}>Export report JSON</button>
+            <button type="button" onClick={() => downloadText(`tessera-report-${stamp}.json`, JSON.stringify(buildReportWithForecast(pack, HORIZONS), null, 2))}>Export report JSON</button>
             <button type="button" onClick={() => downloadText(`tessera-report-${stamp}.csv`, toCsv(reportToCsvRows(report)), 'text/csv')}>Export report CSV</button>
           </div>
         </form>
@@ -153,9 +158,9 @@ export default function App() {
         <section className="mosaic-pane" id="mosaic" aria-labelledby="mosaic-h">
           <div className="pane-head">
             <h2 id="mosaic-h">Outcome mosaic</h2>
-            <p className="pane-help">One tile per subcategory. Pattern encodes status; colour encodes CSF function. Select a tile to see the derivation.</p>
+            <p className="pane-help">One tile per subcategory. Pattern encodes status; colour encodes CSF function; a ↓ corner mark means the forecast degrades the outcome within {MARKER_HORIZON} days without new evidence. Select a tile to see the derivation.</p>
           </div>
-          <Mosaic results={byId} selected={selected} onSelect={select} rollups={report.rollups} />
+          <Mosaic results={byId} selected={selected} onSelect={select} rollups={report.rollups} degrading={degrading} markerHorizon={MARKER_HORIZON} />
           <Legend />
         </section>
 
@@ -232,9 +237,18 @@ export default function App() {
         )}
       </section>
 
+      <Forecast
+        rows={forecastRows}
+        horizon={horizon}
+        onHorizon={setHorizon}
+        selected={selected}
+        onSelect={select}
+        onExportCsv={() => downloadText(`tessera-forecast-${stamp}.csv`, toCsv(forecastToCsvRows(forecastRows)), 'text/csv')}
+      />
+
       <footer className="foot">
         <p>
-          Session state lives in memory only and resets on refresh; export a pack to keep it. Reviewer decisions are valid for 365 days from their date and are ignored (with a warning) when stale or future-dated. Subcategory text from NIST CSWP 29 (Feb 26, 2024). Function colours and the status patterns are this project's own encoding, not NIST's.
+          Session state lives in memory only and resets on refresh; export a pack to keep it. Reviewer decisions are valid for 365 days from their date and are ignored (with a warning) when stale or future-dated. The forecast assumes no new evidence and no new decisions; it is a projection of the same rules, not a prediction. Subcategory text from NIST CSWP 29 (Feb 26, 2024). Function colours and the status patterns are this project's own encoding, not NIST's.
         </p>
       </footer>
     </div>
@@ -262,6 +276,12 @@ function Legend() {
           <dd>{label}</dd>
         </div>
       ))}
+      <div className="legend__item">
+        <dt>
+          <span className="tile tile--legend tile--legend-fc" aria-hidden="true"><span className="tile__fc">↓</span></span>
+        </dt>
+        <dd>↓ corner mark: forecast degrades this outcome within {MARKER_HORIZON} days if no new evidence is collected</dd>
+      </div>
     </dl>
   );
 }

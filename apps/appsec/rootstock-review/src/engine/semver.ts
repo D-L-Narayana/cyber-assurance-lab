@@ -136,6 +136,20 @@ export function isValidRange(range: string): boolean {
   return range.split('||').every((s) => parseSet(s) !== null);
 }
 
+/** Explains why a dependency specifier is outside this semver subset (used as the reason on unresolved edges). Such ranges never match. */
+export function describeUnsupportedRange(range: string): string {
+  const r = range.trim();
+  if (r === '') return 'empty range';
+  if (r.startsWith('npm:')) return 'npm: alias — the installed package has a different name; not a semver range';
+  if (r.startsWith('file:')) return 'file: path dependency, not a registry range';
+  if (r.startsWith('link:')) return 'link: path dependency, not a registry range';
+  if (r.startsWith('workspace:')) return 'workspace: protocol, not a registry range';
+  if (/^(git\+|git:|github:|gitlab:|bitbucket:|gist:)/.test(r) || /\.git(#|$)/.test(r)) return 'git dependency, not a registry range';
+  if (/^https?:\/\//.test(r)) return 'tarball URL, not a registry range';
+  if (/^[a-z][a-z0-9._-]*$/i.test(r)) return `dist-tag "${r}" — tags are not semver ranges`;
+  return 'range syntax outside the supported semver subset';
+}
+
 export function maxSatisfying(versions: string[], range: string): string | null {
   const ok = versions.filter((x) => satisfies(x, range)).sort(compareVersions);
   return ok.length ? ok[ok.length - 1] : null;

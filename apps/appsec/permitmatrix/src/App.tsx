@@ -5,6 +5,8 @@ import fixture from './fixtures/ledgerly-contract.json';
 import { LIMITS, parseContract, validateContract } from './engine/contract';
 import { generateCases } from './engine/cases';
 import { runSuite } from './engine/runner';
+import { compareRuns } from './engine/compare';
+import type { FindingSummary, PersistedFinding } from './engine/compare';
 import { buildReport, redactHeaders, reportToMarkdown } from './engine/report';
 import type { CaseResult, Contract, Flaw, FlawKind, SuiteRun, TestCase } from './engine/types';
 
@@ -15,6 +17,12 @@ const FLAW_LABELS: Record<FlawKind, string> = {
   'return-sensitive-fields': 'return sensitive fields',
   'deny-everything': 'deny everything',
 };
+
+/** Case verdict changes shown inline in the compare panel; the JSON export always carries the full list. */
+const MAX_CASE_CHANGE_ROWS = 200;
+
+interface BuildRef { id: string; label: string }
+interface PreviousRun { run: SuiteRun; build: BuildRef }
 
 function loadFixture(): Contract {
   const result = validateContract(fixture);
@@ -39,6 +47,8 @@ export default function App() {
   const [buildId, setBuildId] = useState<string>(() => (contract.builds.vulnerable ? 'vulnerable' : 'fixed'));
   const [flaws, setFlaws] = useState<Flaw[]>(() => contract.builds[buildId]?.flaws ?? []);
   const [run, setRun] = useState<SuiteRun | null>(null);
+  const [runBuild, setRunBuild] = useState<BuildRef | null>(null);
+  const [previous, setPrevious] = useState<PreviousRun | null>(null);
   const [runLabel, setRunLabel] = useState<string>('');
   const [selectedCell, setSelectedCell] = useState<{ endpoint: string; role: string } | null>(null);
   const [selectedCase, setSelectedCase] = useState<string | null>(null);
@@ -50,6 +60,7 @@ export default function App() {
   const cases = useMemo(() => generateCases(contract), [contract]);
   const caseById = useMemo(() => new Map(cases.map((c) => [c.id, c])), [cases]);
   const resultById = useMemo(() => new Map((run?.results ?? []).map((r) => [r.caseId, r])), [run]);
+  const diff = useMemo(() => (run && previous ? compareRuns(previous.run, run) : null), [run, previous]);
   const stale = run !== null && runLabel !== JSON.stringify({ build: buildId, flaws: flaws.map(flawKey).sort(), contract: contract.name + contract.version });
 
   // All possible flaw switches: every seeded flaw in any build, plus the deny-everything regression probe per endpoint.
@@ -61,9 +72,18 @@ export default function App() {
 
   function execute() {
     const result = runSuite(contract, cases, flaws);
+    const build: BuildRef = { id: buildId, label: contract.builds[buildId]?.label ?? buildId };
+    // The run being replaced becomes the "previous run" so a build switch or flaw toggle can be compared.
+    const prior: PreviousRun | null = run && runBuild ? { run, build: runBuild } : null;
+    setPrevious(prior);
     setRun(result);
+    setRunBuild(build);
     setRunLabel(JSON.stringify({ build: buildId, flaws: flaws.map(flawKey).sort(), contract: contract.name + contract.version }));
-    setNotice(`Ran ${result.results.length} cases against "${contract.builds[buildId]?.label ?? buildId}" with ${flaws.length} active flaw(s): ${result.findings.length} finding(s).`);
+    const retest = prior ? { ...compareRuns(prior.run, result).summary, label: prior.build.label } : null;
+    setNotice(
+      `Ran ${result.results.length} cases against "${build.label}" with ${flaws.length} active flaw(s): ${result.findings.length} finding(s).` +
+      (retest ? ` Compared with the previous run on "${retest.label}": ${retest.closed} closed, ${retest.opened} opened, ${retest.persisted} persisted, ${retest.caseChanges} case verdict change(s).` : ''),
+    );
     if (!selectedCell) setSelectedCell({ endpoint: contract.endpoints[0].id, role: contract.roles[0].id });
   }
 
@@ -84,6 +104,8 @@ export default function App() {
     setBuildId(firstBuild);
     setFlaws(parsed.contract.builds[firstBuild]?.flaws ?? []);
     setRun(null);
+    setRunBuild(null);
+    setPrevious(null);
     setSelectedCell(null);
     setSelectedCase(null);
     setImportErrors([]);
@@ -98,15 +120,25 @@ export default function App() {
     setImportErrors([]);
   }
 
+  function reportOptions() {
+    return { build: runBuild?.id ?? buildId, ...(previous ? { previous: { run: previous.run, build: previous.build.id } } : {}) };
+  }
   function exportJson() {
     if (!run) return;
-    const report = buildReport(contract, run, { build: buildId });
-    download(`permitmatrix-${contract.version}-${buildId}.json`, JSON.stringify(report, null, 2), 'application/json');
+    const report = buildReport(contract, run, reportOptions());
+    download(`permitmatrix-${contract.version}-${report.build.id}.json`, JSON.stringify(report, null, 2), 'application/json');
   }
   function exportMarkdown() {
     if (!run) return;
-    const report = buildReport(contract, run, { build: buildId });
-    download(`permitmatrix-${contract.version}-${buildId}.md`, reportToMarkdown(report), 'text/markdown');
+    const report = buildReport(contract, run, reportOptions());
+    download(`permitmatrix-${contract.version}-${report.build.id}.md`, reportToMarkdown(report), 'text/markdown');
+  }
+
+  function showCase(caseId: string) {
+    const c = caseById.get(caseId);
+    if (!c) return;
+    setSelectedCell({ endpoint: c.endpoint, role: c.role });
+    setSelectedCase(caseId);
   }
 
   const cellCases = selectedCell ? cases.filter((c) => c.endpoint === selectedCell.endpoint && c.role === selectedCell.role) : [];
@@ -168,7 +200,7 @@ export default function App() {
 
         <main className="main">
           <h2 className="section">Role × endpoint matrix {run ? `· ${run.results.length} cases` : '· not yet run'}{stale ? ' · inputs changed since last run' : ''}</h2>
-          {!run && <p className="empty">Press <strong>Run {cases.length} cases</strong> to evaluate the selected server build. Each cell will show a pin per target: own record, a peer's record in the same tenant, and a record in another tenant, plus a dot per property probe.</p>}
+          {!run && <p className="empty">Press <strong>Run {cases.length} cases</strong> to evaluate the selected server build. Each cell will show a pin per target: own record, a peer's record in the same tenant, and a record in another tenant, plus a dot per property probe (non-writable fields on update <em>and</em> create calls, sensitive fields on reads). Re-running after a build switch or flaw toggle keeps the previous run so the two can be compared.</p>}
           <div className="matrix-wrap">
             <table className="matrix">
               <caption className="sr-only">Authorization test results by endpoint and role</caption>
@@ -233,13 +265,52 @@ export default function App() {
                 <div className="evidence" aria-label="Evidence cases">
                   {f.evidenceCases.slice(0, 12).map((id) => {
                     const c = caseById.get(id)!;
-                    return <button key={id} onClick={() => { setSelectedCell({ endpoint: c.endpoint, role: c.role }); setSelectedCase(id); }}>{c.principal} · {c.targetKind}{c.probeField ? ` · ${c.probeField}` : ''}</button>;
+                    return <button key={id} onClick={() => showCase(id)}>{c.principal} · {c.targetKind}{c.probeField ? ` · ${c.probeField}` : ''}</button>;
                   })}
                   {f.evidenceCases.length > 12 && <span className="meta">+{f.evidenceCases.length - 12} more</span>}
                 </div>
               </article>
             ))}
           </div>
+
+          {run && runBuild && previous && diff && (
+            <section className="compare" aria-labelledby="compare-h">
+              <h2 className="section" id="compare-h">Compare with previous run · {previous.build.label} → {runBuild.label}</h2>
+              <p className="compare-summary">
+                <span className="tag closed">{diff.summary.closed} closed</span>
+                <span className="tag opened">{diff.summary.opened} opened</span>
+                <span className="tag persisted">{diff.summary.persisted} persisted</span>
+                <span className="tag neutral">{diff.summary.caseChanges} case verdict change{diff.summary.caseChanges === 1 ? '' : 's'} · {diff.summary.casesCompared} compared</span>
+                {diff.summary.identical && <span className="muted">The two runs are identical.</span>}
+                <span className="spacer" />
+                <button className="btn small" onClick={() => setPrevious(null)}>Forget previous run</button>
+              </p>
+              <div className="compare-grid">
+                <DiffList title="Closed" hint="in the previous run, absent now" tone="closed" items={diff.closed} />
+                <DiffList title="Opened" hint="new in this run" tone="opened" items={diff.opened} />
+                <DiffList title="Persisted" hint="in both runs" tone="persisted" items={diff.persisted} />
+              </div>
+              <details className="case-changes">
+                <summary>Case verdict changes ({diff.caseChanges.length})</summary>
+                {diff.caseChanges.length === 0 ? <p className="muted">No case changed verdict between the two runs.</p> : (
+                  <ul>
+                    {diff.caseChanges.slice(0, MAX_CASE_CHANGE_ROWS).map((ch) => (
+                      <li key={ch.caseId}>
+                        <button onClick={() => showCase(ch.caseId)} disabled={!caseById.has(ch.caseId)} aria-label={`Show case ${ch.caseId}: ${ch.from} before, ${ch.to} now`}>
+                          <code>{ch.caseId}</code>
+                          <span className={`verdict v-${ch.from}`}>{ch.from}</span>
+                          <span aria-hidden>→</span>
+                          <span className={`verdict v-${ch.to}`}>{ch.to}</span>
+                        </button>
+                      </li>
+                    ))}
+                    {diff.caseChanges.length > MAX_CASE_CHANGE_ROWS && <li className="muted">+{diff.caseChanges.length - MAX_CASE_CHANGE_ROWS} more in the JSON export</li>}
+                  </ul>
+                )}
+              </details>
+              <p className="muted small">Findings are matched by endpoint and kind, cases by id. The exported JSON carries this comparison as <code>comparison</code> and the memo gains a "Retest" section.</p>
+            </section>
+          )}
         </main>
 
         <aside className="ledger" aria-label="Case ledger">
@@ -290,6 +361,28 @@ export default function App() {
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
+    </div>
+  );
+}
+
+function DiffList({ title, hint, tone, items }: { title: string; hint: string; tone: 'closed' | 'opened' | 'persisted'; items: (FindingSummary | PersistedFinding)[] }) {
+  return (
+    <div className={`diff-list tone-${tone}`}>
+      <h3><span className={`tag ${tone}`}>{title} · {items.length}</span><span className="muted">{hint}</span></h3>
+      {items.length === 0 ? <p className="muted">none</p> : (
+        <ul>
+          {items.map((f) => {
+            const severity = 'severityBefore' in f && f.severityBefore !== f.severity ? `${f.severityBefore} → ${f.severity}` : f.severity;
+            const evidence = 'evidenceCasesBefore' in f && f.evidenceCasesBefore !== f.evidenceCases ? `${f.evidenceCasesBefore} → ${f.evidenceCases}` : `${f.evidenceCases}`;
+            return (
+              <li key={f.key}>
+                <code>{f.key}</code>
+                <span className="meta">{f.owaspApi} · {severity} · {evidence} evidence case{f.evidenceCases === 1 ? '' : 's'}</span>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 }

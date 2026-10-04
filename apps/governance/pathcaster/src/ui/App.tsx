@@ -18,10 +18,12 @@ export function App() {
   const [removeEdge, setRemoveEdge] = useState('');
   const [notice, setNotice] = useState<{ tone: 'ok' | 'error'; text: string } | null>(null);
   const [hideNone, setHideNone] = useState(true);
+  // Optional permission hierarchy (admin ⊃ write ⊃ read); off by default so the documented semantics are unchanged.
+  const [hierarchy, setHierarchy] = useState(false);
 
-  const result = useMemo(() => reach(graph, assetId, action), [graph, assetId, action]);
-  const hs = useMemo(() => hotspots(graph), [graph]);
-  const toxic = useMemo(() => toxicCombinations(graph), [graph]);
+  const result = useMemo(() => reach(graph, assetId, action, { hierarchy }), [graph, assetId, action, hierarchy]);
+  const hs = useMemo(() => hotspots(graph, { hierarchy }), [graph, hierarchy]);
+  const toxic = useMemo(() => toxicCombinations(graph, { hierarchy }), [graph, hierarchy]);
   const nodeById = useMemo(() => new Map(graph.nodes.map((n) => [n.id, n])), [graph]);
   const edgeById = useMemo(() => new Map(graph.edges.map((e) => [e.id, e])), [graph]);
   const asset = nodeById.get(assetId)!;
@@ -56,7 +58,7 @@ export function App() {
   }, [sel]);
   const selNodes = useMemo(() => { const s = new Set<string>(); if (sel) for (const p of [...sel.paths, ...sel.blockedByCondition]) for (const st of p.steps) s.add(st.nodeId); if (sel) for (const d of sel.denies) s.add(d.from); return s; }, [sel]);
 
-  const whatIf = useMemo(() => { try { return removeEdge ? whatIfRemoveEdge(graph, removeEdge, assetId, action) : null; } catch { return null; } }, [graph, removeEdge, assetId, action]);
+  const whatIf = useMemo(() => { try { return removeEdge ? whatIfRemoveEdge(graph, removeEdge, assetId, action, { hierarchy }) : null; } catch { return null; } }, [graph, removeEdge, assetId, action, hierarchy]);
   const candidateEdges = lanes.usedEdges.filter((e) => e.kind !== 'applies_to');
 
   const onImport = async (file?: File) => {
@@ -88,12 +90,13 @@ export function App() {
           <div className="query">
             <label className="field">Asset<select value={assetId} onChange={(e) => { setAssetId(e.target.value); setSelected(null); setRemoveEdge(''); }}>{assets.map((a) => <option key={a.id} value={a.id}>{a.label} · {a.sensitivity}</option>)}</select></label>
             <label className="field">Action<select value={action} onChange={(e) => { setAction(e.target.value as Action | 'any'); setSelected(null); setRemoveEdge(''); }}>{['any', 'read', 'write', 'admin'].map((a) => <option key={a}>{a}</option>)}</select></label>
+            <label className="toggle"><input type="checkbox" checked={hierarchy} onChange={(e) => { setHierarchy(e.target.checked); setSelected(null); setRemoveEdge(''); }} /> Treat admin as implying write/read</label>
             <label className="btn ghost">Load graph<input className="sr-only" type="file" accept=".json,application/json" onChange={(e) => onImport(e.target.files?.[0])} /></label>
             <button className="btn ghost" onClick={() => doExport('csv')}>Export CSV</button>
             <button className="btn" onClick={() => doExport('json')}>Export review JSON</button>
           </div>
         </div>
-        <p className="summary" aria-live="polite"><b className="allow">{result.summary.allow}</b> identit{result.summary.allow === 1 ? 'y' : 'ies'} can reach <strong>{asset.label}</strong> ({action}) · <b className="deny">{result.summary.deny}</b> have a path but are blocked by an explicit deny · <b className="none">{result.summary.none}</b> have no path{result.summary.indeterminate > 0 && <> · <b className="indeterminate">{result.summary.indeterminate}</b> indeterminate (traversal budget exhausted — not a verdict)</>}. {graph.label}: {graph.nodes.length} nodes, {graph.edges.length} edges.</p>
+        <p className="summary" aria-live="polite"><b className="allow">{result.summary.allow}</b> identit{result.summary.allow === 1 ? 'y' : 'ies'} can reach <strong>{asset.label}</strong> ({action}) · <b className="deny">{result.summary.deny}</b> have a path but are blocked by an explicit deny · <b className="none">{result.summary.none}</b> have no path{result.summary.indeterminate > 0 && <> · <b className="indeterminate">{result.summary.indeterminate}</b> indeterminate (traversal budget exhausted — not a verdict)</>}. {hierarchy && <>Permission hierarchy applied: admin ⊃ write ⊃ read, so an admin or write permission also satisfies a weaker query (denies on the permission actually used still apply). </>}{graph.label}: {graph.nodes.length} nodes, {graph.edges.length} edges.</p>
         {notice && <p className={`notice ${notice.tone === 'error' ? 'error' : ''}`} role="status">{notice.text}</p>}
       </header>
 

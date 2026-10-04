@@ -3,7 +3,8 @@
 | Component | Version | License | Source |
 |---|---|---|---|
 | React, React DOM | 19.x | MIT | https://github.com/facebook/react |
-| Vite | 6.x (dev) | MIT | https://github.com/vitejs/vite |
+| Vite | 7.3.x (dev) | MIT | https://github.com/vitejs/vite |
+| @vitejs/plugin-react | 5.2.x (dev) | MIT | https://github.com/vitejs/vite-plugin-react |
 | Vitest | 4.1.x (dev) | MIT | https://github.com/vitest-dev/vitest |
 | TypeScript | 5.9 (dev) | Apache-2.0 | https://github.com/microsoft/TypeScript |
 | @fontsource/fraunces (Fraunces by Undercase Type) | 5.x | SIL OFL 1.1 | https://github.com/undercasetype/Fraunces · https://fontsource.org/fonts/fraunces |

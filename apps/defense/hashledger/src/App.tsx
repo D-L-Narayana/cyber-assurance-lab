@@ -29,7 +29,8 @@ export function App() {
   const [addOpen, setAddOpen] = useState(false);
   const [newPath, setNewPath] = useState('');
   const [newContent, setNewContent] = useState('');
-  const [addError, setAddError] = useState<string | null>(null);
+  const [newOwner, setNewOwner] = useState('svc-user');
+  const [addErrors, setAddErrors] = useState<string[]>([]);
   const [caseNote, setCaseNote] = useState('');
   const [tamper, setTamper] = useState(false);
   const [egressCount, setEgressCount] = useState(0);
@@ -95,11 +96,13 @@ export function App() {
     setStatus(`Removed ${file.path} from the fixture directory.`);
   }
   function addFile() {
-    const candidate: FileEntry = { path: newPath.trim(), content: newContent, mode: '0644', owner: 'svc-user' };
+    const candidate: FileEntry = { path: newPath.trim(), content: newContent, mode: '0644', owner: newOwner.trim() };
+    // Validate the whole manifest (duplicate paths and the file cap need the existing rows). Errors for the new row
+    // come back as `files[N].field: …`; N is the row being added, so they are shown as `field: …`.
     const v = validateManifest([...files, candidate]);
-    if (!v.ok) { setAddError(v.errors[0]); return; }
-    setFiles(fs => [...fs, candidate]); setSelectedPath(candidate.path); setAddOpen(false); setNewPath(''); setNewContent(''); setAddError(null);
-    setStatus(`Added ${candidate.path}.`);
+    if (!v.ok) { setAddErrors(v.errors.map(e => e.replace(`files[${files.length}].`, ''))); return; }
+    setFiles(fs => [...fs, candidate]); setSelectedPath(candidate.path); setAddOpen(false); setNewPath(''); setNewContent(''); setNewOwner('svc-user'); setAddErrors([]);
+    setStatus(`Added ${candidate.path} (owner ${candidate.owner}).`);
   }
   async function simulateEgress() {
     if (!file || !cls) return;
@@ -169,15 +172,16 @@ export function App() {
       <main className="grid">
         <section className="files" id="files" aria-labelledby="files-h">
           <div className="files-head"><h2 id="files-h">Fixture directory</h2>
-            <Dialog.Root open={addOpen} onOpenChange={o => { setAddOpen(o); setAddError(null); }}>
+            <Dialog.Root open={addOpen} onOpenChange={o => { setAddOpen(o); setAddErrors([]); }}>
               <Dialog.Trigger asChild><button type="button" className="btn ghost small">Add file</button></Dialog.Trigger>
               <Dialog.Portal><Dialog.Overlay className="overlay" />
                 <Dialog.Content className="dialog">
                   <Dialog.Title>Add a synthetic file</Dialog.Title>
-                  <Dialog.Description className="muted">Relative path (no "..", ≤ {LIMITS.maxPathChars} chars) and content ≤ {LIMITS.maxContentChars.toLocaleString()} characters. Up to {LIMITS.maxFiles} files. Invent the content — never paste real data.</Dialog.Description>
+                  <Dialog.Description className="muted">Relative path (letters, digits, ".", "_", "-" and "/" only; no "." or ".." segments; ≤ {LIMITS.maxPathChars} chars), owner (printable, 1–{LIMITS.maxOwnerChars} chars) and content ≤ {LIMITS.maxContentChars.toLocaleString()} characters. Up to {LIMITS.maxFiles} files. Invent the content — never paste real data.</Dialog.Description>
                   <label>Path <input value={newPath} onChange={e => setNewPath(e.target.value)} placeholder="team/notes.md" /></label>
+                  <label>Owner <input value={newOwner} onChange={e => setNewOwner(e.target.value)} placeholder="svc-user" /></label>
                   <label>Content <textarea rows={6} value={newContent} onChange={e => setNewContent(e.target.value)} /></label>
-                  {addError && <p role="alert" className="error">{addError}</p>}
+                  {addErrors.length > 0 && <ul role="alert" className="errors">{addErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>}
                   <div className="row end"><Dialog.Close asChild><button type="button" className="btn ghost">Cancel</button></Dialog.Close><button type="button" className="btn" onClick={addFile}>Add</button></div>
                 </Dialog.Content>
               </Dialog.Portal>

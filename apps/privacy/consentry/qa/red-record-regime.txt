@@ -1,0 +1,250 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/privacy/consentry
+# 2026-10-04T18:39:49.978Z v20.20.1
+# exit 1
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
+
+
+ RUN  v4.1.11 <repo>/apps/privacy/consentry
+
+ ✓ src/App.test.tsx > Consentry app (integration, added after the UI) > shows an ALLOW stamp for the default scenario with the consent record marked as used 436ms
+ ✓ src/App.test.tsx > Consentry app (integration, added after the UI) > flipping the GPC switch on a Californian sale/share purpose turns the decision to DENY 682ms
+ ✓ src/App.test.tsx > Consentry app (integration, added after the UI) > comparison mode renders two ladders and highlights the differing rung 385ms
+ × src/App.test.tsx > Consentry app (integration, added after the UI) > disabling a rule in the coverage tab breaks the regression suite and reports which expectation failed 452ms
+   → expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  /1 of 21 expectations fail/
+Received:
+  2 of 21 expectations fail.ev-11: expected deny (GPC_OPT_OUT), observed allow (NOTICE_AND_OPT_OUT)ev-21: expected review (RECORD_REGIME_MISMATCH), observed allow (CONSENT_VALID)
+ ✓ src/App.test.tsx > Consentry app (integration, added after the UI) > adding a withdrawal before the event flips the default scenario to DENY 359ms
+ × src/App.test.tsx > Consentry app (integration, added after the UI) > renders the record-regime rung: a UK subject whose grant was captured under the EU notice gets REVIEW 272ms
+   → expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  /REVIEW/
+Received:
+  ALLOWCONSENT_VALID
+ ✓ src/App.test.tsx > Consentry app (integration, added after the UI) > rejects a malformed workspace import with field-level errors 501ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > sends an unknown purpose to review 2ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > allows essential purposes without consent 1ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > sends an unknown regime to review rather than guessing 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > denies consent-based processing with no consent on record 1ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > allows when a valid consent predates the event and names the record 1ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > ignores a consent granted after the event (temporal validity) 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > denies when the latest record before the event is a withdrawal 7ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > re-grant after withdrawal is valid again 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > treats consent older than the policy maximum age as expired 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > honours an explicit expiresAt on the record 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > requires fresh consent when the purpose policy version moved and the purpose demands it 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > denies consent-based processing for a child below the regime threshold 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > applies the lower UK threshold so a 13-15 year old can consent 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > denies sale/share when an opt-out preference signal is present in California 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > GPC does not block non-sale purposes 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > denies when an opt-out is on record for a notice-and-opt-out purpose 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > requires affirmative opt-in to sell or share a Californian minor’s data 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > allows legitimate-interest purposes only when an assessment is documented 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > denies a legitimate-interest purpose when the subject has objected 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: rule ladder > sends a purpose with no configured basis for the regime to review 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: trace and determinism > produces a trace with exactly one matched rule, which is the last entry, and all prior rules passed 1ms
+ ✓ src/engine/evaluate.test.ts > evaluate: trace and determinism > marks disabled rules as skipped and lets the next rule decide 0ms
+ ✓ src/engine/evaluate.test.ts > evaluate: trace and determinism > is deterministic and never throws for arbitrary combinations (property) 102ms
+ ✓ src/engine/evaluate.test.ts > evaluate: trace and determinism > exposes the rule table in evaluation order with unique ids 0ms
+ ✓ src/engine/evaluate.test.ts > latestRecordAsOf > returns the newest record at or before the instant, for the subject and purpose only 1ms
+ ✓ src/engine/evaluate.test.ts > unknown age (review finding) > routes a consent-based EU purpose to review when the age band is unknown, even with a grant on record 0ms
+ ✓ src/engine/evaluate.test.ts > unknown age (review finding) > routes a Californian sale/share purpose to review when the age band is unknown 0ms
+ ✓ src/engine/evaluate.test.ts > unknown age (review finding) > does not require a known age for non-consent, non-sale purposes 0ms
+ × src/engine/evaluate.test.ts > R09a record regime (October 2026 upgrade round) > routes a consent grant captured under another regime to review with RECORD_REGIME_MISMATCH and names the record 18ms
+   → expected { …(9) } to match object { decision: 'review', …(3) }
+(5 matching properties omitted from actual)
+ ✓ src/engine/evaluate.test.ts > R09a record regime (October 2026 upgrade round) > leaves a grant captured under the subject’s own regime unaffected 0ms
+ ✓ src/engine/evaluate.test.ts > R09a record regime (October 2026 upgrade round) > does not apply to non-consent bases even when the record regime differs 16ms
+ ✓ src/engine/evaluate.test.ts > R09a record regime (October 2026 upgrade round) > keeps the protective effect of a withdrawal recorded under another regime (deny, not review) 0ms
+ ✓ src/engine/evaluate.test.ts > R09a record regime (October 2026 upgrade round) > with no record on file the mismatch rule passes and R09 still denies NO_CONSENT 0ms
+ ✓ src/engine/evaluate.test.ts > R09a record regime (October 2026 upgrade round) > sits immediately before R09-consent and after R08-objection in the rule table 0ms
+ ✓ src/engine/evaluate.test.ts > California under-16 sale/share opt-in is category-based (sixth-review finding) > a legitimate-interest basis cannot bypass the opt-in requirement for a minor 0ms
+ ✓ src/engine/evaluate.test.ts > California under-16 sale/share opt-in is category-based (sixth-review finding) > a contract basis cannot bypass it either 0ms
+ ✓ src/engine/analysis.test.ts > evaluateAll > evaluates every event in the workspace once, in event order 25ms
+ × src/engine/analysis.test.ts > runExpectations (policy regression suite) > passes for the bundled fixture expectations 30ms
+   → expected [ { eventId: 'ev-21', …(4) } ] to deeply equal []
+ ✓ src/engine/analysis.test.ts > runExpectations (policy regression suite) > reports a failing expectation with the observed outcome 20ms
+ ✓ src/engine/analysis.test.ts > runExpectations (policy regression suite) > flags expectations that reference unknown events instead of silently passing 18ms
+ ✓ src/engine/analysis.test.ts > ruleCoverage (rule-level mutation analysis) > reports, for every rule, how many fixture decisions change when the rule is disabled 9ms
+ ✓ src/engine/analysis.test.ts > ruleCoverage (rule-level mutation analysis) > marks a rule as unexercised when no fixture decision depends on it 32ms
+ ✓ src/engine/analysis.test.ts > ruleCoverage (rule-level mutation analysis) > never counts the fallback rule as exercised unless something reaches it 32ms
+ ✓ src/engine/analysis.test.ts > workspace import > round-trips the demo workspace 4ms
+ ✓ src/engine/analysis.test.ts > workspace import > rejects oversized input before parsing 62ms
+ ✓ src/engine/analysis.test.ts > workspace import > rejects records that reference unknown subjects or purposes 1ms
+ ✓ src/engine/analysis.test.ts > workspace import > rejects invalid enum values and timestamps 5ms
+ ✓ src/engine/analysis.test.ts > workspace import > rejects deep nesting and too many events 23ms
+ ✓ src/engine/analysis.test.ts > workspace import > drops unknown keys 1ms
+ ✓ src/engine/analysis.test.ts > hostile nesting (review finding) > returns a validation error, not a RangeError, for 20,000 nested arrays inside the byte limit 9ms
+ × src/engine/analysis.test.ts > R09a record regime in the fixture and at import (October 2026 upgrade round) > the fixture exercises R09a-record-regime: disabling it changes ev-21 7ms
+   → expected false to be true // Object.is equality
+ × src/engine/analysis.test.ts > R09a record regime in the fixture and at import (October 2026 upgrade round) > ev-21 (UK subject, grant captured under the EU notice) is expected to review with RECORD_REGIME_MISMATCH and the suite passes 2ms
+   → expected [ { eventId: 'ev-21', …(4) } ] to deeply equal []
+ × src/engine/analysis.test.ts > R09a record regime in the fixture and at import (October 2026 upgrade round) > disabling R09a-record-regime at import is called out as a protective-rule override 2ms
+   → expected 'ev-18: purpose "retired-purpose" is n…' to match /R09a-record-regime.*educational overr…/
+ ✓ src/engine/analysis.test.ts > import warns when protective rules are disabled (sixth-review finding) > lists each disabled protective rule as an educational-override warning 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/App.test.tsx > Consentry app (integration, added after the UI) > disabling a rule in the coverage tab breaks the regression suite and reports which expectation failed
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  /1 of 21 expectations fail/
+Received:
+  2 of 21 expectations fail.ev-11: expected deny (GPC_OPT_OUT), observed allow (NOTICE_AND_OPT_OUT)ev-21: expected review (RECORD_REGIME_MISMATCH), observed allow (CONSENT_VALID)
+ ❯ src/App.test.tsx:44:47
+     42|     await user.click(screen.getByRole('tab', { name: /Policy regressio…
+     43|     const panel = screen.getByRole('tabpanel');
+     44|     expect(within(panel).getByRole('status')).toHaveTextContent(/1 of …
+       |                                               ^
+     45|     expect(within(panel).getByRole('status')).toHaveTextContent(/ev-11…
+     46|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  src/App.test.tsx > Consentry app (integration, added after the UI) > renders the record-regime rung: a UK subject whose grant was captured under the EU notice gets REVIEW
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  /REVIEW/
+Received:
+  ALLOWCONSENT_VALID
+ ❯ src/App.test.tsx:62:19
+     60|     await user.selectOptions(screen.getByLabelText('Subject'), 'sub-uk…
+     61|     const stamp = screen.getAllByRole('status').find((el) => el.classL…
+     62|     expect(stamp).toHaveTextContent(/REVIEW/);
+       |                   ^
+     63|     expect(stamp).toHaveTextContent('RECORD_REGIME_MISMATCH');
+     64|     expect(screen.getByText('R09a-record-regime · matched')).toBeInThe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  src/engine/analysis.test.ts > runExpectations (policy regression suite) > passes for the bundled fixture expectations
+AssertionError: expected [ { eventId: 'ev-21', …(4) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "eventId": "ev-21",
++     "expected": "review",
++     "expectedReason": "RECORD_REGIME_MISMATCH",
++     "observed": "allow",
++     "observedReason": "CONSENT_VALID",
++   },
++ ]
+
+ ❯ src/engine/analysis.test.ts:26:27
+     24|     const result = runExpectations(ws);
+     25|     expect(result.total).toBe(ws.expectations.length);
+     26|     expect(result.failed).toEqual([]);
+       |                           ^
+     27|   });
+     28|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  src/engine/analysis.test.ts > R09a record regime in the fixture and at import (October 2026 upgrade round) > the fixture exercises R09a-record-regime: disabling it changes ev-21
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/analysis.test.ts:128:28
+    126|   it('the fixture exercises R09a-record-regime: disabling it changes e…
+    127|     const cov = ruleCoverage(load()).find((c) => c.ruleId === 'R09a-re…
+    128|     expect(cov?.exercised).toBe(true);
+       |                            ^
+    129|     expect(cov?.changedEventIds).toContain('ev-21');
+    130|     expect(cov?.terminalFor).toBeGreaterThanOrEqual(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  src/engine/analysis.test.ts > R09a record regime in the fixture and at import (October 2026 upgrade round) > ev-21 (UK subject, grant captured under the EU notice) is expected to review with RECORD_REGIME_MISMATCH and the suite passes
+AssertionError: expected [ { eventId: 'ev-21', …(4) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "eventId": "ev-21",
++     "expected": "review",
++     "expectedReason": "RECORD_REGIME_MISMATCH",
++     "observed": "allow",
++     "observedReason": "CONSENT_VALID",
++   },
++ ]
+
+ ❯ src/engine/analysis.test.ts:136:40
+    134|     const ws = load();
+    135|     expect(ws.expectations.find((e) => e.eventId === 'ev-21')).toEqual…
+    136|     expect(runExpectations(ws).failed).toEqual([]);
+       |                                        ^
+    137|   });
+    138|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  src/engine/analysis.test.ts > R09a record regime in the fixture and at import (October 2026 upgrade round) > disabling R09a-record-regime at import is called out as a protective-rule override
+AssertionError: expected 'ev-18: purpose "retired-purpose" is n…' to match /R09a-record-regime.*educational overr…/
+
+- Expected:
+/R09a-record-regime.*educational override/
+
++ Received:
+"ev-18: purpose \"retired-purpose\" is not registered (will be routed to review)"
+
+ ❯ src/engine/analysis.test.ts:142:44
+    140|     const r = parseWorkspace(JSON.stringify({ ...demo, policy: { ...de…
+    141|     expect(r.ok).toBe(true);
+    142|     if (r.ok) expect(r.warnings.join(' ')).toMatch(/R09a-record-regime…
+       |                                            ^
+    143|   });
+    144| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  src/engine/evaluate.test.ts > R09a record regime (October 2026 upgrade round) > routes a consent grant captured under another regime to review with RECORD_REGIME_MISMATCH and names the record
+AssertionError: expected { …(9) } to match object { decision: 'review', …(3) }
+(5 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "decision": "review",
+-   "reasonCode": "RECORD_REGIME_MISMATCH",
++   "decision": "allow",
++   "reasonCode": "CONSENT_VALID",
+    "recordId": "rec-uk-adult-granted-2026-09-01T00:00:00Z",
+-   "ruleId": "R09a-record-regime",
++   "ruleId": "R09-consent",
+  }
+
+ ❯ src/engine/evaluate.test.ts:279:15
+    277|     const r = rec({ subjectId: 'uk-adult', purposeId: 'marketing-email…
+    278|     const d = run(ev('uk-adult', 'marketing-email'), ukAdult, [r]);
+    279|     expect(d).toMatchObject({ decision: 'review', reasonCode: 'RECORD_…
+       |               ^
+    280|     const rung = d.trace.find((t) => t.ruleId === 'R09a-record-regime'…
+    281|     expect(rung?.outcome).toBe('matched');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  7 failed | 54 passed (61)
+   Start at  18:39:51
+   Duration  21.73s (transform 564ms, setup 941ms, import 823ms, tests 3.57s, environment 15.27s)
+

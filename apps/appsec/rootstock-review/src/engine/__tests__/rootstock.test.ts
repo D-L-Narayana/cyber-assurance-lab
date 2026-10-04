@@ -64,7 +64,7 @@ describe('graph', () => {
     expect(g.nodes.get('colourkit@0.9.2')?.parents.map((p) => p.from)).toContain('uikit@3.2.4');
     expect(g.nodes.get('fontparse@3.4.0')?.parents.map((p) => p.from)).toContain('pdfkit-lite@5.2.0');
     expect(g.nodes.get('pdfkit-lite@5.2.0')?.parents.map((p) => p.from)).toContain('fontparse@3.4.0');
-    expect(g.unresolved).toEqual([{ from: 'fontparse@3.4.0', name: 'glyphcache', range: '^1.0.0' }]);
+    expect(g.unresolved).toEqual([{ from: 'fontparse@3.4.0', name: 'glyphcache', range: '^1.0.0', reason: 'no package in the snapshot satisfies this range' }]);
     expect(g.nodes.size).toBe(11);
   });
   it('enumerates bounded root paths and depth', () => {

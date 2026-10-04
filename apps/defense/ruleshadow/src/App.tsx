@@ -3,18 +3,19 @@ import * as Tabs from '@radix-ui/react-tabs';
 import * as Switch from '@radix-ui/react-switch';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { parseRuleCsv, LIMITS, type Rule } from './engine/rules';
-import { analyzeRules, KIND_META, type Severity } from './engine/analyze';
+import { analyzeRules, analyzeCoverage, KIND_META, type Severity } from './engine/analyze';
 import { proposeChange, applyProposals, diffRuleSets, type Proposal } from './engine/change';
 import { explainRule } from './engine/explain';
-import { toCsv, buildReport } from './engine/report';
+import { toCsv, buildReport, findingRows, coverageLabel } from './engine/report';
 import { SAMPLE_RULES_CSV } from './engine/fixtures';
-import { Footprint } from './ui/RuleRow';
+import { Footprint, CoverageBar } from './ui/RuleRow';
 
 const SEVERITIES: Severity[] = ['critical', 'high', 'medium', 'low', 'info'];
+const FIXTURE_LABEL = 'shipped synthetic fixture (41 rules)';
 
 export function App() {
   const [rules, setRules] = useState<Rule[]>(() => parseRuleCsv(SAMPLE_RULES_CSV).rules);
-  const [source, setSource] = useState('shipped synthetic fixture (40 rules)');
+  const [source, setSource] = useState(FIXTURE_LABEL);
   const [now, setNow] = useState('2026-10-01');
   const [staleDays, setStaleDays] = useState(90);
   const [jumpHost, setJumpHost] = useState('');
@@ -26,7 +27,8 @@ export function App() {
   const [importErrors, setImportErrors] = useState<string[]>([]);
   const [status, setStatus] = useState('');
 
-  const findings = useMemo(() => analyzeRules(rules, { now, staleDays }), [rules, now, staleDays]);
+  const coverage = useMemo(() => analyzeCoverage(rules), [rules]);
+  const findings = useMemo(() => analyzeRules(rules, { now, staleDays, coverage }), [rules, now, staleDays, coverage]);
   const proposals = useMemo<Proposal[]>(() => findings.map(f => ({ ...proposeChange(rules, f, { now, jumpHost }), approved: decisions[f.id] === true })), [findings, rules, decisions, now, jumpHost]);
   const after = useMemo(() => applyProposals(rules, proposals), [rules, proposals]);
   const changes = useMemo(() => diffRuleSets(rules, after), [rules, after]);
@@ -41,8 +43,8 @@ export function App() {
   function download(name: string, content: string, type: string) {
     const url = URL.createObjectURL(new Blob([content], { type })); const a = document.createElement('a'); a.href = url; a.download = name; a.click(); URL.revokeObjectURL(url);
   }
-  function exportJson() { download(`ruleshadow-report-${Date.now()}.json`, JSON.stringify(buildReport({ rules, findings, proposals, generatedAt: new Date().toISOString(), now }), null, 2), 'application/json'); setStatus('Exported JSON report.'); }
-  function exportCsv() { download(`ruleshadow-findings-${Date.now()}.csv`, toCsv(findings.map(f => ({ severity: f.severity, kind: f.kind, ruleId: f.ruleId ?? '', relatedRuleIds: f.relatedRuleIds.join(' '), title: f.title, detail: f.detail, proposal: proposals.find(p => p.findingId === f.id)?.op ?? '', approved: decisions[f.id] === true ? 'yes' : decisions[f.id] === false ? 'rejected' : 'pending' }))), 'text/csv'); setStatus('Exported findings CSV (formula-safe).'); }
+  function exportJson() { download(`ruleshadow-report-${Date.now()}.json`, JSON.stringify(buildReport({ rules, findings, proposals, generatedAt: new Date().toISOString(), now, coverage }), null, 2), 'application/json'); setStatus('Exported JSON report (includes per-rule coverage).'); }
+  function exportCsv() { download(`ruleshadow-findings-${Date.now()}.csv`, toCsv(findingRows(findings, proposals, decisions, coverage)), 'text/csv'); setStatus('Exported findings CSV (formula-safe, with coverage column).'); }
   function doImport() {
     const r = parseRuleCsv(importText);
     if (r.errors.length) { setImportErrors(r.errors.map(e => `line ${e.line}: ${e.reason}`)); return; }
@@ -51,7 +53,7 @@ export function App() {
     setStatus(`Loaded ${r.rules.length} rules.`);
   }
   function decideProposal(id: string, approved: boolean) { setDecisions(d => ({ ...d, [id]: approved })); setStatus(approved ? 'Proposal approved; change set updated.' : 'Proposal rejected.'); }
-  function reset() { setRules(parseRuleCsv(SAMPLE_RULES_CSV).rules); setSource('shipped synthetic fixture (40 rules)'); setDecisions({}); setSelected(null); setStatus('Reset to the shipped fixture.'); }
+  function reset() { setRules(parseRuleCsv(SAMPLE_RULES_CSV).rules); setSource(FIXTURE_LABEL); setDecisions({}); setSelected(null); setStatus('Reset to the shipped fixture.'); }
 
   return (
     <Tooltip.Provider delayDuration={150}>
@@ -76,7 +78,7 @@ export function App() {
           <span className="src">{source} · {rules.filter(r => r.enabled).length} enabled of {rules.length} · reviewed as of {now}</span>
           <span className="sev-chips">{bySev.filter(x => x.n).map(x => <span key={x.s} className={`chip sev-${x.s}`}>{x.n} {x.s}</span>)}{findings.length === 0 && <span className="chip">no findings</span>}</span>
           <span className="src">{proposals.filter(p => p.approved).length} approved · {changes.length} rule change{changes.length === 1 ? '' : 's'} in set · {proposals.filter(p => p.manualReview).length} need manual review</span>
-          {source !== 'shipped synthetic fixture (40 rules)' && <button type="button" className="linkbtn" onClick={reset}>reset to fixture</button>}
+          {source !== FIXTURE_LABEL && <button type="button" className="linkbtn" onClick={reset}>reset to fixture</button>}
         </section>
 
         <main className="layout">
@@ -114,11 +116,14 @@ export function App() {
                     <h3>Rule {currentRule.id} in plain language</h3>
                     <p className="plain">{explainRule(currentRule)}</p>
                     <div className="rule-card"><code>{currentRule.seq} {currentRule.action} {currentRule.proto} {currentRule.src} → {currentRule.dst} :{currentRule.ports} [{currentRule.zoneFrom}→{currentRule.zoneTo}] owner={currentRule.owner || '—'} expires={currentRule.expires || '—'} lastHit={currentRule.lastHit || 'never'}</code><Footprint rule={currentRule} /></div>
+                    {coverage[currentRule.id] && (
+                      <p className="cov-line">Coverage by earlier rules: <strong>{coverageLabel(coverage[currentRule.id])}</strong> of this rule's address × port space is already matched{coverage[currentRule.id].coveringRuleIds.length ? ` by ${coverage[currentRule.id].coveringRuleIds.join(', ')}` : ' (no earlier rule overlaps it)'}. <span className="muted">Union across address space — broader than the containment check behind shadow findings.{coverage[currentRule.id].approximate ? ' Approximate: the fragment budget was reached, so this is a lower bound.' : ''}</span></p>
+                    )}
                   </>
                 )}
                 {current.relatedRuleIds.length > 0 && (
                   <>
-                    <h3>Covered by earlier rule{current.relatedRuleIds.length > 1 ? 's' : ''}</h3>
+                    <h3>{current.kind === 'partially-shadowed' ? `Covering earlier rule${current.relatedRuleIds.length > 1 ? 's' : ''} (union of their address space)` : `Covered by earlier rule${current.relatedRuleIds.length > 1 ? 's' : ''}`}</h3>
                     <ul className="related">{current.relatedRuleIds.map(id => { const r = rules.find(x => x.id === id)!; return <li key={id}><strong>{id}</strong> — {explainRule(r)}</li>; })}</ul>
                   </>
                 )}
@@ -150,11 +155,11 @@ export function App() {
             <Tabs.Content value="rules">
               <div className="table-tools">
                 <label className="switch-label"><Switch.Root className="switch" checked={showDisabled} onCheckedChange={setShowDisabled} aria-label="Show disabled rules"><Switch.Thumb className="switch-thumb" /></Switch.Root>Show disabled rules</label>
-                <span className="muted small">Footprint bars: source and destination block size (log scale) and port coverage across 0–65535.</span>
+                <span className="muted small">Footprint bars: source and destination block size (log scale) and port coverage across 0–65535. Coverage: share of the rule's address × port space already matched by earlier enabled rules (union, per protocol); "approx." marks a budget-limited lower bound.</span>
               </div>
               <div className="table-wrap" tabIndex={0} aria-label="Rules table, scrollable">
                 <table className="rules">
-                  <thead><tr><th scope="col">Seq</th><th scope="col">Rule</th><th scope="col">Action</th><th scope="col">Flow</th><th scope="col">Footprint</th><th scope="col">Owner</th><th scope="col">Last hit</th><th scope="col">Findings</th></tr></thead>
+                  <thead><tr><th scope="col">Seq</th><th scope="col">Rule</th><th scope="col">Action</th><th scope="col">Flow</th><th scope="col">Footprint</th><th scope="col">Coverage</th><th scope="col">Owner</th><th scope="col">Last hit</th><th scope="col">Findings</th></tr></thead>
                   <tbody>
                     {visibleRules.map(r => {
                       const fs = findingsForRule(r.id);
@@ -165,6 +170,7 @@ export function App() {
                           <td><span className={`act act-${r.action}`}>{r.action}</span></td>
                           <td className="mono small">{r.proto} {r.src} → {r.dst}<br />:{r.ports} · {r.zoneFrom}→{r.zoneTo}{r.expires ? ` · exp ${r.expires}` : ''}</td>
                           <td><Footprint rule={r} /></td>
+                          <td><CoverageBar c={r.enabled ? coverage[r.id] : undefined} /></td>
                           <td className="small">{r.owner || '—'}</td>
                           <td className="mono small">{r.lastHit || 'never'}</td>
                           <td>{fs.length === 0 ? <span className="muted small">—</span> : fs.map(f => <button type="button" key={f.id} className={`chip sev-${f.severity} chip-btn`} onClick={() => setSelected(f.id)}>{f.kind}</button>)}</td>

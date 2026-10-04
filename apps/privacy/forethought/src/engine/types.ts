@@ -100,6 +100,12 @@ export interface Version {
   at: string;
   contentHash: string;
   changeSummary: string[];
+  /**
+   * Canonical content JSON (see `canonicalContent`) of the assessment at this version, so the next
+   * snapshot can produce a field-level change summary after export/import. Optional: legacy files
+   * omit it, and `snapshot` omits it when the canonical content exceeds 64 KiB.
+   */
+  content?: string;
 }
 
 export interface Assessment {

@@ -1,0 +1,20 @@
+$ npx vitest run --reporter=verbose src/engine/validate.test.ts
+# cwd apps/defense/peerline
+# 2026-10-04T19:12:13.176Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/defense/peerline
+
+ ✓ src/engine/validate.test.ts > bounded record import > parseRecords enforces the byte cap before JSON.parse and reports invalid JSON 71ms
+ ✓ src/engine/validate.test.ts > bounded record import > rejects nesting deeper than the record shape and oversized value counts without recursing 14ms
+ ✓ src/engine/validate.test.ts > bounded record import > rejects impossible calendar days such as 2026-02-30 and accepts a real leap day 1ms
+ ✓ src/engine/validate.test.ts > bounded record import > rejects duplicate (user, day) rows naming both row indices 1ms
+ ✓ src/engine/validate.test.ts > bounded record import > restricts user and dept to printable characters 1ms
+ ✓ src/engine/validate.test.ts > bounded record import > addresses every error by path, requires finite numbers, drops unknown keys and caps the list at 20 2ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  19:12:15
+   Duration  793ms (transform 177ms, setup 0ms, import 194ms, tests 91ms, environment 0ms)
+

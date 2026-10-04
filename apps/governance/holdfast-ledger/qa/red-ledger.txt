@@ -1,4 +1,5 @@
- RUN  v4.1.11 /home/user/workspace/cyber-portfolio/candidates/governance/holdfast-ledger
+# note: on the next line the absolute working directory printed by vitest in the original build environment was replaced by a neutral marker after capture (2026-10-04); it was not a repository path. Results unchanged.
+ RUN  v4.1.11 <original-build>/governance/holdfast-ledger
  ❯ src/engine/ledger.test.ts (0 test)
 ⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
  FAIL  src/engine/ledger.test.ts [ src/engine/ledger.test.ts ]

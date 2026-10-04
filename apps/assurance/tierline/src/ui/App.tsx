@@ -7,6 +7,7 @@ import { downloadText, readTextFile } from './files';
 import { Quadrant } from './Quadrant';
 import { VendorDetail } from './VendorDetail';
 import { Queue } from './Queue';
+import { Forecast } from './Forecast';
 
 export type Notice = { kind: 'info' | 'error' | 'success'; text: string; details?: string[] } | null;
 
@@ -188,6 +189,8 @@ export default function App() {
           </section>
         </main>
       </div>
+
+      <Forecast register={register} onJump={select} selected={selected} />
 
       <Queue queue={queue} onJump={select} selected={selected} />
 

@@ -182,7 +182,7 @@ function layered(L: number, W: number, opts: { condFails?: boolean; denyAsset?: 
   return { schemaVersion: 1, label: 'layered', nodes, edges, toxicRules: [] };
 }
 
-describe('traversal budget (sixth-Fable review: blocked paths were unbounded)', () => {
+describe('traversal budget (sixth review: blocked paths were unbounded)', () => {
   it('caps condition-blocked paths and marks the result truncated/indeterminate instead of exhausting memory', () => {
     const g = layered(3, 5, { condFails: true }); // 125 blocked paths from 19 nodes
     expect(validateGraph(g).ok).toBe(true);

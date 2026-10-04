@@ -1,0 +1,72 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/governance/labelsmith
+# 2026-10-04T20:41:28.987Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/governance/labelsmith
+
+ ✓ src/engine/classify.test.ts > value checks > luhn accepts valid card-like numbers and rejects invalid ones 3ms
+ ✓ src/engine/classify.test.ts > value checks > phone shape rejects 16-digit strings (E.164 allows at most 15 digits) so random references are not mislabelled 1ms
+ ✓ src/engine/classify.test.ts > value checks > email, ipv4, jwt, iban, apikey, dob, icd10, password-hash shapes 2ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > labels a credential column secret-credential even when it also looks like PII 4ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > does not label as card data when the Luhn check fails for most samples 4ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > puts unmatched fields in the unknown bucket and asks for review 2ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > falls back to the declared class when nothing matches, but flags it for review 6ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > flags a declared class that is lower than the computed one 2ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > produces a trace entry for every rule in precedence order 5ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > combines evidence: name and value agreement gives higher confidence than name alone 4ms
+ ✓ src/engine/classify.test.ts > classifyField precedence and explainability > is deterministic 3ms
+ ✓ src/engine/classify.test.ts > custom keyword rules > adds a safe substring rule that participates in classification 3ms
+ ✓ src/engine/classify.test.ts > custom keyword rules > rejects empty tokens, regex metacharacters, duplicate ids and bad weights 0ms
+ ✓ src/engine/classify.test.ts > handling policy and exceptions > every class has a policy and stricter classes have stricter handling 1ms
+ ✓ src/engine/classify.test.ts > handling policy and exceptions > applies an active exception to the effective class and keeps the computed class visible 3ms
+ ✓ src/engine/classify.test.ts > handling policy and exceptions > reverts an expired exception 3ms
+ ✓ src/engine/classify.test.ts > handling policy and exceptions > validates new exceptions: downgrade only, justification length, expiry window, matching fromClass 1ms
+ ✓ src/engine/classify.test.ts > fixture validation and export > rejects malformed fields and oversize fixtures without throwing 5ms
+ ✓ src/engine/classify.test.ts > fixture validation and export > exports a stable catalog schema with formula-safe CSV 2ms
+ ✓ src/engine/classify.test.ts > built-in rule set > has at least 20 rules with unique ids covering all eight classes except unknown 1ms
+ ✓ src/engine/classify.test.ts > sixth-review follow-ups > keeps a stricter declared class as the effective class (conservative) and says so, pending review 1ms
+ ✓ src/engine/classify.test.ts > sixth-review follow-ups > a weaker declared class never lowers the effective class 1ms
+ ✓ src/engine/classify.test.ts > sixth-review follow-ups > the substring false positives pinned in the sixth review are resolved by token-boundary matching (October 2026); the export keeps the proposal disclaimer 4ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: tokenizer_version is operational metadata, not a credential 1ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: healthcheck_status (one token) and health_check_status (allow-listed check/status) are not health data 2ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: expiry_warning_days is a setting, while expiry alone is still card data 4ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: velocity and electricity_tariff do not contain the token city 5ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > README false-positive table: an md5 / git-SHA column under a non-credential name is Confidential via the hex-digest rule (and flagged for review), not a credential 3ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > a hex digest under a credential name stays secret-credential with value corroboration; the digest rule steps aside 2ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > matches multi-token rule tokens as a contiguous token sequence (card_number ⊂ card_number_last4) and splits camelCase 4ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > whole-token matching: pan matches pan but not span or expand 4ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > allow-list tokens mark metadata about a sensitive thing: sensitive name evidence is discounted, Internal/Public evidence is not 5ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > per-rule exceptTokens veto the rule: ip_address is a network identifier (Confidential), not a postal address 2ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > timestamp columns are not birth dates: val-dob is vetoed by created/updated tokens, real birth dates still match 1ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > the password stem rule is the one justified substring built-in: glued names are caught, metadata about passwords is not 4ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > addKeywordRule defaults to whole-token matching and can opt into substring matching; other modes are rejected 2ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > export records the match mode per rule (additive field, schema id unchanged) 1ms
+ ✓ src/engine/classify.test.ts > token-boundary matching and allow-lists (October 2026 upgrade round) > is deterministic across the new matcher (suppression traces included) 4ms
+ ✓ src/fixtures/validate-demo.test.ts > demo fixture > validates and exhibits every designed scenario 40ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects oversized input 15ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects invalid JSON and non-object roots 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects deep nesting 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects __proto__ keys 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > accepts a small object 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes hidden behind whitespace or control characters 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > quotes commas, quotes and newlines 0ms
+ ✓ src/engine/safe.test.ts > date helpers > rejects calendar-invalid dates that Date.parse would normalise 1ms
+ ✓ src/engine/safe.test.ts > date helpers > adds and diffs days 0ms
+ ✓ src/engine/tokens.test.ts > field-name tokenisation > lower-cases, splits camelCase humps, acronym runs and letter→digit boundaries, and collapses separators 3ms
+ ✓ src/engine/tokens.test.ts > field-name tokenisation > ALLOW_TOKENS holds only metadata modifiers, never nouns that carry sensitivity themselves 1ms
+ ✓ src/engine/tokens.test.ts > exceptTokens and match modes on hand-built rules > exceptTokens veto the whole rule when the token or token sequence appears anywhere in the name 1ms
+ ✓ src/engine/tokens.test.ts > exceptTokens and match modes on hand-built rules > token mode needs whole tokens or a contiguous sequence; substring mode keeps the legacy behaviour including the ≤3-char whole-token guard 1ms
+ ✓ src/engine/tokens.test.ts > exceptTokens and match modes on hand-built rules > allow-list discounting applies only to token-mode matches of Confidential-and-above rules, never to restricted-health 0ms
+ ✓ src/engine/tokens.test.ts > exceptTokens and match modes on hand-built rules > a value check still counts when the name evidence was discounted (values are evidence regardless of the name) 1ms
+ ✓ src/engine/tokens.test.ts > hex digest value check > accepts 32–64 hex characters only, and the api-key shape no longer accepts bare hex 1ms
+ ✓ src/engine/tokens.test.ts > hex digest value check > a dotted-quad IP is not a phone number (the demo IP columns were PII-ranked through the phone shape before this round) 2ms
+ ✓ src/engine/tokens.test.ts > hex digest value check > val-hex-digest is Confidential at weight 0.5, so on its own it always lands below the review threshold 1ms
+
+ Test Files  4 passed (4)
+      Tests  58 passed (58)
+   Start at  20:41:29
+   Duration  889ms (transform 174ms, setup 0ms, import 228ms, tests 184ms, environment 0ms)
+

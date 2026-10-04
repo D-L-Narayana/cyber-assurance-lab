@@ -33,6 +33,18 @@ export interface Hold {
   scope: { systemId?: string; category?: string; subjectRef?: string; recordIds?: string[] };
 }
 
+export type HoldAction = 'release' | 'reinstate';
+
+/** One guarded change to a hold's release state. `seq` is contiguous from 1; the trail is append-only. */
+export interface HoldEvent {
+  seq: number;
+  holdId: string;
+  action: HoldAction;
+  on: string;                // ISO date the release/reinstatement takes effect
+  actor: string;             // who asked for it (synthetic role or address, 1–120 chars)
+  reason: string;            // why (≥ 10 chars)
+}
+
 export interface Fixture {
   schemaVersion: 1;
   label: string;
@@ -41,6 +53,8 @@ export interface Fixture {
   schedules: Schedule[];
   records: RecordRow[];
   holds: Hold[];
+  /** Optional (October 2026, additive): the release/reinstatement trail. Absent in legacy fixtures. */
+  holdHistory?: HoldEvent[];
 }
 
 export type DueState = 'retained' | 'due' | 'overdue' | 'held' | 'disposed' | 'unscheduled';

@@ -10,7 +10,8 @@ Nothing is ever really deleted: "disposal" flips a status flag on an in-memory s
 |---|---|---|
 | Due-date derivation per record (trigger date + schedule retention) | Retention calendar bars, table fallback | `computeDue` |
 | Six explicit states: retained · due · overdue · held · disposed · unscheduled | Legend strip, bar colours | `computeDue` |
-| Hold precedence with four scope types (system, category, subject, record ids), placed/released dates | Legal holds panel (release / reinstate as of the clock) | `activeHoldsFor`, `holdIsActive` |
+| Hold precedence with four scope types (system, category, subject, record ids), placed/released dates | Legal holds panel | `activeHoldsFor`, `holdIsActive` |
+| Guarded hold release / reinstatement: actor, reason (≥ 10 chars) and effective date; refusals explained; append-only hold history that travels in the audit export | Release… / Reinstate… forms, Hold history list | `releaseHold`, `reinstateHold` |
 | Idempotent plan with reasons; a released hold changes the plan id | Disposal plan | `planDisposal` |
 | Simulated execution, idempotent (same plan twice = no-op) | Execute plan | `executePlan` |
 | Hash-chained receipts (`hash` covers content + `prevHash`), verification from genesis | Receipt chain, Verify, Tamper demo | `verifyChain` |
@@ -21,7 +22,7 @@ Nothing is ever really deleted: "disposal" flips a status flag on an in-memory s
 
 ```bash
 npm ci
-npm test        # vitest: 26 tests in 3 files
+npm test        # vitest: 33 tests in 3 files
 npm run build   # tsc --noEmit && vite build (base './')
 npm run dev     # http://localhost:6142
 ```
@@ -33,6 +34,7 @@ Demo fixture: 4 systems, 3 schedules, 68 records, 4 holds (one released, one rec
 - **Due date** = `triggerDate + retainDays` for the schedule whose `category` matches the record (one schedule per category, enforced by validation). No schedule → `unscheduled`, never planned.
 - **State** as of the clock: `retained` if the due date is in the future; otherwise `held` if any active hold applies (hold beats overdue), `due` if the due date is today, else `overdue` with `daysOverdue`.
 - **Hold activity**: `placedOn ≤ asOf` and (`releasedOn` null or `> asOf`). Hold scope matches if every named dimension matches; a hold must name at least one dimension.
+- **Hold release / reinstatement** (`releaseHold`, `reinstateHold`, October 2026): both need a known hold, a real calendar date, an actor (1–120 characters) and a reason (≥ 10 characters). Release refuses a hold that already carries a release date and any date before `placedOn`; it sets `releasedOn = on`. Reinstatement refuses a hold that is not released and any date before `releasedOn`; it clears `releasedOn` and keeps the original `placedOn` — the hold record says *that* the hold exists and when it was first placed, while *when* it was released and brought back lives in the trail. Every accepted change appends `HoldEvent { seq, holdId, action, on, actor, reason }` to the optional `fixture.holdHistory` (contiguous `seq` from 1, capped at 2 000 events); both functions return a new fixture and never mutate their input. Because the plan id hashes the active hold ids, a release or reinstatement after planning makes the pending plan stale and `executePlan` refuses it.
 - **Plan**: every `due`/`overdue` record → `dispose` with the schedule's action; every `held` record → `skip` naming the hold ids. Items are sorted by record id, and `plan.id = sha256(asOf, [recordId, action, decision]…, activeHoldIds)`.
 - **Execution**: refuses a plan id already present in the receipts, and **re-derives the plan from the current fixture first** — if the id differs (a hold was placed or released, a record was added or disposed) the plan is stale and is rejected atomically with nothing executed. Holds therefore win at execution time, not only at planning. Each disposed record produces `receipt.hash = sha256(seq|planId|recordId|systemId|action|executedOn|recordHash|prevHash)` with `recordHash = sha256(record identity fields)`; genesis `prevHash` is 64 zeros.
 - **Verification** walks receipts in order checking contiguous `seq`, `prevHash` linkage and recomputed `hash`; the first break is reported with a reason (gap, link, tamper).
@@ -43,26 +45,28 @@ The chain proves *integrity of the ledger you hold* — it does not prove that a
 ## Architecture
 
 ```
-src/engine/types.ts    System, Schedule, RecordRow, Hold, DueItem, Plan, Receipt, Reconciliation
-src/engine/ledger.ts   computeDue, activeHoldsFor, planDisposal, executePlan, verifyChain, reconcile, validateFixture, exportAudit, sha256Hex
+src/engine/types.ts    System, Schedule, RecordRow, Hold, HoldEvent, DueItem, Plan, Receipt, Reconciliation
+src/engine/ledger.ts   computeDue, activeHoldsFor, releaseHold, reinstateHold, planDisposal, executePlan, verifyChain, reconcile, validateFixture, exportAudit, sha256Hex
 src/engine/safe.ts     bounded JSON, strict ISO dates, formula-safe CSV
-src/ui/App.tsx         single view: calendar (SVG + table fallback) · plan · holds · receipt chain
+src/ui/App.tsx         single view: calendar (SVG + table fallback) · plan · holds (guarded release/reinstate forms, hold history) · receipt chain
 src/fixtures/demo.json seeded synthetic fixture
 ```
 
-Hashing uses `crypto.subtle` (Web Crypto) in both browser and Node 20 test runs. No storage APIs; the ledger resets on refresh — export the audit JSON to keep it.
+Hashing uses `crypto.subtle` (Web Crypto) in both browser and Node 20 test runs. No storage APIs; the ledger resets on refresh — export the audit JSON to keep it. The fixture schema is unchanged (`schemaVersion: 1`) and the audit export keeps its id (`holdfast.audit/v1`): `holdHistory` is optional and additive, so fixtures and exports written before October 2026 still import, and a fixture that never changed a hold exports `holdHistory: []`.
 
 ## Tests
 
-- `ledger.test.ts` (15): stale-plan rejection after a late hold or a record change, due-date arithmetic (incl. leap days), state precedence, hold scopes and release, disposed/unscheduled, plan contents and idempotent id, chained receipts, tamper/reorder/gap detection, reconciliation, idempotent execution, malformed/oversize fixtures, export schema + CSV escaping, SHA-256 known-answer (`abc`).
-- `safe.test.ts` (10) and `validate-demo.test.ts` (1).
+33 tests in 3 files (measured 2026-10-04: `vitest run` prints `Tests  33 passed (33)`).
 
-RED/GREEN evidence in `EVIDENCE.md`; browser workflow in `qa/workflow.mjs`.
+- `src/engine/ledger.test.ts` (22): guarded hold release/reinstatement (every refusal — unknown hold, already released, not released, date before `placedOn`/`releasedOn`, non-calendar date, missing/overlong actor, short reason, full trail — plus the happy paths, contiguous `seq`, input immutability, determinism, validator acceptance of legacy fixtures and path-addressed rejection of malformed trail entries, trail in the export, and release-after-planning → stale plan), stale-plan rejection after a late hold or a record change, due-date arithmetic (incl. leap days), state precedence, hold scopes and release, disposed/unscheduled, plan contents and idempotent id, chained receipts, tamper/reorder/gap detection, reconciliation, idempotent execution, malformed/oversize fixtures, export schema + CSV escaping, SHA-256 known-answer (`abc`).
+- `src/engine/safe.test.ts` (10) and `src/fixtures/validate-demo.test.ts` (1).
+
+RED/GREEN evidence in `EVIDENCE.md` (`qa/red-hold-trail.txt` → `qa/green-hold-trail.txt` for this round); browser workflow in `qa/workflow.mjs`, which needs the external `playwright` package (not a dependency of this app — see the artefact inventory in `EVIDENCE.md`).
 
 ## Limitations
 
 - One schedule per category; no event-based retriggering, no per-jurisdiction schedules, no partial (field-level) anonymisation semantics.
-- Hold release is a single click for demo purposes; a real system needs authority checks and an approval trail.
+- Hold release and reinstatement require an actor, a reason and an effective date and are recorded in `holdHistory`, but the actor is free text: there is no authentication, role model or second-person approval, and the trail is a plain list inside the export rather than part of the receipt hash chain.
 - The chain lives in memory and is only as trustworthy as the tab that holds it (see note above on external anchoring).
 - Dates are UTC calendar days; time zones and business days are ignored.
 - Single-user, Chromium-only browser QA.
@@ -77,4 +81,4 @@ A records vault: deep green-black ground, brass rules and buttons, parchment typ
 
 ## AI-assistance disclosure
 
-Built October 2026 with AI assistance (Claude) under a test-first workflow; the author reviewed logic, tests and limitations. Dependencies and fonts: `THIRD_PARTY_NOTICES.md`. MIT.
+Built October 2026 with AI assistance under a test-first workflow; the author reviewed logic, tests and limitations. Dependencies and fonts: `THIRD_PARTY_NOTICES.md`. MIT.

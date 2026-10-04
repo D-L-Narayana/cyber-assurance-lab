@@ -26,7 +26,8 @@
     { "id": "sub-ca-jonah", "label": "Jonah (California, adult)", "regime": "US-CA-CCPA", "ageBand": "adult", "gpcSignal": false },
     { "id": "sub-ca-marisol", "label": "Marisol (California, adult, GPC on)", "regime": "US-CA-CCPA", "ageBand": "adult", "gpcSignal": true },
     { "id": "sub-ca-devi", "label": "Devi (California, 13-15)", "regime": "US-CA-CCPA", "ageBand": "13-15", "gpcSignal": false },
-    { "id": "sub-xx-ghost", "label": "Ghost (regime unknown)", "regime": "unknown", "ageBand": "adult", "gpcSignal": false }
+    { "id": "sub-xx-ghost", "label": "Ghost (regime unknown)", "regime": "unknown", "ageBand": "adult", "gpcSignal": false },
+    { "id": "sub-uk-imogen", "label": "Imogen (UK, adult; consent captured under the EU notice)", "regime": "UK-GDPR", "ageBand": "adult", "gpcSignal": false }
   ],
   "records": [
     { "id": "rec-001", "subjectId": "sub-eu-anouk", "purposeId": "marketing-email", "status": "granted", "at": "2026-03-02T09:12:00Z", "policyVersion": 3, "mechanism": "banner", "regime": "EU-GDPR", "proofRef": "receipt-7f1a" },
@@ -39,7 +40,8 @@
     { "id": "rec-008", "subjectId": "sub-ca-jonah", "purposeId": "marketing-email", "status": "opted-out", "at": "2026-07-01T20:00:00Z", "policyVersion": 3, "mechanism": "preference-centre", "regime": "US-CA-CCPA", "proofRef": "receipt-a1f0" },
     { "id": "rec-009", "subjectId": "sub-eu-anouk", "purposeId": "product-analytics", "status": "objected", "at": "2026-09-10T07:45:00Z", "policyVersion": 1, "mechanism": "preference-centre", "regime": "EU-GDPR", "proofRef": "receipt-e0e0" },
     { "id": "rec-010", "subjectId": "sub-ca-devi", "purposeId": "ad-partner-sharing", "status": "granted", "at": "2026-09-05T15:00:00Z", "policyVersion": 2, "mechanism": "account-settings", "regime": "US-CA-CCPA", "proofRef": "receipt-d3v1" },
-    { "id": "rec-011", "subjectId": "sub-eu-bastien", "purposeId": "marketing-email", "status": "granted", "at": "2026-09-18T11:00:00Z", "policyVersion": 3, "mechanism": "banner", "regime": "EU-GDPR", "proofRef": "receipt-b4st" }
+    { "id": "rec-011", "subjectId": "sub-eu-bastien", "purposeId": "marketing-email", "status": "granted", "at": "2026-09-18T11:00:00Z", "policyVersion": 3, "mechanism": "banner", "regime": "EU-GDPR", "proofRef": "receipt-b4st" },
+    { "id": "rec-012", "subjectId": "sub-uk-imogen", "purposeId": "marketing-email", "status": "granted", "at": "2026-09-01T09:00:00Z", "policyVersion": 3, "mechanism": "imported", "regime": "EU-GDPR", "proofRef": "receipt-1m0g" }
   ],
   "events": [
     { "id": "ev-01", "subjectId": "sub-eu-anouk", "purposeId": "fraud-checks", "occurredAt": "2026-09-15T10:00:00Z", "channel": "checkout" },
@@ -61,7 +63,8 @@
     { "id": "ev-17", "subjectId": "sub-eu-anouk", "purposeId": "loyalty-insights", "occurredAt": "2026-09-15T13:15:00Z", "channel": "batch-job" },
     { "id": "ev-18", "subjectId": "sub-ca-jonah", "purposeId": "retired-purpose", "occurredAt": "2026-09-15T13:20:00Z", "channel": "batch-job" },
     { "id": "ev-19", "subjectId": "sub-ca-jonah", "purposeId": "research-panel", "occurredAt": "2026-09-15T13:25:00Z", "channel": "email-campaign" },
-    { "id": "ev-20", "subjectId": "sub-eu-anouk", "purposeId": "delivery-updates", "occurredAt": "2026-09-15T13:30:00Z", "channel": "sms" }
+    { "id": "ev-20", "subjectId": "sub-eu-anouk", "purposeId": "delivery-updates", "occurredAt": "2026-09-15T13:30:00Z", "channel": "sms" },
+    { "id": "ev-21", "subjectId": "sub-uk-imogen", "purposeId": "marketing-email", "occurredAt": "2026-09-15T13:35:00Z", "channel": "email-campaign" }
   ],
   "expectations": [
     { "eventId": "ev-01", "expect": "allow", "reasonCode": "ESSENTIAL" },
@@ -83,6 +86,7 @@
     { "eventId": "ev-17", "expect": "review", "reasonCode": "LIA_MISSING" },
     { "eventId": "ev-18", "expect": "review", "reasonCode": "UNKNOWN_PURPOSE" },
     { "eventId": "ev-19", "expect": "review", "reasonCode": "NO_BASIS_CONFIGURED" },
-    { "eventId": "ev-20", "expect": "allow", "reasonCode": "CONTRACT_NECESSITY" }
+    { "eventId": "ev-20", "expect": "allow", "reasonCode": "CONTRACT_NECESSITY" },
+    { "eventId": "ev-21", "expect": "review", "reasonCode": "RECORD_REGIME_MISMATCH" }
   ]
 }

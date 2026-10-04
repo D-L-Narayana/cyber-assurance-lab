@@ -28,5 +28,5 @@
     "vite": "7.3.6",
     "vitest": "4.1.11"
   },
-  "engines": { "node": ">=20" }
+  "engines": { "node": ">=20.19" }
 }

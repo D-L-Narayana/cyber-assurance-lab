@@ -1,0 +1,62 @@
+$ npx vitest run --reporter=verbose
+# cwd apps/governance/attestline
+# 2026-10-04T19:36:39.930Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/governance/attestline
+
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects oversized input 35ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects invalid JSON and non-object roots 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects deep nesting 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > rejects __proto__ keys 0ms
+ ✓ src/engine/safe.test.ts > bounded JSON import > accepts a small object 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > neutralises formula prefixes hidden behind whitespace or control characters 0ms
+ ✓ src/engine/safe.test.ts > CSV export safety > quotes commas, quotes and newlines 0ms
+ ✓ src/engine/safe.test.ts > date helpers > rejects calendar-invalid dates that Date.parse would normalise 1ms
+ ✓ src/engine/safe.test.ts > date helpers > adds and diffs days 7ms
+ ✓ src/engine/closure.test.ts > closeCampaign > refuses to close while items are pending unless the closer acknowledges them, and then records the pending count 3ms
+ ✓ src/engine/closure.test.ts > closeCampaign > closes cleanly when everything is decided; the closing date defaults to the campaign as-of date and no item changes 1ms
+ ✓ src/engine/closure.test.ts > closeCampaign > requires an actor, a note of at least 10 characters and a valid closing date not before as-of, and refuses to close twice 1ms
+ ✓ src/engine/closure.test.ts > a closed campaign accepts no further changes > applyDecision, bulkDecision and routeItem refuse with a "Campaign is closed" error 1ms
+ ✓ src/engine/closure.test.ts > a closed campaign accepts no further changes > the same inputs succeed on the open campaign, so the refusal is caused by the closure alone 8ms
+ ✓ src/engine/closure.test.ts > certification digest > canonicalJson sorts object keys at every depth and leaves arrays in order 0ms
+ ✓ src/engine/closure.test.ts > certification digest > is a 64-hex SHA-256 that is stable run-to-run and across key order 17ms
+ ✓ src/engine/closure.test.ts > certification digest > changes when covered content changes (a decision, the closure) and ignores the digest field itself 8ms
+ ✓ src/engine/closure.test.ts > certification digest > exportCertificationWithDigest keeps the v1 schema and the CSV unchanged, adding digest and closed as additive fields 2ms
+ ✓ src/engine/campaign.test.ts > buildCampaign risk hints > flags both sides of a separation-of-duties conflict 2ms
+ ✓ src/engine/campaign.test.ts > buildCampaign risk hints > flags dormant entitlements using the configured threshold 0ms
+ ✓ src/engine/campaign.test.ts > buildCampaign risk hints > flags never-used entitlements separately from dormant 0ms
+ ✓ src/engine/campaign.test.ts > buildCampaign risk hints > routes leaver access to the resource owner as orphan 0ms
+ ✓ src/engine/campaign.test.ts > buildCampaign risk hints > routes identities without a manager to the resource owner and marks no_reviewer only when no owner exists 1ms
+ ✓ src/engine/campaign.test.ts > buildCampaign risk hints > scores risk deterministically and higher for more hints 1ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > approves a clean entitlement without a reason 1ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > requires a reason when approving a flagged entitlement 0ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > requires an explicit SoD override when approving the second side of a conflict 0ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > rejects delegation to self and to unknown reviewers 0ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > rejects decisions by someone other than the assigned reviewer 0ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > allows reversing a decision while campaign is open and records every decision 1ms
+ ✓ src/engine/campaign.test.ts > applyDecision state machine > bulk decisions stop at the first invalid item and apply none 0ms
+ ✓ src/engine/campaign.test.ts > completion and export > reports pending blockers by reviewer 1ms
+ ✓ src/engine/campaign.test.ts > completion and export > exports a stable certification schema and escapes CSV formulas 1ms
+ ✓ src/engine/campaign.test.ts > validateFixture > rejects dangling references and bad dates 1ms
+ ✓ src/engine/campaign.test.ts > validateFixture > rejects oversized fixtures 4ms
+ ✓ src/engine/campaign.test.ts > validateFixture > accepts the base fixture 0ms
+ ✓ src/engine/campaign.test.ts > validateFixture malformed rows (parent review finding) > returns bounded errors instead of throwing when rows are null or wrong types 3ms
+ ✓ src/engine/campaign.test.ts > campaign-owner routing of unrouted items > lets the campaign owner assign a reviewer to an unrouted item, then that reviewer can decide 1ms
+ ✓ src/engine/campaign.test.ts > campaign-owner routing of unrouted items > rejects routing to an identity that is not in the fixture and routing items that already have a reviewer 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > rejects delegation to the identity under review 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > rejects delegation to a leaver or suspended identity 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > rejects any decision where the actor is the identity under review even if routed that way 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > routeItem refuses to route an item to the identity under review 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > validateFixture rejects an identity that is its own manager 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > never routes an entitlement to its own holder: resource owner holding access on own resource becomes unrouted with a self_review hint 0ms
+ ✓ src/engine/campaign.test.ts > self-review guards (sixth review) > falls back to another active resource owner when the manager would be reviewing their own access 0ms
+ ✓ src/fixtures/validate-demo.test.ts > demo fixture > validates and contains the seeded findings 16ms
+
+ Test Files  4 passed (4)
+      Tests  48 passed (48)
+   Start at  19:36:40
+   Duration  1.36s (transform 239ms, setup 0ms, import 294ms, tests 128ms, environment 0ms)
+

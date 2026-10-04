@@ -1,0 +1,18 @@
+$ npx vitest run --reporter=verbose src/engine/manifest.test.ts
+# cwd apps/defense/hashledger
+# 2026-10-04T18:52:03.498Z v20.20.1
+# exit 0
+
+
+ RUN  v4.1.11 <repo>/apps/defense/hashledger
+
+ ✓ src/engine/manifest.test.ts > manifest hardening > requires owner to be a printable string of 1–64 characters 3ms
+ ✓ src/engine/manifest.test.ts > manifest hardening > allows only [A-Za-z0-9._/-] in paths, after the existing segment checks 0ms
+ ✓ src/engine/manifest.test.ts > manifest hardening > rejects non-array manifests and non-object rows without throwing 1ms
+ ✓ src/engine/manifest.test.ts > manifest hardening > keeps the shipped fixture valid under the new rules 0ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  18:52:04
+   Duration  280ms (transform 111ms, setup 0ms, import 127ms, tests 7ms, environment 0ms)
+

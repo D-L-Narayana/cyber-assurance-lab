@@ -173,7 +173,7 @@ describe('built-in rule set', () => {
   });
 });
 
-describe('sixth-Fable review follow-ups', () => {
+describe('sixth-review follow-ups', () => {
   it('keeps a stricter declared class as the effective class (conservative) and says so, pending review', () => {
     const fx: Fixture = { schemaVersion: 1, label: 't', asOf: '2026-10-01', fields: [f({ id: 'st', name: 'status', samples: ['open', 'closed'], declaredClass: 'restricted-pii' })], exceptions: [] };
     const eff = effectiveLabels(fx, BUILT_IN_RULES)[0]!;
@@ -188,12 +188,119 @@ describe('sixth-Fable review follow-ups', () => {
     const eff = effectiveLabels(fx, BUILT_IN_RULES)[0]!;
     expect(eff.effectiveClass).toBe('restricted-pii');
   });
-  it('documents known substring false positives so the behaviour is pinned, not hidden', () => {
-    // These are heuristic name hits that a human must clear; they are listed in README "Known false positives".
+  it('the substring false positives pinned in the sixth review are resolved by token-boundary matching (October 2026); the export keeps the proposal disclaimer', () => {
+    // Formerly asserted secret-credential / restricted-health; see the "token-boundary matching" block below for the full table.
     const c1 = classifyField(f({ name: 'tokenizer_version', samples: ['v2'] }), BUILT_IN_RULES, '2026-10-01');
-    expect(c1.computedClass).toBe('secret-credential');
+    expect(c1.computedClass).not.toBe('secret-credential');
     const c2 = classifyField(f({ name: 'healthcheck_status', samples: ['ok'] }), BUILT_IN_RULES, '2026-10-01');
-    expect(c2.computedClass).toBe('restricted-health');
+    expect(c2.computedClass).not.toBe('restricted-health');
     expect(exportCatalog({ schemaVersion: 1, label: 't', asOf: '2026-10-01', fields: [f({ name: 'tokenizer_version', samples: ['v2'] })] }, effectiveLabels({ schemaVersion: 1, label: 't', asOf: '2026-10-01', fields: [f({ name: 'tokenizer_version', samples: ['v2'] })] }, BUILT_IN_RULES), BUILT_IN_RULES).json.disclaimer).toMatch(/proposal/i);
+  });
+});
+
+describe('token-boundary matching and allow-lists (October 2026 upgrade round)', () => {
+  const cls = (over: Partial<Field>) => classifyField(f(over), BUILT_IN_RULES, '2026-10-01');
+  const matchedIds = (c: ReturnType<typeof classifyField>) => c.trace.filter((t) => t.outcome === 'matched').map((t) => t.ruleId);
+  const outcomeOf = (c: ReturnType<typeof classifyField>, ruleId: string) => c.trace.find((t) => t.ruleId === ruleId)?.outcome;
+
+  it('README false-positive table: tokenizer_version is operational metadata, not a credential', () => {
+    const c = cls({ name: 'tokenizer_version', samples: ['v2', 'v3'] });
+    expect(c.computedClass).not.toBe('secret-credential');
+    expect(c.computedClass).toBe('internal');
+  });
+  it('README false-positive table: healthcheck_status (one token) and health_check_status (allow-listed check/status) are not health data', () => {
+    expect(cls({ name: 'healthcheck_status', samples: ['ok'] }).computedClass).toBe('internal');
+    const c = cls({ name: 'health_check_status', samples: ['ok', 'degraded'] });
+    expect(c.computedClass).toBe('internal');
+    expect(outcomeOf(c, 'name-health')).toBe('suppressed');
+  });
+  it('README false-positive table: expiry_warning_days is a setting, while expiry alone is still card data', () => {
+    const c = cls({ name: 'expiry_warning_days', type: 'number', samples: ['30', '14'] });
+    expect(c.computedClass).not.toBe('restricted-financial');
+    expect(c.computedClass).toBe('unknown');
+    expect(cls({ name: 'expiry', samples: ['03/28'] }).computedClass).toBe('restricted-financial');
+  });
+  it('README false-positive table: velocity and electricity_tariff do not contain the token city', () => {
+    expect(cls({ name: 'velocity', type: 'number', samples: ['12.5'] }).computedClass).not.toBe('restricted-pii');
+    expect(cls({ name: 'electricity_tariff', samples: ['E7'] }).computedClass).not.toBe('restricted-pii');
+    expect(cls({ name: 'city', samples: ['Exampleton'] }).computedClass).toBe('restricted-pii');
+  });
+  it('README false-positive table: an md5 / git-SHA column under a non-credential name is Confidential via the hex-digest rule (and flagged for review), not a credential', () => {
+    const md5 = cls({ name: 'content_md5', samples: ['d41d8cd98f00b204e9800998ecf8427e', '9e107d9d372bb6826bd81d3542a419d6'] });
+    expect(md5.computedClass).toBe('confidential');
+    expect(matchedIds(md5)).toEqual(['val-hex-digest']);
+    expect(md5.needsReview).toBe(true);
+    const sha = cls({ name: 'commit_sha', samples: ['2fd4e1c67a2d28fced849ee1bb76e7391b93eb12', 'da39a3ee5e6b4b0d3255bfef95601890afd80709'] });
+    expect(sha.computedClass).toBe('confidential');
+    expect(sha.computedClass).not.toBe('secret-credential');
+  });
+  it('a hex digest under a credential name stays secret-credential with value corroboration; the digest rule steps aside', () => {
+    const c = cls({ name: 'api_key', samples: ['2fd4e1c67a2d28fced849ee1bb76e7391b93eb12'] });
+    expect(c.computedClass).toBe('secret-credential');
+    expect(matchedIds(c)).toContain('name-secret');
+    expect(matchedIds(c)).toContain('val-hex-credential');
+    expect(outcomeOf(c, 'val-hex-digest')).toBe('suppressed');
+    expect(c.confidence).toBeGreaterThan(0.85);
+  });
+  it('matches multi-token rule tokens as a contiguous token sequence (card_number ⊂ card_number_last4) and splits camelCase', () => {
+    expect(cls({ name: 'card_number_last4', samples: ['6467'] }).computedClass).toBe('restricted-financial');
+    expect(cls({ name: 'cardNumberLast4', samples: ['6467'] }).computedClass).toBe('restricted-financial');
+    expect(cls({ name: 'customerEmail', samples: [] }).computedClass).toBe('restricted-pii');
+    expect(cls({ name: 'number_card', samples: [] }).computedClass).toBe('unknown'); // order matters: not a sequence match
+  });
+  it('whole-token matching: pan matches pan but not span or expand', () => {
+    expect(cls({ name: 'pan', samples: [] }).computedClass).toBe('restricted-financial');
+    expect(cls({ name: 'span', samples: [] }).computedClass).toBe('unknown');
+    expect(cls({ name: 'expand_count', samples: [] }).computedClass).toBe('unknown');
+  });
+  it('allow-list tokens mark metadata about a sensitive thing: sensitive name evidence is discounted, Internal/Public evidence is not', () => {
+    expect(cls({ name: 'token_count', type: 'number', samples: ['3'] }).computedClass).not.toBe('secret-credential');
+    expect(cls({ name: 'email_verified', type: 'boolean', samples: ['true'] }).computedClass).not.toBe('restricted-pii');
+    expect(cls({ name: 'card_number_status', samples: ['active'] }).computedClass).toBe('internal');
+    expect(cls({ name: 'status', samples: ['open'] }).computedClass).toBe('internal');
+    expect(cls({ name: 'invoice_total', type: 'number', samples: ['12.50'] }).computedClass).toBe('confidential');
+  });
+  it('per-rule exceptTokens veto the rule: ip_address is a network identifier (Confidential), not a postal address', () => {
+    const c = cls({ name: 'ip_address', samples: ['10.0.0.7', '10.0.0.8'] });
+    expect(c.computedClass).toBe('confidential');
+    expect(outcomeOf(c, 'name-address')).toBe('suppressed');
+    expect(cls({ name: 'home_address', samples: ['1 Fixture Street'] }).computedClass).toBe('restricted-pii');
+  });
+  it('timestamp columns are not birth dates: val-dob is vetoed by created/updated tokens, real birth dates still match', () => {
+    const c = cls({ name: 'created_at', type: 'date', samples: ['2024-05-01', '2026-01-01'] });
+    expect(c.computedClass).toBe('internal');
+    expect(outcomeOf(c, 'val-dob')).toBe('suppressed');
+    expect(cls({ name: 'date_of_birth', type: 'date', samples: ['1988-04-12'] }).computedClass).toBe('restricted-pii');
+  });
+  it('the password stem rule is the one justified substring built-in: glued names are caught, metadata about passwords is not', () => {
+    expect(cls({ name: 'userpassword', samples: [] }).computedClass).toBe('secret-credential');
+    expect(cls({ name: 'password_hash', samples: [] }).computedClass).toBe('secret-credential');
+    expect(cls({ name: 'password_policy', samples: ['strong'] }).computedClass).not.toBe('secret-credential');
+    expect(BUILT_IN_RULES.filter((r) => r.match === 'substring').map((r) => r.id)).toEqual(['name-password']);
+  });
+  it('addKeywordRule defaults to whole-token matching and can opt into substring matching; other modes are rejected', () => {
+    const tok = addKeywordRule(BUILT_IN_RULES, { id: 'kw-t', name: 'Codename', tokens: ['codename'], class: 'confidential', weight: 0.7 });
+    const sub = addKeywordRule(BUILT_IN_RULES, { id: 'kw-s', name: 'Codename', tokens: ['codename'], class: 'confidential', weight: 0.7, match: 'substring' });
+    expect(tok.ok && sub.ok).toBe(true);
+    if (!tok.ok || !sub.ok) return;
+    expect(tok.rules.at(-1)!.match).toBe('token');
+    expect(classifyField(f({ name: 'projectcodename', samples: [] }), tok.rules, '2026-10-01').computedClass).toBe('unknown');
+    expect(classifyField(f({ name: 'projectcodename', samples: [] }), sub.rules, '2026-10-01').computedClass).toBe('confidential');
+    expect(classifyField(f({ name: 'project_codename', samples: [] }), tok.rules, '2026-10-01').computedClass).toBe('confidential');
+    expect(addKeywordRule(BUILT_IN_RULES, { id: 'kw-x', name: 'x', tokens: ['abc'], class: 'internal', weight: 0.5, match: 'regex' as never }).ok).toBe(false);
+  });
+  it('export records the match mode per rule (additive field, schema id unchanged)', () => {
+    const fx: Fixture = { schemaVersion: 1, label: 'unit', asOf: '2026-10-01', fields: [f({ id: 'f1', name: 'tokenizer_version', samples: ['v2'] })] };
+    const out = exportCatalog(fx, effectiveLabels(fx, BUILT_IN_RULES), BUILT_IN_RULES);
+    expect(out.json.schema).toBe('labelsmith.catalog/v1');
+    expect(out.json.ruleSet.find((r) => r.id === 'name-secret')?.match).toBe('token');
+    expect(out.json.ruleSet.find((r) => r.id === 'name-password')?.match).toBe('substring');
+    expect(out.json.fields[0]!.computedClass).toBe('internal');
+  });
+  it('is deterministic across the new matcher (suppression traces included)', () => {
+    const field = f({ name: 'health_check_status', samples: ['ok', 'degraded'] });
+    expect(classifyField(field, BUILT_IN_RULES, '2026-10-01')).toEqual(classifyField(field, BUILT_IN_RULES, '2026-10-01'));
+    const fx = (): Fixture => ({ schemaVersion: 1, label: 'd', asOf: '2026-10-01', fields: [field, f({ id: 'f2', name: 'content_md5', samples: ['d41d8cd98f00b204e9800998ecf8427e'] })] });
+    expect(effectiveLabels(fx(), BUILT_IN_RULES)).toEqual(effectiveLabels(fx(), BUILT_IN_RULES));
   });
 });

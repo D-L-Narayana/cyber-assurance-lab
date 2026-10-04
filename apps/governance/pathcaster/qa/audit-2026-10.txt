@@ -1,0 +1,6 @@
+$ npm audit --audit-level=high
+# cwd apps/governance/pathcaster
+# 2026-10-04T19:37:51.758Z v20.20.1
+# exit 0
+
+found 0 vulnerabilities

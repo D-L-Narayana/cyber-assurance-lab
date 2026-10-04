@@ -15,7 +15,7 @@
   --green: #1e7a4c;
   --green-2: #e0f0e7;
   --amber: #946200;
-  --amber-2: #f6ecd2;
+  --amber-2: #f8f0dc; /* was #f6ecd2 (4.45:1 under --amber text); lightened in Oct 2026 so amber chips meet WCAG AA 4.5:1 (4.61:1) */
   --sans: 'IBM Plex Sans', system-ui, sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
@@ -75,6 +75,7 @@ select { max-width: 100%; }
 .notice { margin: 0.8rem 0 0; padding: 0.6rem 0.9rem; border-left: 4px solid var(--ink-3); background: var(--paper); }
 .notice--success { border-color: var(--green); }
 .notice--error { border-color: var(--red); }
+.notice--warning { border-color: var(--amber); }
 .notice ul { margin: 0.3rem 0 0; padding-left: 1.2rem; font-size: 0.85rem; }
 
 .bench { display: grid; grid-template-columns: 250px minmax(0, 1fr) 330px; gap: 1rem; margin-top: 1rem; align-items: start; }
@@ -145,7 +146,9 @@ select { max-width: 100%; }
 /* Side */
 .side { display: grid; gap: 1rem; position: sticky; top: 0.5rem; max-height: calc(100vh - 1rem); overflow: auto; }
 .gate, .locker { background: var(--paper); border: 1px solid var(--rule); padding: 0.8rem 0.9rem; display: grid; gap: 0.5rem; }
-.gate__head { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+.gate__head { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.gate__badges { display: flex; align-items: center; justify-content: flex-end; gap: 0.4rem; flex-wrap: wrap; }
+.gate__badges .chip { margin-right: 0; }
 .state { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.15rem 0.5rem; border: 1px solid currentColor; }
 .state--drafting { color: var(--ink-2); } .state--ready-for-review { color: var(--cobalt); } .state--approved { color: var(--green); } .state--returned { color: var(--red); }
 .digest { font-size: 0.8rem; }

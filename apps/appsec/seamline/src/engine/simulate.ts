@@ -1,8 +1,11 @@
 import { applyTamper } from './tamper';
+import { DEFAULT_MAX_QTY } from './types';
 import type { Check, Decision, Divergence, Finding, Invariant, Message, Mode, OrderItem, Origin, Role, Run, Scalar, Scenario, Step, StepResult } from './types';
 
 const money = (n: number) => Number(n.toFixed(2));
 const WINDOW_SECONDS = 120;
+/** A quantity is valid when it is a positive integer no larger than the catalog item's maxQty (default 99). */
+export const quantityValid = (qty: number, maxQty: number) => Number.isInteger(qty) && qty >= 1 && qty <= maxQty;
 
 /** Findings are keyed by the invariant that was violated, never by the script's tamper label. */
 const FINDINGS: Record<Invariant, Omit<Finding, 'detail'>> = {
@@ -13,8 +16,9 @@ const FINDINGS: Record<Invariant, Omit<Finding, 'detail'>> = {
   'price-from-catalog': { kind: 'client-side-pricing', cwe: 'CWE-602', cweName: 'Client-Side Enforcement of Server-Side Security', title: 'Server charged a client-supplied price that differs from the catalog', severity: 'high' },
   'coupon-from-table': { kind: 'client-side-discount', cwe: 'CWE-602', cweName: 'Client-Side Enforcement of Server-Side Security', title: 'Server applied a client-supplied discount that differs from the coupon table', severity: 'high' },
   'points-from-table': { kind: 'client-side-points', cwe: 'CWE-602', cweName: 'Client-Side Enforcement of Server-Side Security', title: 'Server deducted a client-supplied points cost that differs from the reward table', severity: 'high' },
+  'quantity-bounds': { kind: 'quantity-unbounded', cwe: 'CWE-20', cweName: 'Improper Input Validation', title: 'Server accepted an order line whose quantity is outside the allowed range', severity: 'medium' },
 };
-const INVARIANT_PRIORITY: Invariant[] = ['object-ownership', 'role-from-session', 'nonce-single-use', 'timestamp-window', 'price-from-catalog', 'coupon-from-table', 'points-from-table'];
+const INVARIANT_PRIORITY: Invariant[] = ['object-ownership', 'role-from-session', 'nonce-single-use', 'timestamp-window', 'price-from-catalog', 'coupon-from-table', 'points-from-table', 'quantity-bounds'];
 
 interface ServerState { balances: Record<string, number>; roles: Record<string, Role>; names: Record<string, string>; nonces: Set<string> }
 
@@ -41,6 +45,7 @@ export function runScenario(scenario: Scenario, mode: Mode): Run {
     balances: { ...scenario.balances }, roles: Object.fromEntries(scenario.users.map((u) => [u.id, u.role])), names: Object.fromEntries(scenario.users.map((u) => [u.id, u.label])), nonces: new Set(),
   };
   const base = Date.parse(scenario.baseTime);
+  const maxQtyOf = (sku: string) => catalog.get(sku)?.maxQty ?? DEFAULT_MAX_QTY;
   const history: { stepId: string; message: Message }[] = [];
   const steps: StepResult[] = [];
 
@@ -70,6 +75,7 @@ export function runScenario(scenario: Scenario, mode: Mode): Run {
         const items = received.payload.items as OrderItem[];
         const catalogTotal = money(items.reduce((sum, it) => sum + it.qty * (catalog.get(it.sku)?.price ?? 0), 0));
         if (money(received.payload.total as number) !== catalogTotal || items.some((it) => it.unitPrice !== catalog.get(it.sku)?.price)) divergences.push({ invariant: 'price-from-catalog', claimed: (received.payload.total as number).toFixed(2), truth: catalogTotal.toFixed(2) });
+        for (const it of items) { const max = maxQtyOf(it.sku); if (!quantityValid(it.qty, max)) divergences.push({ invariant: 'quantity-bounds', claimed: `${it.sku} × ${it.qty}`, truth: `${it.sku}: integer 1–${max}` }); }
         break;
       }
       case 'apply-coupon': {
@@ -104,12 +110,19 @@ export function runScenario(scenario: Scenario, mode: Mode): Run {
           const items = received.payload.items as OrderItem[];
           const clientTotal = received.payload.total as number;
           const catalogTotal = money(items.reduce((s, it) => s + it.qty * (catalog.get(it.sku)?.price ?? 0), 0));
+          const badLines = items.filter((it) => !quantityValid(it.qty, maxQtyOf(it.sku)));
           if (enforcing) {
+            // Quantity is legitimately chosen by the client, so it cannot be "derived" — it has to be validated, and an invalid line rejects the order.
+            checks.push({ name: 'quantity-valid', ran: true, passed: badLines.length === 0, detail: badLines.length
+              ? `${badLines.map((it) => `${it.sku} × ${it.qty} is outside the allowed range (integer 1–${maxQtyOf(it.sku)})`).join('; ')}. Order not created.`
+              : `Every line quantity is a positive integer within its catalog limit (${items.map((it) => `${it.sku} ≤ ${maxQtyOf(it.sku)}`).join(', ')}).` });
+            if (badLines.length) { serverView.orderCreated = false; break; }
             const differs = money(clientTotal) !== catalogTotal || items.some((it) => it.unitPrice !== catalog.get(it.sku)?.price);
             checks.push({ name: 'price-from-catalog', ran: true, passed: true, detail: differs ? `Client claimed ${clientTotal.toFixed(2)}; catalog says ${catalogTotal.toFixed(2)}. Client figures discarded.` : `Client total matches catalog (${catalogTotal.toFixed(2)}).` });
             neutralized = differs;
             serverView.total = catalogTotal; serverView.pricedFrom = 'catalog';
           } else {
+            checks.push({ name: 'quantity-valid', ran: false, passed: true, detail: 'Not checked: trusting server takes any quantity the client sends — zero, negative, fractional or above the catalog limit.' });
             checks.push({ name: 'price-from-catalog', ran: false, passed: true, detail: 'Not checked: trusting server bills the total the client sent.' });
             serverView.total = money(clientTotal); serverView.pricedFrom = 'client';
           }

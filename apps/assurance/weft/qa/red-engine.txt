@@ -1,3 +1,4 @@
+# note: historical test-group labels that carried a model name were renamed after capture (text only; test ids, results and counts unchanged)
  ✓ tests/engine.test.ts > sha256 and canonical JSON > matches node:crypto for several inputs 6ms
  × tests/engine.test.ts > sha256 and canonical JSON > canonical JSON is key-order independent 6ms
  × tests/engine.test.ts > artifact analysis > computes hashes and compares with declared hashes (null when none declared) 1ms
@@ -42,12 +43,12 @@ AssertionError: expected true to be false // Object.is equality
 AssertionError: expected true to be false // Object.is equality
 AssertionError: expected [] to deeply equal [ 'S1' ]
       Tests  5 failed | 24 passed (29)
- × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > manifest v2 carries the bundle name and a sorted sign-off list under the root 6ms
- × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > deleting a sign-off after the manifest was built is reported (repro wf-adverse A) 0ms
- × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > swapping the reviewer or back-dating a sign-off is reported (repro wf-adverse B) 0ms
- × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > a sign-off added after the manifest was built is reported 0ms
- × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > renaming an artifact display name after the manifest was built is reported (repro wf-adverse C) 0ms
- × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > changing the bundle name is reported; an untouched signed bundle stays intact 1ms
- × tests/engine.test.ts > sixth-Fable review regressions — the manifest root binds sign-offs and names > the validator accepts manifest v2 and refuses v1 with a clear path message 0ms
+ × tests/engine.test.ts > sixth review regressions — the manifest root binds sign-offs and names > manifest v2 carries the bundle name and a sorted sign-off list under the root 6ms
+ × tests/engine.test.ts > sixth review regressions — the manifest root binds sign-offs and names > deleting a sign-off after the manifest was built is reported (repro wf-adverse A) 0ms
+ × tests/engine.test.ts > sixth review regressions — the manifest root binds sign-offs and names > swapping the reviewer or back-dating a sign-off is reported (repro wf-adverse B) 0ms
+ × tests/engine.test.ts > sixth review regressions — the manifest root binds sign-offs and names > a sign-off added after the manifest was built is reported 0ms
+ × tests/engine.test.ts > sixth review regressions — the manifest root binds sign-offs and names > renaming an artifact display name after the manifest was built is reported (repro wf-adverse C) 0ms
+ × tests/engine.test.ts > sixth review regressions — the manifest root binds sign-offs and names > changing the bundle name is reported; an untouched signed bundle stays intact 1ms
+ × tests/engine.test.ts > sixth review regressions — the manifest root binds sign-offs and names > the validator accepts manifest v2 and refuses v1 with a clear path message 0ms
 ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
       Tests  7 failed | 29 passed (36)

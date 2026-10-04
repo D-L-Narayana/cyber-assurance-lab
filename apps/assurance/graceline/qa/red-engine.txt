@@ -1,3 +1,4 @@
+# note: historical test-group labels that carried a model name were renamed after capture (label text only; test ids, results and counts unchanged)
  × tests/engine.test.ts > policy > has stricter duration, compensating-control and quorum rules for higher risk 14ms
  × tests/engine.test.ts > submit guardrails > submits a well-formed request and records history 1ms
  × tests/engine.test.ts > submit guardrails > refuses durations beyond the policy maximum for the risk level, listing every violated guardrail 0ms
@@ -28,11 +29,11 @@
 ⎯⎯⎯⎯⎯⎯ Failed Tests 27 ⎯⎯⎯⎯⎯⎯⎯
  Test Files  1 failed (1)
       Tests  27 failed (27)
- × tests/engine.test.ts > sixth-Fable review regressions — renewal governance > only the requester or the risk owner may request a renewal 8ms
- × tests/engine.test.ts > sixth-Fable review regressions — renewal governance > a renewal request keeps the current term: state and expiry are unchanged until the renewal is approved 2ms
- × tests/engine.test.ts > sixth-Fable review regressions — renewal governance > an unapproved renewal still expires and escalates on schedule and stays overdue (repro gl-adverse) 1ms
- × tests/engine.test.ts > sixth-Fable review regressions — renewal governance > approving a pending renewal to quorum applies the new expiry, increments renewals and reactivates 1ms
- × tests/engine.test.ts > sixth-Fable review regressions — renewal governance > rejecting a pending renewal clears it and leaves the record in its current state (not terminal) 1ms
- × tests/engine.test.ts > sixth-Fable review regressions — renewal governance > approve/reject are refused on active records without a pending renewal; a second renew while one is pending is refused 1ms
+ × tests/engine.test.ts > sixth review regressions — renewal governance > only the requester or the risk owner may request a renewal 8ms
+ × tests/engine.test.ts > sixth review regressions — renewal governance > a renewal request keeps the current term: state and expiry are unchanged until the renewal is approved 2ms
+ × tests/engine.test.ts > sixth review regressions — renewal governance > an unapproved renewal still expires and escalates on schedule and stays overdue (repro gl-adverse) 1ms
+ × tests/engine.test.ts > sixth review regressions — renewal governance > approving a pending renewal to quorum applies the new expiry, increments renewals and reactivates 1ms
+ × tests/engine.test.ts > sixth review regressions — renewal governance > rejecting a pending renewal clears it and leaves the record in its current state (not terminal) 1ms
+ × tests/engine.test.ts > sixth review regressions — renewal governance > approve/reject are refused on active records without a pending renewal; a second renew while one is pending is refused 1ms
 ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
       Tests  6 failed | 28 passed (34)
